@@ -10,6 +10,7 @@ import {
   ArrowRight,
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Image from "next/image"
 
 const analystTeam = [
   {
@@ -84,6 +85,22 @@ export function AgentsSection() {
             Decompose complex trading tasks into specialized roles for robust, scalable market analysis and
             decision-making.
           </p>
+        </div>
+
+        <div className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-border">
+          <Image
+            src="/images/image.jpeg"
+            alt="AI Trading Floor - Multi-Agent Collaboration"
+            width={1200}
+            height={600}
+            className="w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-background/80 p-4 backdrop-blur-sm">
+            <p className="text-sm text-muted-foreground">
+              AI agents collaborate like a real trading firm - analyzing, debating, and executing with precision
+            </p>
+          </div>
         </div>
 
         {/* Analyst Team */}

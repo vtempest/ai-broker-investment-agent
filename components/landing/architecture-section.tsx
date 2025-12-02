@@ -1,4 +1,5 @@
 import { ArrowRight, ArrowDown } from "lucide-react"
+import Image from "next/image"
 
 const workflow = [
   { name: "Analyst Team", desc: "4 specialized analysts gather data", color: "text-chart-1", border: "border-chart-1" },
@@ -22,6 +23,33 @@ export function ArchitectureSection() {
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
             A sequential pipeline where specialized agents analyze, debate, and execute trading decisions.
           </p>
+        </div>
+
+        <div className="mt-12 grid gap-8 lg:grid-cols-2">
+          <div className="relative overflow-hidden rounded-2xl border border-border">
+            <Image
+              src="/images/image.png"
+              alt="AI Analyzing Market Charts"
+              width={800}
+              height={500}
+              className="w-full object-cover"
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            <h3 className="text-2xl font-bold text-foreground">Intelligent Analysis</h3>
+            <p className="mt-4 text-muted-foreground">
+              Our AI agents analyze candlestick patterns, moving averages, and technical indicators in real-time,
+              providing institutional-grade market insights.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {["Pattern Recognition", "Technical Indicators", "Sentiment Analysis", "Risk Assessment"].map((item) => (
+                <li key={item} className="flex items-center gap-3">
+                  <div className="h-2 w-2 rounded-full bg-primary" />
+                  <span className="text-muted-foreground">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="mt-16">

@@ -4,13 +4,22 @@ import Link from "next/link"
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+    <section className="relative overflow-hidden px-4 py-24 sm:px-6 sm:py-32 lg:px-8 min-h-[90vh] flex items-center">
+      {/* Background Image */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+        <img src="/images/image.png" alt="AI Trading Command Center" className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
       </div>
 
-      <div className="mx-auto max-w-5xl text-center">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-sm">
+      {/* Secondary accent image in corner */}
+      <div className="absolute bottom-0 right-0 w-1/3 h-1/2 opacity-20 hidden lg:block">
+        <img src="/images/image.png" alt="Robot Hand Trading" className="h-full w-full object-cover object-left-top" />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-background/50 to-background" />
+      </div>
+
+      <div className="mx-auto max-w-5xl text-center relative z-10">
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-sm backdrop-blur-sm">
           <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
           <span className="text-muted-foreground">AI-Powered Investment Analysis</span>
         </div>
@@ -42,7 +51,7 @@ export function HeroSection() {
           ].map((item) => (
             <div
               key={item.label}
-              className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card/50 p-6"
+              className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm"
             >
               <item.icon className="h-8 w-8 text-primary" />
               <span className="font-semibold text-foreground">{item.label}</span>
