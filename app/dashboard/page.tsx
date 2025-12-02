@@ -7,6 +7,7 @@ import { SentimentPanel } from "@/components/dashboard/sentiment-panel"
 import { RecommendationsPanel } from "@/components/dashboard/recommendations-panel"
 import { RecentAnalysis } from "@/components/dashboard/recent-analysis"
 import { ResearchDebate } from "@/components/dashboard/research-debate"
+import { StrategiesPanel } from "@/components/dashboard/strategies-panel"
 
 export default function DashboardPage() {
   return (
@@ -18,6 +19,7 @@ export default function DashboardPage() {
           <div className="mx-auto max-w-7xl space-y-6">
             <StockOverview />
             <AgentsPipeline />
+            <StrategiesPanel />
             <ResearchDebate />
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="lg:col-span-2">
