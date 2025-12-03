@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { HistoricalPECalculator } from '@/lib/stocks/pe-calculator';
 import yahooFinance from 'yahoo-finance2';
 
-// Suppress Yahoo Finance notices
-yahooFinance.suppressNotices(['ripHistorical', 'yahooSurvey']);
+
 
 export async function GET(
     request: NextRequest,
