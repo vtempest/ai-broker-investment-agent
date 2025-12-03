@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  tradingagents:
+    build:
+      context: ./TradingAgents
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+    env_file:
+      - ./TradingAgents/.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - trading-network
+
+  primoagent:
+    build:
+      context: ./PrimoAgent-main
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - PORT=8002
+    env_file:
+      - ./PrimoAgent-main/.env
+    volumes:
+      - ./PrimoAgent-main/output:/app/output
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - trading-network
+
+networks:
+  trading-network:
+    driver: bridge
