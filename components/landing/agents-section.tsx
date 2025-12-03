@@ -10,7 +10,6 @@ import {
   ArrowRight,
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import Image from "next/image"
 
 const analystTeam = [
   {
@@ -77,7 +76,7 @@ const otherTeams = [
 
 export function AgentsSection() {
   return (
-    <section id="teams" className="border-t border-border bg-secondary/30 px-4 py-24 sm:px-6 lg:px-8">
+    <section id="agents" className="border-t border-border bg-secondary/30 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Specialized Agent Teams</h2>
@@ -87,24 +86,8 @@ export function AgentsSection() {
           </p>
         </div>
 
-        <div className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-border">
-          <Image
-            src="/images/image.jpeg"
-            alt="AI Trading Floor - Multi-Agent Collaboration"
-            width={1200}
-            height={600}
-            className="w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-          <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-background/80 p-4 backdrop-blur-sm">
-            <p className="text-sm text-muted-foreground">
-              AI agents collaborate like a real trading firm - analyzing, debating, and executing with precision
-            </p>
-          </div>
-        </div>
-
         {/* Analyst Team */}
-        <div className="mt-16">
+        <div className="mt-12">
           <div className="mb-8 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-1/10">
               <Users className="h-5 w-5 text-chart-1" />

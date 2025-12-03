@@ -103,7 +103,7 @@ const apiDataSources = [
 
 export function SignalIndicators() {
   return (
-    <section className="border-t border-border bg-secondary/30 px-4 py-24 sm:px-6 lg:px-8">
+    <section id="signals" className="border-t border-border bg-secondary/30 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Signal Scoring System</h2>

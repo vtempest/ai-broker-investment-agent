@@ -16,7 +16,7 @@ const workflow = [
 
 export function ArchitectureSection() {
   return (
-    <section id="architecture" className="border-t border-border px-4 py-24 sm:px-6 lg:px-8">
+    <section id="workflow" className="border-t border-border px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Agent Workflow</h2>
@@ -28,8 +28,8 @@ export function ArchitectureSection() {
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <div className="relative overflow-hidden rounded-2xl border border-border">
             <Image
-              src="/images/image.png"
-              alt="AI Analyzing Market Charts"
+              src="/images/trading-floor.jpeg"
+              alt="AI Trading Floor with Multiple Agents"
               width={800}
               height={500}
               className="w-full object-cover"

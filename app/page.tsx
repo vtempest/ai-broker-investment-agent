@@ -4,6 +4,7 @@ import { AgentsSection } from "@/components/landing/agents-section"
 import { ArchitectureSection } from "@/components/landing/architecture-section"
 import { StrategiesSection } from "@/components/landing/strategies-section"
 import { SignalIndicators } from "@/components/landing/signal-indicators"
+import { PredictionMarketsSection } from "@/components/landing/prediction-markets-section"
 import { FeaturesSection } from "@/components/landing/features-section"
 import { CTASection } from "@/components/landing/cta-section"
 import { Footer } from "@/components/landing/footer"
@@ -18,6 +19,7 @@ export default function LandingPage() {
         <ArchitectureSection />
         <StrategiesSection />
         <SignalIndicators />
+        <PredictionMarketsSection />
         <FeaturesSection />
         <CTASection />
       </main>

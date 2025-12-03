@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { Calendar } from "lucide-react"
 import Link from "next/link"
 
 export function CTASection() {
@@ -15,7 +15,8 @@ export function CTASection() {
         <div className="mt-10 flex items-center justify-center">
           <Button size="lg" asChild>
             <Link href="https://calendly.com/qwksearch/30min?month=2025-12" target="_blank">
-              Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
+              <Calendar className="mr-2 h-5 w-5" />
+              Book a Demo
             </Link>
           </Button>
         </div>
