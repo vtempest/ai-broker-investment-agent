@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: research-bot-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  server:
+    build: .
+    container_name: research-bot-server
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PRIMO_AGENT_URL=${PRIMO_AGENT_URL:-http://host.docker.internal:8002}
+      - TRADING_AGENTS_URL=${TRADING_AGENTS_URL:-http://host.docker.internal:8001}
+      - DAILY_ANALYSIS_CRON=${DAILY_ANALYSIS_CRON:-35 9 * * 1-5}
+      - CORE_STOCKS=${CORE_STOCKS:-AAPL,GOOGL,MSFT,NVDA,TSLA,META,AMZN}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  redis-data:

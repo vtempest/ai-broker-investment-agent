@@ -29,24 +29,28 @@
   },
   "models": {
     "portfolio_manager": {
-      "provider": "openai",
-      "model": "gpt-4.1",
-      "temperature": 0.3
+      "provider": "groq",
+      "model": "llama-3.1-70b-versatile",
+      "temperature": 0.3,
+      "comment": "Ultra-fast inference with Groq (750+ tokens/sec). Alternatives: llama-3.1-405b-reasoning, mixtral-8x7b-32768"
     },
     "nlp_features": {
-      "provider": "openai",
-      "model": "gpt-4.1",
-      "temperature": 0.3
+      "provider": "groq",
+      "model": "llama-3.1-70b-versatile",
+      "temperature": 0.3,
+      "comment": "Best balance of speed and quality for sentiment analysis"
     },
     "assess_significance": {
-      "provider": "openai",
-      "model": "gpt-4.1-mini",
-      "temperature": 0.3
+      "provider": "groq",
+      "model": "llama-3.1-8b-instant",
+      "temperature": 0.3,
+      "comment": "Fastest option for quick classification tasks"
     },
     "enhanced_summary": {
-      "provider": "openai",
-      "model": "gpt-4.1",
-      "temperature": 0.3
+      "provider": "groq",
+      "model": "llama-3.1-70b-versatile",
+      "temperature": 0.3,
+      "comment": "High quality summaries at blazing speeds"
     }
   },
   "output": {

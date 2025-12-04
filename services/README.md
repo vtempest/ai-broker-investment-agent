@@ -1,36 +1,82 @@
 # Trading Bots Services
 
-This directory contains two AI-powered trading analysis bots with OpenAPI interfaces.
+This directory contains AI-powered trading analysis bots with comprehensive management and scheduling capabilities.
 
 ## Services Overview
 
-### 1. TradingAgents
+### 1. Research Bot Server (NEW!)
+Hono-based orchestration server for managing research bots with job scheduling.
+- **Port**: 3000
+- **Features**: Job queue management, daily scheduling, stock tracking, alerts, consensus analysis
+- **Architecture**: Hono + BullMQ + Redis + SQLite
+- **Purpose**: Orchestrate and schedule analysis from both PrimoAgent and TradingAgents
+
+### 2. TradingAgents
 Multi-agent trading analysis system using LangGraph for decision-making.
 - **Port**: 8001
 - **Features**: Technical analysis, fundamental analysis, news sentiment, social media analysis
 - **Architecture**: Multi-agent debate system with risk management
 
-### 2. PrimoAgent
+### 3. PrimoAgent
 AI financial analysis and backtesting platform.
 - **Port**: 8002
 - **Features**: Comprehensive stock analysis, backtesting, batch analysis
 - **Architecture**: LangGraph workflow with multiple analysis agents
 
+## 🆕 What's New
+
+### Groq Integration
+Both PrimoAgent and TradingAgents now support **Groq** for ultra-fast inference:
+- **Speed**: Up to 750+ tokens/sec (20x faster than OpenAI)
+- **Models**: Llama 3.1 (405B, 70B, 8B), Mixtral, Gemma
+- **Cost**: Free tier available at https://console.groq.com
+- **Configuration**: Set `GROQ_API_KEY` in `.env` files
+
+### Comprehensive Examples Guide
+See `COMPREHENSIVE_EXAMPLES_GUIDE.md` for:
+- Architecture diagrams
+- Python and TypeScript client examples
+- Production deployment patterns
+- Advanced integration strategies
+- Consensus trading algorithms
+- Continuous monitoring systems
+
 ## Quick Start
 
 ### Prerequisites
 - Python 3.9+
-- Node.js 18+ (for main app)
+- Node.js 18+
+- Redis (for Research Bot Server)
 - API Keys (see Environment Variables below)
 
 ### Environment Variables
 
 Create `.env` files in each service directory:
 
+#### Research Bot Server (.env)
+```bash
+# Server Configuration
+PORT=3000
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# Bot APIs
+PRIMO_AGENT_URL=http://localhost:8002
+TRADING_AGENTS_URL=http://localhost:8001
+
+# Scheduling (9:35 AM EST, Monday-Friday)
+DAILY_ANALYSIS_CRON=35 9 * * 1-5
+
+# Stocks to track
+CORE_STOCKS=AAPL,GOOGL,MSFT,NVDA,TSLA,META,AMZN
+```
+
 #### TradingAgents (.env)
 ```bash
-# OpenAI API Key (required)
+# LLM Provider (choose one)
 OPENAI_API_KEY=your_openai_api_key
+# OR use Groq for faster inference
+GROQ_API_KEY=your_groq_api_key
 
 # Optional: Alpha Vantage for financial data
 ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key
@@ -46,8 +92,10 @@ PORT=8001
 
 #### PrimoAgent (.env)
 ```bash
-# OpenAI API Key (required)
+# LLM Provider (choose one)
 OPENAI_API_KEY=your_openai_api_key
+# OR use Groq for ultra-fast inference (recommended)
+GROQ_API_KEY=your_groq_api_key
 
 # Optional: Tavily for search
 TAVILY_API_KEY=your_tavily_key
@@ -55,11 +103,39 @@ TAVILY_API_KEY=your_tavily_key
 # Optional: Perplexity for research
 PERPLEXITY_API_KEY=your_perplexity_key
 
+# Optional: Finnhub for financial data
+FINNHUB_API_KEY=your_finnhub_key
+
 # Server Port
 PORT=8002
 ```
 
 ## Installation & Setup
+
+### Research Bot Server (Recommended - Start Here)
+
+```bash
+cd services/research-bot-server
+
+# Install dependencies
+npm install
+
+# Create .env file
+cp .env.example .env
+nano .env  # Configure your settings
+
+# Start with Docker Compose (includes Redis)
+docker-compose up -d
+
+# OR run manually (requires Redis running separately)
+npm run dev
+```
+
+Server will be available at: `http://localhost:3000`
+
+Dashboard: `http://localhost:3000/api/analysis/dashboard`
+
+**Note:** The Research Bot Server automatically manages both PrimoAgent and TradingAgents, scheduling daily analysis and providing a unified API.
 
 ### TradingAgents
 

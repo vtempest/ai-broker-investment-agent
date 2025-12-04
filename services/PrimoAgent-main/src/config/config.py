@@ -22,6 +22,7 @@ class Config:
     def _load_api_keys(self) -> Dict[str, Optional[str]]:
         return {
             'openai': os.getenv('OPENAI_API_KEY'),
+            'groq': os.getenv('GROQ_API_KEY'),
             'anthropic': os.getenv('ANTHROPIC_API_KEY'),
             'finnhub': os.getenv('FINNHUB_API_KEY'),
             'firecrawl': os.getenv('FIRECRAWL_API_KEY'),
