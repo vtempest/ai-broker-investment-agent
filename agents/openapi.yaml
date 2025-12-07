@@ -1,0 +1,597 @@
+openapi: 3.0.3
+info:
+  title: Stock Prediction Agent API
+  description: |
+    Unified API for AI-powered stock analysis, trading decisions, and backtesting.
+
+    This API provides access to two powerful agent systems:
+    - **News Researcher (PrimoAgent)**: Multi-agent workflow for comprehensive stock analysis
+    - **Debate Analyst (TradingAgents)**: Multi-agent debate system for trading decisions
+
+    ## Features
+    - Real-time stock analysis with multiple LLM providers (OpenAI, Groq, Anthropic, Google)
+    - Multi-agent debate and consensus building
+    - Technical analysis and fundamental research
+    - News sentiment analysis and social media monitoring
+    - Backtesting with historical data
+    - Batch processing for multiple stocks/dates
+
+  version: 1.0.0
+  contact:
+    name: Stock Prediction Agent
+    url: https://github.com/vtempest/stock-prediction-agent
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000
+    description: Unified API Gateway
+  - url: http://localhost:8001
+    description: Debate Analyst (TradingAgents) Server
+  - url: http://localhost:8002
+    description: News Researcher (PrimoAgent) Server
+
+tags:
+  - name: Health
+    description: Health check and status endpoints
+  - name: News Researcher
+    description: PrimoAgent endpoints for news-driven stock analysis
+  - name: Debate Analyst
+    description: TradingAgents endpoints for debate-based trading decisions
+  - name: Backtesting
+    description: Historical backtesting and performance analysis
+  - name: Configuration
+    description: Configuration management
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      description: Check if the API server is running and healthy
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  timestamp:
+                    type: string
+                    format: date-time
+                  services:
+                    type: object
+                    properties:
+                      news_researcher:
+                        type: string
+                        example: online
+                      debate_analyst:
+                        type: string
+                        example: online
+
+  /news-researcher/analyze:
+    post:
+      tags:
+        - News Researcher
+      summary: Analyze stocks with News Researcher
+      description: |
+        Run comprehensive analysis on one or more stocks using the PrimoAgent workflow.
+
+        This endpoint executes a multi-agent workflow that:
+        1. Collects market data and company fundamentals
+        2. Performs technical analysis with indicators and patterns
+        3. Analyzes news sentiment and significance
+        4. Generates portfolio management recommendations
+      operationId: analyzeStocksNewsResearcher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - symbols
+              properties:
+                symbols:
+                  type: array
+                  items:
+                    type: string
+                  description: List of stock ticker symbols
+                  example: ["AAPL", "GOOGL", "MSFT"]
+                  minItems: 1
+                  maxItems: 10
+                date:
+                  type: string
+                  format: date
+                  description: Analysis date (YYYY-MM-DD). Defaults to today.
+                  example: "2024-01-15"
+      responses:
+        '200':
+          description: Analysis completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsResearcherAnalysisResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Analysis failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /news-researcher/analyze/batch:
+    post:
+      tags:
+        - News Researcher
+      summary: Batch analyze stocks across multiple dates
+      description: Run analysis for multiple stocks across a date range
+      operationId: batchAnalyzeStocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - symbols
+                - start_date
+                - end_date
+              properties:
+                symbols:
+                  type: array
+                  items:
+                    type: string
+                  description: List of stock ticker symbols
+                  example: ["AAPL", "NVDA"]
+                start_date:
+                  type: string
+                  format: date
+                  description: Start date (YYYY-MM-DD)
+                  example: "2024-01-01"
+                end_date:
+                  type: string
+                  format: date
+                  description: End date (YYYY-MM-DD)
+                  example: "2024-01-31"
+      responses:
+        '200':
+          description: Batch analysis completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchAnalysisResponse'
+        '400':
+          description: Invalid date range or parameters
+        '500':
+          description: Batch analysis failed
+
+  /debate-analyst/analyze:
+    post:
+      tags:
+        - Debate Analyst
+      summary: Analyze stock with Debate Analyst
+      description: |
+        Run multi-agent debate analysis for a stock symbol.
+
+        This endpoint executes:
+        1. Multiple analyst agents (market, news, social, fundamentals)
+        2. Bull vs Bear researcher debate
+        3. Risk management debate (aggressive vs conservative vs neutral)
+        4. Final trading decision with confidence score
+      operationId: analyzeStockDebateAnalyst
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - symbol
+              properties:
+                symbol:
+                  type: string
+                  description: Stock ticker symbol
+                  example: "AAPL"
+                date:
+                  type: string
+                  format: date
+                  description: Analysis date (YYYY-MM-DD). Defaults to today.
+                  example: "2024-01-15"
+                deep_think_llm:
+                  type: string
+                  description: LLM model for deep reasoning
+                  example: "gpt-4o-mini"
+                  default: "gpt-4o-mini"
+                quick_think_llm:
+                  type: string
+                  description: LLM model for quick analysis
+                  example: "gpt-4o-mini"
+                  default: "gpt-4o-mini"
+                max_debate_rounds:
+                  type: integer
+                  description: Maximum number of debate rounds
+                  example: 1
+                  default: 1
+                  minimum: 1
+                  maximum: 5
+      responses:
+        '200':
+          description: Analysis completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebateAnalystAnalysisResponse'
+        '400':
+          description: Invalid request
+        '500':
+          description: Analysis failed
+
+  /debate-analyst/reflect:
+    post:
+      tags:
+        - Debate Analyst
+      summary: Reflect on trade performance
+      description: |
+        Update agent memory based on trade outcomes for continuous learning.
+        Call this endpoint after a trade is closed to help agents learn from results.
+      operationId: reflectOnTrade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - position_returns
+              properties:
+                position_returns:
+                  type: number
+                  format: float
+                  description: Returns from the position (positive or negative %)
+                  example: 5.2
+      responses:
+        '200':
+          description: Reflection completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  position_returns:
+                    type: number
+                  timestamp:
+                    type: string
+                    format: date-time
+        '500':
+          description: Reflection failed
+
+  /debate-analyst/config:
+    get:
+      tags:
+        - Configuration
+      summary: Get Debate Analyst configuration
+      description: Retrieve current configuration of the Debate Analyst system
+      operationId: getDebateAnalystConfig
+      responses:
+        '200':
+          description: Configuration retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    type: object
+                    additionalProperties: true
+
+  /backtest:
+    post:
+      tags:
+        - Backtesting
+      summary: Run backtest
+      description: |
+        Backtest trading strategy using historical data.
+        Compares PrimoAgent strategy against Buy & Hold baseline.
+      operationId: runBacktest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - symbol
+              properties:
+                symbol:
+                  type: string
+                  description: Stock ticker symbol
+                  example: "AAPL"
+                data_dir:
+                  type: string
+                  description: Directory containing historical data CSV files
+                  example: "./output/csv"
+                  default: "./output/csv"
+                printlog:
+                  type: boolean
+                  description: Enable detailed strategy logs
+                  example: false
+                  default: false
+      responses:
+        '200':
+          description: Backtest completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BacktestResponse'
+        '404':
+          description: No data found for symbol
+        '500':
+          description: Backtest failed
+
+  /backtest/available-stocks:
+    get:
+      tags:
+        - Backtesting
+      summary: List available stocks for backtesting
+      description: Get list of stocks with historical data available
+      operationId: getAvailableStocks
+      parameters:
+        - name: data_dir
+          in: query
+          description: Directory containing CSV files
+          schema:
+            type: string
+            default: "./output/csv"
+      responses:
+        '200':
+          description: List retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data_dir:
+                    type: string
+                  stocks:
+                    type: array
+                    items:
+                      type: string
+                  count:
+                    type: integer
+                  timestamp:
+                    type: string
+                    format: date-time
+
+components:
+  schemas:
+    NewsResearcherAnalysisResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the analysis was successful
+        symbols:
+          type: array
+          items:
+            type: string
+          description: Analyzed stock symbols
+        date:
+          type: string
+          format: date
+          description: Analysis date
+        result:
+          type: object
+          description: Detailed analysis results
+          properties:
+            data_collection_results:
+              type: object
+              description: Market data and fundamentals
+            technical_analysis_results:
+              type: object
+              description: Technical indicators and patterns
+            news_intelligence_results:
+              type: object
+              description: News sentiment and significance
+            portfolio_manager_results:
+              type: object
+              description: Trading recommendations
+              properties:
+                decision:
+                  type: string
+                  enum: [BUY, SELL, HOLD]
+                confidence:
+                  type: number
+                  format: float
+                  minimum: 0
+                  maximum: 1
+                reasoning:
+                  type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    DebateAnalystAnalysisResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        symbol:
+          type: string
+        date:
+          type: string
+          format: date
+        decision:
+          type: object
+          description: Trading decision from debate
+          properties:
+            action:
+              type: string
+              enum: [BUY, SELL, HOLD]
+              description: Final trading action
+            confidence:
+              type: number
+              format: float
+              description: Confidence score (0-1)
+            position_size:
+              type: number
+              format: float
+              description: Recommended position size
+            reasoning:
+              type: string
+              description: Rationale for the decision
+            debate_summary:
+              type: object
+              properties:
+                bull_arguments:
+                  type: array
+                  items:
+                    type: string
+                bear_arguments:
+                  type: array
+                  items:
+                    type: string
+                risk_assessment:
+                  type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    BatchAnalysisResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        symbols:
+          type: array
+          items:
+            type: string
+        date_range:
+          type: object
+          properties:
+            start:
+              type: string
+              format: date
+            end:
+              type: string
+              format: date
+        trading_days:
+          type: integer
+          description: Number of trading days analyzed
+        successful_runs:
+          type: integer
+        failed_runs:
+          type: integer
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              success:
+                type: boolean
+              result:
+                type: object
+              error:
+                type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    BacktestResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        symbol:
+          type: string
+        primo_results:
+          type: object
+          description: PrimoAgent strategy results
+          properties:
+            Starting Portfolio Value [$]:
+              type: number
+            Final Portfolio Value [$]:
+              type: number
+            Cumulative Return [%]:
+              type: number
+            Annual Return [%]:
+              type: number
+            Annual Volatility [%]:
+              type: number
+            Sharpe Ratio:
+              type: number
+            Max Drawdown [%]:
+              type: number
+            Total Trades:
+              type: integer
+            Win Rate [%]:
+              type: number
+        buyhold_results:
+          type: object
+          description: Buy & Hold baseline results
+        comparison:
+          type: object
+          properties:
+            relative_return:
+              type: number
+              description: Return difference vs Buy & Hold
+            outperformed:
+              type: boolean
+              description: Whether PrimoAgent outperformed
+            metrics:
+              type: object
+              properties:
+                cumulative_return_diff:
+                  type: number
+                volatility_diff:
+                  type: number
+                max_drawdown_diff:
+                  type: number
+                sharpe_diff:
+                  type: number
+        timestamp:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: Error message
+        status_code:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication (if enabled)
+
+security:
+  - ApiKeyAuth: []
