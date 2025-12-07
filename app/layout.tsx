@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   title: "TimeTravel.investments - Multi-Agent AI Stock Analysis",
   description:
     "AI-powered multi-agent stock analysis system with next-day price predictions and comprehensive trading insights",
-    generator: 'v0.app'
+  icons: {
+    apple: "/apple-touch-icon.png",
+  },
 }
 
 export default function RootLayout({

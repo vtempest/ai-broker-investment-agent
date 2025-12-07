@@ -1,29 +1,29 @@
-import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core"
+import { pgTable, text, timestamp, boolean, doublePrecision, integer } from "drizzle-orm/pg-core"
 
 // User table
-export const users = sqliteTable("users", {
+export const users = pgTable("users", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
-  emailVerified: integer("email_verified", { mode: "boolean" }).default(false),
+  emailVerified: boolean("email_verified").default(false),
   image: text("image"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 })
 
 // Session table
-export const sessions = sqliteTable("sessions", {
+export const sessions = pgTable("sessions", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  createdAt: timestamp("created_at").notNull(),
 })
 
 // Account table (for OAuth)
-export const accounts = sqliteTable("accounts", {
+export const accounts = pgTable("accounts", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   accountId: text("account_id").notNull(),
@@ -31,25 +31,25 @@ export const accounts = sqliteTable("accounts", {
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
   idToken: text("id_token"),
-  expiresAt: integer("expires_at", { mode: "timestamp" }),
+  expiresAt: timestamp("expires_at"),
   scope: text("scope"),
   password: text("password"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 })
 
 // Verification table
-export const verifications = sqliteTable("verifications", {
+export const verifications = pgTable("verifications", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
-  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }),
-  updatedAt: integer("updated_at", { mode: "timestamp" }),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at"),
+  updatedAt: timestamp("updated_at"),
 })
 
 // User Strategies
-export const strategies = sqliteTable("strategies", {
+export const strategies = pgTable("strategies", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
@@ -58,36 +58,36 @@ export const strategies = sqliteTable("strategies", {
   riskLevel: text("risk_level").notNull().default("medium"),
 
   // Performance metrics
-  todayPnL: real("today_pnl").default(0),
-  last7DaysPnL: real("last_7days_pnl").default(0),
-  last30DaysPnL: real("last_30days_pnl").default(0),
-  winRate: real("win_rate").default(0),
+  todayPnL: doublePrecision("today_pnl").default(0),
+  last7DaysPnL: doublePrecision("last_7days_pnl").default(0),
+  last30DaysPnL: doublePrecision("last_30days_pnl").default(0),
+  winRate: doublePrecision("win_rate").default(0),
   activeMarkets: integer("active_markets").default(0),
   tradesToday: integer("trades_today").default(0),
 
   // Configuration
   config: text("config"), // JSON string of strategy parameters
 
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 })
 
 // User Watchlist/Signals
-export const signals = sqliteTable("signals", {
+export const signals = pgTable("signals", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   asset: text("asset").notNull(),
   type: text("type").notNull(), // stock, prediction_market
 
   // Scores
-  combinedScore: real("combined_score").notNull(),
+  combinedScore: doublePrecision("combined_score").notNull(),
   scoreLabel: text("score_label").notNull(), // Strong Buy, Buy, Hold, Sell, Strong Sell
 
   // Driver scores
-  fundamentalsScore: real("fundamentals_score"),
-  vixScore: real("vix_score"),
-  technicalScore: real("technical_score"),
-  sentimentScore: real("sentiment_score"),
+  fundamentalsScore: doublePrecision("fundamentals_score"),
+  vixScore: doublePrecision("vix_score"),
+  technicalScore: doublePrecision("technical_score"),
+  sentimentScore: doublePrecision("sentiment_score"),
 
   // Metadata
   strategy: text("strategy"),
@@ -98,67 +98,67 @@ export const signals = sqliteTable("signals", {
   // Additional data
   metadata: text("metadata"), // JSON string with extra data
 
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 })
 
 // User Positions
-export const positions = sqliteTable("positions", {
+export const positions = pgTable("positions", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   asset: text("asset").notNull(),
   type: text("type").notNull(), // stock, prediction_market
 
-  entryPrice: real("entry_price").notNull(),
-  currentPrice: real("current_price").notNull(),
-  size: real("size").notNull(),
+  entryPrice: doublePrecision("entry_price").notNull(),
+  currentPrice: doublePrecision("current_price").notNull(),
+  size: doublePrecision("size").notNull(),
 
-  unrealizedPnL: real("unrealized_pnl").default(0),
-  unrealizedPnLPercent: real("unrealized_pnl_percent").default(0),
+  unrealizedPnL: doublePrecision("unrealized_pnl").default(0),
+  unrealizedPnLPercent: doublePrecision("unrealized_pnl_percent").default(0),
 
   strategy: text("strategy"),
   openedBy: text("opened_by"),
-  openedAt: integer("opened_at", { mode: "timestamp" }).notNull(),
-  closedAt: integer("closed_at", { mode: "timestamp" }),
+  openedAt: timestamp("opened_at").notNull(),
+  closedAt: timestamp("closed_at"),
 
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 })
 
 // User Trades
-export const trades = sqliteTable("trades", {
+export const trades = pgTable("trades", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   asset: text("asset").notNull(),
   type: text("type").notNull(), // stock, prediction_market
   action: text("action").notNull(), // buy, sell
 
-  price: real("price").notNull(),
-  size: real("size").notNull(),
-  pnl: real("pnl"),
+  price: doublePrecision("price").notNull(),
+  size: doublePrecision("size").notNull(),
+  pnl: doublePrecision("pnl"),
 
   strategy: text("strategy"),
   copiedFrom: text("copied_from"),
 
-  timestamp: integer("timestamp", { mode: "timestamp" }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  timestamp: timestamp("timestamp").notNull(),
+  createdAt: timestamp("created_at").notNull(),
 })
 
 // Portfolio Summary
-export const portfolios = sqliteTable("portfolios", {
+export const portfolios = pgTable("portfolios", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }).unique(),
 
-  totalEquity: real("total_equity").default(100000),
-  cash: real("cash").default(100000),
-  stocks: real("stocks").default(0),
-  predictionMarkets: real("prediction_markets").default(0),
-  margin: real("margin").default(0),
+  totalEquity: doublePrecision("total_equity").default(100000),
+  cash: doublePrecision("cash").default(100000),
+  stocks: doublePrecision("stocks").default(0),
+  predictionMarkets: doublePrecision("prediction_markets").default(0),
+  margin: doublePrecision("margin").default(0),
 
-  dailyPnL: real("daily_pnl").default(0),
-  dailyPnLPercent: real("daily_pnl_percent").default(0),
-  winRate: real("win_rate").default(0),
+  dailyPnL: doublePrecision("daily_pnl").default(0),
+  dailyPnLPercent: doublePrecision("daily_pnl_percent").default(0),
+  winRate: doublePrecision("win_rate").default(0),
   openPositions: integer("open_positions").default(0),
 
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 })

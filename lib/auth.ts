@@ -4,9 +4,8 @@ import * as schema from "./db/schema"
 
 export const auth = betterAuth({
   database: {
-    provider: "sqlite",
+    provider: "postgres",
     db: db as any,
-    type: "libsql",
     schema: {
       user: schema.users,
       session: schema.sessions,

@@ -1,0 +1,88 @@
+# pyproject.toml
+#
+# Modern Python packaging configuration for Alpaca MCP Server
+# Location: /alpaca-mcp-server/pyproject.toml
+# Purpose: Defines package metadata, dependencies, and build configuration
+#          Enables installation via pip, uvx, and publishing to PyPI
+
+[build-system]
+# Use hatchling as the build backend (modern standard for MCP servers)
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+# Package identification and metadata
+name = "alpaca-mcp-server"
+version = "1.0.8"
+description = "Alpaca Trading API integration for Model Context Protocol (MCP)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+# Author information
+authors = [
+    {name = "Alpaca", email = "info@alpaca.markets"}
+]
+
+# Keywords for PyPI discoverability
+keywords = ["mcp", "alpaca", "trading", "finance", "ai", "llm", "model-context-protocol"]
+
+# PyPI classifiers for categorization
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+# Runtime dependencies (keep minimal and compatible with current requirements.txt)
+dependencies = [
+    "mcp>=1.21.0,<2.0.0",           # Model Context Protocol framework
+    "alpaca-py>=0.29.0",           # Alpaca Trading API client
+    "python-dotenv>=1.0.0",        # Environment variable management
+    "click>=8.1.0"                 # CLI framework for commands
+]
+
+# Optional development dependencies
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.1.0",                 # Fast Python linter and formatter
+    "mypy>=1.0.0",                 # Static type checker
+    "pytest>=7.0.0",               # Testing framework
+    "pytest-asyncio>=0.23.0"       # Async testing support
+]
+
+# Project URLs for PyPI and registries
+[project.urls]
+Homepage = "https://alpaca.markets/"
+Repository = "https://github.com/alpacahq/alpaca-mcp-server"
+"Bug Tracker" = "https://github.com/alpacahq/alpaca-mcp-server/issues"
+Documentation = "https://github.com/alpacahq/alpaca-mcp-server#readme"
+
+# Console script entry points (enables 'alpaca-mcp-server' command after installation)
+[project.scripts]
+alpaca-mcp-server = "alpaca_mcp_server.cli:main"
+
+# Tool configuration for development
+[tool.ruff]
+# Code formatting and linting configuration
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+# Type checking configuration
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+# Test configuration
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = ["-v", "--tb=short"]

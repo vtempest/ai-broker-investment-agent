@@ -25,12 +25,12 @@ export function HeroSection() {
       <div className="mx-auto max-w-5xl text-center relative z-10">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-sm backdrop-blur-sm">
           <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-          <span className="text-muted-foreground">AI-Powered Investment Analysis</span>
+          <span className="text-muted-foreground">Chatbot Simplexity of Hedge Fund Algorithmic Trading</span>
         </div>
 
         <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-          AI Trading Intelligence for
-          <span className="block text-primary">Stocks & Prediction Markets</span>
+          Chatbot Simplexity of Hedge Fund Algorithmic Trading for
+          <span className="block text-primary">Everyday Investors</span>
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">

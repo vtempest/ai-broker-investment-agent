@@ -1,10 +1,2 @@
-[00:00:01.359] Server  WARN     ⚠ Minimum recommended TypeScript version is v5.1.0, older versions can potentially be incompatible with Next.js. Detected: 5.0.2
-[00:00:01.642] Server  LOG      ✓ Ready in 1088ms
-[00:00:04.724] Server  LOG      ○ Compiling /login ...
-[00:00:06.649] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:06.649] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[00:00:06.649] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.6.0","sv":"0.1.3","ts":1764763889577}
-[00:00:37.816] Server  LOG      ✓ Compiled in 278ms
-[00:01:39.841] Server  LOG      ✓ Compiled in 167ms
-[00:02:24.826] Server  LOG        Reload env: .env.local
-[00:02:24.883] Server  LOG      ✓ Compiled in 12ms
+[00:00:00.790] Server  WARN     ⚠ Minimum recommended TypeScript version is v5.1.0, older versions can potentially be incompatible with Next.js. Detected: 5.0.2
+[00:00:00.928] Server  LOG      ✓ Ready in 592ms
