@@ -12,6 +12,7 @@ import { PredictionMarketsTab } from "@/components/dashboard/prediction-markets-
 import { CopyTradingTab } from "@/components/dashboard/copy-trading-tab"
 import { RiskPortfolioTab } from "@/components/dashboard/risk-portfolio-tab"
 import { ApiDataTab } from "@/components/dashboard/api-data-tab"
+import { AlpacaTradingTab } from "@/components/dashboard/alpaca-trading-tab"
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -24,9 +25,10 @@ export default function DashboardPage() {
         <main className="flex-1 overflow-auto p-4 lg:p-6">
           <div className="mx-auto max-w-7xl space-y-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-8 lg:w-auto lg:inline-grid">
+              <TabsList className="grid w-full grid-cols-9 lg:w-auto lg:inline-grid">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="api-data">API Data</TabsTrigger>
+                <TabsTrigger value="alpaca">Alpaca Trading</TabsTrigger>
                 <TabsTrigger value="signals">Signals</TabsTrigger>
                 <TabsTrigger value="agents">Agents</TabsTrigger>
                 <TabsTrigger value="strategies">Strategies</TabsTrigger>
@@ -41,6 +43,10 @@ export default function DashboardPage() {
 
               <TabsContent value="api-data" className="space-y-6 mt-6">
                 <ApiDataTab />
+              </TabsContent>
+
+              <TabsContent value="alpaca" className="space-y-6 mt-6">
+                <AlpacaTradingTab />
               </TabsContent>
 
               <TabsContent value="signals" className="space-y-6 mt-6">
