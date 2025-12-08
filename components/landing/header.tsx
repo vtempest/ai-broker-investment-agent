@@ -34,7 +34,7 @@ export function Header() {
               className="h-full w-full object-cover"
             />
           </div>
-          <span className="text-xl font-semibold text-foreground">TimeTravel.investments</span>
+          <span className="text-xl font-semibold text-foreground">TimeTravel.Investments</span>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
