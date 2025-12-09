@@ -19,20 +19,19 @@ const strategies = [
     description: "Stocks in motion tend to stay in motion. Buy when momentum is building, sell when it's fading.",
     philosophy: "The trend is your friend",
     entryConditions: [
-      "RSI crosses above 30 (oversold recovery)",
-      "MACD bullish crossover",
-      "Price > EMA(20) > EMA(50)",
-      "Volume > 1.5x average",
-      "ADX > 25 (strong trend)",
+      "RSI recovery (crosses above 30)",
+      "MACD crossover (bullish signal)",
+      "Volume surge (>1.5x average)",
+      "Strong trend confirmed (ADX > 25)",
     ],
     exitConditions: [
-      "RSI > 70 (overbought)",
-      "MACD bearish crossover",
-      "2% stop loss from entry",
-      "4% take profit target",
+      "Overbought conditions (RSI > 70)",
+      "MACD reversal (bearish crossover)",
+      "Stop-loss triggers (-2%)",
+      "Take-profit targets (+4%)",
     ],
-    bestFor: ["Strong trending markets", "Low to normal volatility", "Sector strength"],
-    avoid: ["Choppy markets", "Extreme volatility", "Unclear trend"],
+    bestFor: ["Strong trending markets", "Sector strength"],
+    avoid: ["Choppy markets", "Unclear trend"],
   },
   {
     id: "meanreversion",
@@ -47,19 +46,17 @@ const strategies = [
     description: "Prices tend to revert to their statistical mean. Buy extreme lows, sell extreme highs.",
     philosophy: "What goes up must come down",
     entryConditions: [
-      "Price touches lower Bollinger Band",
-      "RSI < 25 (severe oversold)",
-      "Z-score < -2.0 deviation",
-      "Stochastic K < 20",
+      "Lower Bollinger Band touch",
+      "Severe oversold (RSI < 25)",
+      "Z-score deviation (<-2 standard deviations)",
     ],
     exitConditions: [
-      "Price crosses middle Bollinger Band",
-      "RSI > 50 (normalized)",
-      "1.5% stop loss",
-      "3% take profit target",
+      "Middle Bollinger Band cross",
+      "RSI normalization (>50)",
+      "Profit targets (+3%)",
     ],
-    bestFor: ["Range-bound markets", "High volatility", "No clear trend"],
-    avoid: ["Strong trends", "Breakout scenarios", "Fundamental changes"],
+    bestFor: ["Range-bound markets", "High volatility"],
+    avoid: ["Strong trends", "Breakout scenarios"],
   },
   {
     id: "breakout",
@@ -75,26 +72,24 @@ const strategies = [
       "After consolidation, prices often make explosive moves. Enter early in breakout with volume confirmation.",
     philosophy: "Catch the big moves early",
     entryConditions: [
-      "Price breaks above 20-day high",
-      "Volume > 2x 20-day average",
-      "Previous consolidation < 2% for 5+ days",
-      "ATR expanding",
+      "20-day high breakout",
+      "Volume surge (2x average)",
+      "ATR expansion (volatility increasing)",
     ],
     exitConditions: [
-      "ATR trailing stop (2x ATR)",
-      "2.5% fixed stop loss",
-      "6% take profit target",
-      "Price breaks below support",
+      "ATR trailing stop (dynamic)",
+      "Support break (trend reversal)",
+      "Profit/loss targets (+6%/-2.5%)",
     ],
-    bestFor: ["After consolidation", "Earnings announcements", "Major catalysts"],
-    avoid: ["Already extended moves", "Low volume", "No clear consolidation"],
+    bestFor: ["Consolidation periods", "Catalysts", "Earnings"],
+    avoid: ["Already extended moves", "Low volume"],
   },
   {
     id: "scalping",
     name: "Day Trading Scalp",
     type: "High Frequency",
     icon: Timer,
-    timeframe: "1-5 min",
+    timeframe: "1-5 minutes",
     winRate: "50-55%",
     riskLevel: "Lower",
     bestMarket: "High Liquidity",
@@ -102,13 +97,17 @@ const strategies = [
     description: "Capture small intraday moves with quick entries and exits. High win rate, small profits per trade.",
     philosophy: "Small profits, many times",
     entryConditions: [
-      "Fast EMA(9) crosses above Slow EMA(21)",
-      "Price > VWAP",
-      "Bid-Ask spread < $0.10",
-      "1-minute momentum > 0.1%",
+      "EMA crossover (fast > slow)",
+      "Price > VWAP (bullish momentum)",
+      "Tight spreads (<$0.10)",
+      "Momentum surge (short-term)",
     ],
-    exitConditions: ["+0.5% profit target", "-0.3% stop loss", "5 minute max hold time", "EMA reversal signal"],
-    bestFor: ["High liquidity", "Tight spreads", "Active hours (10AM-3PM)"],
+    exitConditions: [
+      "Quick profit targets (+0.5%)",
+      "Tight stops (-0.3%)",
+      "Time limits (5-minute max hold)",
+    ],
+    bestFor: ["High liquidity stocks", "Tight spreads", "Active hours (10AM-3PM)"],
     avoid: ["Market open/close", "Low volume periods", "Wide spreads"],
   },
 ]
@@ -154,11 +153,12 @@ export function StrategiesSection() {
         <div className="mb-16 flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-12">
           <div className="flex-1 text-center lg:text-left">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Algorithmic Trading Strategies
+              Algorithmic Trading Strategies for Technical Analysts
             </h2>
             <p className="mt-4 max-w-2xl text-muted-foreground">
-              Four distinct AI-powered strategies designed for different market conditions and trading styles. Each
-              strategy uses our multi-agent system to analyze signals and execute with precision.
+              Four AI-powered algorithmic strategies leveraging technical indicators (MACD, RSI, Bollinger Bands, ATR)
+              for different market conditions. Each strategy is powered by our multi-agent system analyzing chart patterns,
+              volume signals, and momentum indicators with precision timing.
             </p>
           </div>
           <div className="relative h-48 w-72 overflow-hidden rounded-xl border border-border lg:h-56 lg:w-80">
