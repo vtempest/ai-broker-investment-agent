@@ -18,6 +18,7 @@ import {
   Building2,
   Landmark,
 } from "lucide-react"
+import { MarketCorrelations } from "./market-correlations"
 
 const topTraders = [
   {
@@ -428,6 +429,9 @@ export function PredictionMarketsSection() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Market Correlations Section */}
+        <MarketCorrelations />
       </div>
     </section>
   )

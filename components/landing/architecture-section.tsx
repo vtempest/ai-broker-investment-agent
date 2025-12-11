@@ -28,7 +28,7 @@ export function ArchitectureSection() {
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <div className="relative overflow-hidden rounded-2xl border border-border">
             <Image
-              src="/images/trading-floor.jpeg"
+              src="/images/banner-trading-floor.jpeg"
               alt="AI Trading Floor with Multiple Agents"
               width={800}
               height={500}

@@ -162,7 +162,7 @@ export function StrategiesSection() {
             </p>
           </div>
           <div className="relative h-48 w-72 overflow-hidden rounded-xl border border-border lg:h-56 lg:w-80">
-            <Image src="/images/image.png" alt="AI Trading Bot" fill className="object-cover" />
+            <Image src="/images/banner-ai-trade.png" alt="AI Trading Bot" fill className="object-cover" />
           </div>
         </div>
 

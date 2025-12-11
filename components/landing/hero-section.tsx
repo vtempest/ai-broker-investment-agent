@@ -17,7 +17,7 @@ export function HeroSection() {
     <section className="relative overflow-hidden px-4 py-24 sm:px-6 sm:py-32 lg:px-8 min-h-[90vh] flex items-center">
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
-        <img src="/images/image.png" alt="AI Trading Command Center" className="h-full w-full object-cover" />
+        <img src="/images/banner-ai-trade.png" alt="AI Trading Command Center" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-background/70" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background" />
       </div>
