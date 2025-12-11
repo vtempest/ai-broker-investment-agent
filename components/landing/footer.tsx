@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Activity } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export function Footer() {
   return (
@@ -12,17 +13,12 @@ export function Footer() {
             </div>
             <span className="text-lg font-semibold text-foreground">TimeTravel.investments</span>
           </Link>
-          <div className="flex gap-6 text-sm text-muted-foreground">
-            <Link
-              href="https://github.com/TauricResearch/TradingAgents"
-              target="_blank"
-              className="hover:text-foreground"
-            >
-              GitHub
-            </Link>
-            <Link href="https://arxiv.org/pdf/2412.20138" target="_blank" className="hover:text-foreground">
-              Paper
-            </Link>
+          <div className="flex gap-6 items-center text-sm text-muted-foreground">
+            <Button size="sm" asChild>
+              <Link href="https://drive.google.com/drive/u/0/folders/12wj9_7e94fcJvahfYsnyme1-v7Pdnl5J" target="_blank">
+                Paper
+              </Link>
+            </Button>
             <Link href="#" className="hover:text-foreground">
               Discord
             </Link>
