@@ -173,6 +173,7 @@ The platform includes 4 distinct AI-powered trading strategies designed for diff
 - **Backtesting Engine** - Historical performance validation
 - **API Gateway** - Unified REST API with OpenAPI specification
 - **Interactive Dashboard** - Real-time visualization and analysis
+- **Groq + LangChain Integration** - Fast inference with LangChain-style tools for TypeScript agents ([Learn More](./GROQ_LANGCHAIN_INTEGRATION.md))
 
 ---
 

@@ -24,7 +24,13 @@ export class UnifiedLLMClient {
     this.provider = config.llmProvider
     this.model = model
     this.temperature = config.temperature ?? 0.3
-    this.baseUrl = config.baseUrl
+
+    // Set base URL based on provider
+    if (config.baseUrl) {
+      this.baseUrl = config.baseUrl
+    } else if (this.provider.toLowerCase() === 'groq') {
+      this.baseUrl = 'https://api.groq.com/openai/v1/chat/completions'
+    }
 
     // Get API key based on provider
     if (config.apiKeys) {
@@ -46,6 +52,8 @@ export class UnifiedLLMClient {
     switch (this.provider.toLowerCase()) {
       case 'openai':
         return this.invokeOpenAI(messages)
+      case 'groq':
+        return this.invokeGroq(messages)
       case 'anthropic':
         return this.invokeAnthropic(messages)
       default:
@@ -74,6 +82,40 @@ export class UnifiedLLMClient {
 
     if (!response.ok) {
       throw new Error(`OpenAI API error: ${response.statusText}`)
+    }
+
+    const data = await response.json()
+    return {
+      content: data.choices[0].message.content,
+      toolCalls: data.choices[0].message.tool_calls?.map((tc: any) => ({
+        name: tc.function.name,
+        arguments: JSON.parse(tc.function.arguments)
+      }))
+    }
+  }
+
+  /**
+   * Invoke Groq API (OpenAI-compatible)
+   */
+  private async invokeGroq(messages: Message[]): Promise<LLMResponse> {
+    const url = this.baseUrl || 'https://api.groq.com/openai/v1/chat/completions'
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.apiKey}`
+      },
+      body: JSON.stringify({
+        model: this.model,
+        messages,
+        temperature: this.temperature
+      })
+    })
+
+    if (!response.ok) {
+      const errorData = await response.text()
+      throw new Error(`Groq API error: ${response.statusText} - ${errorData}`)
     }
 
     const data = await response.json()
@@ -129,9 +171,54 @@ export class UnifiedLLMClient {
    * Invoke with tool binding
    */
   async invokeWithTools(messages: Message[], tools: any[]): Promise<LLMResponse> {
-    // For now, just invoke normally
-    // Tool calling can be enhanced based on provider
-    return this.invoke(messages)
+    switch (this.provider.toLowerCase()) {
+      case 'openai':
+      case 'groq':
+        return this.invokeWithToolsOpenAI(messages, tools)
+      case 'anthropic':
+        // Anthropic has different tool calling format
+        return this.invoke(messages)
+      default:
+        return this.invoke(messages)
+    }
+  }
+
+  /**
+   * Invoke OpenAI/Groq with tools
+   */
+  private async invokeWithToolsOpenAI(messages: Message[], tools: any[]): Promise<LLMResponse> {
+    const url = this.provider.toLowerCase() === 'groq'
+      ? (this.baseUrl || 'https://api.groq.com/openai/v1/chat/completions')
+      : (this.baseUrl || 'https://api.openai.com/v1/chat/completions')
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.apiKey}`
+      },
+      body: JSON.stringify({
+        model: this.model,
+        messages,
+        temperature: this.temperature,
+        tools,
+        tool_choice: 'auto'
+      })
+    })
+
+    if (!response.ok) {
+      const errorData = await response.text()
+      throw new Error(`${this.provider} API error: ${response.statusText} - ${errorData}`)
+    }
+
+    const data = await response.json()
+    return {
+      content: data.choices[0].message.content,
+      toolCalls: data.choices[0].message.tool_calls?.map((tc: any) => ({
+        name: tc.function.name,
+        arguments: JSON.parse(tc.function.arguments)
+      }))
+    }
   }
 }
 

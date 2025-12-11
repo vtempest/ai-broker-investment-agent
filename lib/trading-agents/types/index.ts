@@ -83,8 +83,8 @@ export interface AgentState {
 }
 
 export interface TradingConfig {
-  /** LLM provider (openai, anthropic, etc.) */
-  llmProvider: string
+  /** LLM provider (openai, anthropic, groq, etc.) */
+  llmProvider: 'openai' | 'anthropic' | 'groq' | string
   /** Model for deep thinking tasks */
   deepThinkLLM: string
   /** Model for quick thinking tasks */
@@ -99,6 +99,7 @@ export interface TradingConfig {
   apiKeys?: {
     openai?: string
     anthropic?: string
+    groq?: string
     alphaVantage?: string
     [key: string]: string | undefined
   }
