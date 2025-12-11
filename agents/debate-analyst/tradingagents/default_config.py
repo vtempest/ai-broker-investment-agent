@@ -10,17 +10,17 @@ DEFAULT_CONFIG = {
     ),
     # LLM settings
     # Supported providers: openai, anthropic, google, groq, ollama, openrouter
-    "llm_provider": "openai",
-    "deep_think_llm": "o4-mini",
-    "quick_think_llm": "gpt-4o-mini",
-    "backend_url": "https://api.openai.com/v1",
+    "llm_provider": "groq",  # Using Groq for fast, cost-effective inference
+    "deep_think_llm": "llama-3.1-70b-versatile",
+    "quick_think_llm": "llama-3.1-8b-instant",
+    "backend_url": None,
     "temperature": 0.3,
 
-    # Example Groq configuration (fast inference):
-    # "llm_provider": "groq",
-    # "deep_think_llm": "llama-3.1-70b-versatile",
-    # "quick_think_llm": "llama-3.1-8b-instant",
-    # "backend_url": None,
+    # Alternative OpenAI configuration:
+    # "llm_provider": "openai",
+    # "deep_think_llm": "o4-mini",
+    # "quick_think_llm": "gpt-4o-mini",
+    # "backend_url": "https://api.openai.com/v1",
 
     # Example Anthropic configuration:
     # "llm_provider": "anthropic",
@@ -28,7 +28,7 @@ DEFAULT_CONFIG = {
     # "quick_think_llm": "claude-3-5-haiku-20241022",
     # "backend_url": None,
     # Debate and discussion settings
-    "max_debate_rounds": 1,
+    "max_debate_rounds": 2,  # Increased for more thorough debate
     "max_risk_discuss_rounds": 1,
     "max_recur_limit": 100,
     # Data vendor configuration
