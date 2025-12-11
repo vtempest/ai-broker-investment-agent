@@ -13,7 +13,6 @@ import {
   Radio,
   TrendingUp,
   Sparkles,
-  Github,
   Calendar,
 } from "lucide-react"
 import { useState } from "react"
@@ -83,12 +82,6 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="https://github.com/TauricResearch/TradingAgents" target="_blank">
-              <Github className="mr-2 h-4 w-4" />
-              GitHub
-            </Link>
-          </Button>
           <Button size="sm" asChild>
             <Link href="https://takemymoney.timetravel.investments" target="_blank">
               <Calendar className="mr-2 h-4 w-4" />
@@ -153,14 +146,8 @@ export function Header() {
               <Sparkles className="h-4 w-4" />
               Features
             </Link>
-            <div className="flex gap-2 pt-2">
-              <Button variant="ghost" size="sm" className="flex-1" asChild>
-                <Link href="https://github.com/TauricResearch/TradingAgents" target="_blank">
-                  <Github className="mr-2 h-4 w-4" />
-                  GitHub
-                </Link>
-              </Button>
-              <Button size="sm" className="flex-1" asChild>
+            <div className="pt-2">
+              <Button size="sm" className="w-full" asChild>
                 <Link href="https://takemymoney.timetravel.investments" target="_blank">
                   <Calendar className="mr-2 h-4 w-4" />
                   Book Demo
