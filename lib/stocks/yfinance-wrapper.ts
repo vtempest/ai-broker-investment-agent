@@ -1,6 +1,9 @@
 // Yahoo Finance Wrapper for TypeScript
 // Uses yahoo-finance2 package
-import yahooFinance from 'yahoo-finance2'
+import YahooFinance from 'yahoo-finance2'
+
+// Initialize yahoo finance instance
+const yahooFinance = new YahooFinance()
 
 export interface HistoricalDataOptions {
   symbol: string
