@@ -19,7 +19,7 @@ export function BrokerPlatformsSection() {
   const brokers = [
     {
       name: "Alpaca",
-      logo: "🦙",
+      logo: "https://assets.brandfetch.io/idAnDTFapY/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B",
       description: "Commission-free API-first trading for stocks, ETFs, and crypto",
       features: [
         "Developer-friendly REST & WebSocket API",
@@ -35,7 +35,7 @@ export function BrokerPlatformsSection() {
     },
     {
       name: "Interactive Brokers",
-      logo: "🏛️",
+      logo: "https://www.interactivebrokers.com/images/common/logos/ibkr/ibkr.svg",
       description: "Global institutional-grade trading with comprehensive API access",
       features: [
         "135+ markets worldwide",
@@ -51,7 +51,7 @@ export function BrokerPlatformsSection() {
     },
     {
       name: "Webull",
-      logo: "📱",
+      logo: "https://assets.brandfetch.io/idw382nG0m/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B",
       description: "Modern mobile-first platform with advanced charting and API",
       features: [
         "Commission-free trading",
@@ -67,7 +67,7 @@ export function BrokerPlatformsSection() {
     },
     {
       name: "Robinhood",
-      logo: "🏹",
+      logo: "https://images.seeklogo.com/logo-png/41/3/robinhood-wordmark-logo-png_seeklogo-410600.png",
       description: "Popular retail platform with simple API and zero commissions",
       features: [
         "Zero-commission trades",
@@ -118,7 +118,17 @@ export function BrokerPlatformsSection() {
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="text-4xl">{broker.logo}</div>
+                    <div className="w-12 h-12 flex items-center justify-center">
+                      {broker.logo.startsWith('http') ? (
+                        <img 
+                          src={broker.logo} 
+                          alt={`${broker.name} logo`}
+                          className="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <span className="text-4xl">{broker.logo}</span>
+                      )}
+                    </div>
                     <div>
                       <h3 className="text-xl font-bold">{broker.name}</h3>
                       <div className="flex items-center gap-2 mt-1">
