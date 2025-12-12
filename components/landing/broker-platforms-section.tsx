@@ -19,7 +19,7 @@ export function BrokerPlatformsSection() {
   const brokers = [
     {
       name: "Alpaca",
-      logo: "https://assets.brandfetch.io/idAnDTFapY/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B",
+      logo: "https://dka575ofm4ao0.cloudfront.net/pages-transactional_logos/retina/135537/logo.png",
       description: "Commission-free API-first trading for stocks, ETFs, and crypto",
       features: [
         "Developer-friendly REST & WebSocket API",
@@ -51,7 +51,7 @@ export function BrokerPlatformsSection() {
     },
     {
       name: "Webull",
-      logo: "https://assets.brandfetch.io/idw382nG0m/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B",
+      logo: "https://wp.logos-download.com/wp-content/uploads/2022/11/Webull_Logo-700x122.png",
       description: "Modern mobile-first platform with advanced charting and API",
       features: [
         "Commission-free trading",
