@@ -28,7 +28,7 @@ export function HeroSection() {
           <span className="text-muted-foreground">Chatbot Simplexity for Algorithmic Trading</span>
         </div>
 
-        <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+        <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl leading-tight">
           Chatbot Automation of Algorithmic Trading for
           <span className="block text-primary">Everyday Investors</span>
         </h1>

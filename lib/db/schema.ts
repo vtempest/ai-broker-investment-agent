@@ -79,6 +79,10 @@ export const userSettings = sqliteTable("user_settings", {
   robinhoodPassword: text("robinhood_password"),
   ibkrUsername: text("ibkr_username"),
   ibkrPassword: text("ibkr_password"),
+  
+  // TD Ameritrade (Schwab)
+  tdaApiKey: text("tda_api_key"),
+  tdaRefreshToken: text("tda_refresh_token"),
 
   // Data Provider API Keys
   alphaVantageApiKey: text("alpha_vantage_api_key"),

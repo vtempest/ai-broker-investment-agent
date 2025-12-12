@@ -200,6 +200,41 @@ export const openApiSpec = {
         }
       }
     },
+    "/strategies/algo-scripts": {
+      get: {
+        tags: ["User Strategies"],
+        summary: "Get algo scripts",
+        description: "Retrieve list of algorithmic trading scripts from the library",
+        responses: {
+          "200": {
+            description: "Successful response",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      url: { type: "string" },
+                      name: { type: "string" },
+                      description: { type: "string" },
+                      image_url: { type: "string" },
+                      author: { type: "string" },
+                      likes_count: { type: "integer" },
+                      comments_count: { type: "integer" },
+                      script_type: { type: "string" },
+                      created: { type: "string" },
+                      updated: { type: "string" },
+                      source: { type: "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/zulu/sync": {
       post: {
         tags: ["Zulu Social Trading"],

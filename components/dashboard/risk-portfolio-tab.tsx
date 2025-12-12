@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress"
 import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { demoRiskMetrics, demoPositions, demoTrades } from "@/lib/demo-data"
+import { useSession } from "@/lib/auth-client"
 import {
   Activity,
   AlertTriangle,
@@ -18,9 +19,10 @@ import {
 } from "lucide-react"
 
 export function RiskPortfolioTab() {
+  const { data: session } = useSession()
   const risk = demoRiskMetrics
-  const positions = demoPositions
-  const trades = demoTrades
+  const positions = session ? [] : demoPositions  // Empty array if signed in
+  const trades = session ? [] : demoTrades  // Empty array if signed in
 
   return (
     <div className="space-y-6">
@@ -202,6 +204,12 @@ export function RiskPortfolioTab() {
               ))}
             </tbody>
           </table>
+          {positions.length === 0 && (
+            <div className="text-center py-12 text-muted-foreground">
+              <p className="text-lg font-medium">No positions yet</p>
+              <p className="text-sm mt-2">Your portfolio holdings will appear here</p>
+            </div>
+          )}
         </div>
       </Card>
 
@@ -241,6 +249,12 @@ export function RiskPortfolioTab() {
               </div>
             </div>
           ))}
+          {trades.length === 0 && (
+            <div className="text-center py-12 text-muted-foreground">
+              <p className="text-lg font-medium">No trade history yet</p>
+              <p className="text-sm mt-2">Your recent trades will appear here</p>
+            </div>
+          )}
         </div>
       </Card>
     </div>

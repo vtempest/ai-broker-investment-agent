@@ -166,8 +166,11 @@ async function run() {
   // Map 'recent' to TradingView's actual parameter
   const sortParam = sortBy === 'recent' ? 'recent_extended' : sortBy;
   
-  const pageNums = [1];
-  const allIdeas = [];
+  const pageArg = args.find(arg => arg.startsWith('--pages='));
+  const maxPage = pageArg ? parseInt(pageArg.split('=')[1], 10) : 1;
+
+  const pageNums = Array.from({ length: maxPage }, (_, i) => i + 1);
+  const allIdeas: any[] = [];
   
   console.log(`Fetching TradingView scripts${sortParam ? ` (sorted by: ${sortParam})` : ''}...`);
   

@@ -3,8 +3,7 @@
 import { Suspense, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useSession } from "@/lib/auth-client"
-import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar"
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { OverviewTab } from "@/components/dashboard/overview-tab"
 import { SignalsTab } from "@/components/dashboard/signals-tab"
@@ -115,64 +114,46 @@ function DashboardContent() {
 
   // Show dashboard for authenticated users
   return (
-    <div className="flex min-h-screen bg-background">
-      <DashboardSidebar activeTab={activeTab} setActiveTab={handleTabChange} />
-      <div className="flex flex-1 flex-col lg:pl-64">
-        <DashboardHeader />
-        <main className="flex-1 overflow-auto p-4 pt-20 lg:pt-4 lg:p-6">
-          <div className="mx-auto max-w-7xl space-y-6">
-            <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 gap-1 lg:grid-cols-9 lg:w-auto lg:inline-grid">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="api-data">API Data</TabsTrigger>
-                <TabsTrigger value="alpaca">Alpaca Trading</TabsTrigger>
-                <TabsTrigger value="signals">Signals</TabsTrigger>
-                <TabsTrigger value="agents">Agents</TabsTrigger>
-                <TabsTrigger value="strategies">Strategies</TabsTrigger>
-                <TabsTrigger value="prediction-markets">Markets</TabsTrigger>
-                <TabsTrigger value="copy-trading">Copy Trading</TabsTrigger>
-                <TabsTrigger value="risk">Risk & Portfolio</TabsTrigger>
-              </TabsList>
+    <div className="space-y-6">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
 
-              <TabsContent value="overview" className="space-y-6 mt-6">
-                <OverviewTab />
-              </TabsContent>
 
-              <TabsContent value="api-data" className="space-y-6 mt-6">
-                <ApiDataTab />
-              </TabsContent>
+        <TabsContent value="overview" className="space-y-6 mt-6">
+          <OverviewTab />
+        </TabsContent>
 
-              <TabsContent value="alpaca" className="space-y-6 mt-6">
-                <AlpacaTradingTab />
-              </TabsContent>
+        <TabsContent value="api-data" className="space-y-6 mt-6">
+          <ApiDataTab />
+        </TabsContent>
 
-              <TabsContent value="signals" className="space-y-6 mt-6">
-                <SignalsTab />
-              </TabsContent>
+        <TabsContent value="alpaca" className="space-y-6 mt-6">
+          <AlpacaTradingTab />
+        </TabsContent>
 
-              <TabsContent value="agents" className="space-y-6 mt-6">
-                <AgentsTab />
-              </TabsContent>
+        <TabsContent value="signals" className="space-y-6 mt-6">
+          <SignalsTab />
+        </TabsContent>
 
-              <TabsContent value="strategies" className="space-y-6 mt-6">
-                <StrategiesTab />
-              </TabsContent>
+        <TabsContent value="agents" className="space-y-6 mt-6">
+          <AgentsTab />
+        </TabsContent>
 
-              <TabsContent value="prediction-markets" className="space-y-6 mt-6">
-                <PredictionMarketsTab />
-              </TabsContent>
+        <TabsContent value="strategies" className="space-y-6 mt-6">
+          <StrategiesTab />
+        </TabsContent>
 
-              <TabsContent value="copy-trading" className="space-y-6 mt-6">
-                <CopyTradingTab />
-              </TabsContent>
+        <TabsContent value="prediction-markets" className="space-y-6 mt-6">
+          <PredictionMarketsTab />
+        </TabsContent>
 
-              <TabsContent value="risk" className="space-y-6 mt-6">
-                <RiskPortfolioTab />
-              </TabsContent>
-            </Tabs>
-          </div>
-        </main>
-      </div>
+        <TabsContent value="copy-trading" className="space-y-6 mt-6">
+          <CopyTradingTab />
+        </TabsContent>
+
+        <TabsContent value="risk" className="space-y-6 mt-6">
+          <RiskPortfolioTab />
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

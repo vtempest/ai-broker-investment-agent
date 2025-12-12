@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { userSettings } from "@/lib/db/schema";
+import { userSettings, users } from "@/lib/db/schema";
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 
@@ -18,10 +18,19 @@ export async function GET(request: NextRequest) {
       where: eq(userSettings.userId, session.user.id),
     });
 
+    // Also get the user's main API key
+    const userProfile = await db.query.users.findFirst({
+        where: eq(users.id, session.user.id),
+        columns: { apiKey: true }
+    });
+
+    const apiKey = userProfile?.apiKey || null;
+
     // Return settings without sensitive data exposed (masked)
     if (settings) {
       return NextResponse.json({
         ...settings,
+        apiKey, // Add the TimeTravel API key
         // Mask API keys for security
         groqApiKey: settings.groqApiKey ? "••••••••" : null,
         openaiApiKey: settings.openaiApiKey ? "••••••••" : null,
@@ -36,13 +45,16 @@ export async function GET(request: NextRequest) {
         webullPassword: settings.webullPassword ? "••••••••" : null,
         robinhoodPassword: settings.robinhoodPassword ? "••••••••" : null,
         ibkrPassword: settings.ibkrPassword ? "••••••••" : null,
+        tdaApiKey: settings.tdaApiKey ? "••••••••" : null,
+        tdaRefreshToken: settings.tdaRefreshToken ? "••••••••" : null,
         alphaVantageApiKey: settings.alphaVantageApiKey ? "••••••••" : null,
         finnhubApiKey: settings.finnhubApiKey ? "••••••••" : null,
         polygonApiKey: settings.polygonApiKey ? "••••••••" : null,
       });
     }
 
-    return NextResponse.json(null);
+    // Return just the API key if no settings exist yet
+    return NextResponse.json({ apiKey });
   } catch (error) {
     console.error("Error fetching settings:", error);
     return NextResponse.json(

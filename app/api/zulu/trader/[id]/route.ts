@@ -1,12 +1,14 @@
+
 import { NextRequest, NextResponse } from 'next/server'
 import { getZuluTraderById, fetchZuluTraderDetail, saveZuluTraders } from '@/lib/prediction/zulu'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const providerId = parseInt(params.id)
+        const { id } = await params;
+        const providerId = parseInt(id)
     const { searchParams } = new URL(request.url)
     const refresh = searchParams.get('refresh') === 'true'
     

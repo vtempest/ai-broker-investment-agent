@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ExternalLink, Eye, EyeOff, Save, Moon, Sun, Monitor } from "lucide-react";
+import { ExternalLink, Eye, EyeOff, Save, Moon, Sun, Monitor, Copy, RefreshCw } from "lucide-react";
 
 const LLM_PROVIDERS = [
   {
@@ -168,6 +166,9 @@ export default function SettingsPage() {
   const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
   const{ theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [apiKey, setApiKey] = useState("");
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [regenerating, setRegenerating] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -180,6 +181,7 @@ export default function SettingsPage() {
       if (response.ok) {
         const data = await response.json();
         setSettings(data || {});
+        setApiKey(data?.apiKey || "");
       }
     } catch (error) {
       console.error("Failed to fetch settings:", error);
@@ -219,18 +221,40 @@ export default function SettingsPage() {
     setShowKeys((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
+  const copyApiKey = () => {
+    navigator.clipboard.writeText(apiKey);
+    toast.success("API key copied to clipboard");
+  };
+
+  const regenerateApiKey = async () => {
+    setRegenerating(true);
+    try {
+      const response = await fetch("/api/user/api-key/regenerate", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setApiKey(data.apiKey);
+        toast.success("API key regenerated successfully");
+      } else {
+        toast.error("Failed to regenerate API key");
+      }
+    } catch (error) {
+      console.error("Failed to regenerate API key:", error);
+      toast.error("Failed to regenerate API key");
+    } finally {
+      setRegenerating(false);
+    }
+  };
+
   if (loading || !mounted) {
     return <div className="flex items-center justify-center h-screen">Loading...</div>;
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <DashboardSidebar activeTab="settings" setActiveTab={() => {}} />
-      <div className="flex flex-1 flex-col lg:pl-64">
-        <DashboardHeader />
-        <main className="flex-1 overflow-auto p-4 pt-16 lg:p-6">
-          <div className="mx-auto max-w-7xl space-y-6">
-            <div className="flex justify-between items-center">
+    <div className="mx-auto max-w-7xl space-y-6">
+      <div className="flex justify-between items-center">
               <div>
                 <h1 className="text-3xl font-bold">Settings</h1>
                 <p className="text-muted-foreground">Manage your API keys and preferences</p>
@@ -241,13 +265,81 @@ export default function SettingsPage() {
               </Button>
             </div>
 
-            <Tabs defaultValue="appearance" className="space-y-6">
+            <Tabs defaultValue="api-key" className="space-y-6">
               <TabsList>
+                <TabsTrigger value="api-key">API Key</TabsTrigger>
                 <TabsTrigger value="appearance">Appearance</TabsTrigger>
                 <TabsTrigger value="llm">LLM Providers</TabsTrigger>
                 <TabsTrigger value="brokers">Brokers</TabsTrigger>
                 <TabsTrigger value="data">Data Providers</TabsTrigger>
               </TabsList>
+
+              {/* API Key Tab */}
+              <TabsContent value="api-key" className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>API Key</CardTitle>
+                    <CardDescription>
+                      Use this key as Bearer to authenticate requests to the TimeTravel API
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="apiKey">Your API Key</Label>
+                      <div className="flex gap-2">
+                        <div className="relative flex-1">
+                          <Input
+                            id="apiKey"
+                            type={showApiKey ? "text" : "password"}
+                            value={apiKey || "No API key generated yet"}
+                            readOnly
+                            className="pr-10 font-mono text-sm"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowApiKey(!showApiKey)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2"
+                          >
+                            {showApiKey ? (
+                              <EyeOff className="h-4 w-4 text-muted-foreground" />
+                            ) : (
+                              <Eye className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </button>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={copyApiKey}
+                          disabled={!apiKey}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={regenerateApiKey}
+                          disabled={regenerating}
+                        >
+                          {regenerating ? (
+                            <>
+                              <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                              Regenerating...
+                            </>
+                          ) : (
+                            <>
+                              <RefreshCw className="mr-2 h-4 w-4" />
+                              Regenerate
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      <h4 className="font-medium mb-2"><a target="_blank" href="/api/docs">API Documentation</a></h4>
+
+                    </div>
+
+                  </CardContent>
+                </Card>
+              </TabsContent>
 
               {/* Appearance Tab */}
               <TabsContent value="appearance" className="space-y-6">
@@ -535,9 +627,6 @@ export default function SettingsPage() {
                 </Card>
               </TabsContent>
             </Tabs>
-          </div>
-        </main>
-      </div>
     </div>
   );
 }

@@ -6,10 +6,10 @@ const downloader = new Downloader('Investment Prediction Agent', 'api@example.co
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { tickerOrCik: string } }
+    { params }: { params: Promise<{ tickerOrCik: string }> }
 ) {
     try {
-        const { tickerOrCik } = params;
+        const { tickerOrCik } = await params;
         const { searchParams } = new URL(request.url);
 
         const formType = searchParams.get('formType');

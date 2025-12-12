@@ -4,10 +4,10 @@ import { createClient } from 'sec-edgar-toolkit';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { symbol: string } }
+    { params }: { params: Promise<{ symbol: string }> }
 ) {
     try {
-        const { symbol } = params;
+        const { symbol } = await params;
         const { searchParams } = new URL(request.url);
         const limit = parseInt(searchParams.get('limit') || '20');
 
@@ -21,13 +21,28 @@ export async function GET(
 
         // Lookup company by symbol (works for Ticker or CIK)
         // The toolkit handles looking up the CIK automatically from the ticker
-        const company = await client.companies.lookup(symbol);
-        
+        let company;
+        try {
+            company = await client.companies.lookup(symbol.toUpperCase());
+        } catch (lookupError: any) {
+            console.error(`Lookup error for ${symbol}:`, lookupError);
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: `Symbol ${symbol.toUpperCase()} not found in SEC EDGAR. This symbol may not file with the SEC or may use a different ticker.`,
+                    code: 'SYMBOL_NOT_FOUND',
+                    details: lookupError.message,
+                    timestamp: new Date().toISOString()
+                },
+                { status: 404 }
+            );
+        }
+
         if (!company) {
             return NextResponse.json(
                 {
                     success: false,
-                    error: `Symbol ${symbol} not found in SEC EDGAR`,
+                    error: `Symbol ${symbol.toUpperCase()} not found in SEC EDGAR`,
                     code: 'SYMBOL_NOT_FOUND',
                     timestamp: new Date().toISOString()
                 },

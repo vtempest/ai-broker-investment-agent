@@ -6,9 +6,10 @@ import { auth } from "@/lib/auth"
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const paramsValue = await params
     const session = await auth.api.getSession({ headers: request.headers })
 
     if (!session?.user) {
@@ -31,7 +32,7 @@ export async function PATCH(
       })
       .where(
         and(
-          eq(strategies.id, params.id),
+          eq(strategies.id, paramsValue.id),
           eq(strategies.userId, session.user.id)
         )
       )
@@ -50,9 +51,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const paramsValue = await params
     const session = await auth.api.getSession({ headers: request.headers })
 
     if (!session?.user) {
@@ -63,7 +65,7 @@ export async function DELETE(
       .delete(strategies)
       .where(
         and(
-          eq(strategies.id, params.id),
+          eq(strategies.id, paramsValue.id),
           eq(strategies.userId, session.user.id)
         )
       )

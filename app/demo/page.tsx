@@ -1,8 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar"
+
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { OverviewTab } from "@/components/dashboard/overview-tab"
 import { SignalsTab } from "@/components/dashboard/signals-tab"
@@ -18,11 +19,14 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("overview")
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="flex flex-1 flex-col">
-        <DashboardHeader />
-        <main className="flex-1 overflow-auto p-4 lg:p-6">
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <div className="w-px h-4 bg-border mx-2" />
+        </header>
+        <div className="flex flex-1 flex-col p-4 lg:p-6">
           <div className="mx-auto max-w-7xl space-y-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-9 lg:w-auto lg:inline-grid">
@@ -74,8 +78,8 @@ export default function DashboardPage() {
               </TabsContent>
             </Tabs>
           </div>
-        </main>
-      </div>
-    </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

@@ -27,6 +27,12 @@ export interface Strategy {
   riskLevel: 'low' | 'medium' | 'high';
   bestConditions: string;
   avoidWhen: string;
+  likes?: number;
+  source?: string;
+  author?: string;
+  created?: string;
+  updated?: string;
+  script_type?: string;
 }
 
 export interface Signal {
