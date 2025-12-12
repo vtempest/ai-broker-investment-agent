@@ -1,9 +1,8 @@
 {
-  "name": "my-v0-project",
-  "version": "0.1.0",
+  "name": "timetravel-investments-agents",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
-    "prebuild": "cd third-party/techical-analyst && npm install && npm run build",
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
@@ -58,7 +57,7 @@
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.45.0",
     "embla-carousel-react": "8.6.0",
-    "indicatorts": "file:./third-party/techical-analyst",
+    "indicatorts": "^2.2.2",
     "input-otp": "1.4.2",
     "lucide-react": "^0.556.0",
     "next": "16.0.7",
