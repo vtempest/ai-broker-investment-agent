@@ -327,25 +327,39 @@ export class AlpacaMCPClient {
   // =========================================================================
 
   async chatWithAI(messages: ChatMessage[]): Promise<ChatMessage> {
-    // This would integrate with the agent APIs for strategy suggestions
-    // For now, return a simulated response
-    const userMessage = messages[messages.length - 1].content
+    try {
+      const response = await fetch('/api/alpaca/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages }),
+      })
 
-    // You could call the debate-analyst or news-researcher here for suggestions
-    // For demo purposes, returning a structured response
-    return {
-      role: 'assistant',
-      content: `Based on your request: "${userMessage}", here are some strategy suggestions:\n\n` +
-        `1. **Momentum Strategy**: Buy when price crosses above 20-day MA, sell when crosses below\n` +
-        `2. **Mean Reversion**: Buy on RSI < 30, sell on RSI > 70\n` +
-        `3. **Breakout Strategy**: Buy when price breaks above resistance with volume\n\n` +
-        `Would you like to customize any of these strategies?`,
-      timestamp: new Date(),
-      suggestions: [
-        'Show me momentum strategy details',
-        'Create a mean reversion strategy',
-        'Explain breakout strategy setup',
-      ],
+      if (!response.ok) {
+        throw new Error(`Chat API error: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+      
+      return {
+        role: 'assistant',
+        content: data.content,
+        timestamp: new Date(data.timestamp),
+        suggestions: data.suggestions || [],
+      }
+    } catch (error: any) {
+      console.error('Chat error:', error)
+      return {
+        role: 'assistant',
+        content: `Sorry, I encountered an error: ${error.message}\n\nPlease try again or check your GROQ API key configuration.`,
+        timestamp: new Date(),
+        suggestions: [
+          'What is a momentum trading strategy?',
+          'How do I set stop loss and take profit?',
+          'Explain technical indicators for trading',
+        ],
+      }
     }
   }
 
