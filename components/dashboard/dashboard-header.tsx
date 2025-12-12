@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, Search, Menu, Activity, Wifi, AlertOctagon } from "lucide-react"
+import { Bell, Search, Menu, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -147,8 +147,6 @@ export function DashboardHeader() {
             <SelectItem value="live">🔴 Live</SelectItem>
           </SelectContent>
         </Select>
-
-
 
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />

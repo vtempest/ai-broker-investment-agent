@@ -16,6 +16,9 @@ import {
   Menu,
   X,
   Zap,
+  ChevronUp,
+  LogOut,
+  User2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -42,10 +45,6 @@ const navigation = [
   { name: "Risk & Portfolio", value: "risk", icon: Shield },
 ]
 
-const secondaryNav = [
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
-  { name: "Help", value: "help", icon: HelpCircle },
-]
 
 
 
@@ -150,6 +149,56 @@ export function DashboardSidebar({ activeTab = "overview", setActiveTab }: Dashb
           </div>
         </div>
       </nav>
+
+      {/* User Profile Section */}
+      {user && (
+        <div className="border-t border-border p-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent">
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage src={user.image || undefined} alt={user.name || user.email || "User"} />
+                  <AvatarFallback className="rounded-lg">{userInitials}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 text-left">
+                  <p className="truncate font-medium">{user.name || "User"}</p>
+                  <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                </div>
+                <ChevronUp className="h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-56"
+              align="end"
+              side="top"
+              sideOffset={8}
+            >
+              <div className="flex items-center gap-2 px-2 py-1.5 text-sm">
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage src={user.image || undefined} alt={user.name || user.email || "User"} />
+                  <AvatarFallback className="rounded-lg">{userInitials}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <p className="truncate font-medium">{user.name || "User"}</p>
+                  <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                </div>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/settings" className="cursor-pointer" onClick={onItemClick}>
+                  <User2 className="mr-2 h-4 w-4" />
+                  Account Settings
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut} disabled={isSigningOut}>
+                <LogOut className="mr-2 h-4 w-4" />
+                {isSigningOut ? "Signing out..." : "Sign out"}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </>
   )
 
