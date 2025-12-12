@@ -11,12 +11,12 @@ export const openApiSpec = {
   },
   servers: [
     {
-      url: "http://localhost:3000/api",
-      description: "Development server"
+      url: "https://timetavel.investments/api",
+      description: "Production server"
     },
     {
-      url: "https://your-domain.com/api",
-      description: "Production server"
+      url: "http://localhost:3000/api",
+      description: "Development server"
     }
   ],
   tags: [
@@ -137,6 +137,104 @@ export const openApiSpec = {
                           }
                         }
                       ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/settings": {
+      get: {
+        tags: ["User"],
+        summary: "Get user settings",
+        description: "Retrieve user settings and API keys (masked)",
+        responses: {
+          "200": {
+            description: "Successful response",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Settings" }
+              }
+            }
+          },
+          "401": {
+            description: "Unauthorized"
+          }
+        }
+      },
+      post: {
+        tags: ["User"],
+        summary: "Save user settings",
+        description: "Save or update user settings and API keys",
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Settings" }
+            }
+          }
+        },
+        responses: {
+          "200": {
+            description: "Settings saved successfully",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            description: "Unauthorized"
+          }
+        }
+      }
+    },
+    "/stocks/autocomplete": {
+      get: {
+        tags: ["Stocks"],
+        summary: "Autocomplete stock search",
+        description: "Search for stocks by symbol or name prefix",
+        parameters: [
+          {
+            name: "q",
+            in: "query",
+            required: true,
+            description: "Search query string",
+            schema: { type: "string" }
+          },
+          {
+            name: "limit",
+            in: "query",
+            description: "Max results (default: 10)",
+            schema: { type: "integer", default: 10 }
+          }
+        ],
+        responses: {
+          "200": {
+            description: "Successful response",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean" },
+                    count: { type: "integer" },
+                    data: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          symbol: { type: "string" },
+                          name: { type: "string" }
+                        }
+                      }
                     }
                   }
                 }

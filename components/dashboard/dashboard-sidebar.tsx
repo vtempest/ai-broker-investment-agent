@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 interface DashboardSidebarProps {
   activeTab?: string
@@ -96,7 +97,7 @@ function SidebarContent({ activeTab, setActiveTab, onItemClick }: DashboardSideb
               <button
                 key={item.value}
                 onClick={() => {
-                  setActiveTab?.(item.value)
+                  setActiveTab?.(item.value || '')
                   onItemClick?.()
                 }}
                 className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground text-left"
@@ -106,6 +107,22 @@ function SidebarContent({ activeTab, setActiveTab, onItemClick }: DashboardSideb
               </button>
             )
           })}
+          
+          <div className="pt-2 mt-2 border-t border-border">
+            <Link 
+              href="/dashboard/profile" 
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent/50 transition-colors"
+              onClick={onItemClick}
+            >
+              <Avatar className="h-8 w-8 border border-border">
+                <AvatarFallback className="bg-primary text-primary-foreground text-xs">TT</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col text-left">
+                <span className="text-sm font-medium">Time Traveler</span>
+                <span className="text-xs text-muted-foreground">Pro Plan</span>
+              </div>
+            </Link>
+          </div>
         </div>
       </nav>
     </>
