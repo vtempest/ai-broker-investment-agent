@@ -16,10 +16,22 @@ import {
   Menu,
   X,
   Zap,
+  ChevronUp,
+  LogOut,
+  User2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useSession, signOut } from "@/lib/auth-client"
 
 interface DashboardSidebarProps {
   activeTab?: string
@@ -38,12 +50,30 @@ const navigation = [
   { name: "Risk & Portfolio", value: "risk", icon: Shield },
 ]
 
-const secondaryNav = [
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
-  { name: "Help", value: "help", icon: HelpCircle },
-]
 
 function SidebarContent({ activeTab, setActiveTab, onItemClick }: DashboardSidebarProps & { onItemClick?: () => void }) {
+  const { data: session } = useSession()
+  const [isSigningOut, setIsSigningOut] = useState(false)
+
+  const handleSignOut = async () => {
+    setIsSigningOut(true)
+    try {
+      await signOut()
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Sign out error:', error)
+    } finally {
+      setIsSigningOut(false)
+    }
+  }
+
+  const user = session?.user
+  const userInitials = user?.name
+    ?.split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase() || user?.email?.[0]?.toUpperCase() || "U"
+
   return (
     <>
       <div className="flex h-16 items-center gap-2 border-b border-border px-6">
@@ -51,7 +81,7 @@ function SidebarContent({ activeTab, setActiveTab, onItemClick }: DashboardSideb
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <Activity className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-lg font-semibold">TimeTravel.AI</span>
+          <span className="text-lg font-semibold">PrimoAgent</span>
         </Link>
       </div>
 
@@ -78,36 +108,66 @@ function SidebarContent({ activeTab, setActiveTab, onItemClick }: DashboardSideb
         </div>
 
         <div className="mt-auto space-y-1">
-          {secondaryNav.map((item) => {
-            if ('href' in item && item.href) {
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
-                  onClick={onItemClick}
-                >
-                  <item.icon className="h-4 w-4" />
-                  {item.name}
-                </Link>
-              )
-            }
-            return (
-              <button
-                key={item.value}
-                onClick={() => {
-                  setActiveTab?.(item.value)
-                  onItemClick?.()
-                }}
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground text-left"
-              >
-                <item.icon className="h-4 w-4" />
-                {item.name}
-              </button>
-            )
-          })}
+          <Link
+            href="/dashboard/settings"
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
+            onClick={onItemClick}
+          >
+            <Settings className="h-4 w-4" />
+            Settings
+          </Link>
         </div>
       </nav>
+
+      {/* User Profile Section */}
+      {user && (
+        <div className="border-t border-border p-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent">
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage src={user.image || undefined} alt={user.name || user.email || "User"} />
+                  <AvatarFallback className="rounded-lg">{userInitials}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 text-left">
+                  <p className="truncate font-medium">{user.name || "User"}</p>
+                  <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                </div>
+                <ChevronUp className="h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-56"
+              align="end"
+              side="top"
+              sideOffset={8}
+            >
+              <div className="flex items-center gap-2 px-2 py-1.5 text-sm">
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage src={user.image || undefined} alt={user.name || user.email || "User"} />
+                  <AvatarFallback className="rounded-lg">{userInitials}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <p className="truncate font-medium">{user.name || "User"}</p>
+                  <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                </div>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/settings" className="cursor-pointer" onClick={onItemClick}>
+                  <User2 className="mr-2 h-4 w-4" />
+                  Account Settings
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut} disabled={isSigningOut}>
+                <LogOut className="mr-2 h-4 w-4" />
+                {isSigningOut ? "Signing out..." : "Sign out"}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </>
   )
 }

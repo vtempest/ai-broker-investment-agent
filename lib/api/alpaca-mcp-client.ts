@@ -327,25 +327,52 @@ export class AlpacaMCPClient {
   // =========================================================================
 
   async chatWithAI(messages: ChatMessage[]): Promise<ChatMessage> {
-    // This would integrate with the agent APIs for strategy suggestions
-    // For now, return a simulated response
-    const userMessage = messages[messages.length - 1].content
+    try {
+      // Call the strategy chat API which uses Groq with LangChain-style tools
+      const response = await fetch('/api/strategy-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages }),
+      })
 
-    // You could call the debate-analyst or news-researcher here for suggestions
-    // For demo purposes, returning a structured response
-    return {
-      role: 'assistant',
-      content: `Based on your request: "${userMessage}", here are some strategy suggestions:\n\n` +
-        `1. **Momentum Strategy**: Buy when price crosses above 20-day MA, sell when crosses below\n` +
-        `2. **Mean Reversion**: Buy on RSI < 30, sell on RSI > 70\n` +
-        `3. **Breakout Strategy**: Buy when price breaks above resistance with volume\n\n` +
-        `Would you like to customize any of these strategies?`,
-      timestamp: new Date(),
-      suggestions: [
-        'Show me momentum strategy details',
-        'Create a mean reversion strategy',
-        'Explain breakout strategy setup',
-      ],
+      if (!response.ok) {
+        throw new Error(`Chat API error: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+
+      // Handle fallback responses
+      if (data.fallback || data.error) {
+        return {
+          role: 'assistant',
+          content: data.content,
+          timestamp: new Date(data.timestamp),
+          suggestions: data.suggestions,
+        }
+      }
+
+      return {
+        role: data.role,
+        content: data.content,
+        timestamp: new Date(data.timestamp),
+        suggestions: data.suggestions,
+      }
+    } catch (error) {
+      console.error('Error in chatWithAI:', error)
+
+      // Fallback response if API fails
+      return {
+        role: 'assistant',
+        content: 'I apologize, but I\'m having trouble connecting to the AI service. Please try again.\n\nIn the meantime, here are some general strategy suggestions:\n\n1. **Momentum Strategy**: Buy when price crosses above 20-day MA, sell when crosses below\n2. **Mean Reversion**: Buy on RSI < 30, sell on RSI > 70\n3. **Breakout Strategy**: Buy when price breaks above resistance with volume',
+        timestamp: new Date(),
+        suggestions: [
+          'Tell me about momentum strategies',
+          'Explain mean reversion trading',
+          'Show me breakout strategy examples'
+        ]
+      }
     }
   }
 
