@@ -170,6 +170,7 @@ const navigationGroups = [
   {
     title: "Trading",
     items: [
+      { name: "Options Advisor", tab: "options-advisor", icon: Sparkles },
       { name: "Copy Trading", tab: "copy-trading", icon: Copy },
       { name: "Prediction Markets", tab: "prediction-markets", icon: Target },
     ],

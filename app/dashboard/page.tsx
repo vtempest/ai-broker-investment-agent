@@ -14,6 +14,7 @@ import { RiskPortfolioTab } from "@/components/dashboard/risk-portfolio-tab"
 import { ApiDataTab } from "@/components/dashboard/api-data-tab"
 import { AlpacaTradingTab } from "@/components/dashboard/alpaca-trading-tab"
 import { WatchlistTab } from "@/components/dashboard/watchlist-tab"
+import { OptionsAdvisor } from "@/components/dashboard/options-advisor"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader2, LogIn } from "lucide-react"
@@ -143,6 +144,10 @@ function DashboardContent() {
 
         <TabsContent value="strategies" className="space-y-6 mt-6">
           <StrategiesTab />
+        </TabsContent>
+
+        <TabsContent value="options-advisor" className="space-y-6 mt-6">
+          <OptionsAdvisor />
         </TabsContent>
 
         <TabsContent value="prediction-markets" className="space-y-6 mt-6">
