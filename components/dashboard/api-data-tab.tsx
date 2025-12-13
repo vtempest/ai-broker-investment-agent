@@ -7,9 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { PriceChart } from "@/components/dashboard/price-chart"
-import { TechnicalChart } from "@/components/dashboard/technical-chart"
-import { Chart, CandlestickSeries, HistogramSeries } from "lightweight-charts-react-components"
+
 import {
   Loader2,
   TrendingUp,
@@ -31,6 +29,7 @@ import {
   DebateAnalystAnalysisResponse,
   BacktestResponse
 } from "@/lib/api/stock-agents-api"
+import { MarkdownRenderer } from "@/components/dashboard/markdown-renderer"
 
 export function ApiDataTab() {
   const [selectedStockList, setSelectedStockList] = useState<keyof typeof TOP_STOCKS>('mag7')
@@ -38,6 +37,7 @@ export function ApiDataTab() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [activeAgent, setActiveAgent] = useState<'news-researcher' | 'debate-analyst'>('news-researcher')
+  const [activeTab, setActiveTab] = useState("quote")
 
   // Analysis data
   const [newsResearcherData, setNewsResearcherData] = useState<NewsResearcherAnalysisResponse | null>(null)
@@ -317,222 +317,21 @@ export function ApiDataTab() {
       </Card>
 
       {/* Results Tabs */}
-      <Tabs defaultValue="quote" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="quote">Quote & Chart</TabsTrigger>
+          {/* <TabsTrigger value="quote">Quote & Chart</TabsTrigger> */}
           <TabsTrigger value="debate-analyst">Debate Analyst</TabsTrigger>
           <TabsTrigger value="news-researcher">News Researcher</TabsTrigger>
           <TabsTrigger value="backtest">Backtest Engine</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
         </TabsList>
 
-        {/* Quote & Chart Tab */}
-        <TabsContent value="quote" className="space-y-4 mt-4">
-          {loadingQuote ? (
-            <Card className="p-12 text-center">
-              <Loader2 className="h-12 w-12 text-muted-foreground mx-auto mb-4 animate-spin" />
-              <p className="text-muted-foreground">Loading quote data...</p>
-            </Card>
-          ) : quoteData && historicalData.length > 0 ? (
-            <>
-              {/* Quote Summary Card */}
-              <Card className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h3 className="text-2xl font-bold">{selectedStock}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {quoteData.price?.longName || quoteData.price?.shortName || selectedStock}
-                    </p>
-                  </div>
-                  <Button onClick={fetchQuoteAndHistorical} variant="outline" size="sm">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Refresh
-                  </Button>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-4 mb-6">
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">Current Price</div>
-                    <div className="text-2xl font-bold">
-                      ${quoteData.price?.regularMarketPrice?.toFixed(2) || 'N/A'}
-                    </div>
-                    {quoteData.price?.regularMarketChangePercent && (
-                      <div className={`text-sm flex items-center ${
-                        quoteData.price.regularMarketChangePercent >= 0 ? 'text-green-600' : 'text-red-600'
-                      }`}>
-                        {quoteData.price.regularMarketChangePercent >= 0 ? (
-                          <TrendingUp className="h-3 w-3 mr-1" />
-                        ) : (
-                          <TrendingDown className="h-3 w-3 mr-1" />
-                        )}
-                        {quoteData.price.regularMarketChange?.toFixed(2)} (
-                        {quoteData.price.regularMarketChangePercent.toFixed(2)}%)
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">Market Cap</div>
-                    <div className="text-lg font-medium">
-                      {quoteData.price?.marketCap
-                        ? `$${(quoteData.price.marketCap / 1e9).toFixed(2)}B`
-                        : 'N/A'
-                      }
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">Volume</div>
-                    <div className="text-lg font-medium">
-                      {quoteData.price?.regularMarketVolume?.toLocaleString() || 'N/A'}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">P/E Ratio</div>
-                    <div className="text-lg font-medium">
-                      {quoteData.summaryDetail?.trailingPE?.toFixed(2) || 'N/A'}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-4">
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">Day Range</div>
-                    <div className="text-sm font-medium">
-                      ${quoteData.price?.regularMarketDayLow?.toFixed(2)} - ${quoteData.price?.regularMarketDayHigh?.toFixed(2)}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">52 Week Range</div>
-                    <div className="text-sm font-medium">
-                      ${quoteData.summaryDetail?.fiftyTwoWeekLow?.toFixed(2)} - ${quoteData.summaryDetail?.fiftyTwoWeekHigh?.toFixed(2)}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">Avg Volume</div>
-                    <div className="text-sm font-medium">
-                      {quoteData.price?.averageDailyVolume10Day?.toLocaleString() || 'N/A'}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">Exchange</div>
-                    <div className="text-sm font-medium">
-                      {quoteData.price?.exchangeName || 'N/A'}
-                    </div>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Price Chart */}
-              <Card className="p-6">
-                <h3 className="text-lg font-bold mb-4">Price Chart (3 Months)</h3>
-                <div className="h-[400px]">
-                  <Chart
-                    options={{
-                      layout: {
-                        background: { color: 'transparent' },
-                        textColor: '#71717a',
-                      },
-                      grid: {
-                        vertLines: { color: 'rgba(197, 203, 206, 0.1)' },
-                        horzLines: { color: 'rgba(197, 203, 206, 0.1)' },
-                      },
-                      width: 0,
-                      height: 400,
-                      timeScale: {
-                        borderColor: 'rgba(197, 203, 206, 0.3)',
-                        timeVisible: true,
-                        secondsVisible: false,
-                      },
-                      rightPriceScale: {
-                        borderColor: 'rgba(197, 203, 206, 0.3)',
-                      },
-                    }}
-                  >
-                    <CandlestickSeries
-                      data={historicalData}
-                      options={{
-                        upColor: '#26a69a',
-                        downColor: '#ef5350',
-                        borderVisible: false,
-                        wickUpColor: '#26a69a',
-                        wickDownColor: '#ef5350',
-                      }}
-                    />
-                  </Chart>
-                </div>
-              </Card>
-
-              {/* Volume Chart */}
-              <Card className="p-6">
-                <h3 className="text-lg font-bold mb-4">Volume</h3>
-                <div className="h-[200px]">
-                  <Chart
-                    options={{
-                      layout: {
-                        background: { color: 'transparent' },
-                        textColor: '#71717a',
-                      },
-                      grid: {
-                        vertLines: { color: 'rgba(197, 203, 206, 0.1)' },
-                        horzLines: { color: 'rgba(197, 203, 206, 0.1)' },
-                      },
-                      width: 0,
-                      height: 200,
-                      timeScale: {
-                        borderColor: 'rgba(197, 203, 206, 0.3)',
-                        timeVisible: true,
-                        secondsVisible: false,
-                      },
-                      rightPriceScale: {
-                        borderColor: 'rgba(197, 203, 206, 0.3)',
-                      },
-                    }}
-                  >
-                    <HistogramSeries
-                      data={historicalData.map(d => ({
-                        time: d.time,
-                        value: d.value,
-                        color: d.close >= d.open ? 'rgba(38, 166, 154, 0.5)' : 'rgba(239, 83, 80, 0.5)'
-                      }))}
-                    />
-                  </Chart>
-                </div>
-              </Card>
-            </>
-          ) : (
-            <Card className="p-12 text-center">
-              <DollarSign className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                {selectedStock ? 'Failed to load quote data' : 'Select a stock to view quote and chart'}
-              </p>
-            </Card>
-          )}
-        </TabsContent>
-
+       
         {/* Debate Analyst Results */}
         <TabsContent value="debate-analyst" className="space-y-4 mt-4">
           {debateAnalystData ? (
             <>
-              {debateAnalystData && (
-                <div className="mb-6">
-                  <TechnicalChart
-                    data={[
-                      { time: '2023-11-20', open: 150.2, high: 152.5, low: 149.8, close: 151.3 },
-                      { time: '2023-11-21', open: 151.3, high: 153.2, low: 150.5, close: 152.8 },
-                      { time: '2023-11-22', open: 152.8, high: 154.1, low: 151.9, close: 153.5 },
-                      { time: '2023-11-23', open: 153.5, high: 155.0, low: 152.8, close: 154.2 },
-                      { time: '2023-11-24', open: 154.2, high: 153.8, low: 151.5, close: 152.1 },
-                      // Sample data - in production should come from marketReport or separate historical data API
-                    ]}
-                    title={`${debateAnalystData.symbol} Technical Analysis`}
-                  />
-                </div>
-              )}
+            
 
               <Card className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -560,9 +359,7 @@ export function ApiDataTab() {
 
                 <div className="mt-6">
                   <div className="text-sm font-medium mb-2">Reasoning</div>
-                  <p className="text-sm text-muted-foreground">
-                    {debateAnalystData.decision.reasoning}
-                  </p>
+                    <MarkdownRenderer content={debateAnalystData.decision.reasoning} />
                 </div>
               </Card>
 
@@ -578,9 +375,11 @@ export function ApiDataTab() {
                       </h4>
                       <ul className="space-y-2">
                         {debateAnalystData.decision.debate_summary.bull_arguments.map((arg, i) => (
-                          <li key={i} className="text-sm text-muted-foreground flex items-start">
-                            <CheckCircle2 className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" />
-                            {arg}
+                          <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                            <CheckCircle2 className="h-4 w-4 mt-0.5 text-green-500 flex-shrink-0" />
+                            <div className="flex-1">
+                              <MarkdownRenderer content={arg} className="!space-y-1 text-sm [&>p]:!text-inherit [&>p]:!m-0" />
+                            </div>
                           </li>
                         ))}
                       </ul>
@@ -593,9 +392,11 @@ export function ApiDataTab() {
                       </h4>
                       <ul className="space-y-2">
                         {debateAnalystData.decision.debate_summary.bear_arguments.map((arg, i) => (
-                          <li key={i} className="text-sm text-muted-foreground flex items-start">
-                            <XCircle className="h-4 w-4 mr-2 mt-0.5 text-red-500 flex-shrink-0" />
-                            {arg}
+                          <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                            <XCircle className="h-4 w-4 mt-0.5 text-red-500 flex-shrink-0" />
+                            <div className="flex-1">
+                              <MarkdownRenderer content={arg} className="!space-y-1 text-sm [&>p]:!text-inherit [&>p]:!m-0" />
+                            </div>
                           </li>
                         ))}
                       </ul>
@@ -604,9 +405,9 @@ export function ApiDataTab() {
 
                   <div className="mt-6 p-4 bg-muted/50 rounded-lg">
                     <h4 className="text-sm font-medium mb-2">Risk Assessment</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {debateAnalystData.decision.debate_summary.risk_assessment}
-                    </p>
+                    <div className="text-sm text-muted-foreground">
+                      <MarkdownRenderer content={debateAnalystData.decision.debate_summary.risk_assessment} />
+                    </div>
                   </div>
                 </Card>
               )}
@@ -649,9 +450,7 @@ export function ApiDataTab() {
 
                   <div>
                     <div className="text-sm font-medium mb-2">Reasoning</div>
-                    <p className="text-sm text-muted-foreground">
-                      {newsResearcherData.result.portfolio_manager_results.reasoning}
-                    </p>
+                    <MarkdownRenderer content={newsResearcherData.result.portfolio_manager_results.reasoning} />
                   </div>
                 </Card>
               )}
@@ -663,9 +462,9 @@ export function ApiDataTab() {
                       <Activity className="h-4 w-4 mr-2" />
                       Technical Analysis
                     </h4>
-                    <p className="text-xs text-muted-foreground">
-                      {newsResearcherData.result.technical_analysis_results.summary || 'Data collected and analyzed'}
-                    </p>
+                    <div className="text-xs text-muted-foreground">
+                      <MarkdownRenderer content={newsResearcherData.result.technical_analysis_results.summary || 'Data collected and analyzed'} />
+                    </div>
                   </Card>
                 )}
 
@@ -675,9 +474,9 @@ export function ApiDataTab() {
                       <FileText className="h-4 w-4 mr-2" />
                       News Intelligence
                     </h4>
-                    <p className="text-xs text-muted-foreground">
-                      {newsResearcherData.result.news_intelligence_results.summary || 'Sentiment analysis complete'}
-                    </p>
+                    <div className="text-xs text-muted-foreground">
+                      <MarkdownRenderer content={newsResearcherData.result.news_intelligence_results.summary || 'Sentiment analysis complete'} />
+                    </div>
                   </Card>
                 )}
 
@@ -687,9 +486,9 @@ export function ApiDataTab() {
                       <BarChart3 className="h-4 w-4 mr-2" />
                       Data Collection
                     </h4>
-                    <p className="text-xs text-muted-foreground">
-                      {newsResearcherData.result.data_collection_results.summary || 'Market data retrieved'}
-                    </p>
+                    <div className="text-xs text-muted-foreground">
+                      <MarkdownRenderer content={newsResearcherData.result.data_collection_results.summary || 'Market data retrieved'} />
+                    </div>
                   </Card>
                 )}
               </div>
@@ -864,48 +663,102 @@ export function ApiDataTab() {
 
         {/* History Tab */}
         <TabsContent value="history" className="space-y-4 mt-4">
-          <Card className="p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-medium">Agent Execution History</h3>
-              <Button variant="outline" size="sm" onClick={fetchHistory}>
+          <Card className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold">Analysis History</h3>
+              <Button onClick={fetchHistory} variant="outline" size="sm">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
               </Button>
             </div>
-            
-            <div className="rounded-md border">
-              <div className="grid grid-cols-5 p-4 bg-muted/50 font-medium text-sm">
-                <div>Date</div>
-                <div>Symbol</div>
-                <div>Signal</div>
-                <div>Confidence</div>
-                <div>Model</div>
-              </div>
-              <div className="divide-y">
-                {historyLogs.length > 0 ? (
-                  historyLogs.map((log) => {
-                    const signal = JSON.parse(log.responseSignal || '{}')
+            {historyLogs.length > 0 ? (
+              <div className="rounded-md border">
+                <div className="grid grid-cols-5 gap-4 p-3 bg-muted font-medium text-sm">
+                  <div>Date</div>
+                  <div>Symbol</div>
+                  <div>Agent</div>
+                  <div>Decision</div>
+                  <div>Action</div>
+                </div>
+                <div className="divide-y">
+                  {historyLogs.map((log: any) => {
+                    const signal = typeof log.responseSignal === 'string' ? JSON.parse(log.responseSignal) : log.responseSignal;
+                    const analysis = typeof log.responseAnalysis === 'string' ? JSON.parse(log.responseAnalysis) : log.responseAnalysis;
+                    // Determine agent type based on available data fields
+                    const agentType = analysis?.investmentDebate ? 'debate-analyst' : 'news-researcher';
+                    
                     return (
-                      <div key={log.id} className="grid grid-cols-5 p-4 text-sm items-center hover:bg-muted/30">
+                      <div key={log.id} className="grid grid-cols-5 gap-4 p-3 items-center hover:bg-muted/50 transition-colors text-sm">
                         <div>{new Date(log.timestamp).toLocaleString()}</div>
-                        <div className="font-bold">{log.symbol}</div>
+                        <div className="font-medium">{log.symbol}</div>
+                        <div className="capitalize">{agentType.replace('-', ' ')}</div>
                         <div>
-                          <Badge variant={signal.action === 'BUY' ? 'default' : signal.action === 'SELL' ? 'destructive' : 'secondary'}>
-                            {signal.action}
-                          </Badge>
+                           {signal?.action && getDecisionBadge(signal.action)}
                         </div>
-                        <div>{(signal.confidence * 100).toFixed(1)}%</div>
-                        <div className="text-muted-foreground truncate">{log.model}</div>
+                        <div>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => {
+                              setSelectedStock(log.symbol);
+                              setActiveAgent(agentType as any);
+                              
+                              if (agentType === 'debate-analyst') {
+                                const bullArgs = analysis.investmentDebate?.bullArguments;
+                                const bearArgs = analysis.investmentDebate?.bearArguments;
+
+                                setDebateAnalystData({
+                                  success: true,
+                                  symbol: log.symbol,
+                                  date: new Date(log.timestamp).toISOString().split('T')[0],
+                                  timestamp: log.timestamp,
+                                  decision: {
+                                    action: signal.action,
+                                    confidence: signal.confidence,
+                                    reasoning: signal.reasoning,
+                                    position_size: 0.1, 
+                                    debate_summary: analysis.investmentDebate ? {
+                                      bull_arguments: Array.isArray(bullArgs) ? bullArgs : [bullArgs || ''],
+                                      bear_arguments: Array.isArray(bearArgs) ? bearArgs : [bearArgs || ''],
+                                      risk_assessment: analysis.investmentDebate.riskAssessment || "Historical Analysis"
+                                    } : undefined
+                                  }
+                                });
+                                setActiveTab("debate-analyst");
+                              } else {
+                                setNewsResearcherData({
+                                   success: true,
+                                   symbols: [log.symbol],
+                                   date: new Date(log.timestamp).toISOString().split('T')[0],
+                                   timestamp: log.timestamp,
+                                   result: {
+                                      portfolio_manager_results: {
+                                        decision: signal.action,
+                                        confidence: signal.confidence,
+                                        reasoning: signal.reasoning
+                                      },
+                                      technical_analysis_results: { summary: analysis.marketReport },
+                                      news_intelligence_results: { summary: analysis.newsReport },
+                                      data_collection_results: { summary: analysis.fundamentalsReport }
+                                   }
+                                });
+                                setActiveTab("news-researcher");
+                              }
+                            }}
+                          >
+                            View Analysis
+                          </Button>
+                        </div>
                       </div>
-                    )
-                  })
-                ) : (
-                  <div className="p-8 text-center text-muted-foreground">
-                    No history available
-                  </div>
-                )}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="text-center py-12 text-muted-foreground">
+                No history available
+              </div>
+            )}
           </Card>
         </TabsContent>
       </Tabs>

@@ -20,13 +20,15 @@ export function ArchitectureSection() {
       <div className="mx-auto max-w-7xl">
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <div className="relative flex items-center justify-center overflow-hidden rounded-2xl ">
-            <Image
-              src="/images/banner-trading-floor.jpeg"
-              alt="AI Trading Floor with Multiple Agents"
-              width={400}
-              height={400}
-              className="object-cover"
-            />
+           
+
+              <Image
+                src="/images/stocks-diagram flow.png"
+                alt="Stock Prediction System Architecture Flow Diagram"
+                width={600}
+                height={450}
+                className="object-contain "
+              />
           </div>
           <div className="flex flex-col justify-center">
             <h3 className="text-2xl font-bold text-foreground">Intelligent Analysis</h3>
@@ -90,6 +92,7 @@ export function ArchitectureSection() {
             ))}
           </div>
 
+          {/* System Flow Diagram */}
           
         </div>
       </div>

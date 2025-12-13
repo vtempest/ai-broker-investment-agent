@@ -2,7 +2,7 @@ import axios from 'axios';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const OUTPUT_PATH = path.join(process.cwd(), 'lib/algo-stategies/algo-scripts.json');
+const OUTPUT_PATH = path.join(process.cwd(), 'lib/algo-stategies/algo-strategies.json');
 
 function loadExistingData() {
   if (!fs.existsSync(OUTPUT_PATH)) return {};
@@ -140,7 +140,7 @@ async function enrichWithPineFacade(idea: any, cache: any) {
 
     const enriched = {
       ...idea,
-        created,
+        // created,
         updated,
         source
     };

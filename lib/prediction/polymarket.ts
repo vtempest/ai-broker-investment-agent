@@ -1,5 +1,5 @@
 import { db } from '@/lib/db'
-import { polymarketLeaders, polymarketPositions, polymarketCategories, polymarketMarkets } from '@/lib/db/schema'
+import { polymarketLeaders, polymarketPositions, polymarketCategories, polymarketMarkets, polymarketMarketPositions, polymarketDebates } from '@/lib/db/schema'
 import { eq, desc, asc, and, inArray } from 'drizzle-orm'
 
 // ============================================================================
@@ -110,8 +110,40 @@ export async function fetchTraderPositions(traderId: string) {
     },
     body: JSON.stringify({ trader_id: traderId }),
   })
-  
+
   if (!resp.ok) throw new Error(`positions fetch failed: ${resp.status}`)
+  return await resp.json()
+}
+
+export async function fetchMarketOrderBook(marketId: string) {
+  const BASE = "https://gamma-api.polymarket.com"
+  const url = new URL(`${BASE}/markets/${marketId}/order-book`)
+
+  const resp = await fetch(url, {
+    headers: { accept: "application/json" },
+    cache: 'no-store'
+  })
+
+  if (!resp.ok) {
+    console.error(`Order book fetch failed for market ${marketId}: ${resp.status}`)
+    return null
+  }
+  return await resp.json()
+}
+
+export async function fetchMarketDetails(marketId: string) {
+  const BASE = "https://gamma-api.polymarket.com"
+  const url = new URL(`${BASE}/markets/${marketId}`)
+
+  const resp = await fetch(url, {
+    headers: { accept: "application/json" },
+    cache: 'no-store'
+  })
+
+  if (!resp.ok) {
+    console.error(`Market details fetch failed for market ${marketId}: ${resp.status}`)
+    return null
+  }
   return await resp.json()
 }
 
@@ -242,8 +274,8 @@ export async function saveMarkets(marketsData: any[]) {
         volumeTotal: market.volumeNum || market.volumeTotal || 0,
         active: market.active ?? true,
         closed: market.closed ?? false,
-        outcomes: JSON.stringify(market.outcomes || []),
-        outcomePrices: JSON.stringify(market.outcomePrices || []),
+        outcomes: JSON.parse(market.outcomes || []),
+        outcomePrices: JSON.parse(market.outcomePrices || []),
         tags: JSON.stringify(market.tags || []),
         endDate: market.endDate || null,
         groupItemTitle: market.groupItemTitle || null,
@@ -261,8 +293,8 @@ export async function saveMarkets(marketsData: any[]) {
           volumeTotal: market.volumeNum || market.volumeTotal || 0,
           active: market.active ?? true,
           closed: market.closed ?? false,
-          outcomes: JSON.stringify(market.outcomes || []),
-          outcomePrices: JSON.stringify(market.outcomePrices || []),
+          outcomes: JSON.parse(market.outcomes || []),
+          outcomePrices: JSON.parse(market.outcomePrices || []),
           tags: JSON.stringify(market.tags || []),
           endDate: market.endDate || null,
           groupItemTitle: market.groupItemTitle || null,
@@ -271,6 +303,101 @@ export async function saveMarkets(marketsData: any[]) {
         },
       })
   }
+}
+
+export async function saveMarketPositions(marketId: string, orderBookData: any) {
+  const now = Date.now()
+
+  // Clear existing positions for this market
+  await db.delete(polymarketMarketPositions)
+    .where(eq(polymarketMarketPositions.marketId, marketId))
+
+  if (!orderBookData || !orderBookData.bids || !orderBookData.asks) {
+    return
+  }
+
+  // Save buy orders (bids)
+  for (const bid of orderBookData.bids || []) {
+    const posId = `${marketId}-buy-${bid.price}-${Date.now()}-${Math.random()}`
+    await db.insert(polymarketMarketPositions).values({
+      id: posId,
+      marketId: marketId,
+      outcome: bid.outcome || 'Yes',
+      price: bid.price || 0,
+      size: bid.size || 0,
+      side: 'buy',
+      totalValue: (bid.price || 0) * (bid.size || 0),
+      createdAt: new Date(now),
+    })
+  }
+
+  // Save sell orders (asks)
+  for (const ask of orderBookData.asks || []) {
+    const posId = `${marketId}-sell-${ask.price}-${Date.now()}-${Math.random()}`
+    await db.insert(polymarketMarketPositions).values({
+      id: posId,
+      marketId: marketId,
+      outcome: ask.outcome || 'No',
+      price: ask.price || 0,
+      size: ask.size || 0,
+      side: 'sell',
+      totalValue: (ask.price || 0) * (ask.size || 0),
+      createdAt: new Date(now),
+    })
+  }
+}
+
+export async function saveDebateAnalysis(marketId: string, debateData: {
+  question: string
+  yesArguments: string[]
+  noArguments: string[]
+  yesSummary: string
+  noSummary: string
+  keyFactors: string[]
+  uncertainties: string[]
+  currentYesPrice: number
+  currentNoPrice: number
+  llmProvider?: string
+  model?: string
+}) {
+  const now = Date.now()
+  const debateId = `debate-${marketId}`
+
+  await db.insert(polymarketDebates)
+    .values({
+      id: debateId,
+      marketId: marketId,
+      question: debateData.question,
+      yesArguments: JSON.stringify(debateData.yesArguments),
+      noArguments: JSON.stringify(debateData.noArguments),
+      yesSummary: debateData.yesSummary,
+      noSummary: debateData.noSummary,
+      keyFactors: JSON.stringify(debateData.keyFactors),
+      uncertainties: JSON.stringify(debateData.uncertainties),
+      currentYesPrice: debateData.currentYesPrice,
+      currentNoPrice: debateData.currentNoPrice,
+      llmProvider: debateData.llmProvider || null,
+      model: debateData.model || null,
+      createdAt: new Date(now),
+      updatedAt: new Date(now),
+    })
+    .onConflictDoUpdate({
+      target: polymarketDebates.marketId,
+      set: {
+        question: debateData.question,
+        yesArguments: JSON.stringify(debateData.yesArguments),
+        noArguments: JSON.stringify(debateData.noArguments),
+        yesSummary: debateData.yesSummary,
+        noSummary: debateData.noSummary,
+        keyFactors: JSON.stringify(debateData.keyFactors),
+        uncertainties: JSON.stringify(debateData.uncertainties),
+        currentYesPrice: debateData.currentYesPrice,
+        currentNoPrice: debateData.currentNoPrice,
+        llmProvider: debateData.llmProvider || null,
+        model: debateData.model || null,
+        updatedAt: new Date(now),
+      },
+    })
 }
 
 // ============================================================================
@@ -385,6 +512,22 @@ export async function getMarketsByCategory() {
   return categorized
 }
 
+export async function getMarketPositions(marketId: string) {
+  return await db.select()
+    .from(polymarketMarketPositions)
+    .where(eq(polymarketMarketPositions.marketId, marketId))
+    .orderBy(desc(polymarketMarketPositions.totalValue))
+}
+
+export async function getMarketDebate(marketId: string) {
+  const results = await db.select()
+    .from(polymarketDebates)
+    .where(eq(polymarketDebates.marketId, marketId))
+    .limit(1)
+
+  return results.length > 0 ? results[0] : null
+}
+
 // ============================================================================
 // Analysis Functions
 // ============================================================================
@@ -426,6 +569,8 @@ export function analyzeCategories(allPositions: any[]) {
 
 export async function syncMarkets(limit = 100) {
   console.log('Starting Polymarket markets sync...')
+
+  await db.delete(polymarketMarkets)
 
   const markets = await fetchMarkets(limit, 'volume24hr')
   await saveMarkets(markets)

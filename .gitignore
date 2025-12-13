@@ -3,11 +3,12 @@
 .env.local
 frontend/.env
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-
+docs/dist
+docs/.next
 # testing
 /coverage
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { QuoteView } from "@/components/dashboard/quote-view"
 import { StockSearch } from "@/components/dashboard/stock-search"
 import { Card } from "@/components/ui/card"
@@ -28,13 +29,16 @@ interface BacktestResult {
 }
 
 export function StrategiesTab() {
+  const searchParams = useSearchParams()
+  const symbolFromUrl = searchParams.get('symbol')
+
   const [strategies, setStrategies] = useState<Strategy[]>(demoStrategies)
   const [sortOption, setSortOption] = useState<'likes' | 'name' | 'pnl'>('likes')
   const [expandedStrategyId, setExpandedStrategyId] = useState<string | null>(null)
   const [loadingDetails, setLoadingDetails] = useState<string | null>(null)
   const [showAllStrategies, setShowAllStrategies] = useState(true)
   const [backtestParams, setBacktestParams] = useState({
-    symbol: 'AAPL',
+    symbol: symbolFromUrl || 'AAPL',
     startDate: '2022-01-01',
     endDate: '2024-12-01',
     initialCapital: 100000,
@@ -44,10 +48,17 @@ export function StrategiesTab() {
   const [isBacktesting, setIsBacktesting] = useState(false)
   const [backtestError, setBacktestError] = useState<string | null>(null)
 
+  // Update symbol when URL parameter changes
+  useEffect(() => {
+    if (symbolFromUrl) {
+      setBacktestParams(prev => ({ ...prev, symbol: symbolFromUrl }))
+    }
+  }, [symbolFromUrl])
+
   useEffect(() => {
     const fetchAlgoScripts = async () => {
       try {
-        const response = await fetch('/api/strategies/algo-scripts')
+        const response = await fetch('/api/strategies')
         if (response.ok) {
           const scripts = await response.json()
           const newStrategies: Strategy[] = scripts.map((script: any) => ({
@@ -356,13 +367,13 @@ export function StrategiesTab() {
         </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {displayedStrategies.map((strategy) => (
-          <Card key={strategy.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => handleExpandStrategy(strategy.id)}>
+          <Card key={strategy.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => handleStrategyToggle(strategy.id)}>
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
                     {strategy.likes !== undefined && (
                         <Badge variant="secondary" className="text-xs">
-                            ❤️ {strategy.likes}
+                            {strategy.likes}
                         </Badge>
                     )}
 
@@ -392,7 +403,7 @@ export function StrategiesTab() {
             </div>
 
             {expandedStrategyId === strategy.id ? (
-                <div className="mb-4 text-sm">
+                <div className="mb-4 text-sm" onClick={(e) => e.stopPropagation()}>
                     {loadingDetails === strategy.id ? (
                         <div className="flex items-center text-muted-foreground animate-pulse">
                             Loading details...
@@ -409,7 +420,15 @@ export function StrategiesTab() {
                     )}
                 </div>
             ) : (
-                <p className="text-xs text-muted-foreground mb-3 italic">Click to view details</p>
+                <div 
+                    className="text-xs text-muted-foreground mb-3 italic cursor-pointer hover:underline hover:text-primary w-fit" 
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        handleExpandStrategy(strategy.id)
+                    }}
+                >
+                    Click to view details
+                </div>
             )}
             
             <div className="flex justify-end pt-2">

@@ -6,7 +6,6 @@ import { useSession } from "@/lib/auth-client"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { OverviewTab } from "@/components/dashboard/overview-tab"
-import { SignalsTab } from "@/components/dashboard/signals-tab"
 import { AgentsTab } from "@/components/dashboard/agents-tab"
 import { StrategiesTab } from "@/components/dashboard/strategies-tab"
 import { PredictionMarketsTab } from "@/components/dashboard/prediction-markets-tab"
@@ -36,7 +35,10 @@ function DashboardContent() {
   // Update URL when tab changes
   const handleTabChange = (newTab: string) => {
     setActiveTab(newTab)
-    router.push(`/dashboard?tab=${newTab}`, { scroll: false })
+    // Preserve existing query params (like symbol)
+    const currentParams = new URLSearchParams(searchParams.toString())
+    currentParams.set('tab', newTab)
+    router.push(`/dashboard?${currentParams.toString()}`, { scroll: false })
   }
 
   // Initialize portfolio on first login
@@ -114,7 +116,7 @@ function DashboardContent() {
 
   // Show dashboard for authenticated users
   return (
-    <div className="space-y-6">
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
 
 
@@ -128,10 +130,6 @@ function DashboardContent() {
 
         <TabsContent value="alpaca" className="space-y-6 mt-6">
           <AlpacaTradingTab />
-        </TabsContent>
-
-        <TabsContent value="signals" className="space-y-6 mt-6">
-          <SignalsTab />
         </TabsContent>
 
         <TabsContent value="agents" className="space-y-6 mt-6">

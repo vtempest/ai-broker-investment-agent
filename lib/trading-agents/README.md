@@ -36,7 +36,7 @@ A JavaScript/TypeScript implementation of the TradingAgents framework, converted
 
 ### API Endpoint
 
-```typescript
+```
 POST /api/trading-agents
 
 Request Body:
@@ -77,7 +77,7 @@ Response:
 
 ### Programmatic Usage
 
-```typescript
+```
 import { TradingAgentsGraph } from '@/lib/trading-agents'
 
 // Initialize the graph
@@ -146,7 +146,7 @@ ANTHROPIC_API_KEY=your_anthropic_key  # if using Anthropic
 
 ### Default Configuration
 
-```typescript
+```
 {
   llmProvider: 'openai',
   deepThinkLLM: 'gpt-4o',  // For complex analysis

@@ -98,7 +98,11 @@ function SidebarSearch() {
   const handleSelect = (symbol: string) => {
     setQuery(symbol)
     setIsOpen(false)
-    router.push(`/dashboard/quote/${symbol}`)
+    // Close mobile sidebar if open
+    if (state === "expanded") {
+      toggleSidebar()
+    }
+    router.push(`/dashboard?tab=strategies&symbol=${symbol}`)
   }
 
   if (state === "collapsed") {
@@ -141,32 +145,24 @@ function SidebarSearch() {
 
 // Navigation Configuration
 const navigationGroups = [
-  {
-    title: "Platform",
-    items: [
-      { name: "Overview", tab: "overview", icon: LayoutDashboard },
-    ],
-  },
+  
   {
     title: "Trading",
     items: [
-      { name: "Alpaca Trading", tab: "alpaca", icon: TrendingUp },
+      { name: "Research Agents", tab: "api-data", icon: Activity },
+      // { name: "Agents", tab: "agents", icon: Users },
+      { name: "Strategies", tab: "strategies", icon: Zap },
       { name: "Copy Trading", tab: "copy-trading", icon: Copy },
       { name: "Prediction Markets", tab: "prediction-markets", icon: Target },
     ],
   },
   {
-    title: "Analysis",
-    items: [
-      { name: "AI Analyze", tab: "api-data", icon: Activity },
-      { name: "Agents", tab: "agents", icon: Users },
-      { name: "Strategies", tab: "strategies", icon: Zap },
-    ],
-  },
-  {
     title: "Risk & Portfolio",
     items: [
+      { name: "Overview", tab: "overview", icon: LayoutDashboard },
+
       { name: "Risk Management", tab: "risk", icon: Shield },
+      { name: "Alpaca Trading", tab: "alpaca", icon: TrendingUp },
     ],
   },
 ]

@@ -19,6 +19,7 @@ import {
   Landmark,
 } from "lucide-react"
 import { MarketCorrelations } from "./market-correlations"
+import Image from "next/image"
 
 const topTraders = [
   {
@@ -205,7 +206,9 @@ export function PredictionMarketsSection() {
   return (
     <section id="prediction-markets" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        
+                    
+                    <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 border-cyan-500/50 text-cyan-400">
             Prediction Markets Intelligence
           </Badge>
@@ -272,19 +275,28 @@ export function PredictionMarketsSection() {
           ))}
         </div>
 
+        
+
         {/* Copy Trading Leaderboard */}
         <Card className="bg-card/50 border-border/50 backdrop-blur max-w-4xl mx-auto">
           <CardHeader>
+
+
+      
             <div id="copy-trading" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-2">
+
+                     <Image
+          src="/images/banner-trading-floor.jpeg"
+          alt="AI Trading Floor with Multiple Agents"
+          width={400}
+          height={400}
+          className="items-center justify-center object-cover"
+        />
                   <Trophy className="w-5 h-5 text-amber-400" />
                   <CardTitle>Top Traders Leaderboard</CardTitle>
                 </div>
-                <CardDescription>
-                  Copy trades from senators, institutional investors, and sharp money traders. Data updated every 5
-                  minutes.
-                </CardDescription>
               </div>
               <Button
                 variant="outline"

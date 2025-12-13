@@ -317,7 +317,10 @@ export function StockChart({ data, symbol, onRangeChange }: StockChartProps) {
 
       {/* Chart */}
       <div className="relative">
-        <Chart options={chartOptions}>
+        <Chart 
+          key={`chart-${showVolume}-${selectedIndicator}-${chartType}`}
+          options={chartOptions}
+        >
         {/* Main price pane */}
         <Pane stretchFactor={3}>
           {chartType === "candlestick" && (

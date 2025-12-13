@@ -9,6 +9,9 @@ export const users = sqliteTable("users", {
   image: text("image"),
   apiKey: text("api_key").unique(),
   usageCount: integer("usage_count").default(0),
+  alpacaKeyId: text("alpaca_key_id"),
+  alpacaSecretKey: text("alpaca_secret_key"),
+  alpacaPaper: integer("alpaca_paper", { mode: "boolean" }).default(true),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 })
@@ -284,6 +287,44 @@ export const polymarketMarkets = sqliteTable("polymarket_markets", {
   enableOrderBook: integer("enable_order_book", { mode: "boolean" }),
 
   // Tracking
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+})
+
+// Polymarket Market Positions - Detailed order book positions
+export const polymarketMarketPositions = sqliteTable("polymarket_market_positions", {
+  id: text("id").primaryKey(),
+  marketId: text("market_id").notNull(),
+  outcome: text("outcome").notNull(), // "Yes" or "No"
+  price: real("price").notNull(),
+  size: real("size").notNull(),
+  side: text("side").notNull(), // "buy" or "sell"
+  totalValue: real("total_value").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+})
+
+// Polymarket Debate Analysis - LLM-generated debate on both sides
+export const polymarketDebates = sqliteTable("polymarket_debates", {
+  id: text("id").primaryKey(),
+  marketId: text("market_id").notNull().unique(),
+  question: text("question").notNull(),
+
+  // Debate arguments
+  yesArguments: text("yes_arguments").notNull(), // JSON array of arguments
+  noArguments: text("no_arguments").notNull(), // JSON array of arguments
+
+  // Analysis
+  yesSummary: text("yes_summary").notNull(),
+  noSummary: text("no_summary").notNull(),
+  keyFactors: text("key_factors").notNull(), // JSON array
+  uncertainties: text("uncertainties").notNull(), // JSON array
+
+  // Metadata
+  currentYesPrice: real("current_yes_price"),
+  currentNoPrice: real("current_no_price"),
+  llmProvider: text("llm_provider"),
+  model: text("model"),
+
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 })

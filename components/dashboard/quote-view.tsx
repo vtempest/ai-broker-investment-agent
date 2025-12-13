@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+// @ts-ignore
 import { ArrowLeft, Loader2, TrendingUp, TrendingDown, DollarSign, Activity, BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { ReactGrid, Column, Row } from "@silevis/reactgrid"
@@ -230,8 +231,8 @@ export function QuoteView({ symbol, showBackButton = true }: QuoteViewProps) {
     if (num === undefined || num === null) return "N/A"
     return new Intl.NumberFormat('en-US', {
       style: 'percent',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1
     }).format(num)
   }
 
@@ -318,14 +319,28 @@ export function QuoteView({ symbol, showBackButton = true }: QuoteViewProps) {
           <div className="space-y-1">
             <div className="flex items-center gap-3">
              
-              <h1 className="text-3xl font-bold tracking-tight">{price.symbol || symbol}</h1>
-              <Badge variant="outline" className="text-xs">{price.exchangeName || "US"}</Badge>
             </div>
-            <p className="text-muted-foreground ml-11">{price.longName || price.shortName || symbol}</p>
-          </div>
+            </div>
 
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
            
+  <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+                <CardTitle className="text-xs font-medium text-muted-foreground">
+              {price.longName || price.shortName || symbol}
+                  
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+
+          
+                <div className="flex items-center gap-2">
+                <span className="text-md font-bold">{formatCurrency(price.regularMarketPrice)}</span>
+             </div>
+                  <h1 className="text-3xl font-bold tracking-tight">{symbol}</h1>
+              </CardContent>
+            </Card>
+
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
@@ -376,57 +391,25 @@ export function QuoteView({ symbol, showBackButton = true }: QuoteViewProps) {
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-                <CardTitle className="text-xs font-medium text-muted-foreground">52 Week Range</CardTitle>
+                <CardTitle className="text-xs font-medium text-muted-foreground">Market Cap & Volume</CardTitle>
                 <Activity className="h-3 w-3 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-lg font-bold">
-                  {formatNumber(summary.fiftyTwoWeekLow)} - {formatNumber(summary.fiftyTwoWeekHigh)}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-                <CardTitle className="text-xs font-medium text-muted-foreground">Market Cap</CardTitle>
-                <DollarSign className="h-3 w-3 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
+               
                 <div className="text-lg font-bold">{formatNumber(price.marketCap)}</div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-                <CardTitle className="text-xs font-medium text-muted-foreground">Volume</CardTitle>
-                <BarChart3 className="h-3 w-3 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
+             
                 <div className="text-lg font-bold">{formatNumber(price.regularMarketVolume)}</div>
                 <div className="text-xs text-muted-foreground">Avg: {formatNumber(summary.averageVolume)}</div>
               </CardContent>
             </Card>
+
+           
           </div>
-          <div className="flex items-end flex-col bg-card p-4 rounded-xl border border-border shadow-sm">
-             <div className="flex items-center gap-2">
-                <span className="text-3xl font-bold">{formatCurrency(price.regularMarketPrice)}</span>
-             </div>
-             <div className={`flex items-center gap-1 font-medium ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                {isPositive ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
-                <span>{isPositive ? '+' : ''}{formatCurrency(price.regularMarketChange)}</span>
-                <span>({formatPercent(price.regularMarketChangePercent)})</span>
-             </div>
-             <span className="text-xs text-muted-foreground mt-1">
-               {price.marketState} • {new Date().toLocaleTimeString()}
-             </span>
-          </div>
+         
         </div>
 
         {/* Price Chart (Lightweight Charts) */}
         <Card>
-          <CardHeader>
-             <CardTitle>Historical Price & Volume</CardTitle>
-          </CardHeader>
           <CardContent>
             {chartLoading ? (
               <div className="h-[400px] flex items-center justify-center">

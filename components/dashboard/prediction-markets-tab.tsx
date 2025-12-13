@@ -6,7 +6,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import { TrendingUp, ExternalLink, Loader2, DollarSign, Activity, Clock, RefreshCw, Filter } from "lucide-react"
+import { MarketDebate } from "./market-debate"
 
 interface PolymarketMarket {
   id: string
@@ -32,6 +35,7 @@ export function PredictionMarketsTab() {
   const [timeWindow, setTimeWindow] = useState('24h')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [availableCategories, setAvailableCategories] = useState<string[]>([])
+  const [hideHighProb, setHideHighProb] = useState(false)
 
   useEffect(() => {
     fetchMarkets()
@@ -82,6 +86,13 @@ export function PredictionMarketsTab() {
     return `$${volume.toFixed(0)}`
   }
 
+  const filteredMarkets = markets.filter(market => {
+    if (!hideHighProb) return true
+    // Check if any outcome is > 95%
+    if (!market.outcomePrices) return true
+    return !market.outcomePrices.some(price => parseFloat(price) > 0.95)
+  })
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -101,7 +112,7 @@ export function PredictionMarketsTab() {
           <div>
             <h2 className="text-2xl font-bold">Most Traded Prediction Markets</h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Live from Polymarket • {markets.length} active markets
+              Live from Polymarket • {filteredMarkets.length} active markets
             </p>
           </div>
 
@@ -143,7 +154,20 @@ export function PredictionMarketsTab() {
             </Button>
           </div>
 
+          </div>
+
           <div className="flex items-center gap-2">
+            <div className="flex items-center space-x-2 mr-4 bg-muted/30 px-3 py-1.5 rounded-md border">
+              <Checkbox 
+                id="hide-probs" 
+                checked={hideHighProb}
+                onCheckedChange={(checked) => setHideHighProb(checked as boolean)}
+              />
+              <Label htmlFor="hide-probs" className="text-sm font-medium cursor-pointer">
+                Hide &gt; 95%
+              </Label>
+            </div>
+
             <Filter className="h-4 w-4 text-muted-foreground" />
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger className="w-[200px]">
@@ -159,12 +183,12 @@ export function PredictionMarketsTab() {
               </SelectContent>
             </Select>
           </div>
-        </div>
+
       </div>
 
       {/* Markets Grid */}
       <div className="grid gap-4">
-        {markets.map((market, index) => (
+        {filteredMarkets.map((market, index) => (
           <Card key={market.id} className="p-6 hover:shadow-lg transition-shadow">
             <div className="flex flex-col lg:flex-row gap-6">
               {/* Market Info */}
@@ -198,7 +222,7 @@ export function PredictionMarketsTab() {
                 </div>
 
                 {/* Outcomes - Prominent Display */}
-                {market.outcomes && market.outcomePrices && Array.isArray(market.outcomes) && Array.isArray(market.outcomePrices) && market.outcomes.length > 0 && (
+                {market.outcomes && market.outcomePrices && (
                   <div className="mb-4">
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       {market.outcomes.map((outcome, idx) => {
@@ -278,6 +302,16 @@ export function PredictionMarketsTab() {
                     </div>
                   )}
                 </div>
+
+                {/* AI Debate Analysis */}
+                <div className="mt-4">
+                  <MarketDebate
+                    marketId={market.id}
+                    question={market.question}
+                    currentYesPrice={market.outcomePrices && market.outcomePrices[0] ? parseFloat(market.outcomePrices[0]) : 0.5}
+                    currentNoPrice={market.outcomePrices && market.outcomePrices[1] ? parseFloat(market.outcomePrices[1]) : 0.5}
+                  />
+                </div>
               </div>
 
               {/* Action Buttons */}
@@ -286,19 +320,18 @@ export function PredictionMarketsTab() {
                   className="flex-1" 
                   asChild
                 >
-                  <a 
+                  {/* <a 
                     href={`https://polymarket.com/event/${market.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
                     Trade
-                  </a>
+                  </a> */}
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="flex-1"
-                  onClick={() => window.open(`https://polymarket.com/event/${market.slug}`, '_blank')}
+                  onClick={() => window.open(`https://polymarket.com/events/${market.slug}`, '_blank')}
                 >
                   View Market
                 </Button>
