@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 import { APP_NAME } from "@/lib/customize-site"
+import { ThemeDropdown } from "@/components/theme-dropdown"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -82,6 +83,7 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <ThemeDropdown />
 
           <Link href="/login" rel="noopener noreferrer">
             <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
@@ -109,6 +111,10 @@ export function Header() {
       {mobileMenuOpen && (
         <div className="border-t border-border bg-background px-4 py-4 md:hidden">
           <nav className="flex flex-col gap-4">
+            <div className="flex items-center justify-between pb-2">
+              <span className="text-sm font-medium">Theme</span>
+              <ThemeDropdown />
+            </div>
 
             <Link
               href="#agents"

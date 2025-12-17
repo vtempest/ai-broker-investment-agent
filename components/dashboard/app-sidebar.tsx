@@ -27,9 +27,14 @@ import {
   Bell,
   Star,
   Trash2,
-  BarChart3
+  BarChart3,
+  Palette,
+  Moon,
+  Sun,
+  ChevronRight
 } from 'lucide-react'
 import { useSession, signOut } from "@/lib/auth-client"
+import { useTheme } from "next-themes"
 
 import {
   Sidebar,
@@ -52,10 +57,47 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+
+// Theme names
+const themeNames = [
+  "modern-minimal",
+  "t3-chat",
+  "twitter",
+  "mocha-mousse",
+  "bubblegum",
+  "amethyst-haze",
+  "notebook",
+  "doom-64",
+  "catppuccin",
+  "graphite",
+  "perpetuity",
+  "kodama-grove",
+  "cosmic-night",
+  "tangerine",
+  "quantum-rose",
+  "nature",
+  "bold-tech",
+  "elegant-luxury",
+  "amber-minimal",
+  "supabase",
+  "neo-brutalism",
+  "solar-dusk",
+  "claymorphism",
+  "cyberpunk",
+  "pastel-dreams"
+]
+
+const formatThemeName = (name: string) => {
+  return name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+}
 
 // Helper component for Search
 function SidebarSearch() {
@@ -192,6 +234,32 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const currentTab = searchParams.get('tab') || 'overview'
   const { data: session } = useSession()
   const user = session?.user || { name: "Guest User", email: "guest@example.com", image: null }
+  const { theme, setTheme } = useTheme()
+  const [colorTheme, setColorTheme] = React.useState("modern-minimal")
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+    const saved = localStorage.getItem("color-theme")
+    if (saved && themeNames.includes(saved)) {
+      setColorTheme(saved)
+    }
+  }, [])
+
+  const handleThemeChange = (newTheme: string) => {
+    setColorTheme(newTheme)
+    localStorage.setItem("color-theme", newTheme)
+    document.cookie = `color-theme=${newTheme}; path=/; max-age=31536000`
+
+    // Remove all theme classes
+    themeNames.forEach(t => document.documentElement.classList.remove(`theme-${t}`))
+    // Add new theme class
+    document.documentElement.classList.add(`theme-${newTheme}`)
+  }
+
+  const toggleLightDark = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
 
   // Helper to determine active state
   const isActive = (tab?: string, href?: string) => {
@@ -347,6 +415,43 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Bell className="mr-2 h-4 w-4" />
                   Notifications
                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <Palette className="mr-2 h-4 w-4" />
+                    <span>Theme</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent className="max-h-[400px] overflow-y-auto">
+                      <DropdownMenuItem onClick={(e) => {
+                        e.stopPropagation()
+                        toggleLightDark()
+                      }}>
+                        {theme === "dark" ? (
+                          <Moon className="mr-2 h-4 w-4" />
+                        ) : (
+                          <Sun className="mr-2 h-4 w-4" />
+                        )}
+                        {theme === "dark" ? "Dark Mode" : "Light Mode"}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      {themeNames.map((themeName) => (
+                        <DropdownMenuItem
+                          key={themeName}
+                          onClick={() => handleThemeChange(themeName)}
+                          className={colorTheme === themeName ? "bg-accent" : ""}
+                        >
+                          <span className="flex items-center justify-between w-full">
+                            <span>{formatThemeName(themeName)}</span>
+                            {colorTheme === themeName && (
+                              <span className="text-xs ml-2">✓</span>
+                            )}
+                          </span>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={async () => {
                   await signOut()
