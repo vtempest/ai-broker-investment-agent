@@ -8,6 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { ExternalLink, Eye, EyeOff, Save, Moon, Sun, Monitor, Copy, RefreshCw, Key, Palette, Brain, TrendingUp, Database, Users } from "lucide-react";
 import { TeamsManager } from "@/components/settings/teams-manager";
@@ -172,6 +178,34 @@ const themeNames = [
   "pastel-dreams"
 ];
 
+const themeColors: Record<string, { primary: string; secondary: string }> = {
+  "modern-minimal": { primary: "#3b82f6", secondary: "#f3f4f6" },
+  "t3-chat": { primary: "#a84370", secondary: "#f1c4e6" },
+  "twitter": { primary: "#1e9df1", secondary: "#0f1419" },
+  "mocha-mousse": { primary: "#A37764", secondary: "#BAAB92" },
+  "bubblegum": { primary: "#d04f99", secondary: "#8acfd1" },
+  "amethyst-haze": { primary: "#8a79ab", secondary: "#dfd9ec" },
+  "notebook": { primary: "#606060", secondary: "#dedede" },
+  "doom-64": { primary: "#b71c1c", secondary: "#556b2f" },
+  "catppuccin": { primary: "#8839ef", secondary: "#ccd0da" },
+  "graphite": { primary: "#606060", secondary: "#e0e0e0" },
+  "perpetuity": { primary: "#06858e", secondary: "#d9eaea" },
+  "kodama-grove": { primary: "#8d9d4f", secondary: "#decea0" },
+  "cosmic-night": { primary: "#6e56cf", secondary: "#e4dfff" },
+  "tangerine": { primary: "#e05d38", secondary: "#f3f4f6" },
+  "quantum-rose": { primary: "#e6067a", secondary: "#ffd6ff" },
+  "nature": { primary: "#2e7d32", secondary: "#e8f5e9" },
+  "bold-tech": { primary: "#8b5cf6", secondary: "#f3f0ff" },
+  "elegant-luxury": { primary: "#9b2c2c", secondary: "#fdf2d6" },
+  "amber-minimal": { primary: "#f59e0b", secondary: "#f3f4f6" },
+  "supabase": { primary: "#72e3ad", secondary: "#fdfdfd" },
+  "neo-brutalism": { primary: "#ff3333", secondary: "#ffff00" },
+  "solar-dusk": { primary: "#B45309", secondary: "#E4C090" },
+  "claymorphism": { primary: "#6366f1", secondary: "#d6d3d1" },
+  "cyberpunk": { primary: "#ff00c8", secondary: "#f0f0ff" },
+  "pastel-dreams": { primary: "#a78bfa", secondary: "#e9d8fd" }
+};
+
 export default function SettingsPage() {
   const [settings, setSettings] = useState<any>({});
   const [loading, setLoading] = useState(true);
@@ -183,6 +217,7 @@ export default function SettingsPage() {
   const [showApiKey, setShowApiKey] = useState(false);
   const [regenerating, setRegenerating] = useState(false);
   const [colorTheme, setColorTheme] = useState("modern-minimal");
+  const [previewTheme, setPreviewTheme] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("color-theme");
@@ -201,7 +236,26 @@ export default function SettingsPage() {
     document.cookie = `color-theme=${newTheme}; path=/; max-age=31536000`; // 1 year
     themeNames.forEach(t => document.documentElement.classList.remove(`theme-${t}`));
     document.documentElement.classList.add(`theme-${newTheme}`);
+    setPreviewTheme(null);
     toast.success(`Theme changed to ${newTheme}`);
+  };
+
+  const handleThemePreview = (themeName: string) => {
+    setPreviewTheme(themeName);
+    themeNames.forEach(t => document.documentElement.classList.remove(`theme-${t}`));
+    document.documentElement.classList.add(`theme-${themeName}`);
+  };
+
+  const handlePreviewEnd = () => {
+    if (previewTheme) {
+      themeNames.forEach(t => document.documentElement.classList.remove(`theme-${t}`));
+      document.documentElement.classList.add(`theme-${colorTheme}`);
+      setPreviewTheme(null);
+    }
+  };
+
+  const formatThemeName = (name: string) => {
+    return name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
 
   useEffect(() => {
@@ -440,20 +494,66 @@ export default function SettingsPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="colorTheme">Color Theme</Label>
-                <select
-                  id="colorTheme"
-                  className="w-full p-2 border rounded-md bg-background"
-                  value={colorTheme}
-                  onChange={(e) => handleThemeChange(e.target.value)}
-                >
-                  {themeNames.map((t) => (
-                    <option key={t} value={t}>
-                      {t.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                    </option>
-                  ))}
-                </select>
+                <DropdownMenu onOpenChange={(open) => !open && handlePreviewEnd()}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-between"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded-full border border-black/10"
+                            style={{ backgroundColor: themeColors[colorTheme]?.primary }}
+                          />
+                          <div
+                            className="w-3 h-3 rounded-full border border-black/10"
+                            style={{ backgroundColor: themeColors[colorTheme]?.secondary }}
+                          />
+                        </div>
+                        <span>{formatThemeName(colorTheme)}</span>
+                      </div>
+                      <Palette className="h-4 w-4 opacity-50" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-[400px] max-h-[400px] overflow-y-auto">
+                    {themeNames.map((themeName) => {
+                      const colors = themeColors[themeName];
+                      return (
+                        <DropdownMenuItem
+                          key={themeName}
+                          onClick={() => handleThemeChange(themeName)}
+                          onMouseEnter={() => handleThemePreview(themeName)}
+                          onMouseLeave={handlePreviewEnd}
+                          className={`cursor-pointer ${
+                            colorTheme === themeName ? "bg-accent" : ""
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full">
+                            <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1">
+                                <div
+                                  className="w-3 h-3 rounded-full border border-black/10"
+                                  style={{ backgroundColor: colors.primary }}
+                                />
+                                <div
+                                  className="w-3 h-3 rounded-full border border-black/10"
+                                  style={{ backgroundColor: colors.secondary }}
+                                />
+                              </div>
+                              <span>{formatThemeName(themeName)}</span>
+                            </div>
+                            {colorTheme === themeName && (
+                              <span className="text-xs">✓</span>
+                            )}
+                          </div>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <p className="text-sm text-muted-foreground">
-                  Select a color palette for the application.
+                  Select a color palette for the application. Hover to preview.
                 </p>
               </div>
 
