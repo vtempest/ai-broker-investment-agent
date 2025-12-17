@@ -7,6 +7,7 @@ import { StrategiesSection } from "@/components/landing/strategies-section"
 import { SignalIndicators } from "@/components/landing/signal-indicators"
 import { PredictionMarketsSection } from "@/components/landing/prediction-markets-section"
 import { CTASection } from "@/components/landing/cta-section"
+import GlobeDemo from "@/components/globe-demo"
 
 import { Footer } from "@/components/landing/footer"
 
@@ -23,6 +24,7 @@ export default function LandingPage() {
         <PredictionMarketsSection />
         <StrategiesSection />
         <CTASection />
+        <GlobeDemo />
       </main>
       <Footer />
     </div>

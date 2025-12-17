@@ -12,6 +12,7 @@ import { ExternalLink, Eye, EyeOff, Save, Moon, Sun, Monitor, Copy, RefreshCw } 
 import { TeamsManager } from "@/components/settings/teams-manager";
 import { PremiumUpgrade } from "@/components/settings/premium-upgrade";
 
+
 const LLM_PROVIDERS = [
   {
     name: "XAI",
@@ -38,9 +39,6 @@ const LLM_PROVIDERS = [
     models: "llama, mistral, mixtral, vicuna, gemma, qwen, deepseek",
     docs: "https://ollama.com/docs",
     keys: "https://ollama.com/settings/keys",
-    valuation: "-",
-    revenue: "$3.2M",
-    cost: "$0",
     field: "ollamaEndpoint",
     isEndpoint: true,
   },
@@ -49,9 +47,6 @@ const LLM_PROVIDERS = [
     models: "o1, o1-mini, o4, gpt-4, gpt-4-turbo, gpt-4-omni",
     docs: "https://platform.openai.com/docs/overview",
     keys: "https://platform.openai.com/api-keys",
-    valuation: "$300B",
-    revenue: "$3.7B",
-    cost: "$8.00",
     field: "openaiApiKey",
   },
   {
@@ -59,9 +54,6 @@ const LLM_PROVIDERS = [
     models: "Claude Sonnet, Claude Opus, Claude Haiku",
     docs: "https://docs.anthropic.com/en/docs/welcome",
     keys: "https://console.anthropic.com/settings/keys",
-    valuation: "$61.5B",
-    revenue: "$1B",
-    cost: "$15.00",
     field: "anthropicApiKey",
   },
   {
@@ -69,9 +61,6 @@ const LLM_PROVIDERS = [
     models: "Llama, Mistral, Mixtral, Qwen, Gemma, WizardLM",
     docs: "https://docs.together.ai/docs/quickstart",
     keys: "https://api.together.xyz/settings/api-keys",
-    valuation: "$3.3B",
-    revenue: "$50M",
-    cost: "$0.90",
     field: "togetheraiApiKey",
   },
   {
@@ -154,6 +143,34 @@ const DATA_PROVIDERS = [
   },
 ];
 
+const themeNames = [
+  "modern-minimal",
+  "t3-chat",
+  "twitter",
+  "mocha-mousse",
+  "bubblegum",
+  "amethyst-haze",
+  "notebook",
+  "doom-64",
+  "catppuccin",
+  "graphite",
+  "perpetuity",
+  "kodama-grove",
+  "cosmic-night",
+  "tangerine",
+  "quantum-rose",
+  "nature",
+  "bold-tech",
+  "elegant-luxury",
+  "amber-minimal",
+  "supabase",
+  "neo-brutalism",
+  "solar-dusk",
+  "claymorphism",
+  "cyberpunk",
+  "pastel-dreams"
+];
+
 export default function SettingsPage() {
   const [settings, setSettings] = useState<any>({});
   const [loading, setLoading] = useState(true);
@@ -164,6 +181,27 @@ export default function SettingsPage() {
   const [apiKey, setApiKey] = useState("");
   const [showApiKey, setShowApiKey] = useState(false);
   const [regenerating, setRegenerating] = useState(false);
+  const [colorTheme, setColorTheme] = useState("modern-minimal");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("color-theme");
+    if (saved && themeNames.includes(saved)) {
+      setColorTheme(saved);
+      themeNames.forEach(t => document.documentElement.classList.remove(`theme-${t}`));
+      document.documentElement.classList.add(`theme-${saved}`);
+    } else {
+      document.documentElement.classList.add(`theme-modern-minimal`);
+    }
+  }, []);
+
+  const handleThemeChange = (newTheme: string) => {
+    setColorTheme(newTheme);
+    localStorage.setItem("color-theme", newTheme);
+    document.cookie = `color-theme=${newTheme}; path=/; max-age=31536000`; // 1 year
+    themeNames.forEach(t => document.documentElement.classList.remove(`theme-${t}`));
+    document.documentElement.classList.add(`theme-${newTheme}`);
+    toast.success(`Theme changed to ${newTheme}`);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -341,7 +379,7 @@ export default function SettingsPage() {
                 Choose your preferred color scheme
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-6">
               <div className="grid grid-cols-3 gap-4">
                 <button
                   onClick={() => setTheme("light")}
@@ -379,7 +417,27 @@ export default function SettingsPage() {
                   )}
                 </button>
               </div>
-              <p className="text-sm text-muted-foreground mt-4">
+
+              <div className="space-y-2">
+                <Label htmlFor="colorTheme">Color Theme</Label>
+                <select
+                  id="colorTheme"
+                  className="w-full p-2 border rounded-md bg-background"
+                  value={colorTheme}
+                  onChange={(e) => handleThemeChange(e.target.value)}
+                >
+                  {themeNames.map((t) => (
+                    <option key={t} value={t}>
+                      {t.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-sm text-muted-foreground">
+                  Select a color palette for the application.
+                </p>
+              </div>
+
+              <p className="text-sm text-muted-foreground">
                 {theme === "system"
                   ? "Your theme will match your system preferences"
                   : `Currently using ${theme} mode`}

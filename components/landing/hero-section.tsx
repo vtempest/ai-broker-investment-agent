@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
+import { Spotlight } from "@/components/ui/spotlight-new"
 import {
   Users,
   MessageSquare,
@@ -18,13 +19,8 @@ import Link from "next/link"
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden sm:px-6 py-10 lg:px-8 min-h-[90vh] flex items-center">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img src="https://i.imgur.com/YUYD3zJ.jpeg" alt="AI Trading Command Center" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-background/40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/30 to-background/90" />
-      </div>
+    <section className="relative overflow-hidden sm:px-6 py-10 lg:px-8 min-h-[90vh] flex items-center bg-white dark:bg-black/[0.96] antialiased bg-grid-black/[0.02] dark:bg-grid-white/[0.02]">
+      <Spotlight />
 
       <div className="mx-auto max-w-7xl px-6 relative z-10">
         <div className="flex flex-col items-center text-center mb-12 max-w-4xl mx-auto">
