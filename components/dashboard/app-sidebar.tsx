@@ -292,7 +292,7 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                  <span className="truncate font-semibold">TimeTravel</span>
+                  <span className="truncate font-semibold">AI Broker</span>
                   {/* <span className="truncate text-xs">v1.0.0</span> */}
                 </div>
               </Link>

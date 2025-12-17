@@ -563,7 +563,7 @@ export default function InvestorSurvey() {
             <div>
               <QuestionRadio
                 id="overallInterest"
-                question="24. Overall, how interested are you in TimeTravel.Investments?"
+                question="24. Overall, how interested are you in AI Broker?"
                 options={[
                   "Very interested - would like to schedule a demo immediately",
                   "Interested - want to learn more",
@@ -667,7 +667,7 @@ export default function InvestorSurvey() {
       {/* Footer */}
       <footer className="backdrop-blur-md bg-white/70 border-t border-white/20 py-8">
         <div className="container mx-auto px-4 text-center text-sm text-slate-600">
-          <p>© 2025 TimeTravel.Investments. All rights reserved.</p>
+          <p>© 2025 AI Broker. All rights reserved.</p>
           <p className="mt-2">
             Your responses are confidential and will only be used for product development purposes.
           </p>

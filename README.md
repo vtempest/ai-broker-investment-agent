@@ -30,8 +30,8 @@
     </a>
 </p>
 <h3 align="center">
-    <a href="https://docs.timetravel.investments/"> 📑 Docs </a> <a href="https://timetravel.investments/api/docs"> API </a> 
- <a href="https://timetravel.investments"> 🚀 Demo</a></h3>
+    <a href="https://docs.autoinvestment.broker/"> 📑 Docs </a> <a href="https://autoinvestment.broker/api/docs"> API </a>
+ <a href="https://autoinvestment.broker"> 🚀 Demo</a></h3>
 
 # Investment Prediction Agent
 

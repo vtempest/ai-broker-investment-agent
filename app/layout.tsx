@@ -14,7 +14,7 @@ const openSans = Open_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "TimeTravel.Investments - LLM Agents Debate Stocks & Events",
+  title: "AI Broker - LLM Agents Debate Stocks & Events",
   description:
     "AI multi-agent stock & event markets system with next-day price predictions and comprehensive trading insights",
   icons: {

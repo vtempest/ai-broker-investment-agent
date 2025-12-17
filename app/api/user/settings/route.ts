@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     if (settings) {
       return NextResponse.json({
         ...settings,
-        apiKey, // Add the TimeTravel API key
+        apiKey, // Add the AI Broker API key
         // Mask API keys for security
         groqApiKey: settings.groqApiKey ? "••••••••" : null,
         openaiApiKey: settings.openaiApiKey ? "••••••••" : null,

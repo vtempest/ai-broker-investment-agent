@@ -11,7 +11,7 @@ export const openApiSpec = {
   },
   servers: [
     {
-      url: "https://timetravel.investments/api",
+      url: "https://autoinvestment.broker/api",
       description: "Production server"
     },
     {

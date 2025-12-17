@@ -11,7 +11,7 @@ export function CTASection() {
             Ready to Transform Your Trading?
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            Join traders who trust TimeTravel.investments for daily insights and next-day predictions.
+            Join traders who trust AI Broker for daily insights and next-day predictions.
           </p>
         </div> */}
 
@@ -19,7 +19,7 @@ export function CTASection() {
           {/* Buttons Column */}
           <div className="flex flex-col gap-4">
             <Button size="lg" asChild className="w-full">
-              <Link href="https://takemymoney.timetravel.investments" target="_blank">
+              <Link href="https://takemymoney.autoinvestment.broker" target="_blank">
                 <Calendar className="mr-2 h-5 w-5" />
                 Book a Demo
               </Link>

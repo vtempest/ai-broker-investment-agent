@@ -96,7 +96,7 @@ export function Header() {
           </Link>
 
           <Button variant="outline" size="sm" asChild>
-            <Link href="https://takemymoney.timetravel.investments" target="_blank">
+            <Link href="https://takemymoney.autoinvestment.broker" target="_blank">
               <Calendar className="mr-2 h-4 w-4" />
               Book Demo
             </Link>

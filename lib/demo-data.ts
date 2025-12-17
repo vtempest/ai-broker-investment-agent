@@ -1,4 +1,4 @@
-// Demo data generators for TimeTravel.investments dashboard
+// Demo data generators for AI Broker dashboard
 
 export interface PortfolioSummary {
   totalEquity: number;

@@ -311,7 +311,7 @@ export default function SettingsPage() {
             <CardHeader>
               <CardTitle>API Key</CardTitle>
               <CardDescription>
-                Use this key as Bearer to authenticate requests to the TimeTravel API
+                Use this key as Bearer to authenticate requests to the AI Broker API
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
