@@ -19,6 +19,11 @@ import {
   Users,
   Copy,
   RefreshCw,
+  ShieldCheck,
+  CheckCircle,
+  XCircle,
+  Clock,
+  AlertCircle,
 } from "lucide-react"
 
 import {
@@ -254,6 +259,9 @@ export function SettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
   const [regenerating, setRegenerating] = useState(false)
   const [colorTheme, setColorTheme] = useState("modern-minimal")
   const [previewTheme, setPreviewTheme] = useState<string | null>(null)
+  const [kycStatus, setKycStatus] = useState<string>("not_started")
+  const [kycVerifiedAt, setKycVerifiedAt] = useState<Date | null>(null)
+  const [startingKyc, setStartingKyc] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem("color-theme")
@@ -294,6 +302,7 @@ export function SettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
     setMounted(true)
     if (open) {
       fetchSettings()
+      fetchKycStatus()
     }
   }, [open])
 
@@ -371,9 +380,206 @@ export function SettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
     }
   }
 
+  const fetchKycStatus = async () => {
+    try {
+      const response = await fetch("/api/kyc/start")
+      if (response.ok) {
+        const data = await response.json()
+        setKycStatus(data.status || "not_started")
+        if (data.verifiedAt) {
+          setKycVerifiedAt(new Date(data.verifiedAt))
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch KYC status:", error)
+    }
+  }
+
+  const startKycVerification = async () => {
+    setStartingKyc(true)
+    try {
+      const response = await fetch("/api/kyc/start", {
+        method: "POST",
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        // Open Didit verification flow in a new window
+        window.open(data.url, "_blank", "width=800,height=900")
+        setKycStatus("pending")
+        toast.success("KYC verification started. Please complete the process in the new window.")
+
+        // Poll for status updates every 5 seconds
+        const pollInterval = setInterval(async () => {
+          const statusResponse = await fetch("/api/kyc/start")
+          if (statusResponse.ok) {
+            const statusData = await statusResponse.json()
+            if (statusData.status !== "pending") {
+              setKycStatus(statusData.status)
+              if (statusData.verifiedAt) {
+                setKycVerifiedAt(new Date(statusData.verifiedAt))
+              }
+              clearInterval(pollInterval)
+
+              if (statusData.status === "approved") {
+                toast.success("KYC verification approved!")
+              } else if (statusData.status === "rejected") {
+                toast.error("KYC verification was rejected. Please contact support.")
+              }
+            }
+          }
+        }, 5000)
+
+        // Stop polling after 30 minutes
+        setTimeout(() => clearInterval(pollInterval), 30 * 60 * 1000)
+      } else {
+        const error = await response.json()
+        toast.error(error.error || "Failed to start KYC verification")
+      }
+    } catch (error) {
+      console.error("Failed to start KYC verification:", error)
+      toast.error("Failed to start KYC verification")
+    } finally {
+      setStartingKyc(false)
+    }
+  }
+
+  const getKycStatusBadge = () => {
+    switch (kycStatus) {
+      case "approved":
+        return (
+          <div className="flex items-center gap-2 text-green-600">
+            <CheckCircle className="h-5 w-5" />
+            <span className="font-medium">Verified</span>
+          </div>
+        )
+      case "rejected":
+        return (
+          <div className="flex items-center gap-2 text-red-600">
+            <XCircle className="h-5 w-5" />
+            <span className="font-medium">Rejected</span>
+          </div>
+        )
+      case "pending":
+      case "in_review":
+        return (
+          <div className="flex items-center gap-2 text-yellow-600">
+            <Clock className="h-5 w-5" />
+            <span className="font-medium">Under Review</span>
+          </div>
+        )
+      case "abandoned":
+        return (
+          <div className="flex items-center gap-2 text-gray-600">
+            <AlertCircle className="h-5 w-5" />
+            <span className="font-medium">Incomplete</span>
+          </div>
+        )
+      default:
+        return (
+          <div className="flex items-center gap-2 text-gray-600">
+            <AlertCircle className="h-5 w-5" />
+            <span className="font-medium">Not Started</span>
+          </div>
+        )
+    }
+  }
+
   const renderGeneralSection = () => (
     <div className="space-y-6">
       <PremiumUpgrade />
+
+      {/* KYC Verification Section */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-5 w-5" />
+              <CardTitle>KYC Verification</CardTitle>
+            </div>
+            {getKycStatusBadge()}
+          </div>
+          <CardDescription>
+            Verify your identity to unlock advanced features and higher trading limits
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {kycStatus === "approved" && kycVerifiedAt && (
+            <div className="rounded-lg bg-green-50 dark:bg-green-950/20 p-4 text-sm">
+              <p className="text-green-800 dark:text-green-200">
+                Your identity has been verified on{" "}
+                {new Date(kycVerifiedAt).toLocaleDateString()}
+              </p>
+            </div>
+          )}
+
+          {kycStatus === "rejected" && (
+            <div className="rounded-lg bg-red-50 dark:bg-red-950/20 p-4 text-sm">
+              <p className="text-red-800 dark:text-red-200">
+                Your verification was not approved. Please contact support for more information.
+              </p>
+            </div>
+          )}
+
+          {kycStatus === "pending" || kycStatus === "in_review" ? (
+            <div className="rounded-lg bg-yellow-50 dark:bg-yellow-950/20 p-4 text-sm">
+              <p className="text-yellow-800 dark:text-yellow-200">
+                Your verification is currently being reviewed. This typically takes 1-2 business days.
+              </p>
+            </div>
+          ) : null}
+
+          {kycStatus === "abandoned" && (
+            <div className="rounded-lg bg-gray-50 dark:bg-gray-950/20 p-4 text-sm">
+              <p className="text-gray-800 dark:text-gray-200">
+                Your previous verification was not completed. Please start a new verification.
+              </p>
+            </div>
+          )}
+
+          <div className="space-y-2">
+            <h4 className="font-medium text-sm">What you'll need:</h4>
+            <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+              <li>Government-issued ID (passport, driver's license, or national ID)</li>
+              <li>A device with a camera for selfie verification</li>
+              <li>5-10 minutes to complete the process</li>
+            </ul>
+          </div>
+
+          {kycStatus !== "approved" && kycStatus !== "pending" && kycStatus !== "in_review" && (
+            <Button
+              onClick={startKycVerification}
+              disabled={startingKyc}
+              className="w-full"
+            >
+              {startingKyc ? (
+                <>
+                  <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                  Starting Verification...
+                </>
+              ) : (
+                <>
+                  <ShieldCheck className="mr-2 h-4 w-4" />
+                  Start KYC Verification
+                </>
+              )}
+            </Button>
+          )}
+
+          <p className="text-xs text-muted-foreground">
+            KYC verification is powered by{" "}
+            <a
+              href="https://didit.me"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              Didit.me
+            </a>
+            , a secure identity verification platform.
+          </p>
+        </CardContent>
+      </Card>
 
       {/* API Key Section */}
       <Card>
