@@ -396,12 +396,12 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  isActive={pathname === '/help'}
-                  tooltip="Help"
+                  isActive={pathname === '/docs'}
+                  tooltip="Documentation"
                 >
-                  <Link href="/help">
+                  <Link href="/docs">
                     <HelpCircle />
-                    <span className="group-data-[collapsible=icon]:hidden">Help</span>
+                    <span className="group-data-[collapsible=icon]:hidden">Documentation</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

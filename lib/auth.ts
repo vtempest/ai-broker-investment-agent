@@ -37,6 +37,7 @@ export const auth = betterAuth({
       session: schema.sessions,
       account: schema.accounts,
       verification: schema.verifications,
+      walletAddress: schema.walletAddresses,
     },
   }),
   socialProviders: {
