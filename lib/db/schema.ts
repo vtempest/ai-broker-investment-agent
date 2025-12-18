@@ -466,6 +466,11 @@ export const teams = sqliteTable("teams", {
   organizationId: text("organization_id").notNull().references(() => organizations.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
+
+  // Team Pro upgrades feature
+  upgradeMembers: integer("upgrade_members", { mode: "boolean" }).default(false), // Toggle for Pro upgrades
+  maxMembers: integer("max_members").default(8), // Max 8 members for Team subscription
+
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 })

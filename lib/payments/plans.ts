@@ -29,11 +29,13 @@ export const plans: Plan[] = [
     name: "Team",
     priceId: "price_1SfItcD6sln9a8JlFRR4o83g",
     limits: {
-      tokens: 10000
+      tokens: 10000,
+      proMembers: 8
     },
     features: [
-      "Team sharing",
-      "Unlimited team members",
+      "8 Pro member spots included",
+      "Team sharing & collaboration",
+      "Toggle Pro upgrades for members",
       "Advanced analytics & reporting",
       "Custom integrations",
       "Priority 24/7 support",

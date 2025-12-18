@@ -3,12 +3,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Users, UserPlus, Trash2, Check, Pencil } from "lucide-react";
+import { Plus, Users, UserPlus, Trash2, Check, Pencil, Crown } from "lucide-react";
 import { createTeam, getUserTeams, inviteMemberToTeam, removeMemberFromTeam, searchUsers, updateTeam, deleteTeam } from "@/lib/actions/teams";
+import { Switch } from "@/components/ui/switch";
 
 interface User {
   id: string;
@@ -22,6 +24,7 @@ export function TeamsManager() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
   const [newTeamDesc, setNewTeamDesc] = useState("");
+  const [newTeamUpgradeMembers, setNewTeamUpgradeMembers] = useState(false);
   const [creating, setCreating] = useState(false);
 
   // Edit state
@@ -29,6 +32,7 @@ export function TeamsManager() {
   const [editingTeam, setEditingTeam] = useState<any | null>(null);
   const [editTeamName, setEditTeamName] = useState("");
   const [editTeamDesc, setEditTeamDesc] = useState("");
+  const [editTeamUpgradeMembers, setEditTeamUpgradeMembers] = useState(false);
   const [updating, setUpdating] = useState(false);
 
   // Invite state
@@ -59,15 +63,16 @@ export function TeamsManager() {
 
   const handleCreateTeam = async () => {
     if (!newTeamName.trim()) return;
-    
+
     setCreating(true);
     try {
-      const result = await createTeam(newTeamName, newTeamDesc);
+      const result = await createTeam(newTeamName, newTeamDesc, newTeamUpgradeMembers);
       if (result.success) {
         toast.success("Team created successfully");
         setIsCreateOpen(false);
         setNewTeamName("");
         setNewTeamDesc("");
+        setNewTeamUpgradeMembers(false);
         fetchTeams();
       } else {
         toast.error(result.error || "Failed to create team");
@@ -176,6 +181,7 @@ export function TeamsManager() {
     setEditingTeam(team);
     setEditTeamName(team.name);
     setEditTeamDesc(team.description || "");
+    setEditTeamUpgradeMembers(team.upgradeMembers || false);
     setIsEditOpen(true);
   };
 
@@ -184,13 +190,14 @@ export function TeamsManager() {
 
     setUpdating(true);
     try {
-      const result = await updateTeam(editingTeam.id, editTeamName, editTeamDesc);
+      const result = await updateTeam(editingTeam.id, editTeamName, editTeamDesc, editTeamUpgradeMembers);
       if (result.success) {
         toast.success("Team updated successfully");
         setIsEditOpen(false);
         setEditingTeam(null);
         setEditTeamName("");
         setEditTeamDesc("");
+        setEditTeamUpgradeMembers(false);
         fetchTeams();
       } else {
         toast.error(result.error || "Failed to update team");
@@ -262,6 +269,22 @@ export function TeamsManager() {
                   onChange={(e) => setNewTeamDesc(e.target.value)}
                 />
               </div>
+              <div className="flex items-center justify-between space-x-2 p-4 border rounded-lg bg-muted/50">
+                <div className="space-y-0.5">
+                  <div className="flex items-center gap-2">
+                    <Crown className="h-4 w-4 text-yellow-500" />
+                    <Label htmlFor="upgrade-members" className="font-medium">Upgrade Members to Pro</Label>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Give all team members (max 8) Pro access while they&apos;re on the team
+                  </p>
+                </div>
+                <Switch
+                  id="upgrade-members"
+                  checked={newTeamUpgradeMembers}
+                  onCheckedChange={setNewTeamUpgradeMembers}
+                />
+              </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsCreateOpen(false)}>Cancel</Button>
@@ -301,6 +324,22 @@ export function TeamsManager() {
                 onChange={(e) => setEditTeamDesc(e.target.value)}
               />
             </div>
+            <div className="flex items-center justify-between space-x-2 p-4 border rounded-lg bg-muted/50">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <Crown className="h-4 w-4 text-yellow-500" />
+                  <Label htmlFor="edit-upgrade-members" className="font-medium">Upgrade Members to Pro</Label>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Give all team members (max 8) Pro access while they&apos;re on the team
+                </p>
+              </div>
+              <Switch
+                id="edit-upgrade-members"
+                checked={editTeamUpgradeMembers}
+                onCheckedChange={setEditTeamUpgradeMembers}
+              />
+            </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
@@ -328,8 +367,16 @@ export function TeamsManager() {
             <Card key={team.id}>
                 <CardHeader>
                 <div className="flex justify-between items-start">
-                    <div>
-                        <CardTitle>{team.name}</CardTitle>
+                    <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                            <CardTitle>{team.name}</CardTitle>
+                            {team.upgradeMembers && (
+                                <Badge variant="secondary" className="flex items-center gap-1">
+                                    <Crown className="h-3 w-3 text-yellow-500" />
+                                    Pro Team
+                                </Badge>
+                            )}
+                        </div>
                         <CardDescription>{team.description}</CardDescription>
                     </div>
                     <div className="flex items-center gap-2">
@@ -370,7 +417,12 @@ export function TeamsManager() {
                                     {member.user.name?.charAt(0) || "U"}
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium">{member.user.name}</p>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-sm font-medium">{member.user.name}</p>
+                                        {team.upgradeMembers && (
+                                            <Crown className="h-3 w-3 text-yellow-500" title="Pro access via team" />
+                                        )}
+                                    </div>
                                     <p className="text-xs text-muted-foreground capitalize">{member.role}</p>
                                 </div>
                             </div>

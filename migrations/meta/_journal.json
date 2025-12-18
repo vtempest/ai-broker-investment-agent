@@ -43,6 +43,13 @@
       "when": 1765695539238,
       "tag": "0005_glorious_mephistopheles",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1766067771107,
+      "tag": "0006_true_inertia",
+      "breakpoints": true
     }
   ]
 }

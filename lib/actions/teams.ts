@@ -8,17 +8,18 @@ import { randomUUID } from "crypto";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { sendTeamInvitationEmail } from "@/lib/email/send-invitation";
+import { plans } from "@/lib/payments/plans";
 
-export async function createTeam(name: string, description?: string) {
+export async function createTeam(name: string, description?: string, upgradeMembers?: boolean) {
   try {
     const session = await auth.api.getSession({
         headers: await headers()
     });
-    
+
     if (!session) {
         return { success: false, error: "Unauthorized" };
     }
-    
+
     const userId = session.user.id;
 
     // 1. Get or create a default organization for the user if none exists
@@ -36,7 +37,7 @@ export async function createTeam(name: string, description?: string) {
        const newOrgId = randomUUID();
        // Fetch user name to name the org
        const user = await db.query.users.findFirst({ where: eq(users.id, userId) });
-       
+
        await db.insert(organizations).values({
          id: newOrgId,
          name: `${user?.name || "User"}'s Organization`,
@@ -53,7 +54,7 @@ export async function createTeam(name: string, description?: string) {
            role: "owner",
            joinedAt: new Date(),
        });
-       
+
        orgId = newOrgId;
     }
 
@@ -64,6 +65,8 @@ export async function createTeam(name: string, description?: string) {
       organizationId: orgId,
       name,
       description,
+      upgradeMembers: upgradeMembers ?? false,
+      maxMembers: 8,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -161,6 +164,23 @@ export async function inviteMemberToTeam(teamId: string, email: string) {
         }
 
         const inviterId = session.user.id;
+
+        // 0. Check team member limit
+        const team = await db.query.teams.findFirst({
+            where: eq(teams.id, teamId),
+            with: {
+                members: true
+            }
+        });
+
+        if (!team) {
+            return { success: false, error: "Team not found" };
+        }
+
+        // If team has Pro upgrades enabled, enforce 8 member limit
+        if (team.upgradeMembers && team.members && team.members.length >= (team.maxMembers || 8)) {
+            return { success: false, error: `Team is full. Maximum ${team.maxMembers || 8} members allowed for Pro teams.` };
+        }
 
         // 1. Check if user exists
         const user = await db.query.users.findFirst({
@@ -261,7 +281,7 @@ export async function removeMemberFromTeam(teamId: string, userId: string) {
     }
 }
 
-export async function updateTeam(teamId: string, name: string, description?: string) {
+export async function updateTeam(teamId: string, name: string, description?: string, upgradeMembers?: boolean) {
     try {
         const session = await auth.api.getSession({
             headers: await headers()
@@ -285,10 +305,25 @@ export async function updateTeam(teamId: string, name: string, description?: str
             return { success: false, error: "Only team leads can edit teams" };
         }
 
+        // Check if team has more than 8 members if trying to enable Pro upgrades
+        if (upgradeMembers === true) {
+            const team = await db.query.teams.findFirst({
+                where: eq(teams.id, teamId),
+                with: {
+                    members: true
+                }
+            });
+
+            if (team && team.members && team.members.length > 8) {
+                return { success: false, error: "Team has more than 8 members. Remove members before enabling Pro upgrades." };
+            }
+        }
+
         // Update team
         await db.update(teams).set({
             name,
             description,
+            ...(upgradeMembers !== undefined && { upgradeMembers }),
             updatedAt: new Date(),
         }).where(eq(teams.id, teamId));
 
@@ -337,3 +372,71 @@ export async function deleteTeam(teamId: string) {
 
 // Needed to check for organizationMembers table import above, realized I missed importing it in the top block
 import { organizationMembers } from "@/lib/db/schema";
+
+/**
+ * Check if user has Pro access through team membership
+ * Returns true if the user is a member of a team with upgradeMembers enabled
+ */
+export async function hasTeamProAccess(userId: string): Promise<boolean> {
+    try {
+        // Get all teams the user is a member of
+        const memberships = await db.query.teamMembers.findMany({
+            where: eq(teamMembers.userId, userId),
+            with: {
+                team: true
+            }
+        });
+
+        // Check if any team has upgradeMembers enabled
+        return memberships.some(m => m.team?.upgradeMembers === true);
+    } catch (error) {
+        console.error("Failed to check team Pro access:", error);
+        return false;
+    }
+}
+
+/**
+ * Get user's effective subscription plan considering team Pro upgrades
+ * Returns 'pro' if user has Pro subscription OR is on a team with Pro upgrades
+ */
+export async function getUserEffectivePlan(userId: string): Promise<string> {
+    try {
+        // Check if user has team Pro access
+        const hasTeamPro = await hasTeamProAccess(userId);
+        if (hasTeamPro) {
+            return 'pro';
+        }
+
+        // Check user's personal subscription
+        const session = await auth.api.getSession({
+            headers: await headers()
+        });
+
+        if (!session) {
+            return 'free';
+        }
+
+        try {
+            const activeSubs = await auth.api.listActiveSubscriptions({
+                headers: await headers()
+            });
+
+            const activeSub = activeSubs.length > 1
+                ? activeSubs.find(sub => sub.status === "active" || sub.status === "trialing")
+                : activeSubs[0];
+
+            if (activeSub) {
+                // Find the plan name from the priceId
+                const plan = plans.find(p => p.priceId === activeSub.priceId);
+                return plan?.name || 'free';
+            }
+        } catch (error) {
+            console.log("Error fetching subscriptions:", error);
+        }
+
+        return 'free';
+    } catch (error) {
+        console.error("Failed to get effective plan:", error);
+        return 'free';
+    }
+}
