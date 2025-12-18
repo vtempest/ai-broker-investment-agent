@@ -13,6 +13,12 @@ export const users = sqliteTable("users", {
   alpacaSecretKey: text("alpaca_secret_key"),
   alpacaPaper: integer("alpaca_paper", { mode: "boolean" }).default(true),
   surveyResponse: text("survey_response"), // JSON string of survey responses
+
+  // KYC Verification (Didit.me)
+  kycStatus: text("kyc_status").default("not_started"), // not_started, pending, in_review, approved, rejected, abandoned
+  kycSessionId: text("kyc_session_id"),
+  kycVerifiedAt: integer("kyc_verified_at", { mode: "timestamp" }),
+
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 })
