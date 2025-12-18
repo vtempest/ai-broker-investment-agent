@@ -10,6 +10,7 @@ async function createNextConfig(): Promise<NextConfig> {
   await jiti.import('./src/env')
 
   const nextConfig: NextConfig = {
+    basePath: '/docs',
     reactStrictMode: true,
     poweredByHeader: false,
     productionBrowserSourceMaps: process.env.SOURCE_MAPS === 'true',
@@ -44,7 +45,7 @@ async function createNextConfig(): Promise<NextConfig> {
     async rewrites() {
       return [
         {
-          source: '/docs/:path*.mdx',
+          source: '/:path*.mdx',
           destination: '/llms.mdx/:path*',
         },
       ]

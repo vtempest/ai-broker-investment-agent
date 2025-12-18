@@ -9,7 +9,7 @@ import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons'
 import { openapiPlugin } from 'fumadocs-openapi/server'
 
 export const source = loader({
-  baseUrl: '/docs',
+  baseUrl: '/',
   plugins: [pageTreeCodeTitles(), lucideIconsPlugin(), openapiPlugin()],
   source: docs.toFumadocsSource(),
 })
