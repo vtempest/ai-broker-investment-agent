@@ -1,3 +1,7 @@
+import { createMDX } from 'fumadocs-mdx/next'
+
+const withMDX = createMDX()
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -7,7 +11,17 @@ const nextConfig = {
     unoptimized: true,
   },
   transpilePackages: ['indicatorts'],
-  serverExternalPackages: ['dukascopy-node', 'fastest-validator'],
+  serverExternalPackages: [
+    'dukascopy-node',
+    'fastest-validator',
+    'ts-morph',
+    'typescript',
+    'oxc-transform',
+    'twoslash',
+    'twoslash-protocol',
+    'shiki',
+  ],
+  reactStrictMode: true,
 }
 
-export default nextConfig
+export default withMDX(nextConfig)
