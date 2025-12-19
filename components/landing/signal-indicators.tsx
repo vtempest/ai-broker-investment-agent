@@ -65,9 +65,9 @@ const apiDataSources = [
 
 export function SignalIndicators() {
   return (
-    <section id="signals" className="border-t border-border bg-secondary/30 px-4 py-24 sm:px-6 lg:px-8">
+    <section id="signals" className=" px-4  sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-       
+
 
         <div className="mt-4">
 

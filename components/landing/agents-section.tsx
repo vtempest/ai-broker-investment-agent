@@ -78,7 +78,7 @@ const otherTeams = [
 export function AgentsSection() {
   return (
     <section id="agents">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl px-20">
         {/* Analyst Team */}
         <div className="">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

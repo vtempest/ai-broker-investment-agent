@@ -20,14 +20,30 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
+import { useState, useEffect } from "react"
+
+const backgroundImages = [
+  "/images/bg-purple-lines.jpeg",
+  "/images/bg-trade-line.jpeg",
+  "/images/bg-phone-stocks-art.jpg",
+  "/images/banner-phone-hand-art.jpg"
+]
+
 export function HeroSection() {
+  const [bgImage, setBgImage] = useState(backgroundImages[0])
+
+  useEffect(() => {
+    setBgImage(backgroundImages[Math.floor(Math.random() * backgroundImages.length)])
+  }, [])
+
   return (
     <section className="relative overflow-hidden sm:px-6 py-10 lg:px-8 min-h-[90vh] flex items-center bg-white dark:bg-black/[0.96] antialiased bg-grid-black/[0.02] dark:bg-grid-white/[0.02]">
       <Image
-        src="/images/bg-purple-lines.jpeg"
+        src={bgImage}
         alt="Background"
         fill
-        className="absolute inset-0 object-cover z-0 opacity-20 dark:opacity-20"
+        className="absolute inset-0 object-cover z-0 opacity-20 dark:opacity-20 transition-opacity duration-1000"
+        priority
       />
       <Spotlight />
 

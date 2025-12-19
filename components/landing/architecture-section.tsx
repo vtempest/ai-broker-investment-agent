@@ -16,9 +16,9 @@ const workflow = [
 
 export function ArchitectureSection() {
   return (
-    <section id="workflow" className=" py-10 border-t border-border px-4 sm:px-6 lg:px-8">
+    <section id="workflow" className=" m-10  px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mt-12 grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2">
           <div className="relative flex items-center justify-center overflow-hidden rounded-2xl ">
 
 
