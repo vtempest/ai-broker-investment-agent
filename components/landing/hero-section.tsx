@@ -14,6 +14,7 @@ import {
   Newspaper,
   TrendingDown,
   Calendar,
+  FileText,
   LogIn,
 } from "lucide-react"
 import Link from "next/link"

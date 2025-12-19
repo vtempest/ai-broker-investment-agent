@@ -19,6 +19,7 @@ export const plans: Plan[] = [
     features: [
       "Unlimited research",
       "Advanced strategies",
+      "Copy Trade order flow",
       "Priority support",
     ],
     price: 19.99,
@@ -36,9 +37,7 @@ export const plans: Plan[] = [
       "8 Pro member spots included",
       "Team sharing & collaboration",
       "Toggle Pro upgrades for members",
-      "Advanced analytics & reporting",
       "Custom integrations",
-      "Priority 24/7 support",
     ],
     price: 299,
     trialDays: 14,

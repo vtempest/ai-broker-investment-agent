@@ -154,6 +154,25 @@ export function AgentsSection() {
           className="object-contain rounded-lg shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl"
         />
       </div>
+
+      <div className="mt-16 flex flex-col items-center gap-6 text-center">
+        <div className="space-y-2">
+          <h3 className="text-2xl font-bold tracking-tight text-foreground">Real-Time Price Updates</h3>
+          <p className="text-muted-foreground">
+            Live market data streaming for accurate split-second decision making
+          </p>
+        </div>
+
+        <div className="w-full max-w-5xl rounded-xl border border-border/50 bg-card/50 p-8 backdrop-blur-sm">
+          <Image
+            src="/images/securities.svg"
+            alt="Real Time Securities"
+            width={100}
+            height={100}
+            className="w-full h-auto dark:invert"
+          />
+        </div>
+      </div>
     </section>
   )
 }
