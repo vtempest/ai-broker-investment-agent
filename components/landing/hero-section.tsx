@@ -66,6 +66,14 @@ export function HeroSection() {
                   API Docs
                 </Link>
               </Button>
+
+
+              <Button variant="outline" size="lg" asChild>
+                <Link href="https://drive.google.com/file/d/1haVl0uguVYnLh8D3EUdaIyi3Tl4kSOIP/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+                  Research Paper
+                </Link>
+              </Button>
+
             </div>
           </div>
 
