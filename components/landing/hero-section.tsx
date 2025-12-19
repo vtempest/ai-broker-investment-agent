@@ -26,17 +26,17 @@ export function HeroSection() {
         <div className="flex flex-col items-center text-center mb-12 max-w-4xl mx-auto">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-sm backdrop-blur-sm">
             <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-muted-foreground">Chatbot Simplexity for Algorithmic Trading</span>
+            <span className="text-muted-foreground">Chatbot Simplexity for Algo Trading & Prediction Correlation</span>
           </div>
 
           <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl leading-tight">
-            <span className="block text-primary"> Auto-Invest Like a Boss</span>
+            <span className="block text-primary"> Auto-Invest Like a Boss Of Your Own Hedge Fund</span>
           </h1>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-            <h3 className="text-2xl font-bold mb-4">Run Your Own AI Hedge Fund Team</h3>
+            {/* <h3 className="text-2xl font-bold mb-4">Run Your Own AI Hedge Fund Team</h3> */}
             <p className="max-w-2xl rounded-lg border border-border bg-background/50 p-4 text-lg leading-relaxed text-foreground backdrop-blur-sm">
               Deploy specialized AI agents with algorithmic trading strategies across stocks and prediction markets. Track
               sharp traders on Polymarket & Kalshi, analyze outcomes with LLM-powered research, and execute momentum,

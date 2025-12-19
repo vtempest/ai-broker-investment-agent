@@ -14,24 +14,25 @@ export function Footer() {
                             <div className="w-4 h-4 rounded-full bg-primary/50 group-hover:scale-110 transition-transform duration-300" />
                         </div>
                         <span className="text-lg font-semibold text-foreground tracking-tight group-hover:text-primary transition-colors duration-300">
-                            {APP_NAME}
+                            {APP_NAME}Run Your Own AI Hedge Fund Team
+
                         </span> */}
                     </div>
 
                     <nav className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-                        <Link
+                        {/* <Link
                             href="/legal/terms"
                             className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-accent/50 hover:text-primary transition-all duration-300 hover:scale-105"
                         >
                             <FileText className="w-4 h-4" />
                             Terms of Service
-                        </Link>
+                        </Link> */}
                         <Link
                             href="/legal/privacy"
                             className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-accent/50 hover:text-primary transition-all duration-300 hover:scale-105"
                         >
                             <Shield className="w-4 h-4" />
-                            Privacy Policy
+                            Terms & Privacy
                         </Link>
 
                         <Link

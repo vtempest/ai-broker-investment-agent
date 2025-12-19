@@ -77,7 +77,7 @@ const otherTeams = [
 
 export function AgentsSection() {
   return (
-    <section id="agents" className="border-t border-border bg-secondary/30  sm:px-6 lg:px-8">
+    <section id="agents">
       <div className="mx-auto max-w-7xl">
         {/* Analyst Team */}
         <div className="">
