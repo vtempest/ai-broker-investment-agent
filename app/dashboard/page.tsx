@@ -12,7 +12,6 @@ import { PredictionMarketsTab } from "@/components/dashboard/prediction-markets-
 import { CopyTradingTab } from "@/components/dashboard/copy-trading-tab"
 import { RiskPortfolioTab } from "@/components/dashboard/risk-portfolio-tab"
 import { UnifiedOrdersTab } from "@/components/dashboard/unified-orders-tab"
-import { ThirdPartySyncTab } from "@/components/dashboard/third-party-sync-tab"
 
 import { AlpacaTradingTab } from "@/components/dashboard/alpaca-trading-tab"
 import { MarketScanner } from "@/components/dashboard/market-scanner"
@@ -184,10 +183,6 @@ function DashboardContent() {
 
         <TabsContent value="orders" className="space-y-6 mt-6">
           <UnifiedOrdersTab />
-        </TabsContent>
-
-        <TabsContent value="third-party-sync" className="space-y-6 mt-6">
-          <ThirdPartySyncTab />
         </TabsContent>
 
         {/* Legacy support for old options-advisor route - redirect to orders tab */}

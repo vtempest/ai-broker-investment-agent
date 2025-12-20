@@ -400,18 +400,6 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  isActive={isActive('third-party-sync')}
-                  tooltip="Third-Party Sync"
-                >
-                  <Link href="/dashboard?tab=third-party-sync">
-                    <Database />
-                    <span className="group-data-[collapsible=icon]:hidden">Third-Party Sync</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
                   isActive={pathname === '/docs'}
                   tooltip="Documentation"
                 >

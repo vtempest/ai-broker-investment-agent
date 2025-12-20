@@ -65,6 +65,7 @@ import { Switch } from "@/components/ui/switch"
 import { toast } from "sonner"
 import { TeamsManager } from "@/components/settings/teams-manager"
 import { PremiumUpgrade } from "@/components/settings/premium-upgrade"
+import { ThirdPartySyncTab } from "@/components/dashboard/third-party-sync-tab"
 
 const LLM_PROVIDERS = [
   {
@@ -243,6 +244,7 @@ const navItems = [
   { name: "Brokers", icon: TrendingUp, value: "brokers" },
   { name: "Data", icon: Database, value: "data" },
   { name: "Teams", icon: Users, value: "teams" },
+  { name: "Third-Party Sync", icon: Database, value: "sync" },
 ]
 
 export function SettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
@@ -995,6 +997,8 @@ export function SettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
 
   const renderTeamsSection = () => <TeamsManager />
 
+  const renderSyncSection = () => <ThirdPartySyncTab />
+
   const renderContent = () => {
     if (loading || !mounted) {
       return <div className="flex items-center justify-center h-full">Loading...</div>
@@ -1011,6 +1015,8 @@ export function SettingsDialog({ trigger }: { trigger?: React.ReactNode }) {
         return renderDataSection()
       case "teams":
         return renderTeamsSection()
+      case "sync":
+        return renderSyncSection()
       default:
         return renderGeneralSection()
     }
