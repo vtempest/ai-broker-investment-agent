@@ -11,7 +11,7 @@
     "import:stocks": "bun lib/stocks/import-stock-names.ts",
     "build": "next build",
     "start": "next start",
-    "postinstall": "fumadocs-mdx",
+    "postinstall": "fumadocs-mdx && drizzle-kit push",
     "docs:generate": "fumadocs-mdx",
     "docs:check": "fumadocs check",
     "db:generate": "drizzle-kit generate",
