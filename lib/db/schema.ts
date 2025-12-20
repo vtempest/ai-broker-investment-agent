@@ -66,11 +66,10 @@ export const verifications = sqliteTable("verifications", {
 export const walletAddresses = sqliteTable("wallet_addresses", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  walletAddress: text("wallet_address").notNull().unique(),
-  chainId: integer("chain_id"),
+  address: text("address").notNull().unique(),
+  chainId: integer("chain_id").notNull(),
   isPrimary: integer("is_primary", { mode: "boolean" }).default(false),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 })
 
 // User Settings (API Keys & Broker Credentials)
