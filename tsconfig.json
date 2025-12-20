@@ -38,7 +38,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "lib/stocks/history.js",
-    "lib/prediction/poly-hist.ys"
+    "lib/prediction/polymarket.ts"
   ],
   "exclude": [
     "node_modules"
