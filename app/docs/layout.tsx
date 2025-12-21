@@ -61,6 +61,7 @@ export default function Layout({ children }: LayoutProps<'/docs'>) {
               nav={{
                 ...base.nav,
                 mode: 'top',
+                url: undefined,
                 title: (
                   <>
                     <SidebarTrigger className="mr-2" />
