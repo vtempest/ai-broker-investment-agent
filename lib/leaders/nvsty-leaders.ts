@@ -1,5 +1,8 @@
 import { grab, log } from "grab-url";
 import fs from "fs/promises";
+import { db } from "@/lib/db";
+import { nvstlyLeaders, nvstlyTrades } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 const LEADERS_FILE = "./data/leaders.json";
 
@@ -63,22 +66,35 @@ class LeadersAPI {
    * @param {string} [time='1mo'] - The time frame for the rankings (e.g., '1mo', '3mo', '1y').
    * @returns {Promise<Trader[]>} A promise that resolves to the trader rankings data.
    */
-  getTraderRankings = async (time = "1mo") : Promise<Trader[]> =>
-    (
-      await this.api(`/market/ranks`, {
+  getTraderRankings = async (time = "1mo") : Promise<Trader[]> => {
+    try {
+      const response = await this.api(`/market/ranks`, {
         time,
         engines: ["stocks"],
-      })
-    )?.data?.data.map((trader: any) => ({
-      id: trader.id,
-      name: trader.name,
-      rank: trader.rank,
-      rep: trader.rep,
-      trades: trader.trades,
-      winRate: Math.floor(trader.winRate),
-      totalGain: Math.floor(trader.totalGain),
-      avgReturn: Math.floor(trader.avgReturn),
-    }))
+      });
+
+      console.log('NVSTLY API Response:', JSON.stringify(response, null, 2));
+
+      if (!response?.data?.data) {
+        console.error('Invalid response from NVSTLY API:', response);
+        return [];
+      }
+
+      return response.data.data.map((trader: any) => ({
+        id: trader.id,
+        name: trader.name,
+        rank: trader.rank,
+        rep: trader.rep,
+        trades: trader.trades,
+        winRate: Math.floor(trader.winRate),
+        totalGain: Math.floor(trader.totalGain),
+        avgReturn: Math.floor(trader.avgReturn),
+      }));
+    } catch (error) {
+      console.error('Error fetching trader rankings:', error);
+      return [];
+    }
+  }
 
   /**
    * Fetches trader order flow from the NVSTLY API.
@@ -118,20 +134,81 @@ export const myLeadersAPI = new LeadersAPI();
 
 export async function syncCopyTradingLeadersOrders() {
   const traders = await myLeadersAPI.getTraderRankings();
-  traders.forEach((trader) => {
-  });
+
+  if (!traders || traders.length === 0) {
+    console.log('Warning: No traders found from NVSTLY API');
+    return [];
+  }
+
   console.log(`Found ${traders.length} traders`);
 
   for (let i = 0; i < traders.length; i++) {
     const trader = traders[i];
     const traderId = trader.id;
-    traders[i].orders = await myLeadersAPI.getTraderTrades(traderId);
+
+    // Fetch trader's trades
+    const trades = await myLeadersAPI.getTraderTrades(traderId);
+    traders[i].orders = trades;
     console.log(
-      `  Added ${traders[i].orders.length} trades for ${traders[i].name}`
+      `  Added ${trades.length} trades for ${trader.name}`
     );
+
+    // Save trader to database
+    await db
+      .insert(nvstlyLeaders)
+      .values({
+        id: trader.id,
+        name: trader.name,
+        rank: trader.rank,
+        rep: trader.rep,
+        trades: trader.trades,
+        winRate: trader.winRate,
+        totalGain: trader.totalGain,
+        avgReturn: trader.avgReturn,
+        broker: trader.broker || null,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: nvstlyLeaders.id,
+        set: {
+          name: trader.name,
+          rank: trader.rank,
+          rep: trader.rep,
+          trades: trader.trades,
+          winRate: trader.winRate,
+          totalGain: trader.totalGain,
+          avgReturn: trader.avgReturn,
+          broker: trader.broker || null,
+          updatedAt: new Date(),
+        },
+      });
+
+    // Delete old trades for this trader
+    await db.delete(nvstlyTrades).where(eq(nvstlyTrades.traderId, trader.id));
+
+    // Insert new trades
+    if (trades.length > 0) {
+      await db.insert(nvstlyTrades).values(
+        trades.map((trade, index) => ({
+          id: `${trader.id}-${trade.symbol}-${trade.time}-${index}`,
+          traderId: trader.id,
+          symbol: trade.symbol,
+          type: trade.type,
+          price: trade.price,
+          previousPrice: trade.previousPrice || null,
+          gain: trade.gain || null,
+          time: new Date(trade.time),
+          createdAt: new Date(),
+        }))
+      );
+    }
+
+    // Also save to JSON for backward compatibility
     await fs.writeFile(LEADERS_FILE, JSON.stringify(traders, null, 2));
 
-    var t = traders[i].orders[2];
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
+
+  console.log(`Successfully synced ${traders.length} NVSTLY traders to database`);
+  return traders;
 }

@@ -363,6 +363,37 @@ export const polymarketDebates = sqliteTable("polymarket_debates", {
 })
 
 // ============================================================================
+// NVSTLY Leaders Tracking
+// ============================================================================
+
+// NVSTLY Leaders/Traders
+export const nvstlyLeaders = sqliteTable("nvstly_leaders", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  rank: integer("rank"),
+  rep: real("rep"), // reputation score
+  trades: integer("trades"),
+  winRate: real("win_rate"),
+  totalGain: real("total_gain"),
+  avgReturn: real("avg_return"),
+  broker: text("broker"),
+  updatedAt: integer("updated_at", { mode: "timestamp" }),
+})
+
+// NVSTLY Trades
+export const nvstlyTrades = sqliteTable("nvstly_trades", {
+  id: text("id").primaryKey(),
+  traderId: text("trader_id").notNull(),
+  symbol: text("symbol").notNull(),
+  type: text("type").notNull(), // buy, sell, short
+  price: real("price"),
+  previousPrice: real("previous_price"),
+  gain: real("gain"),
+  time: integer("time", { mode: "timestamp" }),
+  createdAt: integer("created_at", { mode: "timestamp" }),
+})
+
+// ============================================================================
 // Zulu Traders Tracking
 // ============================================================================
 

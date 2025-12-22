@@ -17,7 +17,12 @@ export function CopyTradingTab() {
   const fetchData = async (currentSource: string) => {
     setLoading(true)
     try {
-      const res = await fetch(`/api/leaderboard?source=${currentSource}`)
+      let res
+      if (currentSource === 'nvstly') {
+        res = await fetch('/api/nvstly/leaders')
+      } else {
+        res = await fetch(`/api/leaderboard?source=${currentSource}`)
+      }
       const data = await res.json()
       if (data.success) {
         setTraders(data.data)
@@ -32,7 +37,11 @@ export function CopyTradingTab() {
   const handleSync = async () => {
     setSyncing(true)
     try {
-      await fetch('/api/leaderboard/sync', { method: 'POST' })
+      if (source === 'nvstly') {
+        await fetch('/api/nvstly/sync', { method: 'POST' })
+      } else {
+        await fetch('/api/leaderboard/sync', { method: 'POST' })
+      }
       await fetchData(source)
     } catch (error) {
       console.error("Failed to sync:", error)
@@ -54,6 +63,7 @@ export function CopyTradingTab() {
             <TabsList>
               <TabsTrigger value="zulu">ZuluTrade</TabsTrigger>
               <TabsTrigger value="polymarket">Polymarket</TabsTrigger>
+              <TabsTrigger value="nvstly">NVSTLY</TabsTrigger>
             </TabsList>
           </Tabs>
           <Button
@@ -81,9 +91,15 @@ export function CopyTradingTab() {
                 <th className="p-4 font-semibold">Trader</th>
                 <th className="p-4 font-semibold">Overall P&L</th>
                 <th className="p-4 font-semibold">Win Rate</th>
-                <th className="p-4 font-semibold">Active Positions</th>
-                <th className="p-4 font-semibold">Portfolio Value</th>
-                <th className="p-4 font-semibold">Avg Hold</th>
+                <th className="p-4 font-semibold">
+                  {source === 'nvstly' ? 'Total Trades' : 'Active Positions'}
+                </th>
+                <th className="p-4 font-semibold">
+                  {source === 'nvstly' ? 'Avg Return' : 'Portfolio Value'}
+                </th>
+                <th className="p-4 font-semibold">
+                  {source === 'nvstly' ? 'Broker' : 'Avg Hold'}
+                </th>
                 <th className="p-4 font-semibold"></th>
               </tr>
             </thead>
@@ -107,22 +123,32 @@ export function CopyTradingTab() {
                   </td>
                   <td className="p-4">
                     <div className="text-green-500 font-bold">
-                      {source === 'zulu' ? `$${trader.overallPnL.toLocaleString()}` : `${trader.overallPnL.toFixed(2)}%`}
+                      {source === 'nvstly'
+                        ? `${trader.totalGain}%`
+                        : source === 'zulu'
+                        ? `$${trader.overallPnL.toLocaleString()}`
+                        : `${trader.overallPnL.toFixed(2)}%`}
                     </div>
                   </td>
                   <td className="p-4">
                     <div className="font-semibold">{trader.winRate}%</div>
                   </td>
                   <td className="p-4">
-                    <Badge variant="secondary">{trader.activePositions}</Badge>
+                    <Badge variant="secondary">
+                      {source === 'nvstly' ? trader.trades : trader.activePositions}
+                    </Badge>
                   </td>
                   <td className="p-4">
                     <div className="font-semibold">
-                      ${trader.currentValue.toLocaleString()}
+                      {source === 'nvstly'
+                        ? `${trader.avgReturn}%`
+                        : `$${trader.currentValue.toLocaleString()}`}
                     </div>
                   </td>
                   <td className="p-4">
-                    <div className="text-sm">{trader.avgHoldingPeriod}</div>
+                    <div className="text-sm">
+                      {source === 'nvstly' ? trader.broker || 'N/A' : trader.avgHoldingPeriod}
+                    </div>
                   </td>
                   <td className="p-4">
                     <Dialog>
@@ -142,7 +168,11 @@ export function CopyTradingTab() {
                             <div className="p-3 bg-muted rounded-lg">
                               <div className="text-xs text-muted-foreground mb-1">Overall P&L</div>
                               <div className="text-lg font-bold text-green-500">
-                                {source === 'zulu' ? `$${trader.overallPnL.toLocaleString()}` : `${trader.overallPnL.toFixed(2)}%`}
+                                {source === 'nvstly'
+                                  ? `${trader.totalGain}%`
+                                  : source === 'zulu'
+                                  ? `$${trader.overallPnL.toLocaleString()}`
+                                  : `${trader.overallPnL.toFixed(2)}%`}
                               </div>
                             </div>
                             <div className="p-3 bg-muted rounded-lg">
@@ -150,12 +180,20 @@ export function CopyTradingTab() {
                               <div className="text-lg font-bold">{trader.winRate}%</div>
                             </div>
                             <div className="p-3 bg-muted rounded-lg">
-                              <div className="text-xs text-muted-foreground mb-1">Max Drawdown</div>
-                              <div className="text-lg font-bold text-red-500">{trader.maxDrawdown}%</div>
+                              <div className="text-xs text-muted-foreground mb-1">
+                                {source === 'nvstly' ? 'Avg Return' : 'Max Drawdown'}
+                              </div>
+                              <div className="text-lg font-bold text-red-500">
+                                {source === 'nvstly' ? `${trader.avgReturn}%` : `${trader.maxDrawdown}%`}
+                              </div>
                             </div>
                             <div className="p-3 bg-muted rounded-lg">
-                              <div className="text-xs text-muted-foreground mb-1">Volatility</div>
-                              <div className="text-lg font-bold">{trader.volatility}%</div>
+                              <div className="text-xs text-muted-foreground mb-1">
+                                {source === 'nvstly' ? 'Total Trades' : 'Volatility'}
+                              </div>
+                              <div className="text-lg font-bold">
+                                {source === 'nvstly' ? trader.trades : `${trader.volatility}%`}
+                              </div>
                             </div>
                           </div>
 
