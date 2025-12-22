@@ -8,24 +8,7 @@ This is a **JavaScript/Node.js port** of the Python debate-agents system located
 
 ## Architecture
 
-The system implements a multi-agent architecture with specialized roles:
-
-### Analysis Team
-- **Market Analyst**: Technical analysis and liquidity assessment
-- **Sentiment Analyst**: Social media sentiment and "undiscovered" status
-- **News Analyst**: Recent events, catalysts, and jurisdiction risks
-- **Fundamentals Analyst**: Financial scoring and valuation
-
-### Research Team
-- **Bull Researcher**: Advocates for BUY opportunities
-- **Bear Researcher**: Identifies risks and thesis violations
-- **Research Manager**: Synthesizes debate and enforces thesis compliance
-
-### Execution Team
-- **Trader**: Proposes execution parameters
-- **Risk Team** (Risky/Safe/Neutral): Debates position sizing
-- **Portfolio Manager**: Final authority on all trading decisions
-
+The system implements a multi-agent architecture with specialized roles
 ## Installation
 
 ```bash

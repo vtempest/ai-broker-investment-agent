@@ -1236,6 +1236,108 @@
         }
       }
     },
+    "/debate-agents": {
+      "get": {
+        "tags": [
+          "Trading Agents"
+        ],
+        "summary": "Quick multi-agent debate analysis",
+        "description": "Run a quick multi-agent debate analysis on a stock ticker. Uses quick mode by default for faster results.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "query",
+            "required": true,
+            "description": "Stock ticker symbol (e.g., AAPL, NVDA, TSLA)",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z0-9._-]+$",
+              "example": "AAPL"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful analysis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebateAnalysisResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ticker format"
+          },
+          "500": {
+            "description": "Analysis failed"
+          },
+          "504": {
+            "description": "Analysis timeout"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Trading Agents"
+        ],
+        "summary": "Run multi-agent debate analysis",
+        "description": "Execute comprehensive multi-agent debate analysis on a stock ticker. Multiple specialized AI agents collaborate to provide investment recommendations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["ticker"],
+                "properties": {
+                  "ticker": {
+                    "type": "string",
+                    "description": "Stock ticker symbol",
+                    "pattern": "^[A-Z0-9._-]+$",
+                    "example": "AAPL"
+                  },
+                  "quickMode": {
+                    "type": "boolean",
+                    "description": "Use quick mode (Gemini Flash) for faster analysis",
+                    "default": false,
+                    "example": true
+                  },
+                  "quiet": {
+                    "type": "boolean",
+                    "description": "Return only final results without verbose output",
+                    "default": true,
+                    "example": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful analysis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebateAnalysisResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "500": {
+            "description": "Analysis failed"
+          },
+          "504": {
+            "description": "Analysis timeout"
+          }
+        }
+      }
+    },
     "/sec/companies/{tickerOrCik}/filings": {
       "get": {
         "tags": [
@@ -1849,6 +1951,121 @@
           },
           "comparison": {
             "type": "object"
+          }
+        }
+      },
+      "DebateAnalysisResponse": {
+        "type": "object",
+        "required": ["success", "ticker"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the analysis completed successfully",
+            "example": true
+          },
+          "ticker": {
+            "type": "string",
+            "description": "Stock ticker symbol analyzed",
+            "example": "AAPL"
+          },
+          "result": {
+            "type": "object",
+            "description": "Analysis result object",
+            "properties": {
+              "company": {
+                "type": "string",
+                "description": "Company name",
+                "example": "Apple Inc."
+              },
+              "price": {
+                "type": "number",
+                "description": "Current stock price",
+                "example": 185.50
+              },
+              "decision": {
+                "type": "string",
+                "enum": ["BUY", "SELL", "HOLD"],
+                "description": "Investment recommendation from multi-agent debate",
+                "example": "BUY"
+              },
+              "analysis": {
+                "type": "string",
+                "description": "Detailed analysis from agents",
+                "example": "Strong fundamentals with solid revenue growth and market position..."
+              },
+              "quote_data": {
+                "type": "object",
+                "description": "Market data used in analysis",
+                "properties": {
+                  "marketCap": {
+                    "type": "number",
+                    "description": "Market capitalization",
+                    "example": 2850000000000
+                  },
+                  "volume": {
+                    "type": "number",
+                    "description": "Trading volume",
+                    "example": 52341234
+                  },
+                  "fiftyTwoWeekHigh": {
+                    "type": "number",
+                    "description": "52-week high price",
+                    "example": 199.62
+                  },
+                  "fiftyTwoWeekLow": {
+                    "type": "number",
+                    "description": "52-week low price",
+                    "example": 164.08
+                  },
+                  "trailingPE": {
+                    "type": "number",
+                    "description": "Trailing P/E ratio",
+                    "example": 28.5
+                  },
+                  "dividendYield": {
+                    "type": "number",
+                    "description": "Dividend yield percentage",
+                    "example": 0.0052
+                  }
+                }
+              },
+              "final_trade_decision": {
+                "type": "string",
+                "description": "Complete final decision with rationale",
+                "example": "FINAL DECISION: BUY\\n\\nRationale: Apple demonstrates strong financial health..."
+              },
+              "token_usage": {
+                "type": "object",
+                "description": "LLM token usage statistics",
+                "properties": {
+                  "total_tokens": {
+                    "type": "integer",
+                    "description": "Total tokens consumed",
+                    "example": 2456
+                  },
+                  "total_cost_usd": {
+                    "type": "number",
+                    "description": "Estimated cost in USD",
+                    "example": 0.0035
+                  }
+                }
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Analysis timestamp",
+                "example": "2025-12-21T18:30:00.000Z"
+              }
+            }
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if analysis failed",
+            "example": "Invalid ticker format"
+          },
+          "output": {
+            "type": "string",
+            "description": "Raw output from analysis (only if quiet=false)"
           }
         }
       },
