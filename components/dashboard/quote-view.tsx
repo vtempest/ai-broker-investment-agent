@@ -14,15 +14,6 @@ import { DynamicStockChart } from "@/components/dashboard/dynamic-stock-chart"
 import { TradeModal } from "@/components/dashboard/trade-modal"
 import * as Broker from '@/lib/api-client';
 
-Broker.postBacktestTechnical({
-  body: {
-    symbol: "AAPL",
-    interval: "1d",
-  }
-})
-
-Broker.getUserPortfolio()
-
 interface QuoteData {
   symbol: string
   price: {
