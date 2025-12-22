@@ -54,10 +54,7 @@ export function LeadersTab() {
     setSyncing(true)
     try {
       await fetch('/api/nvstly/sync', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET || 'dev-secret'}`
-        }
+        method: 'GET'
       })
       await fetchLeaders()
     } catch (error) {

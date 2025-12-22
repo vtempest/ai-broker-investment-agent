@@ -40,14 +40,12 @@ export function ThirdPartySyncTab() {
 
     try {
       const response = await fetch('/api/cron/sync-polymarket', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET || 'dev-secret'}`
-        }
+        method: 'GET'
       })
 
       if (!response.ok) {
-        throw new Error('Sync failed')
+        const data = await response.json()
+        throw new Error(data.error || 'Sync failed')
       }
 
       const data = await response.json()
@@ -69,14 +67,12 @@ export function ThirdPartySyncTab() {
 
     try {
       const response = await fetch('/api/nvstly/sync', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET || 'dev-secret'}`
-        }
+        method: 'GET'
       })
 
       if (!response.ok) {
-        throw new Error('Sync failed')
+        const data = await response.json()
+        throw new Error(data.error || 'Sync failed')
       }
 
       const data = await response.json()
