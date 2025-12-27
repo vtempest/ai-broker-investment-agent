@@ -1,7 +1,8 @@
 import { baseUrl, createMetadata } from '@/lib/metadata'
 import '@/styles/globals.css'
 import type { Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+// Temporarily disabled Google Fonts due to network restrictions in build environment
+// import { Geist, Geist_Mono } from 'next/font/google'
 import { Body } from './layout.client'
 import { Providers } from './providers'
 import { NextProvider } from 'fumadocs-core/framework/next'
@@ -10,15 +11,14 @@ import { source } from '@/lib/source'
 import { url } from '@/lib/url'
 import { DOCS_TITLE, DOCS_DESCRIPTION } from '@/lib/constants'
 
-const geist = Geist({
+// Temporarily using system fonts as fallback
+const geist = {
   variable: '--font-sans',
-  subsets: ['latin'],
-})
+}
 
-const mono = Geist_Mono({
+const mono = {
   variable: '--font-mono',
-  subsets: ['latin'],
-})
+}
 
 export const metadata = createMetadata({
   title: {
