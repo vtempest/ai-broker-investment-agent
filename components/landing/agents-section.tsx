@@ -147,7 +147,7 @@ export function AgentsSection() {
 
       <div className="mt-8 flex justify-center">
         <Image
-          src="/images/diagram-research-flow.jpg"
+          src="/images/diagram-research-flow.png"
           alt="Stock Prediction System Architecture Flow Diagram"
           width={900}
           height={600}
