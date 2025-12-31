@@ -1,5 +1,6 @@
 ---
 title: Risk Disclosure
+icon: ShieldAlert
 ---
 
 ## Investment Risk Disclosures

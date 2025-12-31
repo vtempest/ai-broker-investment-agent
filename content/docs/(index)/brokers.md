@@ -1,5 +1,6 @@
 ---
-title: 💰 Investment Brokers
+title: Investment Brokers
+icon: Landmark
 ---
 
 

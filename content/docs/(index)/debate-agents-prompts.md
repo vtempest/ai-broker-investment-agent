@@ -1,5 +1,6 @@
 ---
 title: Debate Agents System - Agent Prompts Reference
+icon: Users
 ---
 
 # Multi-Agent Debate System - Agent Prompts

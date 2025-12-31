@@ -1,5 +1,6 @@
 ---
 title: Fundamentals Indicators
+icon: BarChart3
 ---
 
 

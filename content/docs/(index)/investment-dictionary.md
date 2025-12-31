@@ -1,5 +1,6 @@
 ---
 title: Investment Dictionary
+icon: BookOpen
 ---
 
 

@@ -1,5 +1,6 @@
 ---
-title: BROKER + APP CUSTOMER AGREEMENT
+title: Broker + App Customer Agreement
+icon: FileText
 ---
 
 BROKER + APP CUSTOMER AGREEMENT

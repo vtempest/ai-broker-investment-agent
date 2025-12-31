@@ -1,5 +1,6 @@
 ---
-title: Real-Time Forex Charts 
+title: Real-Time Forex Charts
+icon: CandlestickChart
 ---
 
 Professional real-time forex charting powered by Dukascopy's free tick data API and Lightweight Charts.

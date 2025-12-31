@@ -1,5 +1,6 @@
 ---
 title: Research Debate Analyst
+icon: MessageSquare
 ---
 
 # Groq-Powered Multi-Agent Debate Analysis

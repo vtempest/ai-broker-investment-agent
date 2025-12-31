@@ -1,5 +1,6 @@
 ---
 title: Investment Prediction Agent
+icon: BrainCircuit
 ---
 
 

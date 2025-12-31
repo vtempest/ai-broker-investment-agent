@@ -1,5 +1,6 @@
 ---
-title: Technical Indicators 
+title: Technical Indicators
+icon: Activity
 ---
 ## 📍 Table of Contents
 

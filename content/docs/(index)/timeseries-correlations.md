@@ -1,5 +1,6 @@
 ---
 title: Time-Series Correlation Models
+icon: GitBranch
 ---
 Here's the document with embedded links:
 

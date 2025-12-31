@@ -1,5 +1,6 @@
 ---
 title: PineScript Algo Trading
+icon: Terminal
 ---
 
 # Initialization and Usage
