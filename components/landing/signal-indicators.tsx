@@ -109,14 +109,7 @@ export function SignalIndicators() {
         </div>
       </div>
 
-      {/* <section className="py-12 flex justify-center">
-          <img
-            src="https://i.imgur.com/7vXtqZ9.png"
-            alt="Platform Screenshot"
-            width={500}
-            className="rounded-lg shadow-lg"
-          />
-        </section> */}
+
     </section>
   )
 }
