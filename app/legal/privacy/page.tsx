@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { APP_EMAIL, LAST_REVISED_DATE } from "@/lib/customize-site";
+import { APP_EMAIL, LAST_REVISED_DATE } from "@/lib/constants";
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
 
 export const metadata = {
