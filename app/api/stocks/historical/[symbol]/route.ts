@@ -1,8 +1,8 @@
 // Historical Stock Data API Route
 import { NextRequest, NextResponse } from 'next/server';
-import YahooFinance from 'yahoo-finance2';
+import { FinnhubWrapper } from '@/lib/stocks/finnhub-wrapper';
 
-const yahooFinance = new YahooFinance();
+const finnhub = new FinnhubWrapper();
 
 export async function GET(
     request: NextRequest,
@@ -79,13 +79,21 @@ export async function GET(
 
         console.log(`Fetching historical data for ${symbol} with options:`, queryOptions);
 
-        const result: any = await yahooFinance.chart(symbol, queryOptions);
+        // Calculate end date (period2) if not provided
+        const endDate = queryOptions.period2 || new Date();
 
-        if (!result || !result.quotes || result.quotes.length === 0) {
+        const result = await finnhub.getHistoricalData({
+            symbol,
+            period1: queryOptions.period1,
+            period2: endDate,
+            interval: interval as any
+        });
+
+        if (!result.success || !result.data?.quotes || result.data.quotes.length === 0) {
             return NextResponse.json(
                 {
                     success: false,
-                    error: `No historical data found for ${symbol}`,
+                    error: result.success ? `No historical data found for ${symbol}` : (result as any).error,
                     code: 'NO_DATA',
                     timestamp: new Date().toISOString()
                 },
@@ -93,26 +101,30 @@ export async function GET(
             );
         }
 
+        const quotes = result.data.quotes;
+        const meta = result.data.meta;
+
         return NextResponse.json({
             success: true,
             symbol,
             period: {
-                start: result.quotes[0]?.date || period1Param || range,
-                end: result.quotes[result.quotes.length - 1]?.date || period2Param || 'now'
+                start: quotes[0]?.date || period1Param || range,
+                end: quotes[quotes.length - 1]?.date || period2Param || 'now'
             },
             interval,
-            dataPoints: result.quotes.length,
-            data: result.quotes,
+            dataPoints: quotes.length,
+            data: quotes,
             meta: {
-                currency: result.meta?.currency,
-                symbol: result.meta?.symbol,
-                exchangeName: result.meta?.exchangeName,
-                instrumentType: result.meta?.instrumentType,
-                firstTradeDate: result.meta?.firstTradeDate,
-                regularMarketTime: result.meta?.regularMarketTime,
-                gmtoffset: result.meta?.gmtoffset,
-                timezone: result.meta?.timezone,
-                exchangeTimezoneName: result.meta?.exchangeTimezoneName
+                currency: meta?.currency,
+                symbol: meta?.symbol,
+                exchangeName: meta?.exchangeName,
+                instrumentType: meta?.instrumentType,
+                firstTradeDate: meta?.firstTradeDate,
+                regularMarketTime: meta?.regularMarketTime,
+                regularMarketPrice: meta?.regularMarketPrice,
+                gmtoffset: meta?.gmtoffset,
+                timezone: meta?.timezone,
+                exchangeTimezoneName: meta?.exchangeTimezoneName
             },
             timestamp: new Date().toISOString()
         });
