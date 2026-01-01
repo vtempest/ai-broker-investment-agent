@@ -2,16 +2,17 @@
 Smart Multi-Source Data Fetcher with Unified Parallel Approach
 UPDATED: Integrated Alpha Vantage with circuit breaker for rate limit handling.
 UPDATED: Integrated EOD Historical Data (EODHD) for international coverage.
+UPDATED: Replaced yfinance with Finnhub API as primary data source.
 FIXED: Smart Merge logic now correctly respects field-specific quality tags.
 
 Strategy:
-1. Launch ALL sources in parallel (yfinance, yahooquery, FMP, EODHD, Alpha Vantage)
-2. Enhance yfinance with financial statement extraction
-3. Smart merge with quality scoring (Statements > EODHD > Alpha Vantage/yfinance > FMP > Yahoo Info)
-4. Mandatory Tavily gap-fill if coverage <70%
+1. Launch ALL sources in parallel (Finnhub, yahooquery, FMP, EODHD, Alpha Vantage)
+2. Smart merge with quality scoring (Finnhub > EODHD > Alpha Vantage > FMP > Yahoo Info)
+3. Mandatory Tavily gap-fill if coverage <70%
 """
 
-import yfinance as yf
+# Finnhub is now the primary data source
+from src.data.finnhub_fetcher import get_finnhub_fetcher, FinnhubFetcher
 import pandas as pd
 import numpy as np
 import asyncio
@@ -74,11 +75,10 @@ PER_SOURCE_TIMEOUT = 15
 
 # Source quality rankings (higher = more reliable)
 SOURCE_QUALITY = {
-    'yfinance_statements': 10,      # Calculated directly from filings (Highest trust)
-    'calculated_from_statements': 10, # Tag used by extraction logic
+    'finnhub': 10,                  # Primary source (Finnhub API)
+    'finnhub_metrics': 10,          # Finnhub financial metrics
+    'calculated_from_statements': 9.5, # Tag used by extraction logic
     'eodhd': 9.5,                   # Professional paid feed (High trust for Int'l)
-    'yfinance': 9,                  # Standard feed
-    'yfinance_info': 9,             # Standard feed
     'alpha_vantage': 9,             # High-quality fundamentals (Int'l)
     'calculated': 8,                # Derived metrics
     'fmp': 7,                       # Good backup
@@ -242,6 +242,8 @@ class SmartMarketDataFetcher:
         self.fx_cache = {}
         self.fx_cache_expiry_time = {}
 
+        # Finnhub is now the primary data source
+        self.finnhub_fetcher = get_finnhub_fetcher()
         self.fmp_fetcher = get_fmp_fetcher() if FMP_AVAILABLE else None
         self.eodhd_fetcher = get_eodhd_fetcher() if EODHD_AVAILABLE else None
         self.av_fetcher = get_av_fetcher() if ALPHA_VANTAGE_AVAILABLE else None
@@ -255,210 +257,96 @@ class SmartMarketDataFetcher:
             'basics_ok': 0,
             'basics_failed': 0,
             'avg_coverage': 0.0,
-            'sources': {'yfinance': 0, 'statements': 0, 'yahooquery': 0, 'fmp': 0, 'eodhd': 0, 'alpha_vantage': 0, 'web_search': 0, 'calculated': 0},
+            'sources': {'finnhub': 0, 'yahooquery': 0, 'fmp': 0, 'eodhd': 0, 'alpha_vantage': 0, 'web_search': 0, 'calculated': 0},
             'gaps_filled': 0,
         }
     
     def get_currency_rate(self, from_curr: str, to_curr: str) -> float:
-        """Get FX rate with caching."""
+        """Get FX rate with caching using Finnhub."""
         if not from_curr or not to_curr or from_curr == to_curr:
             return 1.0
-        
+
         from_curr = from_curr.upper()
         to_curr = to_curr.upper()
         cache_key = f"{from_curr}_{to_curr}"
-        
+
         now = datetime.now()
         expiry_time = self.fx_cache_expiry_time.get(cache_key)
-        
+
         if expiry_time and now < expiry_time:
             return self.fx_cache.get(cache_key, 1.0)
-        
+
         try:
-            pair_symbol = f"{from_curr}{to_curr}=X"
-            ticker = yf.Ticker(pair_symbol)
-            hist = ticker.history(period="1d")
-            
-            if not hist.empty:
-                rate = float(hist['Close'].iloc[-1])
+            # Use Finnhub forex rates
+            import asyncio
+
+            async def _fetch_rate():
+                rates = await self.finnhub_fetcher.get_forex_rates(from_curr)
+                if rates and to_curr in rates:
+                    return rates[to_curr]
+                return None
+
+            # Run async function synchronously
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # If already in async context, create a task
+                rate = asyncio.ensure_future(_fetch_rate())
+            else:
+                rate = loop.run_until_complete(_fetch_rate())
+
+            if rate and isinstance(rate, (int, float)):
                 self.fx_cache[cache_key] = rate
                 self.fx_cache_expiry_time[cache_key] = now + timedelta(seconds=FX_CACHE_TTL_SECONDS)
-                return rate
+                return float(rate)
         except Exception as e:
             logger.debug("fx_rate_fetch_failed", pair=f"{from_curr}/{to_curr}", error=str(e))
-        
-        return 1.0
 
-    def _extract_from_financial_statements(self, ticker: yf.Ticker, symbol: str) -> Dict[str, Any]:
-        """Extract metrics from yfinance financial statements."""
-        extracted = {}
-        
-        try:
-            financials = ticker.financials
-            cashflow = ticker.cashflow
-            balance_sheet = ticker.balance_sheet
-            
-            if financials.empty and cashflow.empty and balance_sheet.empty:
-                return extracted
-            
-            self.stats['sources']['statements'] += 1
-            
-            # INCOME STATEMENT
-            if not financials.empty:
-                # Revenue Growth
-                if 'Total Revenue' in financials.index and len(financials.columns) >= 2:
-                    try:
-                        revenue_series = financials.loc['Total Revenue']
-                        current = float(revenue_series.iloc[0])
-                        previous = float(revenue_series.iloc[1])
-                        
-                        if previous and previous != 0:
-                            growth = (current - previous) / previous
-                            if -0.5 < growth < 5.0:
-                                extracted['revenueGrowth'] = growth
-                                extracted['_revenueGrowth_source'] = 'calculated_from_statements'
-                    except Exception:
-                        pass
-                
-                # Margins
-                try:
-                    if 'Gross Profit' in financials.index and 'Total Revenue' in financials.index:
-                        gross_profit = float(financials.loc['Gross Profit'].iloc[0])
-                        revenue = float(financials.loc['Total Revenue'].iloc[0])
-                        if revenue:
-                            extracted['grossMargins'] = gross_profit / revenue
-                            extracted['_grossMargins_source'] = 'calculated_from_statements'
-                            
-                    if 'Operating Income' in financials.index and 'Total Revenue' in financials.index:
-                        op_income = float(financials.loc['Operating Income'].iloc[0])
-                        revenue = float(financials.loc['Total Revenue'].iloc[0])
-                        if revenue:
-                            extracted['operatingMargins'] = op_income / revenue
-                            extracted['_operatingMargins_source'] = 'calculated_from_statements'
-                            
-                    if 'Net Income' in financials.index and 'Total Revenue' in financials.index:
-                        net_income = float(financials.loc['Net Income'].iloc[0])
-                        revenue = float(financials.loc['Total Revenue'].iloc[0])
-                        if revenue:
-                            extracted['profitMargins'] = net_income / revenue
-                            extracted['_profitMargins_source'] = 'calculated_from_statements'
-                except Exception:
-                    pass
-            
-            # CASH FLOW STATEMENT
-            if not cashflow.empty:
-                if 'Operating Cash Flow' in cashflow.index:
-                    try:
-                        ocf = float(cashflow.loc['Operating Cash Flow'].iloc[0])
-                        extracted['operatingCashflow'] = ocf
-                        extracted['_operatingCashflow_source'] = 'extracted_from_statements'
-                    except Exception:
-                        pass
-                
-                try:
-                    if 'Operating Cash Flow' in cashflow.index and 'Capital Expenditure' in cashflow.index:
-                        ocf = float(cashflow.loc['Operating Cash Flow'].iloc[0])
-                        capex = float(cashflow.loc['Capital Expenditure'].iloc[0])
-                        fcf = ocf + capex # Capex is usually negative
-                        extracted['freeCashflow'] = fcf
-                        extracted['_freeCashflow_source'] = 'calculated_from_statements'
-                except Exception:
-                    pass
-            
-            # BALANCE SHEET
-            if not balance_sheet.empty:
-                try:
-                    if 'Current Assets' in balance_sheet.index and 'Current Liabilities' in balance_sheet.index:
-                        current_assets = float(balance_sheet.loc['Current Assets'].iloc[0])
-                        current_liabilities = float(balance_sheet.loc['Current Liabilities'].iloc[0])
-                        if current_liabilities:
-                            extracted['currentRatio'] = current_assets / current_liabilities
-                            extracted['_currentRatio_source'] = 'calculated_from_statements'
-                except Exception:
-                    pass
-                
-                try:
-                    debt = None
-                    equity = None
-                    
-                    if 'Total Debt' in balance_sheet.index:
-                        debt = float(balance_sheet.loc['Total Debt'].iloc[0])
-                    elif 'Long Term Debt' in balance_sheet.index:
-                        long_term = float(balance_sheet.loc['Long Term Debt'].iloc[0])
-                        short_term = 0
-                        if 'Current Debt' in balance_sheet.index:
-                            short_term = float(balance_sheet.loc['Current Debt'].iloc[0])
-                        debt = long_term + short_term
-                    
-                    if 'Stockholders Equity' in balance_sheet.index:
-                        equity = float(balance_sheet.loc['Stockholders Equity'].iloc[0])
-                    elif 'Total Stockholder Equity' in balance_sheet.index:
-                        equity = float(balance_sheet.loc['Total Stockholder Equity'].iloc[0])
-                    
-                    if debt is not None and equity is not None and equity != 0:
-                        extracted['debtToEquity'] = debt / equity
-                        extracted['_debtToEquity_source'] = 'calculated_from_statements'
-                except Exception:
-                    pass
-            
-        except Exception as e:
-            logger.debug("statement_extraction_failed", symbol=symbol, error=str(e))
-        
-        return extracted
+        # Fallback rates for common currencies
+        fallback_rates = {
+            ('JPY', 'USD'): 0.0067,
+            ('HKD', 'USD'): 0.128,
+            ('EUR', 'USD'): 1.09,
+            ('GBP', 'USD'): 1.27,
+            ('CNY', 'USD'): 0.14,
+            ('KRW', 'USD'): 0.00075,
+        }
 
-    async def _fetch_yfinance_enhanced(self, symbol: str) -> Optional[Dict]:
-        """Fetch yfinance data including statement calculation."""
+        return fallback_rates.get((from_curr, to_curr), 1.0)
+
+    async def _fetch_finnhub_data(self, symbol: str) -> Optional[Dict]:
+        """Fetch financial data from Finnhub API (primary source)."""
         try:
-            ticker = yf.Ticker(symbol)
-            info = {}
-            try:
-                info = ticker.info
-            except Exception:
-                info = {}
-            
+            if not self.finnhub_fetcher.is_available():
+                logger.debug("finnhub_not_available", symbol=symbol)
+                return None
+
+            data = await self.finnhub_fetcher.get_financial_metrics(symbol)
+
+            if not data:
+                logger.debug("finnhub_no_data", symbol=symbol)
+                return None
+
+            # Check for valid price data
             has_price = False
             price_fields = ['currentPrice', 'regularMarketPrice', 'previousClose']
-            
-            if info:
-                for field in price_fields:
-                    if field in info and info[field] is not None:
-                        has_price = True
-                        break
-            
-            if not has_price and hasattr(ticker, 'fast_info'):
-                try:
-                    fast_price = ticker.fast_info.get('lastPrice')
-                    if fast_price:
-                        info['currentPrice'] = fast_price
-                        has_price = True
-                except:
-                    pass
-            
+            for field in price_fields:
+                if field in data and data[field] is not None:
+                    has_price = True
+                    break
+
             if not has_price:
-                logger.warning("yfinance_no_price", symbol=symbol)
-                info = info or {}
-            
-            # ALWAYS extract from statements
-            statement_data = self._extract_from_financial_statements(ticker, symbol)
-            
-            for key, value in statement_data.items():
-                if key.startswith('_'):
-                    info[key] = value
-                elif key not in info or info.get(key) is None:
-                    if value is not None:
-                        info[key] = value
-            
-            if not info or (not has_price and len(info) < 5):
-                return None
-            
-            if 'symbol' not in info:
-                info['symbol'] = symbol
-            
-            self.stats['sources']['yfinance'] += 1
-            return info
-            
+                logger.warning("finnhub_no_price", symbol=symbol)
+                if len(data) < 5:
+                    return None
+
+            if 'symbol' not in data:
+                data['symbol'] = symbol
+
+            self.stats['sources']['finnhub'] += 1
+            return data
+
         except Exception as e:
-            logger.error("yfinance_enhanced_failed", symbol=symbol, error=str(e))
+            logger.error("finnhub_fetch_failed", symbol=symbol, error=str(e))
             return None
 
     def _fetch_yahooquery_fallback(self, symbol: str) -> Optional[Dict]:
@@ -578,7 +466,7 @@ class SmartMarketDataFetcher:
         logger.info("launching_parallel_sources", symbol=symbol)
 
         tasks = {
-            'yfinance': self._fetch_yfinance_enhanced(symbol),
+            'finnhub': self._fetch_finnhub_data(symbol),
             'yahooquery': asyncio.to_thread(self._fetch_yahooquery_fallback, symbol),
             'fmp': self._fetch_fmp_fallback(symbol),
             'eodhd': self._fetch_eodhd_fallback(symbol),
@@ -617,7 +505,7 @@ class SmartMarketDataFetcher:
 
         # Order of processing (lowest priority to highest priority if quality scores match)
         # Note: Actual precedence is determined by SOURCE_QUALITY dict
-        source_order = ['yahooquery', 'fmp', 'alpha_vantage', 'eodhd', 'yfinance']
+        source_order = ['yahooquery', 'fmp', 'alpha_vantage', 'eodhd', 'finnhub']
         
         for source_name in source_order:
             source_data = source_results.get(source_name)
@@ -708,11 +596,12 @@ class SmartMarketDataFetcher:
 
         if not self.tavily_client or not safe_missing_fields:
             return {}
-        
+
         try:
-            import yfinance as yf
-            ticker_obj = yf.Ticker(symbol)
-            company_name = (ticker_obj.info.get('longName') or ticker_obj.info.get('shortName') or symbol)
+            # Use Finnhub to get company name
+            company_name = await self.finnhub_fetcher.get_company_name(symbol)
+            if not company_name:
+                company_name = symbol
         except:
             company_name = symbol
         
@@ -947,11 +836,53 @@ class SmartMarketDataFetcher:
             return {"error": str(e), "symbol": ticker}
 
     async def get_historical_prices(self, ticker: str, period: str = "1y") -> pd.DataFrame:
-        """Fetch historical price data."""
+        """Fetch historical price data using Finnhub."""
         try:
-            stock = yf.Ticker(ticker)
-            hist = await asyncio.to_thread(stock.history, period=period)
-            return hist
+            # Convert period to timestamps
+            from datetime import datetime, timedelta
+
+            end_date = datetime.now()
+            period_map = {
+                '1d': timedelta(days=1),
+                '5d': timedelta(days=5),
+                '1mo': timedelta(days=30),
+                '3mo': timedelta(days=90),
+                '6mo': timedelta(days=180),
+                '1y': timedelta(days=365),
+                '2y': timedelta(days=730),
+                '5y': timedelta(days=1825),
+            }
+            delta = period_map.get(period, timedelta(days=365))
+            start_date = end_date - delta
+
+            from_ts = int(start_date.timestamp())
+            to_ts = int(end_date.timestamp())
+
+            candles = await self.finnhub_fetcher.get_candles(
+                ticker,
+                resolution='D',
+                from_ts=from_ts,
+                to_ts=to_ts
+            )
+
+            if not candles or not candles.get('t'):
+                return pd.DataFrame()
+
+            # Convert to DataFrame in yfinance-like format
+            df = pd.DataFrame({
+                'Open': candles['o'],
+                'High': candles['h'],
+                'Low': candles['l'],
+                'Close': candles['c'],
+                'Volume': candles['v']
+            })
+
+            # Set datetime index
+            df.index = pd.to_datetime([datetime.fromtimestamp(t) for t in candles['t']])
+            df.index.name = 'Date'
+
+            return df
+
         except Exception as e:
             logger.error("history_fetch_failed", ticker=ticker, error=str(e))
             return pd.DataFrame()

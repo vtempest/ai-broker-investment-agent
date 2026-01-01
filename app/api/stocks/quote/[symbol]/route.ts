@@ -1,8 +1,6 @@
-// Stock Quote API Route
+// Stock Quote API Route - Using Finnhub API
 import { NextRequest, NextResponse } from 'next/server';
-import YahooFinance from 'yahoo-finance2';
-
-const yahooFinance = new YahooFinance();
+import { finnhub } from '@/lib/stocks/finnhub-wrapper';
 
 export async function GET(
     request: NextRequest,
@@ -10,30 +8,37 @@ export async function GET(
 ) {
     try {
         const { symbol } = await params;
-        const { searchParams } = new URL(request.url);
-        const modulesParam = searchParams.get('modules');
 
-        const modules = modulesParam
-            ? modulesParam.split(',')
-            : ['price', 'summaryDetail', 'defaultKeyStatistics', 'financialData', 'summaryProfile'];
+        // Fetch quote data from Finnhub
+        const quoteResult = await finnhub.getQuote({ symbol });
 
-        const data = await yahooFinance.quoteSummary(symbol, { modules: modules as any });
-        
+        if (!quoteResult.success) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: quoteResult.error || 'Failed to fetch quote',
+                    code: 'QUOTE_ERROR',
+                    timestamp: new Date().toISOString()
+                },
+                { status: 500 }
+            );
+        }
+
         // Fetch peers/related stocks
-        let peers: any[] = [];
+        let peers: string[] = [];
         try {
-            const recommendations = await yahooFinance.recommendationsBySymbol(symbol);
-            if (recommendations && Array.isArray(recommendations)) {
-                 peers = recommendations.map((r: any) => r.symbol);
+            const peersResult = await finnhub.getPeers(symbol);
+            if (peersResult.success && peersResult.peers) {
+                peers = peersResult.peers;
             }
         } catch (e) {
-            console.warn(`Failed to fetch recommendations for ${symbol}`, e);
+            console.warn(`Failed to fetch peers for ${symbol}`, e);
         }
 
         return NextResponse.json({
             success: true,
             symbol,
-            data: { ...data, peers }, // Append peers to data
+            data: { ...quoteResult.data, peers },
             timestamp: new Date().toISOString()
         });
     } catch (error: any) {

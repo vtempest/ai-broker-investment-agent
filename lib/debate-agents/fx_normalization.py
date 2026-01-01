@@ -4,10 +4,10 @@ Pragmatic Currency Normalization for International Stock Analysis
 PHILOSOPHY:
 - Only normalize metrics that are COMPARED across borders (market cap, revenue, volume)
 - Leave ratios and percentages alone (already normalized)
-- Use simple, robust fallback chain (yfinance → hardcoded rates → fail gracefully)
+- Use simple, robust fallback chain (Finnhub → hardcoded rates → fail gracefully)
 - Don't try to be a forex platform - just good enough for research
 
-UPDATED: Dec 2025 - Aligned with modern yfinance patterns
+UPDATED: Jan 2026 - Migrated from yfinance to Finnhub API
 """
 
 import asyncio
@@ -15,15 +15,17 @@ import structlog
 from typing import Dict, Optional, Tuple
 from datetime import datetime, timedelta
 
+from src.data.finnhub_fetcher import get_finnhub_fetcher
+
 logger = structlog.get_logger(__name__)
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TIER 1: Dynamic FX Rates (yfinance - always up-to-date)
+# TIER 1: Dynamic FX Rates (Finnhub API - always up-to-date)
 # ══════════════════════════════════════════════════════════════════════════════
 
-async def get_fx_rate_yfinance(from_currency: str, to_currency: str = "USD") -> Optional[float]:
+async def get_fx_rate_finnhub(from_currency: str, to_currency: str = "USD") -> Optional[float]:
     """
-    Get live FX rate from yfinance using standard forex pairs.
+    Get live FX rate from Finnhub using forex rates endpoint.
 
     Args:
         from_currency: Source currency (e.g., "JPY", "HKD")
@@ -39,39 +41,32 @@ async def get_fx_rate_yfinance(from_currency: str, to_currency: str = "USD") -> 
     if from_currency == to_currency:
         return 1.0
 
-    # yfinance forex ticker format: "JPYUSD=X" (from + to + =X)
-    fx_ticker = f"{from_currency}{to_currency}=X"
-
     try:
-        import yfinance as yf
+        finnhub = get_finnhub_fetcher()
 
-        # Use async thread pool to avoid blocking
-        def _fetch_rate():
-            ticker = yf.Ticker(fx_ticker)
-            # Try fast_info first (faster)
-            if hasattr(ticker, 'fast_info') and hasattr(ticker.fast_info, 'last_price'):
-                return ticker.fast_info.last_price
-            # Fallback to info dict
-            info = ticker.info
-            return info.get('regularMarketPrice') or info.get('previousClose')
+        if not finnhub.is_available():
+            logger.debug("fx_rate_finnhub_unavailable", from_currency=from_currency)
+            return None
 
-        rate = await asyncio.wait_for(
-            asyncio.to_thread(_fetch_rate),
+        # Finnhub forex rates endpoint returns rates for all currencies from a base
+        rates = await asyncio.wait_for(
+            finnhub.get_forex_rates(from_currency.upper()),
             timeout=3.0  # Quick timeout - we have fallbacks
         )
 
-        if rate and rate > 0:
-            logger.debug("fx_rate_fetched", pair=fx_ticker, rate=rate, source="yfinance")
+        if rates and to_currency.upper() in rates:
+            rate = rates[to_currency.upper()]
+            logger.debug("fx_rate_fetched", pair=f"{from_currency}/{to_currency}", rate=rate, source="finnhub")
             return float(rate)
         else:
-            logger.debug("fx_rate_invalid", pair=fx_ticker, rate=rate)
+            logger.debug("fx_rate_invalid", from_currency=from_currency, to_currency=to_currency)
             return None
 
     except asyncio.TimeoutError:
-        logger.debug("fx_rate_timeout", pair=fx_ticker, timeout_ms=3000)
+        logger.debug("fx_rate_timeout", from_currency=from_currency, timeout_ms=3000)
         return None
     except Exception as e:
-        logger.debug("fx_rate_fetch_error", pair=fx_ticker, error=str(e))
+        logger.debug("fx_rate_fetch_error", from_currency=from_currency, error=str(e))
         return None
 
 
@@ -112,7 +107,7 @@ def get_fx_rate_fallback(from_currency: str, to_currency: str = "USD") -> Option
     Get FX rate from hardcoded fallback table.
 
     WARNING: These rates are updated manually and may be stale.
-    Only use when yfinance is unavailable.
+    Only use when Finnhub is unavailable.
     """
     if from_currency == to_currency:
         return 1.0
@@ -144,17 +139,17 @@ async def get_fx_rate(
     Get FX rate with smart fallback chain.
 
     Fallback order:
-    1. yfinance (live rate, preferred)
+    1. Finnhub (live rate, preferred)
     2. Hardcoded fallback (if allow_fallback=True)
     3. None (graceful failure)
 
     Args:
         from_currency: Source currency code (e.g., "JPY")
         to_currency: Target currency code (default "USD")
-        allow_fallback: Whether to use hardcoded rates if yfinance fails
+        allow_fallback: Whether to use hardcoded rates if Finnhub fails
 
     Returns:
-        Tuple of (rate, source) where source is "yfinance", "fallback", or "unavailable"
+        Tuple of (rate, source) where source is "finnhub", "fallback", or "unavailable"
 
     Example:
         rate, source = await get_fx_rate("JPY", "USD")
@@ -169,10 +164,10 @@ async def get_fx_rate(
     if from_currency == to_currency:
         return 1.0, "identity"
 
-    # Try yfinance first (preferred - always up-to-date)
-    rate = await get_fx_rate_yfinance(from_currency, to_currency)
+    # Try Finnhub first (preferred - always up-to-date)
+    rate = await get_fx_rate_finnhub(from_currency, to_currency)
     if rate is not None:
-        return rate, "yfinance"
+        return rate, "finnhub"
 
     # Try fallback rates if allowed
     if allow_fallback:
@@ -185,7 +180,7 @@ async def get_fx_rate(
         "fx_rate_unavailable",
         from_currency=from_currency,
         to_currency=to_currency,
-        tried_sources=["yfinance", "fallback"] if allow_fallback else ["yfinance"]
+        tried_sources=["finnhub", "fallback"] if allow_fallback else ["finnhub"]
     )
     return None, "unavailable"
 

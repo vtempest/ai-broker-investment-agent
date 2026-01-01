@@ -11,7 +11,6 @@ import html
 from typing import Any, Annotated, List, Dict, Optional
 import pandas as pd
 import structlog
-import yfinance as yf
 from langchain_core.tools import tool
 from stockstats import wrap as stockstats_wrap
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -23,6 +22,7 @@ from src.enhanced_sentiment_toolkit import get_multilingual_sentiment_search
 from src.liquidity_calculation_tool import calculate_liquidity_metrics
 from src.stocktwits_api import StockTwitsAPI
 from src.data.fetcher import fetcher as market_data_fetcher
+from src.data.finnhub_fetcher import get_finnhub_fetcher
 
 logger = structlog.get_logger(__name__)
 stocktwits_api = StockTwitsAPI()
@@ -51,38 +51,29 @@ async def fetch_with_timeout(coroutine, timeout_seconds=10, error_msg="Timeout")
     try:
         return await asyncio.wait_for(coroutine, timeout=timeout_seconds)
     except asyncio.TimeoutError:
-        logger.warning(f"YFINANCE TIMEOUT: {error_msg}")
+        logger.warning(f"FINNHUB TIMEOUT: {error_msg}")
         return None
     except Exception as e:
-        logger.warning(f"YFINANCE ERROR: {error_msg} - {str(e)}")
+        logger.warning(f"FINNHUB ERROR: {error_msg} - {str(e)}")
         return None
 
-async def extract_company_name_async(ticker_obj) -> str:
-    """Robust company name extraction with dynamic cleaning."""
-    ticker_str = ticker_obj.ticker
-    
+async def extract_company_name_async(symbol: str) -> str:
+    """Robust company name extraction using Finnhub with dynamic cleaning."""
     try:
-        # 1. Try yfinance fast_info (no network call if cached)
-        if hasattr(ticker_obj, 'fast_info'):
-            # fast_info is lazy, accessing it triggers load
-            pass
-            
-        # 2. Try standard info with timeout
-        info = await fetch_with_timeout(
-            asyncio.to_thread(lambda: ticker_obj.info), 
+        finnhub = get_finnhub_fetcher()
+        company_name = await fetch_with_timeout(
+            finnhub.get_company_name(symbol),
             timeout_seconds=5, error_msg="Name Extraction"
         )
-        
-        if info:
-            long_name = info.get('longName') or info.get('shortName')
-            if long_name:
-                # Use dynamic cleaner to strip legal suffixes
-                return normalize_company_name(long_name)
-                
-        return ticker_str
-        
+
+        if company_name:
+            # Use dynamic cleaner to strip legal suffixes
+            return normalize_company_name(company_name)
+
+        return symbol
+
     except Exception:
-        return ticker_str
+        return symbol
 
 def extract_from_dataframe(df: pd.DataFrame, field_name: str, row_index: int = 0) -> Optional[float]:
     if df is None or df.empty: return None
@@ -197,11 +188,10 @@ async def get_news(
     Structures output for News Analyst prompt ingestion.
     """
     if not tavily_tool: return "News tool unavailable."
-    
+
     try:
         normalized_symbol = normalize_ticker(ticker)
-        ticker_obj = yf.Ticker(normalized_symbol)
-        company_name = await extract_company_name_async(ticker_obj)
+        company_name = await extract_company_name_async(normalized_symbol)
         
         # Local Domain Mapping
         local_source_hints = {
@@ -318,19 +308,18 @@ async def get_macroeconomic_news(trade_date: str) -> str:
 async def get_fundamental_analysis(ticker: Annotated[str, "Stock ticker symbol"]) -> str:
     """
     Perform web search for qualitative fundamental factors (Analyst coverage, ADRs).
-    
+
     IMPLEMENTS SURGICAL FALLBACK LOGIC:
     1. Primary Search: Uses specific ticker (best for exact listing).
     2. Check Success: If ticker search fails (insufficient data), do full fallback to Company Name search.
     3. Check ADR Miss: If ticker search succeeds but finds NO ADR info, perform SURGICAL append search using Company Name.
     """
     if not tavily_tool: return "Tool unavailable"
-    
+
     try:
         # Get company name for potential fallback/surgical search
         normalized_symbol = normalize_ticker(ticker)
-        ticker_obj = yf.Ticker(normalized_symbol)
-        company_name = await extract_company_name_async(ticker_obj)
+        company_name = await extract_company_name_async(normalized_symbol)
         
         # 1. Primary Search: Ticker-based (Most specific to the listing)
         # Use strict quoting for the ticker name if we have it, otherwise just ticker

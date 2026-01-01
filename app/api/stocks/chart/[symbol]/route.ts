@@ -1,7 +1,6 @@
+// Stock Chart API Route - Using Finnhub API
 import { NextRequest, NextResponse } from 'next/server';
-import YahooFinance from 'yahoo-finance2';
-
-const yahooFinance = new YahooFinance({ suppressNotices: ['ripHistorical'] });
+import { finnhub } from '@/lib/stocks/finnhub-wrapper';
 
 export async function GET(
     request: NextRequest,
@@ -11,7 +10,7 @@ export async function GET(
         const { symbol } = await params;
         const { searchParams } = new URL(request.url);
         const range = searchParams.get('range') || '1mo'; // 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
-        const interval = searchParams.get('interval') || '1d'; // 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+        const interval = searchParams.get('interval') || '1d'; // 1m, 5m, 15m, 30m, 60m, 1h, 1d, 1wk, 1mo
 
         // Calculate start date based on range
         let startDate = new Date();
@@ -45,23 +44,39 @@ export async function GET(
             case '10y':
                 startDate.setFullYear(startDate.getFullYear() - 10);
                 break;
+            case 'ytd':
+                startDate = new Date(startDate.getFullYear(), 0, 1);
+                break;
+            case 'max':
+                startDate.setFullYear(startDate.getFullYear() - 20);
+                break;
             default:
                 startDate.setMonth(startDate.getMonth() - 1); // default 1mo
         }
 
-        const queryPeriod1 = startDate.toISOString().split('T')[0];
-        const queryPeriod2 = endDate.toISOString().split('T')[0];
-
-        const result = await yahooFinance.chart(symbol, {
-            period1: queryPeriod1,
-            period2: queryPeriod2,
+        const result = await finnhub.getHistoricalData({
+            symbol,
+            period1: startDate,
+            period2: endDate,
             interval: interval as any
         });
+
+        if (!result.success) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: result.error || 'Failed to fetch chart data',
+                    code: 'CHART_ERROR',
+                    timestamp: new Date().toISOString()
+                },
+                { status: 500 }
+            );
+        }
 
         return NextResponse.json({
             success: true,
             symbol,
-            data: result,
+            data: result.data,
             timestamp: new Date().toISOString()
         });
     } catch (error: any) {

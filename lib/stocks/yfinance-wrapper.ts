@@ -1,178 +1,73 @@
-// Yahoo Finance Wrapper for TypeScript
-// Uses yahoo-finance2 package
-// Yahoo Finance API wrapper with error handling
-import YahooFinance from 'yahoo-finance2'
+// Yahoo Finance Wrapper - Now uses Finnhub API
+// This file re-exports from finnhub-wrapper for backward compatibility
+import { FinnhubWrapper, finnhub, HistoricalDataOptions, QuoteOptions } from './finnhub-wrapper';
 
-const yahooFinance = new YahooFinance({ suppressNotices: ['ripHistorical'] })
+// Re-export types
+export type { HistoricalDataOptions, QuoteOptions };
 
-export interface HistoricalDataOptions {
-  symbol: string
-  period1: string | Date
-  period2: string | Date
-  interval?: '1d' | '1wk' | '1mo' | '5m' | '15m' | '30m' | '1h'
-}
-
-export interface QuoteOptions {
-  symbol: string
-  modules?: string[]
-}
-
+// Create a compatibility wrapper with Yahoo Finance-like interface
 export class YFinanceWrapper {
+  private finnhub: FinnhubWrapper;
+
+  constructor() {
+    this.finnhub = new FinnhubWrapper();
+  }
+
   /**
    * Get historical price data for a symbol
    */
   async getHistoricalData(options: HistoricalDataOptions) {
-    const { symbol, period1, period2, interval = '1d' } = options
-    
-    try {
-      const result = await yahooFinance.chart(symbol, {
-        period1,
-        period2,
-        interval
-      })
-      
-      return {
-        success: true,
-        symbol,
-        data: result.quotes,
-        meta: result.meta
-      }
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.message || 'Failed to fetch historical data'
-      }
-    }
+    return this.finnhub.getHistoricalData(options);
   }
 
   /**
    * Get quote summary for a symbol
    */
   async getQuote(options: QuoteOptions) {
-    const { symbol, modules = ['price', 'summaryDetail', 'defaultKeyStatistics', 'financialData'] } = options
-    
-    try {
-      const data = await yahooFinance.quoteSummary(symbol, { 
-        modules: modules as any 
-      })
-      
-      return {
-        success: true,
-        symbol,
-        data
-      }
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.message || 'Failed to fetch quote'
-      }
-    }
+    return this.finnhub.getQuote(options);
   }
 
   /**
    * Search for stocks by query
    */
   async search(query: string) {
-    try {
-      const result = await yahooFinance.search(query)
-      
-      return {
-        success: true,
-        query,
-        results: result.quotes
-      }
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.message || 'Failed to search'
-      }
-    }
+    return this.finnhub.search(query);
   }
 
   /**
-   * Get options data for a symbol
+   * Get options data for a symbol (not supported by Finnhub free tier)
    */
   async getOptions(symbol: string, date?: Date) {
-    try {
-      const result = await yahooFinance.options(symbol, date ? { date } : {})
-      
-      return {
-        success: true,
-        symbol,
-        data: result
-      }
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.message || 'Failed to fetch options'
-      }
-    }
+    return {
+      success: false,
+      error: 'Options data not available via Finnhub API'
+    };
   }
 
   /**
-   * Get trending stocks
+   * Get trending stocks (not directly supported by Finnhub)
    */
   async getTrending(region: string = 'US') {
-    try {
-      const result = await yahooFinance.trendingSymbols(region)
-      
-      return {
-        success: true,
-        region,
-        data: result
-      }
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.message || 'Failed to fetch trending'
-      }
-    }
+    return {
+      success: false,
+      error: 'Trending stocks not available via Finnhub API'
+    };
   }
 
   /**
    * Get recommendations for a symbol
    */
   async getRecommendations(symbol: string) {
-    try {
-      const data = await yahooFinance.quoteSummary(symbol, { 
-        modules: ['recommendationTrend', 'upgradeDowngradeHistory'] 
-      })
-      
-      return {
-        success: true,
-        symbol,
-        data
-      }
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.message || 'Failed to fetch recommendations'
-      }
-    }
+    return this.finnhub.getRecommendations(symbol);
   }
 
   /**
    * Get financial statements for a symbol
    */
   async getFinancials(symbol: string) {
-    try {
-      const data = await yahooFinance.quoteSummary(symbol, { 
-        modules: ['incomeStatementHistory', 'balanceSheetHistory', 'cashflowStatementHistory', 'earnings'] 
-      })
-      
-      return {
-        success: true,
-        symbol,
-        data
-      }
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.message || 'Failed to fetch financials'
-      }
-    }
+    return this.finnhub.getFinancials(symbol);
   }
 }
 
 // Export singleton instance
-export const yfinance = new YFinanceWrapper()
+export const yfinance = new YFinanceWrapper();

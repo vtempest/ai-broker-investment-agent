@@ -457,15 +457,16 @@ async def run_analysis(ticker: str, quick_mode: bool) -> Optional[dict]:
         # This prevents LLM hallucination when tickers are similar (e.g., 0291.HK vs 0293.HK)
         company_name = ticker  # Default fallback
         try:
-            import yfinance as yf
-            ticker_obj = yf.Ticker(ticker)
-            info = ticker_obj.info
-            company_name = info.get('longName') or info.get('shortName') or ticker
+            from src.data.finnhub_fetcher import get_finnhub_fetcher
+            finnhub = get_finnhub_fetcher()
+            fetched_name = await finnhub.get_company_name(ticker)
+            if fetched_name:
+                company_name = fetched_name
             logger.info(
                 "company_name_verified",
                 ticker=ticker,
                 company_name=company_name,
-                source="yfinance"
+                source="finnhub"
             )
         except Exception as e:
             logger.warning(
@@ -613,10 +614,13 @@ async def main():
             if args.brief or args.quiet:
                 company_name = None
                 try:
-                    import yfinance as yf
-                    ticker_obj = yf.Ticker(args.ticker)
-                    info = ticker_obj.info
-                    company_name = info.get('longName') or info.get('shortName')
+                    from src.data.finnhub_fetcher import get_finnhub_fetcher
+                    finnhub = get_finnhub_fetcher()
+                    # Use asyncio to run the async function
+                    import asyncio
+                    company_name = asyncio.get_event_loop().run_until_complete(
+                        finnhub.get_company_name(args.ticker)
+                    )
                 except:
                     pass
                 
