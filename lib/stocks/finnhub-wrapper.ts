@@ -158,7 +158,9 @@ export class FinnhubWrapper {
         to: String(to)
       });
 
-      if (candles.s !== 'no_data' && candles.t && candles.t.length > 0) {
+      if (candles.s === 'no_data') {
+        console.log(`Finnhub returned no_data for ${symbol}, trying Alpaca...`);
+      } else if (candles.t && candles.t.length > 0) {
         // Transform to standard format
         const quotes = candles.t.map((timestamp, i) => ({
           date: new Date(timestamp * 1000),
@@ -185,6 +187,8 @@ export class FinnhubWrapper {
             regularMarketPrice: quotes.length > 0 ? quotes[quotes.length - 1].close : null
           }
         };
+      } else {
+        console.log(`Finnhub returned empty data for ${symbol}, trying Alpaca...`);
       }
     } catch (finnhubError: any) {
       console.log(`Finnhub API failed for ${symbol}: ${finnhubError.message}, trying Alpaca...`);
@@ -208,6 +212,7 @@ export class FinnhubWrapper {
 
   /**
    * Get historical data from Alpaca API (fallback)
+   * Tries the SDK first, then falls back to direct HTTP API call
    */
   private async getHistoricalDataFromAlpaca(
     symbol: string,
@@ -215,8 +220,6 @@ export class FinnhubWrapper {
     period2: string | Date,
     interval: string = '1d'
   ) {
-    const alpaca = createAlpacaClient();
-
     // Map interval to Alpaca timeframe format
     const timeframe = (() => {
       const mapping: { [key: string]: string } = {
@@ -243,36 +246,118 @@ export class FinnhubWrapper {
     const startDate = typeof period1 === 'string' ? new Date(period1) : period1;
     const endDate = typeof period2 === 'string' ? new Date(period2) : period2;
 
-    // Use Alpaca's getBarsV2 method
-    const bars = alpaca.getBarsV2(
-      symbol.toUpperCase(),
-      {
-        start: startDate.toISOString(),
-        end: endDate.toISOString(),
-        timeframe,
-        feed: 'iex' // Use IEX feed for free tier
+    // Try SDK method first
+    try {
+      const alpaca = createAlpacaClient();
+      const bars = alpaca.getBarsV2(
+        symbol.toUpperCase(),
+        {
+          start: startDate.toISOString(),
+          end: endDate.toISOString(),
+          timeframe,
+          feed: 'iex'
+        }
+      );
+
+      const quotes: any[] = [];
+      for await (const bar of bars) {
+        quotes.push({
+          date: new Date(bar.Timestamp),
+          open: bar.OpenPrice,
+          high: bar.HighPrice,
+          low: bar.LowPrice,
+          close: bar.ClosePrice,
+          volume: bar.Volume
+        });
       }
-    );
 
-    const quotes: any[] = [];
-    for await (const bar of bars) {
-      quotes.push({
-        date: new Date(bar.Timestamp),
-        open: bar.OpenPrice,
-        high: bar.HighPrice,
-        low: bar.LowPrice,
-        close: bar.ClosePrice,
-        volume: bar.Volume
-      });
+      if (quotes.length > 0) {
+        return {
+          success: true,
+          symbol,
+          data: {
+            quotes,
+            meta: {
+              symbol,
+              exchangeName: 'US',
+              regularMarketPrice: quotes[quotes.length - 1].close
+            }
+          },
+          meta: {
+            symbol,
+            exchangeName: 'US',
+            regularMarketPrice: quotes[quotes.length - 1].close
+          }
+        };
+      }
+    } catch (sdkError: any) {
+      console.log(`Alpaca SDK failed for ${symbol}: ${sdkError.message}, trying direct API...`);
     }
 
-    if (quotes.length === 0) {
-      return {
-        success: true,
-        symbol,
-        data: { quotes: [], meta: { symbol } }
-      };
+    // Fallback to direct HTTP API call
+    try {
+      const result = await this.getHistoricalDataFromAlpacaHttp(symbol, startDate, endDate, timeframe);
+      if (result.success && result.data?.quotes && result.data.quotes.length > 0) {
+        return result;
+      }
+    } catch (httpError: any) {
+      console.log(`Alpaca HTTP API failed for ${symbol}: ${httpError.message}`);
     }
+
+    return {
+      success: false,
+      symbol,
+      data: { quotes: [], meta: { symbol } }
+    };
+  }
+
+  /**
+   * Direct HTTP API call to Alpaca Market Data API
+   */
+  private async getHistoricalDataFromAlpacaHttp(
+    symbol: string,
+    startDate: Date,
+    endDate: Date,
+    timeframe: string
+  ) {
+    const apiKey = process.env.ALPACA_API_KEY || process.env.ALPACA_KEY_ID || '';
+    const secretKey = process.env.ALPACA_SECRET || process.env.ALPACA_SECRET_KEY || '';
+
+    if (!apiKey || !secretKey) {
+      throw new Error('Alpaca API credentials not configured');
+    }
+
+    const url = new URL(`https://data.alpaca.markets/v2/stocks/${symbol.toUpperCase()}/bars`);
+    url.searchParams.set('start', startDate.toISOString());
+    url.searchParams.set('end', endDate.toISOString());
+    url.searchParams.set('timeframe', timeframe);
+    url.searchParams.set('feed', 'iex');
+    url.searchParams.set('limit', '10000');
+
+    const response = await fetch(url.toString(), {
+      headers: {
+        'APCA-API-KEY-ID': apiKey,
+        'APCA-API-SECRET-KEY': secretKey,
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Alpaca API error: ${response.status} ${response.statusText} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    const bars = data.bars || [];
+
+    const quotes = bars.map((bar: any) => ({
+      date: new Date(bar.t),
+      open: bar.o,
+      high: bar.h,
+      low: bar.l,
+      close: bar.c,
+      volume: bar.v
+    }));
 
     return {
       success: true,
