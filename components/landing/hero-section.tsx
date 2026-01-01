@@ -96,7 +96,7 @@ export function HeroSection() {
 
 
               <Button variant="outline" size="lg" asChild>
-                <Link href="https://drive.google.com/drive/u/0/folders/12wj9_7e94fcJvahfYsnyme1-v7Pdnl5Js" target="_blank" rel="noopener noreferrer">
+                <Link href="https://drive.google.com/file/d/1QJqoy3on4Q34djAM2DgMW7udBRfSHuMg/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
                   <FileText className="mr-2 h-5 w-5" />
                   Paper
                 </Link>
