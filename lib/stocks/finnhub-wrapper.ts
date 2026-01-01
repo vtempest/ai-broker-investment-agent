@@ -1,5 +1,7 @@
 // Finnhub API Wrapper for TypeScript
-// Replaces yahoo-finance2 for stock data
+// Uses Finnhub as primary source with yahoo-finance2 as fallback for historical data
+
+import yahooFinance from 'yahoo-finance2';
 
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY || '';
 const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1';
@@ -138,10 +140,22 @@ async function finnhubFetch<T>(endpoint: string, params: Record<string, string> 
 export class FinnhubWrapper {
   /**
    * Get historical price data for a symbol (candles)
+   * Uses Finnhub as primary source, falls back to yahoo-finance2 if Finnhub fails
    */
   async getHistoricalData(options: HistoricalDataOptions) {
     const { symbol, period1, period2, interval = '1d' } = options;
 
+    // Try yahoo-finance2 first since Finnhub free tier doesn't support stock candles reliably
+    try {
+      const result = await this.getHistoricalDataFromYahoo(symbol, period1, period2, interval);
+      if (result.success && result.data?.quotes && result.data.quotes.length > 0) {
+        return result;
+      }
+    } catch (yahooError: any) {
+      console.log(`Yahoo Finance fallback failed for ${symbol}: ${yahooError.message}`);
+    }
+
+    // Fallback to Finnhub
     try {
       const resolution = mapInterval(interval);
       const from = toUnixTimestamp(period1);
@@ -194,6 +208,83 @@ export class FinnhubWrapper {
         error: error.message || 'Failed to fetch historical data'
       };
     }
+  }
+
+  /**
+   * Get historical data from Yahoo Finance (fallback)
+   */
+  private async getHistoricalDataFromYahoo(
+    symbol: string,
+    period1: string | Date,
+    period2: string | Date,
+    interval: string = '1d'
+  ) {
+    // Map interval to Yahoo Finance format
+    const yahooInterval = (() => {
+      const mapping: { [key: string]: '1d' | '1wk' | '1mo' } = {
+        '1': '1d',
+        '5': '1d',
+        '15': '1d',
+        '30': '1d',
+        '60': '1d',
+        'D': '1d',
+        'W': '1wk',
+        'M': '1mo',
+        '1d': '1d',
+        '1wk': '1wk',
+        '1mo': '1mo'
+      };
+      return mapping[interval] || '1d';
+    })();
+
+    const queryOptions: any = {
+      period1: typeof period1 === 'string' ? new Date(period1) : period1,
+      period2: typeof period2 === 'string' ? new Date(period2) : period2,
+      interval: yahooInterval
+    };
+
+    const result = await yahooFinance.chart(symbol.toUpperCase(), queryOptions);
+
+    if (!result || !result.quotes || result.quotes.length === 0) {
+      return {
+        success: true,
+        symbol,
+        data: { quotes: [], meta: { symbol } }
+      };
+    }
+
+    // Transform to our standard format
+    const quotes = result.quotes.map((quote: any) => ({
+      date: new Date(quote.date),
+      open: quote.open,
+      high: quote.high,
+      low: quote.low,
+      close: quote.close,
+      volume: quote.volume
+    }));
+
+    return {
+      success: true,
+      symbol,
+      data: {
+        quotes,
+        meta: {
+          symbol,
+          currency: result.meta?.currency,
+          exchangeName: result.meta?.exchangeName,
+          instrumentType: result.meta?.instrumentType,
+          regularMarketPrice: result.meta?.regularMarketPrice,
+          timezone: result.meta?.timezone,
+          exchangeTimezoneName: result.meta?.exchangeTimezoneName
+        }
+      },
+      meta: {
+        symbol,
+        currency: result.meta?.currency,
+        exchangeName: result.meta?.exchangeName,
+        regularMarketPrice: result.meta?.regularMarketPrice
+      }
+    };
   }
 
   /**
