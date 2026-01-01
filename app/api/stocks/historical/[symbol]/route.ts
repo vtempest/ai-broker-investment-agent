@@ -90,11 +90,26 @@ export async function GET(
         });
 
         if (!result.success || !result.data?.quotes || result.data.quotes.length === 0) {
+            const errorMessage = !result.success
+                ? (result as any).error || 'Failed to fetch historical data'
+                : `No historical data found for ${symbol}`;
+
+            console.log(`Historical data API response: ${JSON.stringify({
+                success: result.success,
+                quotesLength: result.data?.quotes?.length || 0,
+                error: (result as any).error,
+                source: (result as any).source
+            })}`);
+
             return NextResponse.json(
                 {
                     success: false,
-                    error: result.success ? `No historical data found for ${symbol}` : (result as any).error,
+                    error: errorMessage,
                     code: 'NO_DATA',
+                    source: (result as any).source,
+                    hint: !process.env.ALPACA_API_KEY && !process.env.FINNHUB_API_KEY
+                        ? 'No API keys configured. Set FINNHUB_API_KEY and/or ALPACA_API_KEY + ALPACA_SECRET environment variables.'
+                        : undefined,
                     timestamp: new Date().toISOString()
                 },
                 { status: 404 }
@@ -107,6 +122,7 @@ export async function GET(
         return NextResponse.json({
             success: true,
             symbol,
+            source: (result as any).source || 'unknown',
             period: {
                 start: quotes[0]?.date || period1Param || range,
                 end: quotes[quotes.length - 1]?.date || period2Param || 'now'

@@ -145,74 +145,93 @@ export class FinnhubWrapper {
   async getHistoricalData(options: HistoricalDataOptions) {
     const { symbol, period1, period2, interval = '1d' } = options;
 
-    // Try Finnhub first
-    try {
-      const resolution = mapInterval(interval);
-      const from = toUnixTimestamp(period1);
-      const to = toUnixTimestamp(period2);
+    console.log(`[Historical] Fetching data for ${symbol}, interval: ${interval}, period: ${period1} to ${period2}`);
 
-      const candles = await finnhubFetch<FinnhubCandle>('/stock/candle', {
-        symbol: symbol.toUpperCase(),
-        resolution,
-        from: String(from),
-        to: String(to)
-      });
+    // Try Finnhub first (if API key is configured)
+    if (FINNHUB_API_KEY) {
+      try {
+        const resolution = mapInterval(interval);
+        const from = toUnixTimestamp(period1);
+        const to = toUnixTimestamp(period2);
 
-      if (candles.s === 'no_data') {
-        console.log(`Finnhub returned no_data for ${symbol}, trying Alpaca...`);
-      } else if (candles.t && candles.t.length > 0) {
-        // Transform to standard format
-        const quotes = candles.t.map((timestamp, i) => ({
-          date: new Date(timestamp * 1000),
-          open: candles.o[i],
-          high: candles.h[i],
-          low: candles.l[i],
-          close: candles.c[i],
-          volume: candles.v[i]
-        }));
+        console.log(`[Finnhub] Requesting candles for ${symbol}, resolution: ${resolution}, from: ${from}, to: ${to}`);
 
-        return {
-          success: true,
-          symbol,
-          data: {
-            quotes,
+        const candles = await finnhubFetch<FinnhubCandle>('/stock/candle', {
+          symbol: symbol.toUpperCase(),
+          resolution,
+          from: String(from),
+          to: String(to)
+        });
+
+        if (candles.s === 'no_data') {
+          console.log(`[Finnhub] Returned no_data for ${symbol}, trying Alpaca...`);
+        } else if (candles.t && candles.t.length > 0) {
+          // Transform to standard format
+          const quotes = candles.t.map((timestamp, i) => ({
+            date: new Date(timestamp * 1000),
+            open: candles.o[i],
+            high: candles.h[i],
+            low: candles.l[i],
+            close: candles.c[i],
+            volume: candles.v[i]
+          }));
+
+          console.log(`[Finnhub] Successfully fetched ${quotes.length} candles for ${symbol}`);
+
+          return {
+            success: true,
+            symbol,
+            source: 'finnhub',
+            data: {
+              quotes,
+              meta: {
+                symbol,
+                exchangeName: 'US',
+                regularMarketPrice: quotes.length > 0 ? quotes[quotes.length - 1].close : null
+              }
+            },
             meta: {
               symbol,
-              exchangeName: 'US',
               regularMarketPrice: quotes.length > 0 ? quotes[quotes.length - 1].close : null
             }
-          },
-          meta: {
-            symbol,
-            regularMarketPrice: quotes.length > 0 ? quotes[quotes.length - 1].close : null
-          }
-        };
-      } else {
-        console.log(`Finnhub returned empty data for ${symbol}, trying Alpaca...`);
+          };
+        } else {
+          console.log(`[Finnhub] Returned empty data for ${symbol} (status: ${candles.s}), trying Alpaca...`);
+        }
+      } catch (finnhubError: any) {
+        console.log(`[Finnhub] API failed for ${symbol}: ${finnhubError.message}, trying Alpaca...`);
       }
-    } catch (finnhubError: any) {
-      console.log(`Finnhub API failed for ${symbol}: ${finnhubError.message}, trying Alpaca...`);
+    } else {
+      console.log('[Finnhub] API key not configured, skipping to Alpaca...');
     }
 
     // Fallback to Alpaca API
     try {
+      console.log(`[Alpaca] Attempting to fetch historical data for ${symbol}...`);
       const result = await this.getHistoricalDataFromAlpaca(symbol, period1, period2, interval);
       if (result.success && result.data?.quotes && result.data.quotes.length > 0) {
-        return result;
+        console.log(`[Alpaca] Successfully fetched ${result.data.quotes.length} bars for ${symbol}`);
+        return {
+          ...result,
+          source: 'alpaca'
+        };
       }
+      console.log(`[Alpaca] Returned no data for ${symbol}`);
     } catch (alpacaError: any) {
-      console.log(`Alpaca API fallback failed for ${symbol}: ${alpacaError.message}`);
+      console.log(`[Alpaca] API fallback failed for ${symbol}: ${alpacaError.message}`);
     }
+
+    console.error(`[Historical] Failed to fetch data for ${symbol} from both Finnhub and Alpaca`);
 
     return {
       success: false,
-      error: 'Failed to fetch historical data from both Finnhub and Alpaca'
+      error: 'Failed to fetch historical data from both Finnhub and Alpaca. Please check API credentials are configured.'
     };
   }
 
   /**
    * Get historical data from Alpaca API (fallback)
-   * Tries the SDK first, then falls back to direct HTTP API call
+   * Tries direct HTTP API first (more reliable), then falls back to SDK
    */
   private async getHistoricalDataFromAlpaca(
     symbol: string,
@@ -246,14 +265,32 @@ export class FinnhubWrapper {
     const startDate = typeof period1 === 'string' ? new Date(period1) : period1;
     const endDate = typeof period2 === 'string' ? new Date(period2) : period2;
 
-    // Try SDK method first
+    // Try direct HTTP API first (more reliable than SDK)
+    try {
+      const result = await this.getHistoricalDataFromAlpacaHttp(symbol, startDate, endDate, timeframe);
+      if (result.success && result.data?.quotes && result.data.quotes.length > 0) {
+        console.log(`Alpaca HTTP API succeeded for ${symbol}: ${result.data.quotes.length} bars`);
+        return result;
+      }
+      console.log(`Alpaca HTTP API returned no data for ${symbol}`);
+    } catch (httpError: any) {
+      console.log(`Alpaca HTTP API failed for ${symbol}: ${httpError.message}`);
+    }
+
+    // Fallback to SDK method
     try {
       const alpaca = createAlpacaClient();
+
+      // Format dates as YYYY-MM-DD for SDK (simpler format works better)
+      const formatDate = (d: Date) => d.toISOString().split('T')[0];
+
+      console.log(`Trying Alpaca SDK for ${symbol} from ${formatDate(startDate)} to ${formatDate(endDate)}`);
+
       const bars = alpaca.getBarsV2(
         symbol.toUpperCase(),
         {
-          start: startDate.toISOString(),
-          end: endDate.toISOString(),
+          start: formatDate(startDate),
+          end: formatDate(endDate),
           timeframe,
           feed: 'iex'
         }
@@ -261,17 +298,28 @@ export class FinnhubWrapper {
 
       const quotes: any[] = [];
       for await (const bar of bars) {
-        quotes.push({
-          date: new Date(bar.Timestamp),
-          open: bar.OpenPrice,
-          high: bar.HighPrice,
-          low: bar.LowPrice,
-          close: bar.ClosePrice,
-          volume: bar.Volume
-        });
+        // Handle both SDK format (PascalCase) and raw format (lowercase)
+        const timestamp = bar.Timestamp || bar.t;
+        const open = bar.OpenPrice ?? bar.o;
+        const high = bar.HighPrice ?? bar.h;
+        const low = bar.LowPrice ?? bar.l;
+        const close = bar.ClosePrice ?? bar.c;
+        const volume = bar.Volume ?? bar.v;
+
+        if (timestamp && open !== undefined) {
+          quotes.push({
+            date: new Date(timestamp),
+            open,
+            high,
+            low,
+            close,
+            volume
+          });
+        }
       }
 
       if (quotes.length > 0) {
+        console.log(`Alpaca SDK succeeded for ${symbol}: ${quotes.length} bars`);
         return {
           success: true,
           symbol,
@@ -290,18 +338,9 @@ export class FinnhubWrapper {
           }
         };
       }
+      console.log(`Alpaca SDK returned no data for ${symbol}`);
     } catch (sdkError: any) {
-      console.log(`Alpaca SDK failed for ${symbol}: ${sdkError.message}, trying direct API...`);
-    }
-
-    // Fallback to direct HTTP API call
-    try {
-      const result = await this.getHistoricalDataFromAlpacaHttp(symbol, startDate, endDate, timeframe);
-      if (result.success && result.data?.quotes && result.data.quotes.length > 0) {
-        return result;
-      }
-    } catch (httpError: any) {
-      console.log(`Alpaca HTTP API failed for ${symbol}: ${httpError.message}`);
+      console.log(`Alpaca SDK failed for ${symbol}: ${sdkError.message}`);
     }
 
     return {
@@ -320,19 +359,26 @@ export class FinnhubWrapper {
     endDate: Date,
     timeframe: string
   ) {
-    const apiKey = process.env.ALPACA_API_KEY || process.env.ALPACA_KEY_ID || '';
-    const secretKey = process.env.ALPACA_SECRET || process.env.ALPACA_SECRET_KEY || '';
+    // Check multiple environment variable names for API credentials
+    const apiKey = process.env.ALPACA_API_KEY || process.env.ALPACA_KEY_ID || process.env.APCA_API_KEY_ID || '';
+    const secretKey = process.env.ALPACA_SECRET || process.env.ALPACA_SECRET_KEY || process.env.APCA_API_SECRET_KEY || '';
 
     if (!apiKey || !secretKey) {
-      throw new Error('Alpaca API credentials not configured');
+      throw new Error('Alpaca API credentials not configured. Set ALPACA_API_KEY and ALPACA_SECRET environment variables.');
     }
 
+    // Format dates as RFC-3339 (ISO 8601)
+    const formatDate = (d: Date) => d.toISOString();
+
     const url = new URL(`https://data.alpaca.markets/v2/stocks/${symbol.toUpperCase()}/bars`);
-    url.searchParams.set('start', startDate.toISOString());
-    url.searchParams.set('end', endDate.toISOString());
+    url.searchParams.set('start', formatDate(startDate));
+    url.searchParams.set('end', formatDate(endDate));
     url.searchParams.set('timeframe', timeframe);
     url.searchParams.set('feed', 'iex');
     url.searchParams.set('limit', '10000');
+    url.searchParams.set('adjustment', 'split'); // Adjust for stock splits
+
+    console.log(`Alpaca HTTP request: ${url.toString().replace(/apikey=[^&]+/gi, 'apikey=***')}`);
 
     const response = await fetch(url.toString(), {
       headers: {
@@ -344,11 +390,24 @@ export class FinnhubWrapper {
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.error(`Alpaca API error response: ${response.status} ${response.statusText} - ${errorText}`);
       throw new Error(`Alpaca API error: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     const data = await response.json();
+
+    // Handle the response - bars can be an array or null
     const bars = data.bars || [];
+
+    if (!Array.isArray(bars) || bars.length === 0) {
+      console.log(`Alpaca returned empty bars array for ${symbol}`);
+      return {
+        success: true,
+        symbol,
+        data: { quotes: [], meta: { symbol } },
+        meta: { symbol }
+      };
+    }
 
     const quotes = bars.map((bar: any) => ({
       date: new Date(bar.t),
