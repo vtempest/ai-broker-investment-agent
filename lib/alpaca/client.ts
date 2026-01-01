@@ -14,21 +14,32 @@ export interface AlpacaConfig {
  * @returns Alpaca client instance
  */
 export function createAlpacaClient(config?: Partial<AlpacaConfig>) {
-  const keyId = config?.keyId || process.env.ALPACA_API_KEY || process.env.ALPACA_KEY_ID || ""
-  const secretKey = config?.secretKey || process.env.ALPACA_SECRET || process.env.ALPACA_SECRET_KEY || ""
+  // Support multiple environment variable naming conventions
+  const keyId = config?.keyId ||
+    process.env.ALPACA_API_KEY ||
+    process.env.ALPACA_KEY_ID ||
+    process.env.APCA_API_KEY_ID ||  // Standard Alpaca SDK env var name
+    ""
+  const secretKey = config?.secretKey ||
+    process.env.ALPACA_SECRET ||
+    process.env.ALPACA_SECRET_KEY ||
+    process.env.APCA_API_SECRET_KEY ||  // Standard Alpaca SDK env var name
+    ""
   const paper = config?.paper ?? true
 
   if (!keyId || !secretKey) {
-    console.warn("Alpaca keys missing - check .env or user settings")
+    console.warn("[Alpaca] API keys missing - check .env or user settings. Expected: ALPACA_API_KEY and ALPACA_SECRET (or APCA_API_KEY_ID and APCA_API_SECRET_KEY)")
+  } else {
+    console.log(`[Alpaca] Client initialized with API key: ${keyId.substring(0, 4)}...${keyId.substring(keyId.length - 4)}`)
   }
 
   // Determine base URL based on paper trading and config
   let baseUrl = config?.baseUrl
   if (!baseUrl) {
     if (paper) {
-      baseUrl = process.env.ALPACA_BASE_URL || 'https://paper-api.alpaca.markets'
+      baseUrl = process.env.ALPACA_BASE_URL || process.env.APCA_API_BASE_URL || 'https://paper-api.alpaca.markets'
     } else {
-      baseUrl = process.env.ALPACA_BASE_URL || 'https://api.alpaca.markets'
+      baseUrl = process.env.ALPACA_BASE_URL || process.env.APCA_API_BASE_URL || 'https://api.alpaca.markets'
     }
   }
 
