@@ -101,15 +101,29 @@ export async function GET(
                 source: (result as any).source
             })}`);
 
+            // Determine the appropriate hint based on configuration
+            let hint: string | undefined;
+            const hasAlpacaKey = !!(process.env.ALPACA_API_KEY || process.env.APCA_API_KEY_ID);
+            const hasAlpacaSecret = !!(process.env.ALPACA_SECRET || process.env.APCA_API_SECRET_KEY);
+            const hasFinnhubKey = !!process.env.FINNHUB_API_KEY;
+
+            if (!hasAlpacaKey && !hasFinnhubKey) {
+                hint = 'No API keys configured. Set FINNHUB_API_KEY and/or ALPACA_API_KEY + ALPACA_SECRET environment variables.';
+            } else if (hasAlpacaKey && !hasAlpacaSecret) {
+                hint = 'ALPACA_SECRET is missing. Both ALPACA_API_KEY and ALPACA_SECRET are required.';
+            } else if (range === '5y' || range === '10y' || range === 'max') {
+                hint = `Long date ranges (${range}) may have limited data availability. Try a shorter range like 1y or 2y.`;
+            }
+
             return NextResponse.json(
                 {
                     success: false,
                     error: errorMessage,
                     code: 'NO_DATA',
                     source: (result as any).source,
-                    hint: !process.env.ALPACA_API_KEY && !process.env.FINNHUB_API_KEY
-                        ? 'No API keys configured. Set FINNHUB_API_KEY and/or ALPACA_API_KEY + ALPACA_SECRET environment variables.'
-                        : undefined,
+                    requestedRange: range,
+                    requestedInterval: interval,
+                    hint,
                     timestamp: new Date().toISOString()
                 },
                 { status: 404 }

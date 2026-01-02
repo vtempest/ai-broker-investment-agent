@@ -352,6 +352,7 @@ export class FinnhubWrapper {
 
   /**
    * Direct HTTP API call to Alpaca Market Data API
+   * Supports pagination for large date ranges (e.g., 5 years of data)
    */
   private async getHistoricalDataFromAlpacaHttp(
     symbol: string,
@@ -370,37 +371,92 @@ export class FinnhubWrapper {
     // Format dates as RFC-3339 (ISO 8601)
     const formatDate = (d: Date) => d.toISOString();
 
-    const url = new URL(`https://data.alpaca.markets/v2/stocks/${symbol.toUpperCase()}/bars`);
-    url.searchParams.set('start', formatDate(startDate));
-    url.searchParams.set('end', formatDate(endDate));
-    url.searchParams.set('timeframe', timeframe);
-    url.searchParams.set('feed', 'iex');
-    url.searchParams.set('limit', '10000');
-    url.searchParams.set('adjustment', 'split'); // Adjust for stock splits
+    // Collect all bars with pagination support
+    const allBars: any[] = [];
+    let nextPageToken: string | null = null;
+    let pageCount = 0;
+    const maxPages = 50; // Safety limit to prevent infinite loops
 
-    console.log(`Alpaca HTTP request: ${url.toString().replace(/apikey=[^&]+/gi, 'apikey=***')}`);
+    // Try 'sip' feed first (more historical data), fallback to 'iex' if not available
+    const feeds = ['iex', 'sip'];
+    let lastError: Error | null = null;
 
-    const response = await fetch(url.toString(), {
-      headers: {
-        'APCA-API-KEY-ID': apiKey,
-        'APCA-API-SECRET-KEY': secretKey,
-        'Accept': 'application/json'
+    for (const feed of feeds) {
+      allBars.length = 0; // Reset bars for each feed attempt
+      nextPageToken = null;
+      pageCount = 0;
+
+      try {
+        do {
+          const url = new URL(`https://data.alpaca.markets/v2/stocks/${symbol.toUpperCase()}/bars`);
+          url.searchParams.set('start', formatDate(startDate));
+          url.searchParams.set('end', formatDate(endDate));
+          url.searchParams.set('timeframe', timeframe);
+          url.searchParams.set('feed', feed);
+          url.searchParams.set('limit', '10000');
+          url.searchParams.set('adjustment', 'split'); // Adjust for stock splits
+
+          if (nextPageToken) {
+            url.searchParams.set('page_token', nextPageToken);
+          }
+
+          if (pageCount === 0) {
+            console.log(`[Alpaca HTTP] Requesting ${symbol} with ${feed} feed: ${url.toString().replace(/apikey=[^&]+/gi, 'apikey=***')}`);
+          }
+
+          const response = await fetch(url.toString(), {
+            headers: {
+              'APCA-API-KEY-ID': apiKey,
+              'APCA-API-SECRET-KEY': secretKey,
+              'Accept': 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            // If subscription issue (403), try next feed
+            if (response.status === 403 && feed === 'sip') {
+              console.log(`[Alpaca HTTP] SIP feed not available (subscription required), trying IEX...`);
+              throw new Error('SIP_NOT_AVAILABLE');
+            }
+            console.error(`[Alpaca HTTP] Error response: ${response.status} ${response.statusText} - ${errorText}`);
+            throw new Error(`Alpaca API error: ${response.status} ${response.statusText} - ${errorText}`);
+          }
+
+          const data = await response.json();
+          const bars = data.bars || [];
+
+          if (Array.isArray(bars)) {
+            allBars.push(...bars);
+          }
+
+          nextPageToken = data.next_page_token || null;
+          pageCount++;
+
+          if (nextPageToken) {
+            console.log(`[Alpaca HTTP] Page ${pageCount}: fetched ${bars.length} bars, more pages available...`);
+          }
+        } while (nextPageToken && pageCount < maxPages);
+
+        // If we got data, break out of feed loop
+        if (allBars.length > 0) {
+          console.log(`[Alpaca HTTP] Successfully fetched ${allBars.length} bars for ${symbol} using ${feed} feed (${pageCount} page(s))`);
+          break;
+        }
+      } catch (feedError: any) {
+        if (feedError.message === 'SIP_NOT_AVAILABLE') {
+          continue; // Try next feed
+        }
+        lastError = feedError;
+        console.log(`[Alpaca HTTP] ${feed} feed failed for ${symbol}: ${feedError.message}`);
       }
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Alpaca API error response: ${response.status} ${response.statusText} - ${errorText}`);
-      throw new Error(`Alpaca API error: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
-    const data = await response.json();
-
-    // Handle the response - bars can be an array or null
-    const bars = data.bars || [];
-
-    if (!Array.isArray(bars) || bars.length === 0) {
-      console.log(`Alpaca returned empty bars array for ${symbol}`);
+    if (allBars.length === 0) {
+      console.log(`[Alpaca HTTP] No data returned for ${symbol} from any feed`);
+      if (lastError) {
+        throw lastError;
+      }
       return {
         success: true,
         symbol,
@@ -409,7 +465,7 @@ export class FinnhubWrapper {
       };
     }
 
-    const quotes = bars.map((bar: any) => ({
+    const quotes = allBars.map((bar: any) => ({
       date: new Date(bar.t),
       open: bar.o,
       high: bar.h,
@@ -417,6 +473,9 @@ export class FinnhubWrapper {
       close: bar.c,
       volume: bar.v
     }));
+
+    // Sort quotes by date (oldest first)
+    quotes.sort((a, b) => a.date.getTime() - b.date.getTime());
 
     return {
       success: true,
