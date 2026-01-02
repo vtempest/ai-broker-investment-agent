@@ -53,6 +53,8 @@ export const auth = betterAuth({
       // Users can sign in with just their Ethereum wallet
       anonymous: true,
       domain: process.env.NEXT_PUBLIC_APP_DOMAIN?.split("//")[1] || "localhost:3000",
+      // Extract domain without protocol for email generation
+      emailDomainName: process.env.NEXT_PUBLIC_APP_URL?.split("//")[1]?.split("/")[0] || "localhost:3000",
       getNonce: async () => {
         // Generate a cryptographically secure random nonce
         return randomBytes(32).toString("hex");
