@@ -74,14 +74,24 @@ export async function POST(request: NextRequest) {
       interval: '1d'
     })
     
-    if (!historicalData.success || !historicalData.data || historicalData.data.length === 0) {
+    if (!historicalData.success || !historicalData.data) {
       return NextResponse.json(
         { success: false, error: 'Failed to fetch historical data' },
         { status: 500 }
       )
     }
-    
-    const prices = historicalData.data
+
+    // Handle both nested (Alpaca/Finnhub) and flat array formats
+    const prices = Array.isArray(historicalData.data)
+      ? historicalData.data
+      : historicalData.data.quotes || []
+
+    if (prices.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'No historical data available' },
+        { status: 500 }
+      )
+    }
     let cash = initialCapital
     let shares = 0
     const trades: Trade[] = []
