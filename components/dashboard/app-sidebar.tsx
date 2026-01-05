@@ -21,9 +21,7 @@ import {
   Search,
   Bell,
   BarChart3,
-  Palette,
-  Moon,
-  Sun
+  Palette
 } from 'lucide-react'
 import { useSession, signOut } from "@/lib/auth-client"
 import { useTheme } from "next-themes"
@@ -58,6 +56,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { SettingsDialog } from "@/components/settings/settings-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher"
 
 // Theme names
 const themeNames = [
@@ -301,9 +300,6 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
   }
 
-  const toggleLightDark = () => {
-    setTheme(theme === "dark" ? "light" : "dark")
-  }
 
   // Helper to determine active state
   const isActive = (tab?: string, href?: string) => {
@@ -463,25 +459,17 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   Notifications
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
+                <div className="px-2 py-1.5 flex items-center justify-center">
+                  <CinematicThemeSwitcher />
+                </div>
+                <DropdownMenuSeparator />
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
                     <Palette className="mr-2 h-4 w-4" />
-                    <span>Theme</span>
+                    <span>Color Theme</span>
                   </DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent className="max-h-[400px] overflow-y-auto">
-                      <DropdownMenuItem onClick={(e) => {
-                        e.stopPropagation()
-                        toggleLightDark()
-                      }}>
-                        {theme === "dark" ? (
-                          <Moon className="mr-2 h-4 w-4" />
-                        ) : (
-                          <Sun className="mr-2 h-4 w-4" />
-                        )}
-                        {theme === "dark" ? "Dark Mode" : "Light Mode"}
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
                       {themeNames.map((themeName) => {
                         const colors = themeColors[themeName];
                         return (
