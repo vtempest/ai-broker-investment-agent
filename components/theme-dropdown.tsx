@@ -131,19 +131,19 @@ export function ThemeDropdown() {
       <DropdownMenuContent align="end" className="w-56 max-h-[400px] overflow-y-auto">
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => setTheme("light")} className="cursor-pointer">
-          <Sun className="mr-2 h-4 w-4" />
-          <span>Light</span>
+        <DropdownMenuItem onClick={() => setTheme("light")} className="cursor-pointer py-1 h-7">
+          <Sun className="mr-2 h-3.5 w-3.5" />
+          <span className="text-sm">Light</span>
           {theme === "light" && <span className="ml-auto text-xs">✓</span>}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")} className="cursor-pointer">
-          <Moon className="mr-2 h-4 w-4" />
-          <span>Dark</span>
+        <DropdownMenuItem onClick={() => setTheme("dark")} className="cursor-pointer py-1 h-7">
+          <Moon className="mr-2 h-3.5 w-3.5" />
+          <span className="text-sm">Dark</span>
           {theme === "dark" && <span className="ml-auto text-xs">✓</span>}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")} className="cursor-pointer">
-          <Monitor className="mr-2 h-4 w-4" />
-          <span>System</span>
+        <DropdownMenuItem onClick={() => setTheme("system")} className="cursor-pointer py-1 h-7">
+          <Monitor className="mr-2 h-3.5 w-3.5" />
+          <span className="text-sm">System</span>
           {theme === "system" && <span className="ml-auto text-xs">✓</span>}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
