@@ -459,10 +459,6 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   Notifications
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <div className="px-2 py-1.5 flex items-center justify-center">
-                  <CinematicThemeSwitcher />
-                </div>
-                <DropdownMenuSeparator />
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
                     <Palette className="mr-2 h-4 w-4" />
@@ -470,6 +466,10 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent className="max-h-[400px] overflow-y-auto">
+                      <div className="px-2 py-1.5 flex items-center justify-center">
+                        <CinematicThemeSwitcher />
+                      </div>
+                      <DropdownMenuSeparator />
                       {themeNames.map((themeName) => {
                         const colors = themeColors[themeName];
                         return (
