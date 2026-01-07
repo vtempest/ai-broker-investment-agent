@@ -31,11 +31,9 @@ export default function Dock({ items, className }: DockProps) {
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         className={cn(
           "flex items-end gap-4 px-4 py-3 rounded-3xl",
-          "border bg-background/70 backdrop-blur-2xl shadow-lg"
+          "border bg-background/70 backdrop-blur-2xl shadow-lg",
+          "md:[transform:perspective(600px)_rotateX(10deg)]" // arc layout illusion only on desktop
         )}
-        style={{
-          transform: "perspective(600px) rotateX(10deg)", // arc layout illusion
-        }}
       >
         <TooltipProvider delayDuration={100}>
           {items.map((item, i) => {

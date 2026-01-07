@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
-  viewport: "width=device-width, initial-scale=1",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
     generator: 'v0.app'
 };
 
