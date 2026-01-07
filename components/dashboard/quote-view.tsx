@@ -511,7 +511,7 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
               {data.peers && data.peers.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {data.peers.slice(0, 10).map((peerSymbol: string) => (
-                    <Link key={peerSymbol} href={`/dashboard/quote?symbol=${peerSymbol}`}>
+                    <Link key={peerSymbol} href={`/dashboard?symbol=${peerSymbol}`}>
                       <Badge variant="secondary" className="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer">
                         {peerSymbol}
                       </Badge>
