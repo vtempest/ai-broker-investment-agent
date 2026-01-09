@@ -2,12 +2,7 @@
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-import { type CoreMessage } from 'ai'
-import { toUIMessageStream } from '@ai-sdk/langchain'
 import { chatModel } from '@/lib/ai/providers'
-import { provideLinks } from '@/lib/ai/tools/provide-links'
-import { searchDocs } from '@/lib/ai/tools/search-docs'
-import { getPageContent } from '@/lib/ai/tools/get-page-content'
 import { systemPrompt } from '@/lib/ai/prompts'
 import { categories } from '@/lib/constants'
 import { source } from '@/lib/docs/source'
@@ -16,11 +11,12 @@ import {
   MessagesPlaceholder,
 } from '@langchain/core/prompts'
 import { AIMessage, HumanMessage, SystemMessage } from '@langchain/core/messages'
-import { StringOutputParser } from '@langchain/core/output_parsers'
 
-// Fallback if createToolCallingAgent is missing in older version, though d.ts suggested exports.
-// If missing, we might need another approach, but let's try strict imports or just standard runnable.
-// Actually, let's use the Runnable approach which is safer across versions if bindTools exists.
+// Message type for client
+interface Message {
+  role: 'user' | 'assistant' | 'system'
+  content: string | Array<{ type: string; text?: string }>
+}
 
 function getLLMsTxt() {
   const scanned: string[] = []
@@ -42,21 +38,19 @@ function getLLMsTxt() {
   return scanned.join('\n\n')
 }
 
-// Helper to convert message content to string, handling text parts
-function stringifyContent(content: CoreMessage['content']): string {
+// Helper to convert message content to string
+function stringifyContent(content: string | Array<{ type: string; text?: string }>): string {
   if (typeof content === 'string') return content
   if (!content || !Array.isArray(content)) return ''
   return content
     .filter((part) => part.type === 'text')
-    .map((part) => (part as { text: string }).text)
+    .map((part) => part.text || '')
     .join('\n')
 }
 
 export async function POST(request: Request) {
-  const { messages }: { messages: CoreMessage[] } = await request.json()
+  const { messages }: { messages: Message[] } = await request.json()
 
-  const tools = [provideLinks, searchDocs, getPageContent]
-  
   // Create the prompt
   const prompt = ChatPromptTemplate.fromMessages([
     new SystemMessage(systemPrompt({ llms: getLLMsTxt() })),
@@ -64,11 +58,8 @@ export async function POST(request: Request) {
     ['human', '{input}'],
   ])
 
-  // Bind tools to the model
-  const modelWithTools = chatModel.bindTools(tools)
-
   // Create the chain
-  const chain = prompt.pipe(modelWithTools)
+  const chain = prompt.pipe(chatModel)
 
   // Separate the last message from the history
   const lastMessage = messages[messages.length - 1]
@@ -80,39 +71,35 @@ export async function POST(request: Request) {
       : new AIMessage(content)
   })
 
-  // Stream events from the chain
-  // We use streamEvents to get tool calls and outputs
-  // However toUIMessageStream expects a stream of LangChainStreamEvent
-  
-  const stream = await chain.streamEvents(
-    {
-      input,
-      chat_history: chatHistory,
+  // Stream the response using LangChain's native streaming
+  const stream = await chain.stream({
+    input,
+    chat_history: chatHistory,
+  })
+
+  // Create a ReadableStream from the LangChain stream
+  const readableStream = new ReadableStream({
+    async start(controller) {
+      try {
+        for await (const chunk of stream) {
+          // Extract text content from the chunk
+          const text = chunk?.content || ''
+          if (text) {
+            controller.enqueue(new TextEncoder().encode(text))
+          }
+        }
+        controller.close()
+      } catch (error) {
+        console.error('Stream error:', error)
+        controller.error(error)
+      }
     },
-    { version: 'v2' }
-  )
+  })
 
-  // Transform LangChain stream to AI SDK Data Stream Protocol manually
-  // Protocol: '0': text part
-  const protocolStream = toUIMessageStream(stream).pipeThrough(
-    new TransformStream({
-      transform(chunk, controller) {
-        // Log to see what we are getting
-        console.log('Chunk Type:', chunk.type)
-        console.log('Chunk:', JSON.stringify(chunk))
-        
-        // Temporary pass-through as JSON to see if client errors or ignores
-        // We know client errors on object, so must be string.
-        // We will fallback to enqueueing JSON string until we map types correctly.
-        controller.enqueue(JSON.stringify(chunk) + '\n')
-      },
-    })
-  )
-
-  return new Response(protocolStream, {
+  return new Response(readableStream, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
-      'X-Vercel-AI-Data-Stream': 'v1'
+      'Transfer-Encoding': 'chunked',
     },
   })
 }
