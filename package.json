@@ -52,6 +52,7 @@
     "@langchain/core": "^1.1.8",
     "@langchain/google-genai": "2.1.3",
     "@langchain/groq": "^1.0.2",
+    "@langchain/langgraph": "^0.2.0",
     "@langchain/openai": "^1.2.0",
     "@libsql/client": "^0.15.15",
     "@libsql/client-wasm": "latest",
