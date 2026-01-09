@@ -1,9 +1,15 @@
 'use client'
 
 import * as React from 'react'
+import dynamic from 'next/dynamic'
 import { cn } from '@/lib/utils'
-import { ApiReferenceReact } from '@scalar/api-reference-react'
 import '@scalar/api-reference-react/style.css'
+
+// Dynamically import Scalar with SSR disabled to avoid module resolution issues
+const ApiReferenceReact = dynamic(
+  () => import('@scalar/api-reference-react').then((mod) => mod.ApiReferenceReact),
+  { ssr: false }
+)
 
 interface APIPageProps {
   document?: any
@@ -13,6 +19,12 @@ interface APIPageProps {
 }
 
 export function APIPage({ className, children, document, operations, ...props }: APIPageProps) {
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   if (document && typeof document === 'object') {
     let spec = document
 
@@ -53,14 +65,16 @@ export function APIPage({ className, children, document, operations, ...props }:
 
     return (
       <div className={cn('api-page rounded-lg border bg-card overflow-hidden', className)} {...props}>
-        <ApiReferenceReact
-          configuration={{
-            spec: { content: spec },
-            darkMode: true,
-            hideModels: true, // Optional: clean up view for single endpoints
-            // hideSidebar: true // If we only want the content
-          }}
-        />
+        {mounted && (
+          <ApiReferenceReact
+            configuration={{
+              spec: { content: spec },
+              darkMode: true,
+              hideModels: true, // Optional: clean up view for single endpoints
+              // hideSidebar: true // If we only want the content
+            }}
+          />
+        )}
       </div>
     )
   }
