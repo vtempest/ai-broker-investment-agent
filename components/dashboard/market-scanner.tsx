@@ -30,6 +30,7 @@ import { Label } from "@/components/ui/label"
 import { StockList, StockData } from "./stock-list"
 import { toast } from "sonner"
 import { useSession } from "@/lib/auth-client"
+import { FinancialTable, type MarketIndex } from "@/components/ui/financial-markets-table"
 
 // Mock data (carried over from IndexScreenerTab)
 const mockIndexes: StockData[] = [
@@ -64,6 +65,99 @@ const highestMACD: StockData[] = [
   { symbol: "CRM", name: "Salesforce Inc", price: 298.45, change: 6.78, changePercent: 2.32, volume: 6700000, indicator: 3.5 },
 ]
 
+const globalMarketIndices: MarketIndex[] = [
+  {
+    id: "1",
+    name: "Dow Jones USA",
+    country: "USA",
+    countryCode: "US",
+    ytdReturn: 0.40,
+    pltmEps: 18.74,
+    divYield: 2.00,
+    marketCap: 28.04,
+    volume: 1.7,
+    chartData: [330.5, 331.2, 330.8, 331.5, 332.1, 331.8, 332.4, 333.2, 333.9, 333.7],
+    price: 333.90,
+    dailyChange: -0.20,
+    dailyChangePercent: -0.06
+  },
+  {
+    id: "2",
+    name: "S&P 500 USA",
+    country: "USA",
+    countryCode: "US",
+    ytdReturn: 11.72,
+    pltmEps: 7.42,
+    divYield: 1.44,
+    marketCap: 399.6,
+    volume: 24.6,
+    chartData: [425.1, 426.3, 427.8, 428.1, 429.2, 428.9, 429.5, 429.1, 428.7, 428.9],
+    price: 428.72,
+    dailyChange: -0.82,
+    dailyChangePercent: -0.19
+  },
+  {
+    id: "3",
+    name: "Nasdaq USA",
+    country: "USA",
+    countryCode: "US",
+    ytdReturn: 36.59,
+    pltmEps: null,
+    divYield: 0.54,
+    marketCap: 199.9,
+    volume: 18.9,
+    chartData: [360.2, 361.8, 362.4, 363.1, 364.3, 363.8, 364.1, 363.5, 363.2, 362.97],
+    price: 362.97,
+    dailyChange: -1.73,
+    dailyChangePercent: -0.47
+  },
+  {
+    id: "4",
+    name: "TSX Canada",
+    country: "Canada",
+    countryCode: "CA",
+    ytdReturn: -0.78,
+    pltmEps: 6.06,
+    divYield: 2.56,
+    marketCap: 3.67,
+    volume: 771.5,
+    chartData: [32.1, 32.3, 32.5, 32.4, 32.7, 32.8, 32.9, 33.0, 32.9, 32.96],
+    price: 32.96,
+    dailyChange: 0.19,
+    dailyChangePercent: 0.58
+  },
+  {
+    id: "5",
+    name: "Grupo BMV Mexico",
+    country: "Mexico",
+    countryCode: "MX",
+    ytdReturn: 4.15,
+    pltmEps: 8.19,
+    divYield: 2.34,
+    marketCap: 1.22,
+    volume: 1.1,
+    chartData: [52.1, 52.8, 53.2, 53.5, 53.9, 54.1, 54.3, 54.0, 53.8, 53.7],
+    price: 53.70,
+    dailyChange: -1.01,
+    dailyChangePercent: -1.85
+  },
+  {
+    id: "6",
+    name: "Ibovespa Brazil",
+    country: "Brazil",
+    countryCode: "BR",
+    ytdReturn: 11.19,
+    pltmEps: 6.23,
+    divYield: 9.46,
+    marketCap: 4.87,
+    volume: 6.8,
+    chartData: [28.5, 28.8, 29.1, 29.3, 29.5, 29.4, 29.6, 29.5, 29.3, 29.28],
+    price: 29.28,
+    dailyChange: -0.06,
+    dailyChangePercent: -0.22
+  }
+]
+
 interface Watchlist {
   id: string
   name: string
@@ -73,7 +167,7 @@ interface Watchlist {
 
 export function MarketScanner() {
   const { data: session } = useSession()
-  const [activeTab, setActiveTab] = useState("indexes")
+  const [activeTab, setActiveTab] = useState("global-markets")
   const [watchlists, setWatchlists] = useState<Watchlist[]>([])
   const [loadingLists, setLoadingLists] = useState(false)
   
@@ -250,6 +344,7 @@ export function MarketScanner() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <div className="w-full overflow-x-auto touch-pan-x pb-2">
           <TabsList>
+            <TabsTrigger value="global-markets">Global Markets</TabsTrigger>
             <TabsTrigger value="indexes">Indexes</TabsTrigger>
             <TabsTrigger value="trending">Trending</TabsTrigger>
             <TabsTrigger value="breakout">Breakout</TabsTrigger>
@@ -263,11 +358,18 @@ export function MarketScanner() {
         </div>
 
         {/* Static Tabs */}
+        <TabsContent value="global-markets">
+          <FinancialTable
+            title="Index"
+            indices={globalMarketIndices}
+            onIndexSelect={(indexId) => console.log("Selected index:", indexId)}
+          />
+        </TabsContent>
         <TabsContent value="indexes">
-          <StockList 
-            title="Market Indexes" 
-            mode="static" 
-            initialStocks={mockIndexes} 
+          <StockList
+            title="Market Indexes"
+            mode="static"
+            initialStocks={mockIndexes}
           />
         </TabsContent>
         <TabsContent value="trending">
