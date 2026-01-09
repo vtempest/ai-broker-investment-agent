@@ -1,0 +1,98 @@
+{
+  "name": "investing",
+  "version": "0.1.0",
+  "description": "Reusable investment utilities, trading agents, and financial data tools",
+  "license": "rights.institute/prosper",
+  "author": "vtempest",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./data/*": "./data/*",
+    "./alpaca": {
+      "import": "./dist/alpaca/index.mjs",
+      "require": "./dist/alpaca/index.js",
+      "types": "./dist/alpaca/index.d.ts"
+    },
+    "./stocks": {
+      "import": "./dist/stocks/index.mjs",
+      "require": "./dist/stocks/index.js",
+      "types": "./dist/stocks/index.d.ts"
+    },
+    "./prediction": {
+      "import": "./dist/prediction/index.mjs",
+      "require": "./dist/prediction/index.js",
+      "types": "./dist/prediction/index.d.ts"
+    },
+    "./trading-agents": {
+      "import": "./dist/trading-agents/index.mjs",
+      "require": "./dist/trading-agents/index.js",
+      "types": "./dist/trading-agents/index.d.ts"
+    },
+    "./constants": {
+      "import": "./dist/constants/index.mjs",
+      "require": "./dist/constants/index.js",
+      "types": "./dist/constants/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.js",
+      "types": "./dist/utils.d.ts"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "data"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "investing",
+    "trading",
+    "stocks",
+    "alpaca",
+    "prediction-markets",
+    "financial-data",
+    "yahoo-finance",
+    "sec-filings",
+    "trading-agents"
+  ],
+  "dependencies": {
+    "@alpacahq/alpaca-trade-api": "^3.1.3",
+    "@langchain/core": "^1.1.8",
+    "@langchain/google-genai": "2.1.3",
+    "@langchain/groq": "^1.0.2",
+    "@langchain/langgraph": "^0.2.0",
+    "@langchain/openai": "^1.2.0",
+    "@polymarket/clob-client": "5.1.3",
+    "axios": "^1.13.2",
+    "csv-parse": "6.1.0",
+    "date-fns": "4.1.0",
+    "dotenv": "^17.2.3",
+    "ethers": "^6.16.0",
+    "indicatorts": "^2.2.2",
+    "langchain": "^1.2.3",
+    "nanoid": "5.1.6",
+    "sec-edgar-toolkit": "^0.1.1",
+    "yahoo-finance2": "^3.10.2",
+    "zod": "4.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "peerDependencies": {
+    "drizzle-orm": "^0.45.1"
+  }
+}
