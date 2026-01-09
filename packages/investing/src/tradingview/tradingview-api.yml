@@ -1,0 +1,846 @@
+openapi: 3.0.3
+info:
+  title: TradingView Screener API
+  description: |
+    Stock screening and market data API using TradingView's scanner.
+    
+    ## Features
+    - Screen stocks with custom filters
+    - Get real-time data for specific tickers
+    - Find top gainers/losers
+    - Scan for high volume stocks
+    - Technical indicator screening (RSI, MACD, EMA)
+    - Support for multiple markets (US, crypto, forex, etc.)
+    
+    ## Rate Limits
+    - ~1 request per second recommended
+    - Multiple rapid requests may get blocked
+    
+    ## Data Freshness
+    By default, data is delayed 15-20 minutes. Real-time data requires authentication.
+  version: 1.0.0
+  contact:
+    name: API Support
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+  - url: https://api.example.com/v1
+    description: Production server
+
+tags:
+  - name: Screening
+    description: Stock screening operations
+  - name: Tickers
+    description: Specific ticker data retrieval
+  - name: Discovery
+    description: Market discovery and analysis
+
+paths:
+  /screen:
+    post:
+      tags:
+        - Screening
+      summary: Screen stocks with custom filters
+      description: |
+        General purpose stock screener with customizable filters, columns, and sorting.
+        
+        Supports 250+ columns including price data, volume, technical indicators, and fundamentals.
+      operationId: screenStocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreenRequest'
+            examples:
+              basic:
+                summary: Basic price and volume filter
+                value:
+                  columns: ["name", "close", "volume", "market_cap_basic"]
+                  filters:
+                    - column: "close"
+                      operator: "gte"
+                      value: 100
+                    - column: "volume"
+                      operator: "gt"
+                      value: 1000000
+                  limit: 50
+              
+              technical:
+                summary: Technical indicator scan
+                value:
+                  columns: ["name", "close", "RSI", "MACD.macd", "volume"]
+                  filters:
+                    - column: "RSI"
+                      operator: "between"
+                      value: [30, 40]
+                    - column: "MACD.macd"
+                      operator: "gte"
+                      value: 0
+                  orderBy: "volume"
+                  ascending: false
+                  limit: 30
+              
+              marketCap:
+                summary: Market cap and fundamentals
+                value:
+                  columns: ["name", "close", "market_cap_basic", "price_earnings_ttm", "dividends_yield_current"]
+                  filters:
+                    - column: "market_cap_basic"
+                      operator: "between"
+                      value: [1000000000, 50000000000]
+                    - column: "dividends_yield_current"
+                      operator: "gt"
+                      value: 2.0
+                  orderBy: "market_cap_basic"
+                  ascending: false
+                  limit: 50
+      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponse'
+              examples:
+                success:
+                  value:
+                    totalCount: 347
+                    data:
+                      - ticker: "NASDAQ:AAPL"
+                        name: "AAPL"
+                        close: 178.45
+                        volume: 52341678
+                        market_cap_basic: 2789000000000
+                      - ticker: "NASDAQ:MSFT"
+                        name: "MSFT"
+                        close: 425.30
+                        volume: 18234567
+                        market_cap_basic: 3156000000000
+        
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /tickers:
+    post:
+      tags:
+        - Tickers
+      summary: Get data for specific tickers
+      description: Retrieve current data for one or more ticker symbols
+      operationId: getTickerData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TickerRequest'
+            examples:
+              single:
+                summary: Single ticker
+                value:
+                  tickers: ["NASDAQ:TSLA"]
+                  columns: ["name", "close", "volume", "VWAP", "market_cap_basic"]
+              
+              multiple:
+                summary: Multiple tickers
+                value:
+                  tickers: ["NASDAQ:TSLA", "NYSE:GME", "AMEX:SPY"]
+                  columns: ["name", "close", "volume", "change", "RSI"]
+              
+              crossMarket:
+                summary: Cross-market comparison
+                value:
+                  tickers: ["NASDAQ:AAPL", "XETRA:APC"]
+                  columns: ["name", "close", "volume", "market"]
+      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponse'
+              examples:
+                success:
+                  value:
+                    totalCount: 1
+                    data:
+                      - ticker: "NASDAQ:TSLA"
+                        name: "TSLA"
+                        close: 242.84
+                        volume: 95847123
+                        VWAP: 243.56
+                        market_cap_basic: 771234567890
+        
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /gainers:
+    post:
+      tags:
+        - Discovery
+      summary: Find top gaining stocks
+      description: Discover stocks with highest price changes
+      operationId: findTopGainers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GainersRequest'
+            examples:
+              basic:
+                summary: Top 20 gainers
+                value:
+                  limit: 20
+              
+              filtered:
+                summary: Gainers with volume filter
+                value:
+                  limit: 30
+                  minVolume: 500000
+                  minPrice: 5.0
+      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponse'
+              examples:
+                success:
+                  value:
+                    totalCount: 1847
+                    data:
+                      - ticker: "NASDAQ:ABCD"
+                        name: "ABCD"
+                        close: 12.45
+                        change: 23.5
+                        volume: 8234567
+                        market_cap_basic: 450000000
+        
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /high-volume:
+    post:
+      tags:
+        - Discovery
+      summary: Find high volume stocks
+      description: Discover stocks with unusually high trading volume
+      operationId: findHighVolume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HighVolumeRequest'
+            examples:
+              basic:
+                summary: 2x relative volume
+                value:
+                  minRelativeVolume: 2.0
+                  limit: 50
+              
+              extreme:
+                summary: 5x relative volume
+                value:
+                  minRelativeVolume: 5.0
+                  limit: 20
+      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponse'
+              examples:
+                success:
+                  value:
+                    totalCount: 234
+                    data:
+                      - ticker: "NASDAQ:XYZ"
+                        name: "XYZ"
+                        close: 45.67
+                        volume: 15234567
+                        relative_volume_10d_calc: 4.2
+                        change: 8.3
+        
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /technical-scan:
+    post:
+      tags:
+        - Discovery
+      summary: Technical indicator scan
+      description: Scan stocks based on technical indicators (RSI, MACD, moving averages)
+      operationId: technicalScan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TechnicalScanRequest'
+            examples:
+              oversold:
+                summary: Oversold stocks
+                value:
+                  rsiMin: 0
+                  rsiMax: 30
+                  limit: 50
+              
+              momentum:
+                summary: Momentum setup
+                value:
+                  rsiMin: 50
+                  rsiMax: 70
+                  macdPositive: true
+                  priceAboveEMA20: true
+                  limit: 30
+              
+              bullish:
+                summary: Bullish signals
+                value:
+                  macdPositive: true
+                  priceAboveEMA20: true
+                  limit: 100
+      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponse'
+              examples:
+                success:
+                  value:
+                    totalCount: 456
+                    data:
+                      - ticker: "NYSE:ABC"
+                        name: "ABC"
+                        close: 67.89
+                        volume: 3456789
+                        RSI: 28.5
+                        MACD.macd: -0.45
+                        EMA20: 65.34
+                        change: -2.1
+        
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    ScreenRequest:
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            type: string
+          description: Columns to return in results
+          default: ["name", "close", "volume", "market_cap_basic"]
+          example: ["name", "close", "volume", "RSI", "MACD.macd"]
+        
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filter'
+          description: Array of filter conditions (combined with AND)
+        
+        orderBy:
+          type: string
+          description: Column to sort results by
+          example: "volume"
+        
+        ascending:
+          type: boolean
+          description: Sort order (true = ascending, false = descending)
+          default: false
+        
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          description: Maximum number of results to return
+          default: 50
+          example: 50
+        
+        market:
+          type: string
+          description: Market to scan
+          default: "america"
+          enum:
+            - america
+            - crypto
+            - forex
+            - futures
+            - cfd
+            - bonds
+            - italy
+            - spain
+            - france
+            - uk
+            - germany
+            - hongkong
+            - israel
+            - india
+            - japan
+          example: "america"
+    
+    Filter:
+      type: object
+      required:
+        - column
+        - operator
+        - value
+      properties:
+        column:
+          type: string
+          description: Column name to filter on
+          example: "close"
+        
+        operator:
+          type: string
+          description: Comparison operator
+          enum:
+            - gt
+            - gte
+            - lt
+            - lte
+            - eq
+            - between
+            - isin
+          example: "gte"
+        
+        value:
+          oneOf:
+            - type: number
+            - type: string
+            - type: array
+              items:
+                oneOf:
+                  - type: number
+                  - type: string
+          description: Value to compare against (array for 'between' and 'isin' operators)
+          example: 100
+      
+      examples:
+        - column: "close"
+          operator: "gte"
+          value: 100
+        
+        - column: "RSI"
+          operator: "between"
+          value: [30, 40]
+        
+        - column: "type"
+          operator: "isin"
+          value: ["stock", "fund"]
+    
+    TickerRequest:
+      type: object
+      required:
+        - tickers
+      properties:
+        tickers:
+          type: array
+          items:
+            type: string
+            pattern: '^[A-Z]+:[A-Z0-9]+$'
+          description: Array of ticker symbols (format: EXCHANGE:SYMBOL)
+          minItems: 1
+          example: ["NASDAQ:TSLA", "NYSE:GME"]
+        
+        columns:
+          type: array
+          items:
+            type: string
+          description: Columns to return
+          default: ["name", "close", "volume", "VWAP", "market_cap_basic"]
+    
+    GainersRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          description: Number of results to return
+          default: 20
+        
+        minVolume:
+          type: number
+          minimum: 0
+          description: Minimum trading volume filter
+          example: 500000
+        
+        minPrice:
+          type: number
+          minimum: 0
+          description: Minimum price filter
+          example: 5.0
+    
+    HighVolumeRequest:
+      type: object
+      properties:
+        minRelativeVolume:
+          type: number
+          minimum: 0
+          description: Minimum relative volume (e.g., 2.0 = 200% of average)
+          default: 2.0
+          example: 3.0
+        
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          description: Maximum number of results
+          default: 50
+    
+    TechnicalScanRequest:
+      type: object
+      properties:
+        rsiMin:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Minimum RSI value
+          example: 30
+        
+        rsiMax:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Maximum RSI value
+          example: 70
+        
+        macdPositive:
+          type: boolean
+          description: Filter for MACD above signal line
+          example: true
+        
+        priceAboveEMA20:
+          type: boolean
+          description: Filter for price above 20-day EMA
+          example: true
+        
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          description: Maximum number of results
+          default: 50
+    
+    ScreenResponse:
+      type: object
+      required:
+        - totalCount
+        - data
+      properties:
+        totalCount:
+          type: integer
+          description: Total number of results matching the query
+          example: 347
+        
+        data:
+          type: array
+          description: Array of ticker data objects
+          items:
+            $ref: '#/components/schemas/TickerData'
+    
+    TickerData:
+      type: object
+      required:
+        - ticker
+      properties:
+        ticker:
+          type: string
+          description: Ticker symbol (format: EXCHANGE:SYMBOL)
+          example: "NASDAQ:AAPL"
+      
+      additionalProperties:
+        oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+          - type: 'null'
+      
+      example:
+        ticker: "NASDAQ:AAPL"
+        name: "AAPL"
+        close: 178.45
+        volume: 52341678
+        market_cap_basic: 2789000000000
+        RSI: 65.4
+        MACD.macd: 2.34
+    
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error type
+          example: "ValidationError"
+        
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Invalid filter operator: 'contains'"
+        
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
+  
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            invalidOperator:
+              value:
+                error: "ValidationError"
+                message: "Invalid filter operator: 'contains'"
+            
+            invalidColumn:
+              value:
+                error: "ValidationError"
+                message: "Column 'invalid_column' does not exist"
+            
+            invalidTicker:
+              value:
+                error: "ValidationError"
+                message: "Invalid ticker format. Expected 'EXCHANGE:SYMBOL'"
+    
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "NotFoundError"
+            message: "Ticker 'NASDAQ:INVALID' not found"
+    
+    RateLimitError:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "RateLimitError"
+            message: "Too many requests. Please wait before retrying."
+            details:
+              retryAfter: 60
+    
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "InternalServerError"
+            message: "An unexpected error occurred"
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication
+    
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+
+x-columns:
+  priceData:
+    - close
+    - open
+    - high
+    - low
+    - VWAP
+    - change
+    - change_abs
+    - gap
+  
+  volume:
+    - volume
+    - Value.Traded
+    - relative_volume_10d_calc
+    - average_volume_10d_calc
+    - average_volume_30d_calc
+    - average_volume_60d_calc
+  
+  technicalIndicators:
+    - RSI
+    - RSI7
+    - Stoch.K
+    - Stoch.D
+    - MACD.macd
+    - MACD.signal
+    - CCI20
+    - ADX
+    - AO
+    - Mom
+    - BB.upper
+    - BB.lower
+  
+  movingAverages:
+    - EMA5
+    - EMA10
+    - EMA20
+    - EMA30
+    - EMA50
+    - EMA100
+    - EMA200
+    - SMA5
+    - SMA10
+    - SMA20
+    - SMA50
+    - SMA100
+    - SMA200
+  
+  fundamentals:
+    - market_cap_basic
+    - price_earnings_ttm
+    - earnings_per_share_basic_ttm
+    - number_of_employees
+    - sector
+    - industry
+    - recommendation_mark
+    - dividends_yield_current
+    - revenue_per_employee
+  
+  fiftyTwoWeek:
+    - price_52_week_high
+    - price_52_week_low
+    - High.All
+    - Low.All
+  
+  volatility:
+    - Volatility.D
+    - Volatility.W
+    - Volatility.M
+    - ATR
+  
+  marketInfo:
+    - name
+    - description
+    - type
+    - typespecs
+    - exchange
+    - market
+    - currency
+    - country
+
+x-examples:
+  dayTrading:
+    summary: Day trading setup scan
+    value:
+      columns: ["name", "close", "volume", "relative_volume_10d_calc", "gap", "change"]
+      filters:
+        - column: "relative_volume_10d_calc"
+          operator: "gt"
+          value: 2
+        - column: "close"
+          operator: "between"
+          value: [5, 100]
+        - column: "average_volume_10d_calc"
+          operator: "gt"
+          value: 500000
+        - column: "gap"
+          operator: "gt"
+          value: 2
+      orderBy: "relative_volume_10d_calc"
+      ascending: false
+      limit: 20
+  
+  swingTrading:
+    summary: Swing trading setup scan
+    value:
+      columns: ["name", "close", "RSI", "EMA50", "volume", "change"]
+      filters:
+        - column: "RSI"
+          operator: "between"
+          value: [30, 40]
+        - column: "close"
+          operator: "gte"
+          value: 0
+        - column: "volume"
+          operator: "gt"
+          value: 1000000
+        - column: "market_cap_basic"
+          operator: "gt"
+          value: 2000000000
+      limit: 50
+  
+  valueInvesting:
+    summary: Value investing screen
+    value:
+      columns: ["name", "close", "price_earnings_ttm", "dividends_yield_current", "market_cap_basic"]
+      filters:
+        - column: "price_earnings_ttm"
+          operator: "lt"
+          value: 15
+        - column: "dividends_yield_current"
+          operator: "gt"
+          value: 3
+        - column: "market_cap_basic"
+          operator: "gt"
+          value: 10000000000
+      orderBy: "dividends_yield_current"
+      ascending: false
+      limit: 50
+  
+  breakoutScan:
+    summary: Breakout candidate scan
+    value:
+      columns: ["name", "close", "price_52_week_high", "relative_volume_10d_calc", "RSI", "volume"]
+      filters:
+        - column: "relative_volume_10d_calc"
+          operator: "gt"
+          value: 1.5
+        - column: "volume"
+          operator: "gt"
+          value: 1000000
+        - column: "RSI"
+          operator: "between"
+          value: [50, 70]
+      limit: 30
