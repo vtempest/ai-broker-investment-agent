@@ -14,7 +14,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  transpilePackages: ['indicatorts'],
+  transpilePackages: [
+    'indicatorts',
+    '@scalar/api-reference',
+    '@scalar/api-reference-react',
+    '@scalar/api-client-react',
+    '@scalar/components',
+    '@scalar/code-highlight',
+  ],
   serverExternalPackages: [
     'dukascopy-node',
     'fastest-validator',
