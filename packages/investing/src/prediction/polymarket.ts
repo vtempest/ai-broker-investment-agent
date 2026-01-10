@@ -147,6 +147,59 @@ export async function fetchMarketDetails(marketId: string) {
   return await resp.json()
 }
 
+export async function searchPublic(options: {
+  q: string
+  cache?: boolean
+  events_status?: string
+  limit_per_type?: number
+  page?: number
+  events_tag?: string[]
+  keep_closed_markets?: number
+  sort?: string
+  ascending?: boolean
+  search_tags?: boolean
+  search_profiles?: boolean
+  recurrence?: string
+  exclude_tag_id?: number[]
+  optimized?: boolean
+}) {
+  const BASE = "https://gamma-api.polymarket.com"
+  const url = new URL(`${BASE}/public-search`)
+
+  // Add required query parameter
+  url.searchParams.set("q", options.q)
+
+  // Add optional query parameters
+  if (options.cache !== undefined) url.searchParams.set("cache", String(options.cache))
+  if (options.events_status) url.searchParams.set("events_status", options.events_status)
+  if (options.limit_per_type !== undefined) url.searchParams.set("limit_per_type", String(options.limit_per_type))
+  if (options.page !== undefined) url.searchParams.set("page", String(options.page))
+  if (options.events_tag) {
+    options.events_tag.forEach(tag => url.searchParams.append("events_tag", tag))
+  }
+  if (options.keep_closed_markets !== undefined) url.searchParams.set("keep_closed_markets", String(options.keep_closed_markets))
+  if (options.sort) url.searchParams.set("sort", options.sort)
+  if (options.ascending !== undefined) url.searchParams.set("ascending", String(options.ascending))
+  if (options.search_tags !== undefined) url.searchParams.set("search_tags", String(options.search_tags))
+  if (options.search_profiles !== undefined) url.searchParams.set("search_profiles", String(options.search_profiles))
+  if (options.recurrence) url.searchParams.set("recurrence", options.recurrence)
+  if (options.exclude_tag_id) {
+    options.exclude_tag_id.forEach(id => url.searchParams.append("exclude_tag_id", String(id)))
+  }
+  if (options.optimized !== undefined) url.searchParams.set("optimized", String(options.optimized))
+
+  const resp = await fetch(url, {
+    headers: { accept: "application/json" },
+    cache: 'no-store'
+  })
+
+  if (!resp.ok) {
+    console.error(`Public search failed: ${resp.status}`)
+    throw new Error(`Public search failed: ${resp.status}`)
+  }
+  return await resp.json()
+}
+
 // ============================================================================
 // Database Operations
 // ============================================================================

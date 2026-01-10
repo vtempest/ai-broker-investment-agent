@@ -55,6 +55,10 @@ export const openApiSpec = {
     {
       name: "Statistics",
       description: "Statistical analysis and predictive modeling"
+    },
+    {
+      name: "Polymarket",
+      description: "Polymarket prediction markets and events"
     }
   ],
   paths: {
@@ -874,6 +878,137 @@ export const openApiSpec = {
         responses: {
           "200": {
             description: "Successful response"
+          }
+        }
+      }
+    },
+    "/polymarket/search": {
+      get: {
+        tags: ["Polymarket"],
+        summary: "Search markets, events, and profiles",
+        description: "Search Polymarket for markets, events, tags, and profiles using the public search API",
+        parameters: [
+          {
+            name: "q",
+            in: "query",
+            required: true,
+            description: "Search query string",
+            schema: { type: "string" }
+          },
+          {
+            name: "cache",
+            in: "query",
+            description: "Use cached results",
+            schema: { type: "boolean" }
+          },
+          {
+            name: "events_status",
+            in: "query",
+            description: "Filter by event status",
+            schema: { type: "string" }
+          },
+          {
+            name: "limit_per_type",
+            in: "query",
+            description: "Maximum results per type (events, tags, profiles)",
+            schema: { type: "integer" }
+          },
+          {
+            name: "page",
+            in: "query",
+            description: "Page number for pagination",
+            schema: { type: "integer" }
+          },
+          {
+            name: "events_tag",
+            in: "query",
+            description: "Filter by event tags (can be specified multiple times)",
+            schema: { type: "array", items: { type: "string" } }
+          },
+          {
+            name: "keep_closed_markets",
+            in: "query",
+            description: "Include closed markets (0 or 1)",
+            schema: { type: "integer" }
+          },
+          {
+            name: "sort",
+            in: "query",
+            description: "Sort field",
+            schema: { type: "string" }
+          },
+          {
+            name: "ascending",
+            in: "query",
+            description: "Sort in ascending order",
+            schema: { type: "boolean" }
+          },
+          {
+            name: "search_tags",
+            in: "query",
+            description: "Include tags in search results",
+            schema: { type: "boolean" }
+          },
+          {
+            name: "search_profiles",
+            in: "query",
+            description: "Include profiles in search results",
+            schema: { type: "boolean" }
+          },
+          {
+            name: "recurrence",
+            in: "query",
+            description: "Filter by recurrence type",
+            schema: { type: "string" }
+          },
+          {
+            name: "exclude_tag_id",
+            in: "query",
+            description: "Exclude specific tag IDs (can be specified multiple times)",
+            schema: { type: "array", items: { type: "integer" } }
+          },
+          {
+            name: "optimized",
+            in: "query",
+            description: "Return optimized image URLs",
+            schema: { type: "boolean" }
+          }
+        ],
+        responses: {
+          "200": {
+            description: "Successful response",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean" },
+                    data: {
+                      type: "object",
+                      properties: {
+                        events: { type: "array" },
+                        tags: { type: "array" },
+                        profiles: { type: "array" },
+                        pagination: {
+                          type: "object",
+                          properties: {
+                            hasMore: { type: "boolean" },
+                            totalResults: { type: "integer" }
+                          }
+                        }
+                      }
+                    },
+                    timestamp: { type: "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            description: "Bad request - missing required parameter"
+          },
+          "500": {
+            description: "Internal server error"
           }
         }
       }
