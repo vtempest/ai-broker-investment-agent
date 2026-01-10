@@ -81,6 +81,22 @@ export function BrokerPlatformsSection() {
       icon: Globe,
       status: "Coming Soon",
       docs: "https://www.interactivebrokers.com/en/trading/ib-api.php"
+    },
+    {
+      name: "Polymarket",
+      logo: "https://i.imgur.com/yQZGYmQ.png",
+      description: "Decentralized prediction market platform for trading on real-world events",
+      features: [
+        "Trade on news & events",
+        "Polygon blockchain-based",
+        "Real-time market data",
+        "Social trading features"
+      ],
+      assets: ["Prediction Markets", "Events", "Politics", "Crypto"],
+      color: "from-purple-500 to-violet-600",
+      icon: BarChart3,
+      status: "Active",
+      docs: "https://polymarket.com"
     }
   ]
   return (
@@ -96,20 +112,20 @@ export function BrokerPlatformsSection() {
         </div>
 
         {/* Broker Cards Grid */}
-        <div className="flex gap-6 overflow-x-auto pb-4 mb-12 custom-scrollbar">
+        <div className="flex gap-4 overflow-x-auto pb-4 mb-12 custom-scrollbar">
           {brokers.map((broker) => (
             <Card
               key={broker.name}
-              className="group relative flex-shrink-0 w-80 overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50"
+              className="group relative flex-shrink-0 w-64 overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50"
             >
               {/* Gradient Background */}
               <div className={`absolute inset-0 bg-gradient-to-br ${broker.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
 
-              <div className="p-6 relative">
+              <div className="p-4 relative">
                 {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-24 h-16 flex items-center justify-center bg-white p-2 rounded-md">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-20 h-14 flex items-center justify-center bg-white p-1.5 rounded-md">
 
                       {broker.logo.startsWith('http') ? (
                         <img
@@ -122,8 +138,8 @@ export function BrokerPlatformsSection() {
                       )}
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold">{broker.name}</h3>
-                      <div className="flex items-center gap-2 mt-1">
+                      <h3 className="text-lg font-bold">{broker.name}</h3>
+                      <div className="flex items-center gap-1 mt-0.5">
                         <Badge
                           variant={broker.status === "Active" ? "default" : "secondary"}
                           className="text-xs"
@@ -138,26 +154,26 @@ export function BrokerPlatformsSection() {
                     </div>
                   </div>
 
-                  <broker.icon className={`h-8 w-8 text-primary opacity-50`} />
+                  <broker.icon className={`h-6 w-6 text-primary opacity-50`} />
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-sm text-muted-foreground mb-3">
                   {broker.description}
                 </p>
 
                 {/* Features */}
-                <div className="space-y-2 mb-4">
+                <div className="space-y-1.5 mb-3">
                   {broker.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">{feature}</span>
+                    <div key={idx} className="flex items-start gap-1.5">
+                      <CheckCircle className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" />
+                      <span className="text-xs">{feature}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Assets */}
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-1.5 mb-3">
                   {broker.assets.map((asset) => (
                     <Badge key={asset} variant="outline" className="text-xs">
                       {asset}
