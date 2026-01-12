@@ -1,6 +1,6 @@
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/dashboard/app-sidebar"
-import { MobileDock } from "@/components/dashboard/mobile-dock"
+import { AppSidebar } from "@/components/dashboard/layout/app-sidebar"
+import { MobileDock } from "@/components/dashboard/layout/mobile-dock"
 
 export default function DashboardLayout({
   children,

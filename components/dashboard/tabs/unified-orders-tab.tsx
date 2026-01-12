@@ -10,8 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { StockSearch } from "@/components/dashboard/stock-search"
-import { OptionsAdvisor } from "@/components/dashboard/options-advisor"
+import { StockSearch } from "@/components/dashboard/shared/stock-search"
+import { OptionsAdvisor } from "@/components/dashboard/trading/options-advisor"
 import {
   Bot,
   Send,

@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, DollarSign, Hash, Loader2, Brain } from "lucide-react"
-import { OptionsAdvisor } from "@/components/dashboard/options-advisor"
+import { OptionsAdvisor } from "@/components/dashboard/trading/options-advisor"
 
 interface TradeModalProps {
   open: boolean

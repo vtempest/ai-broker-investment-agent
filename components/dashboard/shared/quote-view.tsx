@@ -10,8 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Loader2, TrendingUp, TrendingDown, DollarSign, Activity, BarChart3, Star } from "lucide-react"
 import Link from "next/link"
 import { useSession } from "@/lib/auth-client"
-import { DynamicStockChart } from "@/components/dashboard/dynamic-stock-chart"
-import { TradeModal } from "@/components/dashboard/trade-modal"
+import { DynamicStockChart } from "@/components/dashboard/charts/dynamic-stock-chart"
+import { TradeModal } from "@/components/dashboard/trading/trade-modal"
 
 interface QuoteData {
   symbol: string

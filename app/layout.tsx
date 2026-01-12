@@ -1,7 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { cookies } from "next/headers"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme/theme-provider"
 import { Toaster } from "sonner"
 import "./globals.css"
 import "./themes-shadcn.css"

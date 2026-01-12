@@ -8,7 +8,7 @@ import defaultMdxComponents from 'fumadocs-ui/mdx'
 import * as icons from 'lucide-react'
 import type { MDXComponents } from 'mdx/types'
 import type { ComponentProps, FC } from 'react'
-import { APIPage } from '@/components/api-page'
+import { APIPage } from '@/components/ui-elements/api-page'
 import { Update, Updates } from '@/components/fumadocs/updates'
 import { Mermaid } from '@/components/mdx/mermaid'
 

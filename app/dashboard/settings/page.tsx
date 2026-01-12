@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { ExternalLink, Eye, EyeOff, Save, Moon, Sun, Monitor, Copy, RefreshCw, Key, Palette, Brain, TrendingUp, Database, Users } from "lucide-react";
 import { TeamsManager } from "@/components/settings/teams-manager";
 import { PremiumUpgrade } from "@/components/settings/premium-upgrade";
-import { ThirdPartySyncTab } from "@/components/dashboard/third-party-sync-tab";
+import { ThirdPartySyncTab } from "@/components/dashboard/tabs/third-party-sync-tab";
 
 
 const LLM_PROVIDERS = [

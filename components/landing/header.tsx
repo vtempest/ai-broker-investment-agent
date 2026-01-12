@@ -17,7 +17,7 @@ import {
   Calendar,
 } from "lucide-react"
 import { useState } from "react"
-import { ThemeDropdown } from "@/components/theme-dropdown"
+import { ThemeDropdown } from "@/components/theme/theme-dropdown"
 
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
 

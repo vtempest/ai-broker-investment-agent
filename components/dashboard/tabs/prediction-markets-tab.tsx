@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { TrendingUp, ExternalLink, Loader2, DollarSign, Activity, Clock, RefreshCw, Filter } from "lucide-react"
-import { MarketDebate } from "./market-debate"
+import { MarketDebate } from "@/components/dashboard/analysis/market-debate"
 
 interface PolymarketMarket {
   id: string

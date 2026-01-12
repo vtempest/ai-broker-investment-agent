@@ -1,6 +1,6 @@
 "use client"
 
-import { MultiChartView } from "@/components/dashboard/multi-chart-view"
+import { MultiChartView } from "@/components/dashboard/charts/multi-chart-view"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function ChartsPage() {

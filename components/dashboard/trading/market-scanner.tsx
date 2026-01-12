@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { StockList, StockData } from "./stock-list"
+import { StockList, StockData } from "@/components/dashboard/shared/stock-list"
 import { toast } from "sonner"
 import { useSession } from "@/lib/auth-client"
 import { FinancialTable, type MarketIndex } from "@/components/ui/financial-markets-table"

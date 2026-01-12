@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { QuoteView } from "@/components/dashboard/quote-view"
-import { StockSearch } from "@/components/dashboard/stock-search"
+import { QuoteView } from "@/components/dashboard/shared/quote-view"
+import { StockSearch } from "@/components/dashboard/shared/stock-search"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -14,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
-import { MarkdownRenderer } from "@/components/dashboard/markdown-renderer"
+import { MarkdownRenderer } from "@/components/dashboard/shared/markdown-renderer"
 import { demoStrategies, Strategy } from "@/lib/demo-data"
 import {
   Play,

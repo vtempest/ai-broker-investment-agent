@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { StockSearch } from "@/components/dashboard/stock-search"
+import { StockSearch } from "@/components/dashboard/shared/stock-search"
 import {
   TrendingUp,
   TrendingDown,
