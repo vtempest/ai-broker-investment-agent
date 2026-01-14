@@ -1,84 +1,82 @@
-import { TavilyClient } from "tavily"            // Tavily JS SDK [web:70][web:80]
-import { ChatGroq } from "@langchain/groq"
+import { TavilyClient } from "tavily"; // Tavily JS SDK [web:70][web:80]
+import { ChatGroq } from "@langchain/groq";
 
 interface MarketData {
-  question: string
-  description?: string
-  currentYesPrice: number
-  currentNoPrice: number
-  volume24hr?: number
-  volumeTotal?: number
-  tags?: string[]
+  question: string;
+  description?: string;
+  currentYesPrice: number;
+  currentNoPrice: number;
+  volume24hr?: number;
+  volumeTotal?: number;
+  tags?: string[];
 }
 
 interface DebateAnalysis {
-  yesArguments: string[]
-  noArguments: string[]
-  yesSummary: string
-  noSummary: string
-  keyFactors: string[]
-  uncertainties: string[]
+  yesArguments: string[];
+  noArguments: string[];
+  yesSummary: string;
+  noSummary: string;
+  keyFactors: string[];
+  uncertainties: string[];
 }
 
 // --- Tavily helpers ---
 
-let _tavily: TavilyClient | null = null
+let _tavily: TavilyClient | null = null;
 
 function getTavilyClient(): TavilyClient {
   if (!_tavily) {
     _tavily = new TavilyClient({
-      apiKey: process.env.TAVILY_API_KEY || '',
-    })
+      apiKey: process.env.TAVILY_API_KEY || "",
+    });
   }
-  return _tavily
+  return _tavily;
 }
 
 async function researchQuestionWithTavily(question: string): Promise<string> {
-  const tavily = getTavilyClient()
+  const tavily = getTavilyClient();
   // Step 1: search for the question
   const searchRes = await tavily.search({
     query: question,
-    searchDepth: "advanced",
-    maxResults: 5,
-    includeRawContent: true, // so we can skip a separate extract call if desired [web:71][web:75][web:80]
-    topic: "general",
-  })
+    search_depth: "advanced",
+    max_results: 5,
+    include_raw_content: true, // so we can skip a separate extract call if desired [web:71][web:75][web:80]
+  });
 
   // Fallback if API doesn’t support includeRawContent in your plan/version:
   // collect URLs and call tavily.extract(urls) instead. [web:70][web:76][web:80]
 
-  const summaryParts: string[] = []
+  const summaryParts: string[] = [];
 
   if (searchRes?.answer) {
-    summaryParts.push(`High-level answer: ${searchRes.answer}`)
+    summaryParts.push(`High-level answer: ${searchRes.answer}`);
   }
 
   if (searchRes?.results?.length) {
     for (const r of searchRes.results.slice(0, 3)) {
-      const snippet =
-        (r.rawContent ?? r.content ?? "").slice(0, 800) // keep it short for prompt [web:70][web:83]
+      const snippet = (r.content ?? "").slice(0, 800); // keep it short for prompt [web:70][web:83]
       summaryParts.push(
         `Source: ${r.url}\nRelevance: ${r.score}\nSnippet:\n${snippet}`
-      )
+      );
     }
   }
 
-  return summaryParts.join("\n\n")
+  return summaryParts.join("\n\n");
 }
 
 // --- Prompt builder using Tavily context ---
 
 interface DebateAnalysis {
-  yesArguments: string[]
-  noArguments: string[]
-  yesSummary: string
-  noSummary: string
-  keyFactors: string[]
-  uncertainties: string[]
+  yesArguments: string[];
+  noArguments: string[];
+  yesSummary: string;
+  noSummary: string;
+  keyFactors: string[];
+  uncertainties: string[];
   // new fields
-  modelYesProbability: number   // 0–1
-  modelNoProbability: number    // 0–1
-  commentaryOnDiscrepancy: string
+  modelYesProbability: number; // 0–1
+  modelNoProbability: number; // 0–1
+  commentaryOnDiscrepancy: string;
 }
 
 function buildPrompt(
@@ -133,13 +131,12 @@ Guidelines:
 7. Focus on factors that are actually relevant to the prediction timeframe.
 8. Avoid simply repeating the 50/50 odds; your probabilities should reflect your best judgment based on the research, even if far from 50/50.
 
-`
+`;
   return strict
-    ? base + "\nReturn ONLY the JSON object, with no additional text or explanation."
-    : base
+    ? base +
+        "\nReturn ONLY the JSON object, with no additional text or explanation."
+    : base;
 }
-
-
 
 async function callGroqAsJson(
   prompt: string,
@@ -153,7 +150,7 @@ async function callGroqAsJson(
     apiKey: apiKey || process.env.GROQ_API_KEY,
     model,
     temperature,
-  })
+  });
 
   const aiMsg = await llm.invoke(
     [
@@ -170,18 +167,18 @@ async function callGroqAsJson(
     {
       response_format: { type: "json_object" },
     } as any
-  ) // [web:2][web:13][web:57]
+  ); // [web:2][web:13][web:57]
 
   const rawContent =
     typeof aiMsg.content === "string"
       ? aiMsg.content
       : Array.isArray(aiMsg.content)
-      ? aiMsg.content.map((c: any) => c?.text ?? "").join("")
-      : String(aiMsg.content)
+        ? aiMsg.content.map((c: any) => c?.text ?? "").join("")
+        : String(aiMsg.content);
 
-  let jsonText = rawContent.trim()
+  let jsonText = rawContent.trim();
 
-  const parsed = JSON.parse(jsonText)
+  const parsed = JSON.parse(jsonText);
 
   if (
     !parsed.yesArguments ||
@@ -191,10 +188,10 @@ async function callGroqAsJson(
     !parsed.keyFactors ||
     !parsed.uncertainties
   ) {
-    throw new Error("Missing required fields in analysis")
+    throw new Error("Missing required fields in analysis");
   }
 
-  return parsed as DebateAnalysis
+  return parsed as DebateAnalysis;
 }
 
 // --- Public functions ---
@@ -203,16 +200,16 @@ export async function generateDebateAnalysis(
   marketData: MarketData,
   apiKey?: string
 ): Promise<DebateAnalysis> {
-  const research = await researchQuestionWithTavily(marketData.question)
-  const prompt = buildPrompt(marketData, research, true)
-  return callGroqAsJson(prompt, apiKey)
+  const research = await researchQuestionWithTavily(marketData.question);
+  const prompt = buildPrompt(marketData, research, true);
+  return callGroqAsJson(prompt, apiKey);
 }
 
 export async function generateDebateAnalysisWithOpenAI(
   marketData: MarketData,
   apiKey?: string
 ): Promise<DebateAnalysis> {
-  const research = await researchQuestionWithTavily(marketData.question)
-  const prompt = buildPrompt(marketData, research, false)
-  return callGroqAsJson(prompt, apiKey)
+  const research = await researchQuestionWithTavily(marketData.question);
+  const prompt = buildPrompt(marketData, research, false);
+  return callGroqAsJson(prompt, apiKey);
 }

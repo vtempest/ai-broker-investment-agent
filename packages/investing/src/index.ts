@@ -10,12 +10,6 @@
  * - Utility functions
  */
 
-// Core utilities
-export * from "../../../lib/utils";
-
-// Constants and data
-export * from "./constants";
-
 // Database schemas (optional - requires drizzle-orm peer dependency)
 export * from "./db";
 
@@ -47,3 +41,6 @@ export * from "./llm/debate-generator";
 // API clients for various services
 export * from "./alpaca/alpaca-mcp-client";
 export * from "./debate-research/stock-agents-api";
+
+// Wikipedia pageviews
+export * from "./trending-topics/wiki-page-views";

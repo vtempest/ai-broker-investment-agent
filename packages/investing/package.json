@@ -52,6 +52,8 @@
   ],
   "scripts": {
     "build": "vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "ship": "npm run build && npx standard-version --release-as patch; rm CHANGELOG.md; npm publish"
   },
   "keywords": [
@@ -89,7 +91,8 @@
     "@types/node": "^25.0.3",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.0.0"
   },
   "peerDependencies": {
     "drizzle-orm": "^0.45.1"
