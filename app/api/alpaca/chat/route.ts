@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createLLM } from '@/lib/trading-agents/utils/llm-client'
-import { AgentExecutor, tradingTools } from '@/lib/trading-agents/tools/langchain-tools'
-import { TradingConfig } from '@/lib/trading-agents/types'
+import { createLLM } from '@/packages/investing/src/trading-agents/utils/llm-client'
+import { AgentExecutor, tradingTools } from '@/packages/investing/src/trading-agents/tools/langchain-tools'
+import { TradingConfig } from '@/packages/investing/src/trading-agents/types'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60

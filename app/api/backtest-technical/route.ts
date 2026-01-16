@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { yfinance } from '@/lib/stocks/yfinance-wrapper'
+import { yfinance } from '@/packages/investing/src/stocks/yfinance-wrapper'
 import { backtest, STRATEGY_INFOS, StrategyInfo } from 'indicatorts'
 interface BacktestRequest {
   symbol: string

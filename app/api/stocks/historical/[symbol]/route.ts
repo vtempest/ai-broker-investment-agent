@@ -1,6 +1,6 @@
 // Historical Stock Data API Route
 import { NextRequest, NextResponse } from 'next/server';
-import { FinnhubWrapper } from '@/lib/stocks/finnhub-wrapper';
+import { FinnhubWrapper } from '@/packages/investing/src/stocks/finnhub-wrapper';
 
 const finnhub = new FinnhubWrapper();
 

@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createLLM } from '@/lib/trading-agents/utils/llm-client'
-import { TradingConfig } from '@/lib/trading-agents/types'
+import { createLLM } from '@/packages/investing/src/trading-agents/utils/llm-client'
+import { TradingConfig } from '@/packages/investing/src/trading-agents/types'
 import {
   safeAlpacaTools,
   alpacaMCPTools
-} from '@/lib/trading-agents/tools/alpaca-mcp-tools'
+} from '@/packages/investing/src/trading-agents/tools/alpaca-mcp-tools'
 import {
   tradingTools,
   toolsToOpenAIFunctions,
   executeTool
-} from '@/lib/trading-agents/tools/langchain-tools'
+} from '@/packages/investing/src/trading-agents/tools/langchain-tools'
 
 interface ChatMessage {
   role: 'user' | 'assistant' | 'system'

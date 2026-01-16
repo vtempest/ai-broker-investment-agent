@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { TradingAgentsGraph } from '@/lib/trading-agents'
+import { TradingAgentsGraph } from '@/packages/investing/src/trading-agents'
 import { db } from '@/lib/db'
 import { agentApiLogs } from '@/lib/db/schema'
 import { nanoid } from 'nanoid'

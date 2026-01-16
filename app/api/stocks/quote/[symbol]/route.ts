@@ -1,6 +1,6 @@
 // Stock Quote API Route - Using Finnhub API
 import { NextRequest, NextResponse } from 'next/server';
-import { finnhub } from '@/lib/stocks/finnhub-wrapper';
+import { finnhub } from '@/packages/investing/src/stocks/finnhub-wrapper';
 
 export async function GET(
     request: NextRequest,

@@ -1,6 +1,6 @@
 // Company Filings API Route
 import { NextRequest, NextResponse } from 'next/server';
-import { Downloader } from '@/lib/stocks/sec-filing-api';
+import { Downloader } from '@/packages/investing/src/stocks/sec-filing-api';
 
 const downloader = new Downloader('Investment Prediction Agent', 'api@example.com');
 
