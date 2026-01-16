@@ -1,7 +1,7 @@
 // Finnhub API Wrapper for TypeScript
 // Uses Finnhub as primary source with Alpaca API as fallback for historical data
 
-import { createAlpacaClient } from "../lib/alpaca/client";
+import { createAlpacaClient } from "@/lib/alpaca/client";
 
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY || "";
 const FINNHUB_BASE_URL = "https://finnhub.io/api/v1";
