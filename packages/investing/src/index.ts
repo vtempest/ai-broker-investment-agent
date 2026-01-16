@@ -13,6 +13,9 @@
 // Database schemas (optional - requires drizzle-orm peer dependency)
 export * from "./db";
 
+// Correlate with XGBoost timeseries
+export * from "./correlate/predict-statistics";
+
 // Trading agents framework
 export * from "./trading-agents";
 
@@ -20,13 +23,12 @@ export * from "./trading-agents";
 export * from "./alpaca/client";
 
 // Stock market tools
-export * from "./stocks/types";
 export * from "./stocks/yfinance-wrapper";
 export * from "./stocks/sec-filing-api";
 export * from "./stocks/import-stock-names";
 
 // Prediction markets (Polymarket integration)
-export * from "./prediction/polymarket";
+export * from "./event-prediction/polymarket";
 
 // Trading strategies and algorithms
 export * from "./algo-stategies/tv-scraper";

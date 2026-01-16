@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useTheme } from "next-themes"
+import Image from "next/image"
 
 const themeNames = [
   "modern-minimal",
@@ -125,7 +126,8 @@ export function ThemeDropdown() {
     <DropdownMenu onOpenChange={(open) => !open && handlePreviewEnd()}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
-          <Palette className="h-5 w-5" />
+            <Image src="/icons/icon-themes.svg" alt="Algo Strategies" width={32} height={32} />
+
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 max-h-[400px] overflow-y-auto">

@@ -36,7 +36,7 @@ export function BrokerPlatformsSection() {
     },
     {
       name: "Polymarket",
-      logo: "https://i.imgur.com/yQZGYmQ.png",
+      logo: "https://i.imgur.com/wgC2nEU.png",
       description:
         "Decentralized prediction market platform for trading on real-world events",
       features: [
@@ -50,23 +50,6 @@ export function BrokerPlatformsSection() {
       icon: BarChart3,
       status: "Active",
       docs: "https://polymarket.com",
-    },
-    {
-      name: "Webull",
-      logo: "https://i.imgur.com/SbT9hzR.png",
-      description:
-        "Modern mobile-first platform with advanced charting and API",
-      features: [
-        "Commission-free trading",
-        "Level 2 market data",
-        "Extended hours trading",
-        "Social trading features",
-      ],
-      assets: ["US Stocks", "ETFs", "Options", "Crypto"],
-      color: "from-green-500 to-emerald-600",
-      icon: Smartphone,
-      status: "Coming Soon",
-      docs: "https://www.webull.com",
     },
     {
       name: "Robinhood",
@@ -85,7 +68,23 @@ export function BrokerPlatformsSection() {
       status: "Coming Soon",
       docs: "https://robinhood.com",
     },
-
+    {
+      name: "Webull",
+      logo: "https://i.imgur.com/SbT9hzR.png",
+      description:
+        "Modern mobile-first platform with advanced charting and API",
+      features: [
+        "Commission-free trading",
+        "Level 2 market data",
+        "Extended hours trading",
+        "Social trading features",
+      ],
+      assets: ["US Stocks", "ETFs", "Options", "Crypto"],
+      color: "from-green-500 to-emerald-600",
+      icon: Smartphone,
+      status: "Coming Soon",
+      docs: "https://www.webull.com",
+    },
     {
       name: "Interactive Brokers",
       logo: "https://i.imgur.com/RnvCj2J.png",

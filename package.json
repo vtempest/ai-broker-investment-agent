@@ -1,7 +1,7 @@
 {
-  "name": "investment-prediction-agent",
+  "name": "ai-broker-investing-agent",
   "version": "0.2.0",
-  "description": "Investing with research agents, algorithmic strategies, and prediction markets",
+  "description": "Investing with AI research agents, algorithmic strategies, and prediction markets",
   "license": "rights.institute/prosper",
   "author": "vtempest",
   "exports": {
@@ -18,12 +18,12 @@
     "dist"
   ],
   "scripts": {
+    "dev": "next dev",
     "build": "next build",
     "build:lib": "vite build",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "dev": "next dev",
     "docs:check": "fumadocs check",
     "docs:generate": "fumadocs-mdx",
     "generate:api": "bun scripts/generate-docs.ts",
@@ -37,7 +37,6 @@
     "@alpacahq/alpaca-trade-api": "^3.1.3",
     "@better-auth/core": "latest",
     "@better-auth/stripe": "^1.4.10",
-    "@cfworker/json-schema": "latest",
     "@fumadocs/mdx-remote": "^1.4.4",
     "@hey-api/openapi-ts": "0.90.2",
     "@langchain/core": "^1.1.12",

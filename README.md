@@ -43,10 +43,9 @@
 
 > AI-powered multi-agent trading system for comprehensive stock & prediction markets analysis and automated trading decisions.
 
-
 ## 🚀 Overview
 
-The **Investment Prediction Agent** is a sophisticated platform combining 8 specialized AI agents to analyze markets, debate strategies, and execute trades. It features real-time data processing, a "Bull vs. Bear" debate engine, and a modern dashboard for visualization.
+The **Auto Investment Broker** is a sophisticated platform combining 8 specialized AI agents to analyze markets, debate strategies, and execute trades. It features real-time data processing, a "Bull vs. Bear" debate engine, and a modern dashboard for visualization.
 
 ### ✨ Key Features
 
@@ -58,32 +57,34 @@ The **Investment Prediction Agent** is a sophisticated platform combining 8 spec
 
 ## 🤖 AI Agents & Strategies
 
-| Agent/Team | Role |
-| :--- | :--- |
-| **Analyst Team** | Gathers data: Fundamentals, Sentiment (Social), News, & Technical Analysis. |
-| **Researcher Team** | Conducts "Bull vs. Bear" debates; assesses risk. |
-| **Trader Agent** | Synthesizes reports to propose trades. |
-| **Portfolio Manager** | Final decision maker; manages risk and position sizing. |
-
+| Agent/Team            | Role                                                                        |
+| :-------------------- | :-------------------------------------------------------------------------- |
+| **Analyst Team**      | Gathers data: Fundamentals, Sentiment (Social), News, & Technical Analysis. |
+| **Researcher Team**   | Conducts "Bull vs. Bear" debates; assesses risk.                            |
+| **Trader Agent**      | Synthesizes reports to propose trades.                                      |
+| **Portfolio Manager** | Final decision maker; manages risk and position sizing.                     |
 
 ### Analysis Team
+
 - **Market Analyst**: Technical analysis and liquidity assessment
 - **Sentiment Analyst**: Social media sentiment and "undiscovered" status
 - **News Analyst**: Recent events, catalysts, and jurisdiction risks
 - **Fundamentals Analyst**: Financial scoring and valuation
 
 ### Research Team
+
 - **Bull Researcher**: Advocates for BUY opportunities
 - **Bear Researcher**: Identifies risks and thesis violations
 - **Research Manager**: Synthesizes debate and enforces thesis compliance
 
 ### Execution Team
+
 - **Trader**: Proposes execution parameters
 - **Risk Team** (Risky/Safe/Neutral): Debates position sizing
 - **Portfolio Manager**: Final authority on all trading decisions
 
-
 ## 📂 Third Party APIs
+
 - **[Alpaca](https://alpaca.markets/)**: Broker & trading as a service.
 - **[Finnhub](https://finnhub.io/dashboard)**: Stock market data.
 - **[TradingView](https://www.tradingview.com/ideas/)**: TradingView PineScript automated trading.

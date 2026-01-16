@@ -42,6 +42,8 @@ export function Footer() {
                             AI Ethics
                         </Link>
 
+                        
+
                         <Link
                             href="mailto:contact@autoinvestment.broker"
                             className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-accent/50 hover:text-primary transition-all duration-300 hover:scale-105"

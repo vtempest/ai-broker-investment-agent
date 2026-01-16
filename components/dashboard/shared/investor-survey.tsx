@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import grab from 'grab-url';
 
 const SECTIONS = [
   { id: 1, title: "Profile & Background", questions: [1, 2] },
@@ -26,15 +27,11 @@ export default function InvestorSurvey() {
   }
 
   const handleSubmit = async () => {
-    setIsSubmitting(true)
 
-    try {
-      const response = await fetch("/api/survey", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await grab("survey", {
+          post: true,
+          response: setIsSubmitting,
+
           // Contact information
           name: responses.name,
           email: responses.email,
@@ -53,14 +50,7 @@ export default function InvestorSurvey() {
           subscriptionRange: responses.q8,
           overallInterest: responses.overallInterest,
           additionalComments: responses.additionalComments,
-        }),
       })
-
-      if (!response.ok) {
-        throw new Error("Failed to submit survey")
-      }
-
-      setSubmitSuccess(true)
 
       // Scroll to top to show success message
       window.scrollTo({ top: 0, behavior: "smooth" })
@@ -69,12 +59,7 @@ export default function InvestorSurvey() {
       setTimeout(() => {
         router.push("/dashboard")
       }, 2000)
-    } catch (error) {
-      console.error("[v0] Error submitting survey:", error)
-      alert("Failed to submit survey. Please try again.")
-    } finally {
-      setIsSubmitting(false)
-    }
+
   }
 
   return (

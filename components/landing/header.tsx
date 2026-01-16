@@ -49,37 +49,37 @@ export function Header() {
             href="#agents"
             className={navLinkClasses}
           >
-            <Users className="h-4 w-4" />
+            <Image src="/icons/icon-research-mind.svg" alt="Research Agents" width={32} height={32} />
             Research Agents
           </Link>
           <Link
             href="#copy-trading"
             className={navLinkClasses}
           >
-            <Sparkles className="h-4 w-4" />
-            Copy Trading
+            <Image src="/icons/icon-copy-trade.png" alt="Copy Trading" width={32} height={32} />
+            Copy Trade
           </Link>
           <Link
             href="#prediction-markets"
             className={navLinkClasses}
           >
-            <TrendingUp className="h-4 w-4" />
-            Prediction Markets
+            <Image src="/icons/icon-prediction-markets.png" alt="Prediction Markets" width={32} height={32} />
+            Events
           </Link>
 
           <Link
             href="#strategies"
             className={navLinkClasses}
           >
-            <Target className="h-4 w-4" />
-            Algo Strategies
+            <Image src="/icons/icon-algo-strategies.svg" alt="Algo Strategies" width={32} height={32} />
+            Algo Bots
           </Link>
 
           <Link
             href="/docs"
             className={navLinkClasses}
           >
-            <Sparkles className="h-4 w-4" />
+            <Image src="/icons/icon-user-guide.svg" alt="Docs" width={32} height={32} />
             Docs
           </Link>
         </nav>
@@ -91,7 +91,10 @@ export function Header() {
             <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
               <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
               <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-green-600 dark:bg-green-700 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl space-x-2">
-                <LogIn className="h-5 w-5" />
+                {/* <LogIn className="h-5 w-5" /> */}
+
+                            <Image src="/icons/icon-login.svg" alt="Algo Strategies" width={32} height={32} />
+
                 <span>Login</span>
               </span>
             </button>
@@ -138,21 +141,21 @@ export function Header() {
               className={navLinkClasses}
             >
               <TrendingUp className="h-4 w-4" />
-              Prediction Markets
+              Events
             </Link>
             <Link
               href="#copy-trading"
               className={navLinkClasses}
             >
               <Sparkles className="h-4 w-4" />
-              Copy Trading
+              Copy Trade
             </Link>
             <Link
               href="#strategies"
               className={navLinkClasses}
             >
               <Target className="h-4 w-4" />
-              Algo Strategies
+              Algo Bots
             </Link>
 
             <Link

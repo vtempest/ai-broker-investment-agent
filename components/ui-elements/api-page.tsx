@@ -68,6 +68,7 @@ export function APIPage({ className, children, document, operations, ...props }:
         {mounted && (
           <ApiReferenceReact
             configuration={{
+              // @ts-ignore
               spec: { content: spec },
               darkMode: true,
               hideModels: true, // Optional: clean up view for single endpoints

@@ -8,6 +8,7 @@ import { TagInput, Tag } from "@/components/ui/tag-input"
 import { Loader2 } from "lucide-react"
 import { setStateInURL } from "@/lib/utils"
 import { type IChartApi, type Time, type LogicalRange } from "lightweight-charts"
+import grab from 'grab-url';
 
 interface DynamicStockChartProps {
   symbol: string
@@ -31,7 +32,7 @@ const INDICATOR_SUGGESTIONS: Tag[] = [
   { id: "atr", value: "atr", label: "ATR", type: "indicator" },
   { id: "stochastic", value: "stochastic", label: "Stochastic", type: "indicator" },
   { id: "cci", value: "cci", label: "CCI", type: "indicator" },
-  { id: "obv", value: "obv", label: "OBV", type: "indicator" },
+  // { id: "obv", value: "obv", label: "OBV", type: "indicator" },
 ]
 
 type ChartType = "candlestick" | "line" | "area"
@@ -63,8 +64,13 @@ export function DynamicStockChart({
       setLoadingData(true)
       setError(null)
       try {
-        const res = await fetch(`/api/stocks/historical/${symbol}?range=${selectedRange}&interval=${interval}`)
-        const json = await res.json()
+        const json = await grab('stocks/historical/' + symbol, {
+          range: selectedRange,
+          interval
+        })
+
+        if (json.error)
+          setError("Network error")
         if (json.success && json.data) {
           const transformedData: ChartData[] = json.data.map((d: any) => ({
             date: d.date || d.time,
@@ -80,7 +86,6 @@ export function DynamicStockChart({
         }
       } catch (e) {
         console.error("Error fetching initial chart data", e)
-        setError("Network error")
       } finally {
         setLoadingData(false)
       }

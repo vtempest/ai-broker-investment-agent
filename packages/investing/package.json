@@ -83,6 +83,7 @@
     "indicatorts": "^2.2.2",
     "langchain": "^1.2.3",
     "nanoid": "5.1.6",
+    "pinets": "^0.8.3",
     "sec-edgar-toolkit": "^0.1.1",
     "yahoo-finance2": "^3.10.2",
     "zod": "4.3.4"
