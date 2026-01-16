@@ -102,8 +102,25 @@ export function HeroSection() {
                 </Link>
               </Button>
 
+              
+
             </div>
+
+
+<div className="mt-2 flex flex-col items-center lg:items-start gap-4 sm:flex-row">
+            <Link href="https://play.google.com/store/apps/details?id=com.autoinvestment.broker.app" target="_blank" rel="noopener noreferrer">
+                <Image
+                  src="/images/download-google-play.png"
+                  alt="Get it on Google Play"
+                  width={160}
+                  height={48}
+                  className="h-12 w-auto transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_10px_10px_rgba(0,0,0,0.25)] active:scale-95"
+                />
+              </Link>
+</div>
+
           </div>
+          
 
           <div className="w-full relative rounded-xl overflow-hidden shadow-2xl border border-border/50 bg-background/50 backdrop-blur-sm aspect-video">
             <iframe
