@@ -28,7 +28,7 @@ export * from "./stocks/sec-filing-api";
 export * from "./stocks/import-stock-names";
 
 // Prediction markets (Polymarket integration)
-export * from "./event-prediction/polymarket";
+export * from "./prediction/polymarket";
 
 // Trading strategies and algorithms
 export * from "./algo-stategies/tv-scraper";
