@@ -54,6 +54,7 @@
     "dist",
     ".next",
     "docs",
-    "lib/api-client"
+    "lib/api-client",
+    "packages"
   ]
 }

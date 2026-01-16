@@ -172,6 +172,6 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "overrides": {
-    "entities": "^4.5.0"
+    "entities": "^6.0.0"
   }
 }
