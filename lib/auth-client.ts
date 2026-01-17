@@ -1,17 +1,16 @@
-// Auth client placeholder
-// TODO: Implement authentication client
+import { createAuthClient } from "better-auth/react"
+import { siweClient } from "better-auth/client/plugins"
+import { stripeClient } from "@better-auth/stripe/client"
 
-export const authClient = {
-  useSession: () => ({ data: null, isPending: false }),
-}
+export const authClient = createAuthClient({
+  baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  plugins: [
+    siweClient(),
+    stripeClient(),
+  ],
+})
 
 // Named exports for compatibility
 export const useSession = authClient.useSession
-
-export async function signIn(provider?: string, options?: any) {
-  throw new Error('Not implemented')
-}
-
-export async function signOut() {
-  throw new Error('Not implemented')
-}
+export const signIn = authClient.signIn
+export const signOut = authClient.signOut
