@@ -69,9 +69,12 @@ export function DynamicStockChart({
           interval
         })
 
-        if (json.error)
-          setError("Network error")
-        if (json.success && json.data) {
+        if (json.error) {
+          setError(json.error || "Network error")
+          return
+        }
+
+        if (json.success && json.data && Array.isArray(json.data)) {
           const transformedData: ChartData[] = json.data.map((d: any) => ({
             date: d.date || d.time,
             open: d.open,
@@ -82,10 +85,13 @@ export function DynamicStockChart({
           })).filter((d: ChartData) => d.open && d.close)
           setChartData(transformedData)
         } else {
-          setError(json.error || "Failed to load data")
+          const errorMsg = json.error || json.hint || "Failed to load data - invalid response format"
+          console.error("Invalid API response:", json)
+          setError(errorMsg)
         }
       } catch (e) {
         console.error("Error fetching initial chart data", e)
+        setError("Failed to fetch chart data")
       } finally {
         setLoadingData(false)
       }
