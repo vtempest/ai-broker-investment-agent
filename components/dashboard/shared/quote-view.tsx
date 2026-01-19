@@ -80,22 +80,64 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
   const [isInWatchlist, setIsInWatchlist] = useState(false)
   const [watchlistLoading, setWatchlistLoading] = useState(false)
   const [tradeModalOpen, setTradeModalOpen] = useState(false)
+  const [peerStockInfo, setPeerStockInfo] = useState<Map<string, { name: string; marketCap: number }>>(new Map())
+
+  // Fetch peer stock information from stock-names.json
+  useEffect(() => {
+    if (!data?.peers || data.peers.length === 0) return
+
+    const loadStockInfo = async () => {
+      try {
+        // Import stock names dynamically to avoid bundling large JSON
+        const { default: stockNamesData } = await import('@/packages/investing/src/stock-names-data/stock-names.json')
+        const infoMap = new Map<string, { name: string; marketCap: number }>()
+
+        data.peers.slice(0, 10).forEach((peerSymbol: string) => {
+          const stockData = (stockNamesData as any[]).find(
+            (stock) => stock[0] === peerSymbol.toUpperCase()
+          )
+          if (stockData) {
+            infoMap.set(peerSymbol, {
+              name: stockData[1],
+              marketCap: stockData[3], // Market cap is in millions
+            })
+          }
+        })
+
+        setPeerStockInfo(infoMap)
+      } catch (error) {
+        console.error('Error loading stock info:', error)
+      }
+    }
+
+    loadStockInfo()
+  }, [data?.peers])
 
   // Check if symbol is in watchlist
   useEffect(() => {
-    if (!symbol || !session?.user) return
+    if (!symbol || !session?.user) {
+      setIsInWatchlist(false)
+      return
+    }
 
     const checkWatchlist = async () => {
       try {
-
         const res = await fetch('/api/user/watchlist')
+
+        // Handle 401 gracefully - user is not authenticated
+        if (res.status === 401) {
+          setIsInWatchlist(false)
+          return
+        }
+
         const json = await res.json()
         if (json.success && json.data) {
           const inWatchlist = json.data.some((item: any) => item.symbol === symbol.toUpperCase())
           setIsInWatchlist(inWatchlist)
         }
       } catch (err) {
-        console.error('Error checking watchlist:', err)
+        // Silently handle errors - watchlist is a non-critical feature
+        setIsInWatchlist(false)
       }
     }
 
@@ -133,6 +175,7 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
 
   // New state for performance metrics
   const [performance, setPerformance] = useState<{
+    day: number | null,
     week: number | null,
     month: number | null,
     month3: number | null,
@@ -141,6 +184,7 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
     year5: number | null,
     ytd: number | null
   }>({
+    day: null,
     week: null,
     month: null,
     month3: null,
@@ -150,15 +194,21 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
     ytd: null
   })
 
-  // Fetch 5y data for calculating performance metrics
+  // Fetch historical data for calculating performance metrics
   useEffect(() => {
     if (!symbol) return
 
     const fetchPerformanceData = async () => {
       try {
-        // Fetch 5 years of daily data
-        const res = await fetch(`/api/stocks/historical/${symbol}?range=5y&interval=1d`)
-        const json = await res.json()
+        // Try to fetch 2 years of data first (more reliable than 5y)
+        let res = await fetch(`/api/stocks/historical/${symbol}?range=2y&interval=1d`)
+        let json = await res.json()
+
+        // If 2y fails, try 1y as fallback
+        if (!json.success || !json.data || !Array.isArray(json.data) || json.data.length === 0) {
+          res = await fetch(`/api/stocks/historical/${symbol}?range=1y&interval=1d`)
+          json = await res.json()
+        }
 
         if (json.success && json.data && Array.isArray(json.data)) {
           const history = json.data
@@ -189,17 +239,23 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
             return startPrice ? ((currentPrice - startPrice) / startPrice) : null
           }
 
+          // Calculate available metrics based on data range
+          const oldestDate = new Date(history[0].date)
+          const dataRangeDays = Math.floor((now.getTime() - oldestDate.getTime()) / (1000 * 60 * 60 * 24))
+
           setPerformance({
-            week: getChange(7),
-            month: getChange(30),
-            month3: getChange(90),
-            month6: getChange(180),
-            year: getChange(365),
-            year5: getChange(365 * 5),
+            day: dataRangeDays >= 1 ? getChange(1) : null,
+            week: dataRangeDays >= 7 ? getChange(7) : null,
+            month: dataRangeDays >= 30 ? getChange(30) : null,
+            month3: dataRangeDays >= 90 ? getChange(90) : null,
+            month6: dataRangeDays >= 180 ? getChange(180) : null,
+            year: dataRangeDays >= 365 ? getChange(365) : null,
+            year5: dataRangeDays >= 365 * 5 ? getChange(365 * 5) : null, // Will likely be null with 1-2y data
             ytd: getDateChange(new Date(new Date().getFullYear(), 0, 1))
           })
         }
       } catch (err) {
+        // Silently handle errors - performance metrics are non-critical
         console.error("Performance data fetch error:", err)
       }
     }
@@ -379,8 +435,8 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <div>
                     <div className="text-xs text-muted-foreground">D</div>
-                    <div className={`font-bold ${price.regularMarketChangePercent >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {formatPercent(price.regularMarketChangePercent)}
+                    <div className={`font-bold ${performance.day && performance.day >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                      {performance.day ? formatPercent(performance.day) : '-'}
                     </div>
                   </div>
                   <div>
@@ -509,14 +565,27 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
             </CardHeader>
             <CardContent>
               {data.peers && data.peers.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {data.peers.slice(0, 10).map((peerSymbol: string) => (
-                    <Link key={peerSymbol} href={`/dashboard?symbol=${peerSymbol}`}>
-                      <Badge variant="secondary" className="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer">
-                        {peerSymbol}
-                      </Badge>
-                    </Link>
-                  ))}
+                <div className="space-y-2">
+                  {data.peers.slice(0, 10).map((peerSymbol: string) => {
+                    const stockInfo = peerStockInfo.get(peerSymbol)
+                    return (
+                      <Link key={peerSymbol} href={`/dashboard?symbol=${peerSymbol}`}>
+                        <div className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer">
+                          <div className="flex items-center gap-3">
+                            <Badge variant="outline" className="font-mono">
+                              {peerSymbol}
+                            </Badge>
+                            <span className="text-sm font-medium">
+                              {stockInfo?.name || peerSymbol}
+                            </span>
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {stockInfo?.marketCap ? formatNumber(stockInfo.marketCap * 1000000) : 'N/A'}
+                          </div>
+                        </div>
+                      </Link>
+                    )
+                  })}
                 </div>
               ) : (
                 <div className="text-sm text-muted-foreground">No related stocks found.</div>

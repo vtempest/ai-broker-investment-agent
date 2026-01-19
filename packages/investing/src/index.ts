@@ -42,6 +42,8 @@ export * from "./llm/debate-generator";
 
 // API clients for various services
 export * from "./alpaca/alpaca-mcp-client";
+
+// Debate research
 export * from "./debate-research/stock-agents-api";
 
 // Wikipedia pageviews

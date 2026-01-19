@@ -209,15 +209,24 @@ export function PredictionMarketsSection() {
       <div className="container mx-auto px-4">
 
 
-        <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4 border-cyan-500/50 text-cyan-400">
-            Prediction Markets Intelligence
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">Polymarket & Kalshi Analysis</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
-            Research-based LLM analysis on prediction market outcomes with copy trading signals from top investors,
-            senators, and traders
-          </p>
+        <div className="flex items-center justify-center gap-8 mb-16">
+          <div className="text-center">
+            <Badge variant="outline" className="mb-4 border-cyan-500/50 text-cyan-400">
+              Prediction Markets Intelligence
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">Polymarket & Kalshi Analysis</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
+              Research-based LLM analysis on prediction market outcomes with copy trading signals from top investors,
+              senators, and traders
+            </p>
+          </div>
+          <Image
+            src="/images/banner-polymarket-sphere.jpg"
+            alt="Polymarket Sphere"
+            width={250}
+            height={200}
+            className="object-cover rounded-lg flex-shrink-0"
+          />
         </div>
 
         {/* Platform Cards */}
