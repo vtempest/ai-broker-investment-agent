@@ -31,6 +31,8 @@ const nextConfig = {
     'twoslash',
     'twoslash-protocol',
     'shiki',
+    'entities',
+    'parse5',
   ],
   reactStrictMode: true,
   experimental: {

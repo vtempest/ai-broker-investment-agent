@@ -2890,5 +2890,1543 @@
   "CARR": {
     "name": "Carrier Global Corporation",
     "wikiTitle": "Carrier Global"
+  },
+  "CARS": {
+    "name": "Cars.com Inc.",
+    "wikiTitle": "Cars.com"
+  },
+  "CART": {
+    "name": "Maplebear Inc.",
+    "wikiTitle": "Instacart"
+  },
+  "CASH": {
+    "name": "Pathward Financial Inc.",
+    "wikiTitle": "Pathward"
+  },
+  "CASI": {
+    "name": "CASI Pharmaceuticals Inc.",
+    "wikiTitle": "Computer Associates"
+  },
+  "CASS": {
+    "name": "Cass Information Systems Inc",
+    "wikiTitle": "Meta Platforms"
+  },
+  "CASY": {
+    "name": "Casey's General Stores Inc.",
+    "wikiTitle": "Casey's"
+  },
+  "CAT": {
+    "name": "Caterpillar Inc.",
+    "wikiTitle": "Caterpillar Inc."
+  },
+  "CATX": {
+    "name": "Perspective Therapeutics Inc.",
+    "wikiTitle": "Regulus Therapeutics"
+  },
+  "CATY": {
+    "name": "Cathay General Bancorp",
+    "wikiTitle": "Cathay Bank"
+  },
+  "CAVA": {
+    "name": "CAVA Group Inc.",
+    "wikiTitle": "Cava Group"
+  },
+  "CB": {
+    "name": "Chubb Limited ",
+    "wikiTitle": "Chubb Limited"
+  },
+  "CBAN": {
+    "name": "Colony Bankcorp Inc.",
+    "wikiTitle": "Bank of Montreal"
+  },
+  "CBAT": {
+    "name": "CBAK Energy Technology Inc.",
+    "wikiTitle": "N-Shares"
+  },
+  "CBFV": {
+    "name": "CB Financial Services Inc.",
+    "wikiTitle": "CBRE Group"
+  },
+  "CBIO": {
+    "name": "Crescent Biopharma Inc.",
+    "wikiTitle": "Kainos"
+  },
+  "CBK": {
+    "name": "Commercial Bancgroup Inc.",
+    "wikiTitle": "Colonial Bancgroup"
+  },
+  "CBL": {
+    "name": "CBL & Associates Properties Inc.",
+    "wikiTitle": "CBL Properties"
+  },
+  "CBLL": {
+    "name": "CeriBell Inc.",
+    "wikiTitle": "Toronto",
+    "error": "potential miss"
+  },
+  "CBNK": {
+    "name": "Capital Bancorp Inc.",
+    "wikiTitle": "Glacier Bancorp"
+  },
+  "CBRE": {
+    "name": "CBRE Group Inc",
+    "wikiTitle": "CBRE Group"
+  },
+  "CBRL": {
+    "name": "Cracker Barrel Old Country Store Inc",
+    "wikiTitle": "Cracker Barrel"
+  },
+  "CBSH": {
+    "name": "Commerce Bancshares Inc.",
+    "wikiTitle": "Commerce Bancshares"
+  },
+  "CBT": {
+    "name": "Cabot Corporation",
+    "wikiTitle": "Cabot Corporation"
+  },
+  "CBU": {
+    "name": "Community Financial System Inc.",
+    "wikiTitle": "Community Bank, N.A."
+  },
+  "CBZ": {
+    "name": "CBIZ Inc.",
+    "wikiTitle": "CBIZ"
+  },
+  "CC": {
+    "name": "Chemours Company (The)",
+    "wikiTitle": "Chemours"
+  },
+  "CCAP": {
+    "name": "Crescent Capital BDC Inc.",
+    "wikiTitle": null
+  },
+  "CCB": {
+    "name": "Coastal Financial Corporation",
+    "wikiTitle": "Truist"
+  },
+  "CCBG": {
+    "name": "Capital City Bank Group",
+    "wikiTitle": "Capital Group Companies"
+  },
+  "CCCC": {
+    "name": "C4 Therapeutics Inc.",
+    "wikiTitle": "Acadia Pharmaceuticals"
+  },
+  "CCEC": {
+    "name": "Capital Clean Energy Carriers Corp.",
+    "wikiTitle": "Tesla, Inc."
+  },
+  "CCEL": {
+    "name": "Cryo-Cell International Inc.",
+    "wikiTitle": "Cryo-Cell International"
+  },
+  "CCEP": {
+    "name": "Coca-Cola Europacific Partners plc",
+    "wikiTitle": "Coca-Cola Europacific Partners"
+  },
+  "CCI": {
+    "name": "Crown Castle Inc.",
+    "wikiTitle": "Crown Castle"
+  },
+  "CCIX": {
+    "name": "Churchill Capital Corp IX",
+    "wikiTitle": "Barclays"
+  },
+  "CCJ": {
+    "name": "Cameco Corporation",
+    "wikiTitle": "Cameco"
+  },
+  "CCL": {
+    "name": "Carnival Corporation",
+    "wikiTitle": "Carnival Corporation & plc"
+  },
+  "CCLD": {
+    "name": "CareCloud Inc.",
+    "wikiTitle": "CareCloud"
+  },
+  "CCM": {
+    "name": "Concord Medical Services Holdings Limited",
+    "wikiTitle": "Concord Township, Lake County, Ohio",
+    "error": "potential miss"
+  },
+  "CCNE": {
+    "name": "CNB Financial Corporation",
+    "wikiTitle": "Cherokee Nation Businesses"
+  },
+  "CCNEP": {
+    "name": "CNB Financial Corporation",
+    "wikiTitle": "Cherokee Nation Businesses"
+  },
+  "CCRN": {
+    "name": "Cross Country Healthcare Inc.",
+    "wikiTitle": "GE HealthCare"
+  },
+  "CCS": {
+    "name": "Century Communities Inc.",
+    "wikiTitle": "Lumen Technologies"
+  },
+  "CCSI": {
+    "name": "Consensus Cloud Solutions Inc.",
+    "wikiTitle": "J2 Global"
+  },
+  "CCU": {
+    "name": "Compania Cervecerias Unidas S.A.",
+    "wikiTitle": "Compañía de las Cervecerías Unidas"
+  },
+  "CCXIU": {
+    "name": "Churchill Capital Corp XI",
+    "wikiTitle": "Mohun Bagan Super Giant",
+    "error": "potential miss"
+  },
+  "CCZ": {
+    "name": "Comcast Holdings ZONES",
+    "wikiTitle": "Comcast Spectacor"
+  },
+  "CDE": {
+    "name": "Coeur Mining Inc.",
+    "wikiTitle": "Coeur Mining"
+  },
+  "CDLR": {
+    "name": "Cadeler A/S American Depositary Share (each representing four (4)",
+    "wikiTitle": null
+  },
+  "CDLX": {
+    "name": "Cardlytics Inc.",
+    "wikiTitle": "David Perdue",
+    "error": "potential miss"
+  },
+  "CDNA": {
+    "name": "CareDx Inc.",
+    "wikiTitle": "Genesys (company)"
+  },
+  "CDNS": {
+    "name": "Cadence Design Systems Inc.",
+    "wikiTitle": "Cadence Design Systems"
+  },
+  "CDP": {
+    "name": "COPT Defense Properties",
+    "wikiTitle": "COPT Defense Properties"
+  },
+  "CDRO": {
+    "name": "Codere Online Luxembourg S.A.",
+    "wikiTitle": "Valencia CF",
+    "error": "potential miss"
+  },
+  "CDT": {
+    "name": "CDT Equity Inc.",
+    "wikiTitle": "Belden Incorporated"
+  },
+  "CDTG": {
+    "name": "CDT Environmental Technology Investment Holdings Limited",
+    "wikiTitle": "DiscoverIE Group"
+  },
+  "CDTX": {
+    "name": "Cidara Therapeutics Inc.",
+    "wikiTitle": "David Gollaher",
+    "error": "potential miss"
+  },
+  "CDW": {
+    "name": "CDW Corporation",
+    "wikiTitle": "CDW"
+  },
+  "CDXS": {
+    "name": "Codexis Inc.",
+    "wikiTitle": "Codexis"
+  },
+  "CDZI": {
+    "name": "CADIZ Inc.",
+    "wikiTitle": "Cadiz, California",
+    "error": "potential miss"
+  },
+  "CDZIP": {
+    "name": "Cadiz Inc.",
+    "wikiTitle": "Cadiz, California",
+    "error": "potential miss"
+  },
+  "CE": {
+    "name": "Celanese Corporation",
+    "wikiTitle": "Celanese"
+  },
+  "CECO": {
+    "name": "CECO Environmental Corp.",
+    "wikiTitle": "CECO Environmental"
+  },
+  "CEG": {
+    "name": "Constellation Energy Corporation",
+    "wikiTitle": "Constellation Energy"
+  },
+  "CELC": {
+    "name": "Celcuity Inc.",
+    "wikiTitle": null
+  },
+  "CENN": {
+    "name": "Cenntro Inc.",
+    "wikiTitle": "Nio Inc."
+  },
+  "CENT": {
+    "name": "Central Garden & Pet Company",
+    "wikiTitle": "Tractor Supply Company"
+  },
+  "CENX": {
+    "name": "Century Aluminum Company",
+    "wikiTitle": "Century Aluminum"
+  },
+  "CEPU": {
+    "name": "Central Puerto S.A.",
+    "wikiTitle": "Central Puerto",
+    "error": "potential miss"
+  },
+  "CERS": {
+    "name": "Cerus Corporation",
+    "wikiTitle": "Cerus Corporation"
+  },
+  "CERT": {
+    "name": "Certara Inc.",
+    "wikiTitle": "Chemaxon"
+  },
+  "CET": {
+    "name": "Central Securities Corporation",
+    "wikiTitle": "Depository Trust & Clearing Corporation"
+  },
+  "CETX": {
+    "name": "Cemtrex Inc.",
+    "wikiTitle": null
+  },
+  "CETY": {
+    "name": "Clean Energy Technologies Inc.",
+    "wikiTitle": "Energy Exploration Technologies"
+  },
+  "CEVA": {
+    "name": "CEVA Inc.",
+    "wikiTitle": "Ceva (semiconductor company)"
+  },
+  "CFBK": {
+    "name": "CF Bankshares Inc.",
+    "wikiTitle": null
+  },
+  "CFFI": {
+    "name": "C&F Financial Corporation",
+    "wikiTitle": "First American Financial Corporation"
+  },
+  "CFFN": {
+    "name": "Capitol Federal Financial Inc.",
+    "wikiTitle": "Capitol Federal Savings Bank"
+  },
+  "CFG": {
+    "name": "Citizens Financial Group Inc.",
+    "wikiTitle": "Citizens Financial Group"
+  },
+  "CFR": {
+    "name": "Cullen/Frost Bankers Inc.",
+    "wikiTitle": "Frost Bank"
+  },
+  "CG": {
+    "name": "The Carlyle Group Inc.",
+    "wikiTitle": "The Carlyle Group"
+  },
+  "CGAU": {
+    "name": "Centerra Gold Inc.",
+    "wikiTitle": "Centerra Gold"
+  },
+  "CGBD": {
+    "name": "Carlyle Secured Lending Inc.",
+    "wikiTitle": "The Carlyle Group"
+  },
+  "CGC": {
+    "name": "Canopy Growth Corporation",
+    "wikiTitle": "Canopy Growth"
+  },
+  "CGEM": {
+    "name": "Cullinan Therapeutics Inc.",
+    "wikiTitle": "Patrick A. Baeuerle",
+    "error": "potential miss"
+  },
+  "CGEN": {
+    "name": "Compugen Ltd.",
+    "wikiTitle": "Compugen Ltd."
+  },
+  "CGNT": {
+    "name": "Cognyte Software Ltd.",
+    "wikiTitle": "Verint Systems"
+  },
+  "CGNX": {
+    "name": "Cognex Corporation",
+    "wikiTitle": "Cognex Corporation"
+  },
+  "CGON": {
+    "name": "CG Oncology Inc.",
+    "wikiTitle": "Kissei"
+  },
+  "CGTX": {
+    "name": "Cognition Therapeutics Inc.",
+    "wikiTitle": "Biogen"
+  },
+  "CHA": {
+    "name": "Chagee Holdings Limited",
+    "wikiTitle": "List of the largest fast food restaurant chains",
+    "error": "potential miss"
+  },
+  "CHCO": {
+    "name": "City Holding Company",
+    "wikiTitle": "JAB Holding Company"
+  },
+  "CHD": {
+    "name": "Church & Dwight Company Inc.",
+    "wikiTitle": "Church & Dwight"
+  },
+  "CHDN": {
+    "name": "Churchill Downs Incorporated",
+    "wikiTitle": "Churchill Downs Incorporated"
+  },
+  "CHE": {
+    "name": "Chemed Corp",
+    "wikiTitle": "LG Chem"
+  },
+  "CHEF": {
+    "name": "The Chefs' Warehouse Inc.",
+    "wikiTitle": "Albertsons"
+  },
+  "CHGG": {
+    "name": "Chegg Inc.",
+    "wikiTitle": "Chegg"
+  },
+  "CHH": {
+    "name": "Choice Hotels International Inc.",
+    "wikiTitle": "Choice Hotels"
+  },
+  "CHKP": {
+    "name": "Check Point Software Technologies Ltd.",
+    "wikiTitle": "Check Point"
+  },
+  "CHMG": {
+    "name": "Chemung Financial Corp",
+    "wikiTitle": "Chemung Canal Trust Company"
+  },
+  "CHMI": {
+    "name": "Cherry Hill Mortgage Investment Corporation",
+    "wikiTitle": "The Rouse Company"
+  },
+  "CHNR": {
+    "name": "China Natural Resources Inc.",
+    "wikiTitle": "PetroChina"
+  },
+  "CHOW": {
+    "name": "ChowChow Cloud International Holdings Limited",
+    "wikiTitle": "Grab Holdings"
+  },
+  "CHRD": {
+    "name": "Chord Energy Corporation",
+    "wikiTitle": "Chord Energy"
+  },
+  "CHRS": {
+    "name": "Coherus Oncology Inc.",
+    "wikiTitle": null
+  },
+  "CHRW": {
+    "name": "C.H. Robinson Worldwide Inc.",
+    "wikiTitle": "C.H. Robinson"
+  },
+  "CHSCP": {
+    "name": "CHS Inc. 8%  Cumulative Redeemable",
+    "wikiTitle": null
+  },
+  "CHT": {
+    "name": "Chunghwa Telecom Co. Ltd.",
+    "wikiTitle": "Chunghwa Telecom"
+  },
+  "CI": {
+    "name": "The Cigna Group",
+    "wikiTitle": "The Cigna Group"
+  },
+  "CIB": {
+    "name": "Grupo Cibest S.A.",
+    "wikiTitle": "Banco Cuscatlán"
+  },
+  "CIEN": {
+    "name": "Ciena Corporation",
+    "wikiTitle": "Ciena"
+  },
+  "CIFR": {
+    "name": "Cipher Mining Inc.",
+    "wikiTitle": "Companies listed on the Toronto Stock Exchange (C)",
+    "error": "potential miss"
+  },
+  "CIIT": {
+    "name": "Tianci International Inc.",
+    "wikiTitle": "Graphene",
+    "error": "potential miss"
+  },
+  "CIM": {
+    "name": "Chimera Investment Corporation",
+    "wikiTitle": "Hermeus"
+  },
+  "CINF": {
+    "name": "Cincinnati Financial Corporation",
+    "wikiTitle": "Cincinnati Financial"
+  },
+  "CING": {
+    "name": "Cingulate Inc.",
+    "wikiTitle": "Brain activity and meditation",
+    "error": "potential miss"
+  },
+  "CIO": {
+    "name": "City Office REIT Inc.",
+    "wikiTitle": "Real estate investment trust",
+    "error": "potential miss"
+  },
+  "CION": {
+    "name": "CION Investment Corporation",
+    "wikiTitle": "David's Bridal"
+  },
+  "CISO": {
+    "name": "CISO Global Inc.",
+    "wikiTitle": "Motorola Solutions"
+  },
+  "CISS": {
+    "name": "C3is Inc.",
+    "wikiTitle": null
+  },
+  "CITR": {
+    "name": "General Enterprise Ventures Inc.",
+    "wikiTitle": "Hewlett Packard Enterprise"
+  },
+  "CIVB": {
+    "name": "Civista Bancshares Inc.",
+    "wikiTitle": "FirstMerit Corporation"
+  },
+  "CIVI": {
+    "name": "Civitas Resources Inc.",
+    "wikiTitle": "Acorda Therapeutics"
+  },
+  "CIX": {
+    "name": "CompX International Inc.",
+    "wikiTitle": "NL Industries"
+  },
+  "CJMB": {
+    "name": "Callan JMB Inc.",
+    "wikiTitle": null
+  },
+  "CKX": {
+    "name": "CKX Lands Inc.",
+    "wikiTitle": "19 Recordings",
+    "error": "potential miss"
+  },
+  "CL": {
+    "name": "Colgate-Palmolive Company",
+    "wikiTitle": "Colgate-Palmolive"
+  },
+  "CLAR": {
+    "name": "Clarus Corporation",
+    "wikiTitle": "Black Diamond Equipment"
+  },
+  "CLB": {
+    "name": "Core Laboratories Inc.",
+    "wikiTitle": "Core Laboratories"
+  },
+  "CLBK": {
+    "name": "Columbia Financial Inc.",
+    "wikiTitle": "Ameriprise Financial"
+  },
+  "CLBT": {
+    "name": "Cellebrite DI Ltd.",
+    "wikiTitle": "Cellebrite"
+  },
+  "CLCO": {
+    "name": "Cool Company Ltd.",
+    "wikiTitle": "Nothing (company)"
+  },
+  "CLDI": {
+    "name": "Calidi Biotherapeutics Inc.",
+    "wikiTitle": null
+  },
+  "CLDX": {
+    "name": "Celldex Therapeutics Inc.",
+    "wikiTitle": "List of biotech and pharmaceutical companies in the New York metropolitan area",
+    "error": "potential miss"
+  },
+  "CLF": {
+    "name": "Cleveland-Cliffs Inc.",
+    "wikiTitle": "Cleveland-Cliffs"
+  },
+  "CLFD": {
+    "name": "Clearfield Inc.",
+    "wikiTitle": "Clearfield, Inc."
+  },
+  "CLGN": {
+    "name": "CollPlant Biotechnologies Ltd",
+    "wikiTitle": "List of Israeli companies listed on the Nasdaq"
+  },
+  "CLH": {
+    "name": "Clean Harbors Inc.",
+    "wikiTitle": "Clean Harbors"
+  },
+  "CLIR": {
+    "name": "ClearSign Technologies Corporation",
+    "wikiTitle": "ClearSign Technologies"
+  },
+  "CLLS": {
+    "name": "Cellectis S.A.",
+    "wikiTitle": "André Choulika",
+    "error": "potential miss"
+  },
+  "CLMB": {
+    "name": "Climb Global Solutions Inc.",
+    "wikiTitle": "Univar Solutions"
+  },
+  "CLMT": {
+    "name": "Calumet Inc.",
+    "wikiTitle": "Calumet, Inc."
+  },
+  "CLNE": {
+    "name": "Clean Energy Fuels Corp.",
+    "wikiTitle": "Valero Energy"
+  },
+  "CLNN": {
+    "name": "Clene Inc.",
+    "wikiTitle": "List of English translations from medieval sources: C",
+    "error": "potential miss"
+  },
+  "CLPR": {
+    "name": "Clipper Realty Inc.",
+    "wikiTitle": "Clipper Equity"
+  },
+  "CLPS": {
+    "name": "CLPS Incorporation",
+    "wikiTitle": "Commercial Lunar Payload Services",
+    "error": "potential miss"
+  },
+  "CLPT": {
+    "name": "ClearPoint Neuro Inc.",
+    "wikiTitle": "Neuro-linguistic programming",
+    "error": "potential miss"
+  },
+  "CLRB": {
+    "name": "Cellectar Biosciences Inc. ",
+    "wikiTitle": null
+  },
+  "CLRO": {
+    "name": "ClearOne Inc. (DE)",
+    "wikiTitle": "IHeartMedia"
+  },
+  "CLS": {
+    "name": "Celestica Inc.",
+    "wikiTitle": "Celestica"
+  },
+  "CLSK": {
+    "name": "CleanSpark Inc.",
+    "wikiTitle": "Tesla, Inc."
+  },
+  "CLST": {
+    "name": "Catalyst Bancorp Inc.",
+    "wikiTitle": "EagleBank"
+  },
+  "CLVT": {
+    "name": "Clarivate Plc",
+    "wikiTitle": "Clarivate"
+  },
+  "CLW": {
+    "name": "Clearwater Paper Corporation",
+    "wikiTitle": "Clearwater Paper"
+  },
+  "CLWT": {
+    "name": "Euro Tech Holdings Company Limited",
+    "wikiTitle": "Nasdaq-100"
+  },
+  "CLX": {
+    "name": "Clorox Company (The)",
+    "wikiTitle": "Clorox"
+  },
+  "CLYM": {
+    "name": "Climb Bio Inc.",
+    "wikiTitle": "Yasuko Namba",
+    "error": "potential miss"
+  },
+  "CM": {
+    "name": "Canadian Imperial Bank of Commerce",
+    "wikiTitle": "Canadian Imperial Bank of Commerce"
+  },
+  "CMA": {
+    "name": "Comerica Incorporated",
+    "wikiTitle": "Comerica"
+  },
+  "CMBM": {
+    "name": "Cambium Networks Corporation",
+    "wikiTitle": "Cambium Networks"
+  },
+  "CMBT": {
+    "name": "CMB.TECH NV",
+    "wikiTitle": "CMB.TECH"
+  },
+  "CMC": {
+    "name": "Commercial Metals Company",
+    "wikiTitle": "Commercial Metals Company"
+  },
+  "CMCL": {
+    "name": "Caledonia Mining Corporation Plc",
+    "wikiTitle": "Carnival Corporation & plc"
+  },
+  "CMCM": {
+    "name": "Cheetah Mobile Inc.",
+    "wikiTitle": "Cheetah Mobile"
+  },
+  "CMCO": {
+    "name": "Columbus McKinnon Corporation",
+    "wikiTitle": "Magnetek"
+  },
+  "CMDB": {
+    "name": "Costamare Bulkers Holdings Limited",
+    "wikiTitle": "Greek Merchant Marine"
+  },
+  "CMG": {
+    "name": "Chipotle Mexican Grill Inc.",
+    "wikiTitle": "Chipotle Mexican Grill"
+  },
+  "CMI": {
+    "name": "Cummins Inc.",
+    "wikiTitle": "Cummins"
+  },
+  "CMMB": {
+    "name": "Chemomab Therapeutics Ltd. American",
+    "wikiTitle": "Stan Polovets",
+    "error": "potential miss"
+  },
+  "CMND": {
+    "name": "Clearmind Medicine Inc.",
+    "wikiTitle": "MEAI",
+    "error": "potential miss"
+  },
+  "CMP": {
+    "name": "Compass Minerals Intl Inc",
+    "wikiTitle": "List of S&P 400 companies",
+    "error": "potential miss"
+  },
+  "CMPR": {
+    "name": "Cimpress plc",
+    "wikiTitle": "Cimpress"
+  },
+  "CMPX": {
+    "name": "Compass Therapeutics Inc.",
+    "wikiTitle": "Cybin"
+  },
+  "CMRC": {
+    "name": "Commerce.com Inc. Series 1",
+    "wikiTitle": "Fanatics, Inc."
+  },
+  "CMRE": {
+    "name": "Costamare Inc.",
+    "wikiTitle": "Costamare"
+  },
+  "CMS": {
+    "name": "CMS Energy Corporation",
+    "wikiTitle": "CMS Energy"
+  },
+  "CMT": {
+    "name": "Core Molding Technologies Inc",
+    "wikiTitle": "Core Molding Technologies"
+  },
+  "CMTL": {
+    "name": "Comtech Telecommunications Corp.",
+    "wikiTitle": "Gilat Satellite Networks"
+  },
+  "CNA": {
+    "name": "CNA Financial Corporation",
+    "wikiTitle": "CNA Financial"
+  },
+  "CNC": {
+    "name": "Centene Corporation",
+    "wikiTitle": "Centene Corporation"
+  },
+  "CNCK": {
+    "name": "Coincheck Group N.V.",
+    "wikiTitle": "Monex Group"
+  },
+  "CNDT": {
+    "name": "Conduent Incorporated",
+    "wikiTitle": "Conduent"
+  },
+  "CNET": {
+    "name": "ZW Data Action Technologies Inc.",
+    "wikiTitle": "Brand24"
+  },
+  "CNF": {
+    "name": "CNFinance Holdings Limited",
+    "wikiTitle": null
+  },
+  "CNH": {
+    "name": "CNH Industrial N.V.",
+    "wikiTitle": "CNH Industrial"
+  },
+  "CNI": {
+    "name": "Canadian National Railway Company",
+    "wikiTitle": "Canadian National Railway"
+  },
+  "CNL": {
+    "name": "Collective Mining Ltd.",
+    "wikiTitle": "Data mining",
+    "error": "potential miss"
+  },
+  "CNMD": {
+    "name": "CONMED Corporation",
+    "wikiTitle": "CONMED Corporation"
+  },
+  "CNO": {
+    "name": "CNO Financial Group Inc.",
+    "wikiTitle": "CNO Financial Group"
+  },
+  "CNOB": {
+    "name": "ConnectOne Bancorp Inc.",
+    "wikiTitle": "Fiserv"
+  },
+  "CNOBP": {
+    "name": "ConnectOne Bancorp Inc.",
+    "wikiTitle": "Fiserv"
+  },
+  "CNP": {
+    "name": "CenterPoint Energy Inc (Holding Co)",
+    "wikiTitle": "Apple Inc."
+  },
+  "CNQ": {
+    "name": "Canadian Natural Resources Limited",
+    "wikiTitle": "Canadian Natural Resources"
+  },
+  "CNR": {
+    "name": "Core Natural Resources Inc.",
+    "wikiTitle": "Cleveland-Cliffs"
+  },
+  "CNS": {
+    "name": "Cohen & Steers Inc",
+    "wikiTitle": "Cohen & Steers"
+  },
+  "CNSP": {
+    "name": "CNS Pharmaceuticals Inc.",
+    "wikiTitle": "Teva Pharmaceuticals"
+  },
+  "CNTA": {
+    "name": "Centessa Pharmaceuticals plc",
+    "wikiTitle": null
+  },
+  "CNTB": {
+    "name": "Connect Biopharma Holdings Limited",
+    "wikiTitle": "Horizon Therapeutics"
+  },
+  "CNTX": {
+    "name": "Context Therapeutics Inc.",
+    "wikiTitle": "Regenerative medicine advanced therapy",
+    "error": "potential miss"
+  },
+  "CNTY": {
+    "name": "Century Casinos Inc.",
+    "wikiTitle": "Century Casinos"
+  },
+  "CNX": {
+    "name": "CNX Resources Corporation",
+    "wikiTitle": "CNX Resources"
+  },
+  "CNXC": {
+    "name": "Concentrix Corporation",
+    "wikiTitle": "Concentrix"
+  },
+  "CNXN": {
+    "name": "PC Connection Inc.",
+    "wikiTitle": "PC Connection"
+  },
+  "COCO": {
+    "name": "The Vita Coco Company Inc.",
+    "wikiTitle": "Vita Coco"
+  },
+  "COCP": {
+    "name": "Cocrystal Pharma Inc.",
+    "wikiTitle": "Phillip Frost",
+    "error": "potential miss"
+  },
+  "CODA": {
+    "name": "Coda Octopus Group Inc.",
+    "wikiTitle": "Panda Project"
+  },
+  "CODX": {
+    "name": "Co-Diagnostics Inc.",
+    "wikiTitle": "Merck & Co."
+  },
+  "COE": {
+    "name": "51Talk Online Education Group",
+    "wikiTitle": null
+  },
+  "COF": {
+    "name": "Capital One Financial Corporation",
+    "wikiTitle": "Capital One"
+  },
+  "COFS": {
+    "name": "ChoiceOne Financial Services Inc.",
+    "wikiTitle": "President's Choice Financial"
+  },
+  "COGT": {
+    "name": "Cogent Biosciences Inc.",
+    "wikiTitle": "Greenhill & Co."
+  },
+  "COHN": {
+    "name": "Cohen & Company Inc.",
+    "wikiTitle": "Chewy (company)"
+  },
+  "COHR": {
+    "name": "Coherent Corp.",
+    "wikiTitle": "Coherent Corp."
+  },
+  "COHU": {
+    "name": "Cohu Inc.",
+    "wikiTitle": "Trans World Airlines",
+    "error": "potential miss"
+  },
+  "COKE": {
+    "name": "Coca-Cola Consolidated Inc.",
+    "wikiTitle": "Coca-Cola Consolidated"
+  },
+  "COLB": {
+    "name": "Columbia Banking System Inc.",
+    "wikiTitle": "History of banking",
+    "error": "potential miss"
+  },
+  "COLL": {
+    "name": "Collegium Pharmaceutical Inc.",
+    "wikiTitle": "List of S&P 500 companies",
+    "error": "potential miss"
+  },
+  "COLM": {
+    "name": "Columbia Sportswear Company",
+    "wikiTitle": "Columbia Sportswear"
+  },
+  "COMM": {
+    "name": "CommScope Holding Company Inc.",
+    "wikiTitle": "CommScope"
+  },
+  "CON": {
+    "name": "Concentra Group Holdings Parent Inc.",
+    "wikiTitle": "Concentra"
+  },
+  "COO": {
+    "name": "The Cooper Companies Inc.",
+    "wikiTitle": "The Cooper Companies"
+  },
+  "COOK": {
+    "name": "Traeger Inc.",
+    "wikiTitle": "The Predator (film)",
+    "error": "potential miss"
+  },
+  "COOT": {
+    "name": "Australian Oilseeds Holdings Limited",
+    "wikiTitle": "Archer Daniels Midland"
+  },
+  "COP": {
+    "name": "ConocoPhillips",
+    "wikiTitle": "ConocoPhillips"
+  },
+  "COR": {
+    "name": "Cencora Inc.",
+    "wikiTitle": "Cencora"
+  },
+  "CORT": {
+    "name": "Corcept Therapeutics Incorporated",
+    "wikiTitle": "List of S&P 600 companies",
+    "error": "potential miss"
+  },
+  "CORZ": {
+    "name": "Core Scientific Inc.",
+    "wikiTitle": "Thermo Fisher Scientific"
+  },
+  "COSM": {
+    "name": "Cosmos Health Inc.",
+    "wikiTitle": "Wiz, Inc."
+  },
+  "COSO": {
+    "name": "CoastalSouth Bancshares Inc.",
+    "wikiTitle": "List of companies of the United States by state",
+    "error": "potential miss"
+  },
+  "COST": {
+    "name": "Costco Wholesale Corporation",
+    "wikiTitle": "Costco"
+  },
+  "COUR": {
+    "name": "Coursera Inc.",
+    "wikiTitle": "Coursera"
+  },
+  "COYA": {
+    "name": "Coya Therapeutics Inc.",
+    "wikiTitle": null
+  },
+  "CP": {
+    "name": "Canadian Pacific Kansas City Limited",
+    "wikiTitle": "Canadian Pacific Kansas City"
+  },
+  "CPAC": {
+    "name": "Cementos Pacasmayo S.A.A.",
+    "wikiTitle": "Cementos Pacasmayo"
+  },
+  "CPAY": {
+    "name": "Corpay Inc.",
+    "wikiTitle": "Corpay"
+  },
+  "CPB": {
+    "name": "The Campbell's Company",
+    "wikiTitle": "Campbell's"
+  },
+  "CPBI": {
+    "name": "Central Plains Bancshares Inc.",
+    "wikiTitle": "Huntington Bancshares"
+  },
+  "CPF": {
+    "name": "Central Pacific Financial Corp New",
+    "wikiTitle": "Central Pacific Bank"
+  },
+  "CPHC": {
+    "name": "Canterbury Park Holding Corporation 'New'",
+    "wikiTitle": "Canterbury Park"
+  },
+  "CPIX": {
+    "name": "Cumberland Pharmaceuticals Inc.",
+    "wikiTitle": "Conivaptan",
+    "error": "potential miss"
+  },
+  "CPK": {
+    "name": "Chesapeake Utilities Corporation",
+    "wikiTitle": "Chesapeake Utilities"
+  },
+  "CPRI": {
+    "name": "Capri Holdings Limited",
+    "wikiTitle": "Capri Holdings"
+  },
+  "CPRT": {
+    "name": "Copart Inc. (DE)",
+    "wikiTitle": "ADP (company)"
+  },
+  "CPRX": {
+    "name": "Catalyst Pharmaceuticals Inc.",
+    "wikiTitle": "Catalyst Pharmaceuticals"
+  },
+  "CPSH": {
+    "name": "CPS Technologies Corp.",
+    "wikiTitle": "Mattr"
+  },
+  "CPSS": {
+    "name": "Consumer Portfolio Services Inc.",
+    "wikiTitle": "Select Portfolio Servicing"
+  },
+  "CQP": {
+    "name": "Cheniere Energy Partners LP Common",
+    "wikiTitle": "Bechtel"
+  },
+  "CR": {
+    "name": "Crane Company",
+    "wikiTitle": "Crane Co."
+  },
+  "CRAI": {
+    "name": "CRA International Inc.",
+    "wikiTitle": "CRA International"
+  },
+  "CRBG": {
+    "name": "Corebridge Financial Inc.",
+    "wikiTitle": "Corebridge Financial"
+  },
+  "CRBU": {
+    "name": "Caribou Biosciences Inc.",
+    "wikiTitle": "Jennifer Doudna",
+    "error": "potential miss"
+  },
+  "CRC": {
+    "name": "California Resources Corporation",
+    "wikiTitle": "California Resources Corporation"
+  },
+  "CRDF": {
+    "name": "Cardiff Oncology Inc.",
+    "wikiTitle": "Peter Elliott (pharmacologist)",
+    "error": "potential miss"
+  },
+  "CREG": {
+    "name": "Smart Powerr Corp.",
+    "wikiTitle": null
+  },
+  "CRESY": {
+    "name": "Cresud S.A.C.I.F. y A.",
+    "wikiTitle": null
+  },
+  "CREV": {
+    "name": "Carbon Revolution Public Limited",
+    "wikiTitle": "Climate change",
+    "error": "potential miss"
+  },
+  "CREX": {
+    "name": "Creative Realities Inc.",
+    "wikiTitle": "Adobe Inc."
+  },
+  "CRGO": {
+    "name": "Freightos Limited",
+    "wikiTitle": "Freightos"
+  },
+  "CRH": {
+    "name": "CRH PLC",
+    "wikiTitle": "CRH plc"
+  },
+  "CRI": {
+    "name": "Carter's Inc.",
+    "wikiTitle": "Carter's"
+  },
+  "CRIS": {
+    "name": "Curis Inc.",
+    "wikiTitle": "ACT Biotech Inc",
+    "error": "potential miss"
+  },
+  "CRK": {
+    "name": "Comstock Resources Inc.",
+    "wikiTitle": "S&P Global"
+  },
+  "CRL": {
+    "name": "Charles River Laboratories International Inc.",
+    "wikiTitle": "Charles River Laboratories"
+  },
+  "CRM": {
+    "name": "Salesforce Inc.",
+    "wikiTitle": "Salesforce"
+  },
+  "CRMD": {
+    "name": "CorMedix Inc.",
+    "wikiTitle": null
+  },
+  "CRML": {
+    "name": "Critical Metals Corp.",
+    "wikiTitle": "The Metals Company"
+  },
+  "CRMT": {
+    "name": "America's Car-Mart Inc",
+    "wikiTitle": "Walmart"
+  },
+  "CRNC": {
+    "name": "Cerence Inc.",
+    "wikiTitle": "Cerence"
+  },
+  "CRNT": {
+    "name": "Ceragon Networks Ltd.",
+    "wikiTitle": "Ceragon"
+  },
+  "CRNX": {
+    "name": "Crinetics Pharmaceuticals Inc.",
+    "wikiTitle": "Crinetics Pharmaceuticals"
+  },
+  "CRON": {
+    "name": "Cronos Group Inc.",
+    "wikiTitle": "Altria"
+  },
+  "CROX": {
+    "name": "Crocs Inc.",
+    "wikiTitle": "Crocs"
+  },
+  "CRS": {
+    "name": "Carpenter Technology Corporation",
+    "wikiTitle": "Carpenter Technology Corporation"
+  },
+  "CRSP": {
+    "name": "CRISPR Therapeutics AG",
+    "wikiTitle": "CRISPR Therapeutics"
+  },
+  "CRSR": {
+    "name": "Corsair Gaming Inc.",
+    "wikiTitle": "Corsair Gaming"
+  },
+  "CRTO": {
+    "name": "Criteo S.A.",
+    "wikiTitle": "Criteo"
+  },
+  "CRUS": {
+    "name": "Cirrus Logic Inc.",
+    "wikiTitle": "Cirrus Logic"
+  },
+  "CRVL": {
+    "name": "CorVel Corp.",
+    "wikiTitle": "CorVel Corporation"
+  },
+  "CRVO": {
+    "name": "CervoMed Inc.",
+    "wikiTitle": "List of enclaves and exclaves",
+    "error": "potential miss"
+  },
+  "CRVS": {
+    "name": "Corvus Pharmaceuticals Inc.",
+    "wikiTitle": "Burlingame, California",
+    "error": "potential miss"
+  },
+  "CRWS": {
+    "name": "Crown Crafts Inc",
+    "wikiTitle": "Crown Crafts"
+  },
+  "CSBR": {
+    "name": "Champions Oncology Inc.",
+    "wikiTitle": "Champions Oncology"
+  },
+  "CSCO": {
+    "name": "Cisco Systems Inc.",
+    "wikiTitle": "Cisco"
+  },
+  "CSGP": {
+    "name": "CoStar Group Inc.",
+    "wikiTitle": "CoStar Group"
+  },
+  "CSGS": {
+    "name": "CSG Systems International Inc.",
+    "wikiTitle": "CSG International"
+  },
+  "CSIQ": {
+    "name": "Canadian Solar Inc.",
+    "wikiTitle": "Canadian Solar"
+  },
+  "CSL": {
+    "name": "Carlisle Companies Incorporated",
+    "wikiTitle": "Carlisle Companies"
+  },
+  "CSPI": {
+    "name": "CSP Inc.",
+    "wikiTitle": "Sunoco"
+  },
+  "CSQ": {
+    "name": "Calamos Strategic Total Return",
+    "wikiTitle": "Kraft Heinz"
+  },
+  "CSR": {
+    "name": "D/B/A Centerspace",
+    "wikiTitle": "List of companies based in Oregon",
+    "error": "potential miss"
+  },
+  "CSTE": {
+    "name": "Caesarstone Ltd.",
+    "wikiTitle": "Caesarstone"
+  },
+  "CSTL": {
+    "name": "Castle Biosciences Inc.",
+    "wikiTitle": "DecisionDx-UM",
+    "error": "potential miss"
+  },
+  "CSTM": {
+    "name": "Constellium SE",
+    "wikiTitle": "Constellium"
+  },
+  "CSV": {
+    "name": "Carriage Services Inc.",
+    "wikiTitle": "ESPN (streaming service)",
+    "error": "potential miss"
+  },
+  "CSW": {
+    "name": "CSW Industrials Inc.",
+    "wikiTitle": "Corby Spirit and Wine"
+  },
+  "CSWC": {
+    "name": "Capital Southwest Corporation",
+    "wikiTitle": "Hilltop Holdings Inc."
+  },
+  "CSX": {
+    "name": "CSX Corporation",
+    "wikiTitle": "CSX Corporation"
+  },
+  "CTAS": {
+    "name": "Cintas Corporation",
+    "wikiTitle": "Cintas"
+  },
+  "CTGO": {
+    "name": "Contango ORE Inc.",
+    "wikiTitle": "Gold mining in Alaska",
+    "error": "potential miss"
+  },
+  "CTKB": {
+    "name": "Cytek Biosciences Inc.",
+    "wikiTitle": "List of S&P 600 companies",
+    "error": "potential miss"
+  },
+  "CTLP": {
+    "name": "Cantaloupe Inc.",
+    "wikiTitle": "Cantaloupe, Inc."
+  },
+  "CTM": {
+    "name": "Castellum Inc.",
+    "wikiTitle": "Umm el-Jimal",
+    "error": "potential miss"
+  },
+  "CTMX": {
+    "name": "CytomX Therapeutics Inc.",
+    "wikiTitle": "AbbVie"
+  },
+  "CTO": {
+    "name": "CTO Realty Growth Inc.",
+    "wikiTitle": "Keller Williams Realty"
+  },
+  "CTOR": {
+    "name": "Citius Oncology Inc.",
+    "wikiTitle": "List of biotech and pharmaceutical companies in the New York metropolitan area",
+    "error": "potential miss"
+  },
+  "CTOS": {
+    "name": "Custom Truck One Source Inc.",
+    "wikiTitle": "Daimler Truck North America"
+  },
+  "CTRA": {
+    "name": "Coterra Energy Inc.",
+    "wikiTitle": "Coterra"
+  },
+  "CTRE": {
+    "name": "CareTrust REIT Inc.",
+    "wikiTitle": "Welltower"
+  },
+  "CTRM": {
+    "name": "Castor Maritime Inc.",
+    "wikiTitle": "Castor Maritime"
+  },
+  "CTRN": {
+    "name": "Citi Trends Inc.",
+    "wikiTitle": "Citi Trends"
+  },
+  "CTS": {
+    "name": "CTS Corporation",
+    "wikiTitle": "Cadillac CTS",
+    "error": "potential miss"
+  },
+  "CTSO": {
+    "name": "Cytosorbents Corporation",
+    "wikiTitle": "Cytosorbents Corporation"
+  },
+  "CTVA": {
+    "name": "Corteva Inc.",
+    "wikiTitle": "Corteva"
+  },
+  "CTXR": {
+    "name": "Citius Pharmaceuticals Inc.",
+    "wikiTitle": "List of biotech and pharmaceutical companies in the New York metropolitan area",
+    "error": "potential miss"
+  },
+  "CUBE": {
+    "name": "CubeSmart",
+    "wikiTitle": "CubeSmart"
+  },
+  "CUBI": {
+    "name": "Customers Bancorp Inc",
+    "wikiTitle": "Customers Bank"
+  },
+  "CUE": {
+    "name": "Cue Biopharma Inc.",
+    "wikiTitle": null
+  },
+  "CULP": {
+    "name": "Culp Inc.",
+    "wikiTitle": "Verizon"
+  },
+  "CURB": {
+    "name": "Curbline Properties Corp.",
+    "wikiTitle": "List of S&P 400 companies",
+    "error": "potential miss"
+  },
+  "CURR": {
+    "name": "Currenc Group Inc.",
+    "wikiTitle": "Animoca Brands"
+  },
+  "CURX": {
+    "name": "Curanex Pharmaceuticals Inc",
+    "wikiTitle": null
+  },
+  "CUZ": {
+    "name": "Cousins Properties Incorporated",
+    "wikiTitle": "Cousins Properties"
+  },
+  "CV": {
+    "name": "CapsoVision Inc.",
+    "wikiTitle": "Andor",
+    "error": "potential miss"
+  },
+  "CVAC": {
+    "name": "CureVac N.V.",
+    "wikiTitle": "CureVac"
+  },
+  "CVBF": {
+    "name": "CVB Financial Corporation",
+    "wikiTitle": "Nasdaq Financial-100"
+  },
+  "CVCO": {
+    "name": "Cavco Industries Inc.",
+    "wikiTitle": "Cavco Industries"
+  },
+  "CVE": {
+    "name": "Cenovus Energy Inc",
+    "wikiTitle": "Cenovus Energy"
+  },
+  "CVEO": {
+    "name": "Civeo Corporation (Canada)",
+    "wikiTitle": "Civeo Corporation"
+  },
+  "CVGI": {
+    "name": "Commercial Vehicle Group Inc.",
+    "wikiTitle": "JAC Group"
+  },
+  "CVGW": {
+    "name": "Calavo Growers Inc.",
+    "wikiTitle": "Calavo Growers"
+  },
+  "CVI": {
+    "name": "CVR Energy Inc.",
+    "wikiTitle": "Coffeyville Resources"
+  },
+  "CVKD": {
+    "name": "Cadrenal Therapeutics Inc.",
+    "wikiTitle": null
+  },
+  "CVLT": {
+    "name": "Commvault Systems Inc.",
+    "wikiTitle": "Commvault"
+  },
+  "CVM": {
+    "name": "Cel-Sci Corporation",
+    "wikiTitle": "Cel-Sci Corporation"
+  },
+  "CVR": {
+    "name": "Chicago Rivet & Machine Co.",
+    "wikiTitle": "Chicago Pneumatic"
+  },
+  "CVRX": {
+    "name": "CVRx Inc.",
+    "wikiTitle": "List of reporting marks: C",
+    "error": "potential miss"
+  },
+  "CVS": {
+    "name": "CVS Health Corporation",
+    "wikiTitle": "CVS Health"
+  },
+  "CVU": {
+    "name": "CPI Aerostructures Inc.",
+    "wikiTitle": "CPI Aerostructures"
+  },
+  "CVV": {
+    "name": "CVD Equipment Corporation",
+    "wikiTitle": "KLA Corporation"
+  },
+  "CVX": {
+    "name": "Chevron Corporation",
+    "wikiTitle": "Chevron Corporation"
+  },
+  "CW": {
+    "name": "Curtiss-Wright Corporation",
+    "wikiTitle": "Curtiss-Wright"
+  },
+  "CWBC": {
+    "name": "Community West Bancshares",
+    "wikiTitle": "Community West Bancshares"
+  },
+  "CWCO": {
+    "name": "Consolidated Water Co. Ltd.",
+    "wikiTitle": "Consolidated Contractors Company"
+  },
+  "CWK": {
+    "name": "Cushman & Wakefield Ltd.",
+    "wikiTitle": "Cushman & Wakefield"
+  },
+  "CWT": {
+    "name": "California Water Service Group",
+    "wikiTitle": "California Water Service Group"
+  },
+  "CXDO": {
+    "name": "Crexendo Inc.",
+    "wikiTitle": null
+  },
+  "CXT": {
+    "name": "Crane NXT Co.",
+    "wikiTitle": "Crane Co."
+  },
+  "CXW": {
+    "name": "CoreCivic Inc.",
+    "wikiTitle": "CoreCivic"
+  },
+  "CYBN": {
+    "name": "Cybin Inc.",
+    "wikiTitle": "Cybin"
+  },
+  "CYBR": {
+    "name": "CyberArk Software Ltd.",
+    "wikiTitle": "CyberArk"
+  },
+  "CYCN": {
+    "name": "Cyclerion Therapeutics Inc.",
+    "wikiTitle": null
+  },
+  "CYCU": {
+    "name": "Cycurion Inc.",
+    "wikiTitle": null
+  },
+  "CYD": {
+    "name": "China Yuchai International Limited",
+    "wikiTitle": "China Yuchai International"
+  },
+  "CYH": {
+    "name": "Community Health Systems Inc.",
+    "wikiTitle": "Community Health Systems"
+  },
+  "CYN": {
+    "name": "Cyngn Inc.",
+    "wikiTitle": "CyanogenMod",
+    "error": "potential miss"
+  },
+  "CYPH": {
+    "name": "Cypherpunk Technologies Inc.",
+    "wikiTitle": "Cypherpunk",
+    "error": "potential miss"
+  },
+  "CYRX": {
+    "name": "CryoPort Inc.",
+    "wikiTitle": "List of video game publishers",
+    "error": "potential miss"
+  },
+  "CYTK": {
+    "name": "Cytokinetics Incorporated",
+    "wikiTitle": "Cytokinetics"
+  },
+  "CZFS": {
+    "name": "Citizens Financial Services Inc.",
+    "wikiTitle": "Citizens Financial Group"
+  },
+  "CZNC": {
+    "name": "Citizens & Northern Corp",
+    "wikiTitle": "Northern Trust"
+  },
+  "CZR": {
+    "name": "Caesars Entertainment Inc.",
+    "wikiTitle": "Caesars Entertainment"
+  },
+  "CZWI": {
+    "name": "Citizens Community Bancorp Inc.",
+    "wikiTitle": "Glacier Bancorp"
+  },
+  "D": {
+    "name": "Dominion Energy Inc.",
+    "wikiTitle": "Dominion Energy"
+  },
+  "DAC": {
+    "name": "Danaos Corporation",
+    "wikiTitle": "Visayan Electric Company"
+  },
+  "DAIC": {
+    "name": "CID HoldCo Inc.",
+    "wikiTitle": "List of The Eminence in Shadow characters",
+    "error": "potential miss"
+  },
+  "DAIO": {
+    "name": "Data I/O Corporation",
+    "wikiTitle": "Data I/O"
+  },
+  "DAKT": {
+    "name": "Daktronics Inc.",
+    "wikiTitle": "Daktronics"
+  },
+  "DAL": {
+    "name": "Delta Air Lines Inc.",
+    "wikiTitle": "Delta Air Lines fleet",
+    "error": "potential miss"
+  },
+  "DAN": {
+    "name": "Dana Incorporated",
+    "wikiTitle": "Dana Incorporated"
+  },
+  "DAO": {
+    "name": "Youdao Inc.",
+    "wikiTitle": "NetEase"
   }
 }
