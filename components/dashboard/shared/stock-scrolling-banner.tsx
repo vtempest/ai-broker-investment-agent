@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
+import { cleanCompanyName } from "@/packages/investing/src/stocks/stock-names"
 
 interface TickerData {
   symbol: string
@@ -36,7 +37,7 @@ interface TickerData {
 }
 
 function getStockLogoUrl(symbol: string): string {
-  return `https://img.logo.dev/ticker/${symbol}?token=pk_TttrZhYwSReZxFePkXo-Bg&size=38&retina=true`
+  return `https://img.logo.dev/ticker/${symbol.replace("^", "")}?token=pk_TttrZhYwSReZxFePkXo-Bg&size=38&retina=true`
 }
 
 const defaultWatchlist = [
@@ -134,7 +135,7 @@ function TickerItem({ data }: { data: TickerData }) {
               unoptimized
             />
             {/* <span className="font-semibold text-foreground">{data.symbol}</span> */}
-            <span className=" text-foreground">{data.name}</span>
+            <span className=" text-foreground">{cleanCompanyName(data.name)}</span>
             {/* <span className="font-mono text-foreground">
               ${data.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span> */}
@@ -150,7 +151,7 @@ function TickerItem({ data }: { data: TickerData }) {
                 <TrendingDown className="h-2.5 w-2.5" />
               )}
               <span>
-                {data.changePercent.toFixed(2)}%
+                {data.changePercent.toFixed(1)}%
               </span>
             </div>
             <div
