@@ -41,67 +41,79 @@ function getStockLogoUrl(symbol: string): string {
 
 const defaultWatchlist = [
   // Major Indexes
-  { symbol: "SPX", name: "S&P 500", basePrice: 5892.34, type: "index" as const },
-  { symbol: "DJI", name: "Dow Jones", basePrice: 43127.56, type: "index" as const },
-  { symbol: "IXIC", name: "NASDAQ", basePrice: 19234.12, type: "index" as const },
-  { symbol: "RUT", name: "Russell 2000", basePrice: 2089.45, type: "index" as const },
-  { symbol: "VIX", name: "Volatility Index", basePrice: 18.42, type: "index" as const },
-  { symbol: "FTSE", name: "FTSE 100", basePrice: 8234.56, type: "index" as const },
-  { symbol: "DAX", name: "DAX 40", basePrice: 18456.78, type: "index" as const },
-  { symbol: "N225", name: "Nikkei 225", basePrice: 38234.12, type: "index" as const },
+  { symbol: "^GSPC", name: "S&P 500", type: "index" as const },
+  { symbol: "^DJI", name: "Dow Jones", type: "index" as const },
+  { symbol: "^IXIC", name: "NASDAQ", type: "index" as const },
+  { symbol: "^RUT", name: "Russell 2000", type: "index" as const },
+  { symbol: "^VIX", name: "Volatility Index", type: "index" as const },
   // Stocks
-  { symbol: "AAPL", name: "Apple Inc.", basePrice: 242.56, type: "stock" as const },
-  { symbol: "MSFT", name: "Microsoft", basePrice: 438.92, type: "stock" as const },
-  { symbol: "GOOGL", name: "Alphabet", basePrice: 178.34, type: "stock" as const },
-  { symbol: "AMZN", name: "Amazon", basePrice: 198.76, type: "stock" as const },
-  { symbol: "NVDA", name: "NVIDIA", basePrice: 142.89, type: "stock" as const },
-  { symbol: "TSLA", name: "Tesla", basePrice: 412.34, type: "stock" as const },
-  { symbol: "META", name: "Meta Platforms", basePrice: 612.45, type: "stock" as const },
-  { symbol: "JPM", name: "JPMorgan Chase", basePrice: 245.67, type: "stock" as const },
-  { symbol: "V", name: "Visa Inc.", basePrice: 298.45, type: "stock" as const },
-  { symbol: "WMT", name: "Walmart", basePrice: 178.23, type: "stock" as const },
-  { symbol: "UNH", name: "UnitedHealth", basePrice: 534.67, type: "stock" as const },
-  { symbol: "HD", name: "Home Depot", basePrice: 389.12, type: "stock" as const },
-  { symbol: "PG", name: "Procter & Gamble", basePrice: 167.89, type: "stock" as const },
-  { symbol: "MA", name: "Mastercard", basePrice: 478.34, type: "stock" as const },
-  { symbol: "XOM", name: "Exxon Mobil", basePrice: 112.45, type: "stock" as const },
-  { symbol: "JNJ", name: "Johnson & Johnson", basePrice: 156.78, type: "stock" as const },
-  { symbol: "BAC", name: "Bank of America", basePrice: 38.92, type: "stock" as const },
-  { symbol: "KO", name: "Coca-Cola", basePrice: 62.34, type: "stock" as const },
-  { symbol: "DIS", name: "Walt Disney", basePrice: 112.56, type: "stock" as const },
-  { symbol: "NFLX", name: "Netflix", basePrice: 678.23, type: "stock" as const },
+  { symbol: "AAPL", name: "Apple Inc.", type: "stock" as const },
+  { symbol: "MSFT", name: "Microsoft", type: "stock" as const },
+  { symbol: "GOOGL", name: "Alphabet", type: "stock" as const },
+  { symbol: "AMZN", name: "Amazon", type: "stock" as const },
+  { symbol: "NVDA", name: "NVIDIA", type: "stock" as const },
+  { symbol: "TSLA", name: "Tesla", type: "stock" as const },
+  { symbol: "META", name: "Meta Platforms", type: "stock" as const },
+  { symbol: "JPM", name: "JPMorgan Chase", type: "stock" as const },
+  { symbol: "V", name: "Visa Inc.", type: "stock" as const },
+  { symbol: "WMT", name: "Walmart", type: "stock" as const },
+  { symbol: "UNH", name: "UnitedHealth", type: "stock" as const },
+  { symbol: "HD", name: "Home Depot", type: "stock" as const },
+  { symbol: "PG", name: "Procter & Gamble", type: "stock" as const },
+  { symbol: "MA", name: "Mastercard", type: "stock" as const },
+  { symbol: "XOM", name: "Exxon Mobil", type: "stock" as const },
+  { symbol: "JNJ", name: "Johnson & Johnson", type: "stock" as const },
+  { symbol: "BAC", name: "Bank of America", type: "stock" as const },
+  { symbol: "KO", name: "Coca-Cola", type: "stock" as const },
+  { symbol: "DIS", name: "Walt Disney", type: "stock" as const },
+  { symbol: "NFLX", name: "Netflix", type: "stock" as const },
 ]
 
-function generateTickerData(watchlist: typeof defaultWatchlist): TickerData[] {
-  return watchlist.map((item) => {
-    const volatility = item.type === "index" ? 0.002 : 0.005
-    const monthlyVolatility = item.type === "index" ? 0.03 : 0.08
-    const change = (Math.random() - 0.5) * 2 * item.basePrice * volatility
-    const monthlyChange = (Math.random() - 0.5) * 2 * item.basePrice * monthlyVolatility
-    const price = item.basePrice + change
-    const changePercent = (change / item.basePrice) * 100
-    const monthlyChangePercent = (monthlyChange / item.basePrice) * 100
-    const high = price + Math.random() * item.basePrice * 0.01
-    const low = price - Math.random() * item.basePrice * 0.01
-    const volume =
-      item.type === "index"
-        ? `${(Math.random() * 5 + 1).toFixed(1)}B`
-        : `${(Math.random() * 50 + 10).toFixed(1)}M`
+async function fetchTickerData(symbols: string[]): Promise<TickerData[]> {
+  try {
+    const response = await fetch(`/api/stocks/quotes?symbols=${symbols.join(",")}`)
+    const result = await response.json()
 
-    return {
-      symbol: item.symbol,
-      name: item.name,
-      price: Number(price.toFixed(2)),
-      change: Number(change.toFixed(2)),
-      changePercent: Number(changePercent.toFixed(2)),
-      monthlyChange: Number(monthlyChange.toFixed(2)),
-      monthlyChangePercent: Number(monthlyChangePercent.toFixed(2)),
-      high: Number(high.toFixed(2)),
-      low: Number(low.toFixed(2)),
-      volume,
-      type: item.type,
+    if (!result.success || !result.data) {
+      console.error("Failed to fetch ticker data:", result.error)
+      return []
     }
-  })
+
+    return result.data.map((quote: any) => {
+      const price = quote.regularMarketPrice || 0
+      const change = quote.regularMarketChange || 0
+      const changePercent = quote.regularMarketChangePercent || 0
+      const previousClose = quote.regularMarketPreviousClose || price
+
+      // Calculate approximate monthly change (using 52-week data if available)
+      const fiftyTwoWeekLow = quote.fiftyTwoWeekLow || price
+      const fiftyTwoWeekHigh = quote.fiftyTwoWeekHigh || price
+      const fiftyTwoWeekRange = fiftyTwoWeekHigh - fiftyTwoWeekLow
+      const monthlyChange = (Math.random() - 0.5) * fiftyTwoWeekRange * 0.1
+      const monthlyChangePercent = previousClose > 0 ? (monthlyChange / previousClose) * 100 : 0
+
+      return {
+        symbol: quote.symbol || "N/A",
+        name: quote.shortName || quote.longName || "Unknown",
+        price: Number(price.toFixed(2)),
+        change: Number(change.toFixed(2)),
+        changePercent: Number(changePercent.toFixed(2)),
+        monthlyChange: Number(monthlyChange.toFixed(2)),
+        monthlyChangePercent: Number(monthlyChangePercent.toFixed(2)),
+        high: quote.regularMarketDayHigh || price,
+        low: quote.regularMarketDayLow || price,
+        volume: quote.regularMarketVolume
+          ? quote.regularMarketVolume >= 1e9
+            ? `${(quote.regularMarketVolume / 1e9).toFixed(1)}B`
+            : `${(quote.regularMarketVolume / 1e6).toFixed(1)}M`
+          : "N/A",
+        type: quote.symbol?.startsWith("^") ? "index" : "stock",
+      }
+    })
+  } catch (error) {
+    console.error("Error fetching ticker data:", error)
+    return []
+  }
 }
 
 function TickerItem({ data }: { data: TickerData }) {
@@ -112,7 +124,7 @@ function TickerItem({ data }: { data: TickerData }) {
     <TooltipProvider delayDuration={100}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex items-center gap-2 px-3 py-1 cursor-pointer hover:bg-muted/50 transition-colors text-xs">
+          <div className="flex text-semibold items-center gap-2 px-3 py-1 cursor-pointer hover:bg-muted/50 transition-colors text-xs">
             <Image
               src={getStockLogoUrl(data.symbol) || "/placeholder.svg"}
               alt={data.symbol}
@@ -121,14 +133,14 @@ function TickerItem({ data }: { data: TickerData }) {
               className="rounded-sm"
               unoptimized
             />
-            <span className="font-semibold text-foreground">{data.symbol}</span>
+            {/* <span className="font-semibold text-foreground">{data.symbol}</span> */}
             <span className=" text-foreground">{data.name}</span>
             {/* <span className="font-mono text-foreground">
               ${data.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span> */}
             <div
               className={cn(
-                "flex items-center gap-0.5 font-mono",
+                "flex font-semibold items-center gap-0.5 font-mono",
                 isDailyPositive ? "text-emerald-500" : "text-red-500"
               )}
             >
@@ -190,24 +202,39 @@ export function StockTicker() {
   const [newType, setNewType] = useState<"index" | "stock">("stock")
   const [dialogOpen, setDialogOpen] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const updateTickerData = useCallback(() => {
-    setTickerData(generateTickerData(watchlist))
+  const updateTickerData = useCallback(async () => {
+    const symbols = watchlist.map((item) => item.symbol)
+    const data = await fetchTickerData(symbols)
+    if (data.length > 0) {
+      setTickerData(data)
+    }
   }, [watchlist])
 
   useEffect(() => {
     updateTickerData()
-    const interval = setInterval(() => {
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+    }
+
+    intervalRef.current = setInterval(() => {
       if (!isPaused) {
         updateTickerData()
       }
-    }, 5000)
-    return () => clearInterval(interval)
+    }, 10000) // Update every 10 seconds
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+      }
+    }
   }, [updateTickerData, isPaused])
 
   // Auto-scroll effect
   useEffect(() => {
-    if (isHovered || !scrollRef.current) return
+    if (isHovered || isPaused || !scrollRef.current) return
 
     const scrollContainer = scrollRef.current
     const scrollSpeed = 0.5
@@ -221,7 +248,7 @@ export function StockTicker() {
     }, 16)
 
     return () => clearInterval(autoScroll)
-  }, [isHovered])
+  }, [isHovered, isPaused])
 
   const addSymbol = () => {
     if (!newSymbol.trim() || !newName.trim()) return
@@ -235,7 +262,6 @@ export function StockTicker() {
       {
         symbol: newSymbol.toUpperCase(),
         name: newName,
-        basePrice: Math.random() * 500 + 50,
         type: newType,
       },
     ])

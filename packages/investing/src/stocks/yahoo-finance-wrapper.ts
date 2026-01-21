@@ -4,14 +4,19 @@
  * Supports: quote, quoteSummary, chart, historical, search, options, recommendations, and more
  */
 
-import yahooFinance2 from "yahoo-finance2";
+import YahooFinance from "yahoo-finance2";
 
 /**
  * Yahoo Finance Wrapper Class
  * Provides a comprehensive API for stock market data
  */
 export class YahooFinanceWrapper {
-  private yf = yahooFinance2;
+  private yf: typeof YahooFinance.prototype;
+
+  constructor() {
+    this.yf = new YahooFinance();
+  }
+
   /**
    * Get real-time quote for a symbol
    * @param symbol - Stock symbol (e.g., "AAPL", "TSLA")
@@ -19,7 +24,7 @@ export class YahooFinanceWrapper {
    */
   async getQuote(symbol: string, options?: any) {
     try {
-      const quote = await this.yf.quote(symbol, options);
+      const quote = await this.yf.quoteCombine(symbol, options);
       return {
         success: true,
         data: quote,
@@ -40,7 +45,7 @@ export class YahooFinanceWrapper {
   async getQuotes(symbols: string[]) {
     try {
       const quotes = await Promise.all(
-        symbols.map((symbol) => this.yf.quote(symbol)),
+        symbols.map((symbol) => this.yf.quoteCombine(symbol)),
       );
       return {
         success: true,
