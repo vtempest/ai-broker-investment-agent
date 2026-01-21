@@ -7,7 +7,7 @@ import { StrategiesSection } from "@/components/landing/strategies-section"
 import { SignalIndicators } from "@/components/landing/signal-indicators"
 import { PredictionMarketsSection } from "@/components/landing/prediction-markets-section"
 import { CTASection } from "@/components/landing/cta-section"
-import { StockTicker } from "@/components/dashboard/shared/stock-ticker"
+import { StockTicker } from "@/components/dashboard/shared/stock-scrolling-banner"
 
 import { Footer } from "@/components/landing/footer"
 

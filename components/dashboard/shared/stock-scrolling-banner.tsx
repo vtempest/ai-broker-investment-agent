@@ -122,9 +122,10 @@ function TickerItem({ data }: { data: TickerData }) {
               unoptimized
             />
             <span className="font-semibold text-foreground">{data.symbol}</span>
-            <span className="font-mono text-foreground">
+            <span className=" text-foreground">{data.name}</span>
+            {/* <span className="font-mono text-foreground">
               ${data.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </span>
+            </span> */}
             <div
               className={cn(
                 "flex items-center gap-0.5 font-mono",
@@ -148,7 +149,7 @@ function TickerItem({ data }: { data: TickerData }) {
             >
               <CalendarDays className="h-2.5 w-2.5 text-muted-foreground" />
               <span>
-                {data.monthlyChangePercent.toFixed(2)}%
+                {data.monthlyChangePercent.toFixed(0)}%
               </span>
             </div>
             <span className="text-muted-foreground/50">|</span>
@@ -248,12 +249,11 @@ export function StockTicker() {
   }
 
   return (
-    <div className="w-full bg-card border-y border-border flex items-center">
+    <div className="w-full bg-card border-b border-border flex items-center overflow-hidden max-w-full">
       {/* Scrolling Ticker */}
       <div
         ref={scrollRef}
         className="overflow-x-auto flex-1 hover:cursor-grab active:cursor-grabbing scrollbar-hide"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -264,7 +264,7 @@ export function StockTicker() {
         </div>
       </div>
       {/* Fixed Controls - Right Side */}
-      <div className="flex items-center shrink-0 px-2 border-l border-border z-10">
+      <div className="flex items-center shrink-0 px-2 border-l border-border bg-card z-10">
         <Button
           variant="ghost"
           size="icon"

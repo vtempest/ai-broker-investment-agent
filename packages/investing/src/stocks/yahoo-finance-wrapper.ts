@@ -139,7 +139,7 @@ export class YahooFinanceWrapper {
         "earningsTrend",
       ];
 
-      const data = await this.this.yf.quoteSummary(symbol, {
+      const data = await this.yf.quoteSummary(symbol, {
         modules: defaultModules as any,
       });
 
@@ -323,7 +323,7 @@ export class YahooFinanceWrapper {
    */
   async getCompanyProfile(symbol: string) {
     try {
-      const data = await this.this.yf.quoteSummary(symbol, {
+      const data = await this.yf.quoteSummary(symbol, {
         modules: ["assetProfile", "summaryProfile"] as any,
       });
       return {
@@ -351,7 +351,7 @@ export class YahooFinanceWrapper {
    */
   async getFinancialStatements(symbol: string) {
     try {
-      const data = await this.this.yf.quoteSummary(symbol, {
+      const data = await this.yf.quoteSummary(symbol, {
         modules: [
           "incomeStatementHistory",
           "incomeStatementHistoryQuarterly",
@@ -390,7 +390,7 @@ export class YahooFinanceWrapper {
    */
   async getKeyStatistics(symbol: string) {
     try {
-      const data = await this.this.yf.quoteSummary(symbol, {
+      const data = await this.yf.quoteSummary(symbol, {
         modules: ["defaultKeyStatistics", "summaryDetail"] as any,
       });
       return {
@@ -415,7 +415,7 @@ export class YahooFinanceWrapper {
    */
   async getEarnings(symbol: string) {
     try {
-      const data = await this.this.yf.quoteSummary(symbol, {
+      const data = await this.yf.quoteSummary(symbol, {
         modules: [
           "earnings",
           "earningsHistory",
@@ -447,7 +447,7 @@ export class YahooFinanceWrapper {
    */
   async getOwnership(symbol: string) {
     try {
-      const data = await this.this.yf.quoteSummary(symbol, {
+      const data = await this.yf.quoteSummary(symbol, {
         modules: [
           "institutionOwnership",
           "fundOwnership",
@@ -481,7 +481,7 @@ export class YahooFinanceWrapper {
    */
   async getSECFilings(symbol: string) {
     try {
-      const data = await this.this.yf.quoteSummary(symbol, {
+      const data = await this.yf.quoteSummary(symbol, {
         modules: ["secFilings"] as any,
       });
       return {

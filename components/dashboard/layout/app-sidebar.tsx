@@ -176,7 +176,7 @@ function SidebarSearch() {
 
   if (state === "collapsed") {
     return (
-      <Button variant="ghost" size="icon" className="h-7 w-2" onClick={() => toggleSidebar()}>
+      <Button variant="ghost" size="icon" onClick={() => toggleSidebar()}>
         <Search className="h-4 w-4" />
       </Button>
     )
@@ -336,7 +336,6 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                   <span className="truncate font-semibold">AI Broker</span>
-                  {/* <span className="truncate text-xs">v1.0.0</span> */}
                 </div>
               </Link>
             </SidebarMenuButton>
