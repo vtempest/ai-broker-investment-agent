@@ -100,7 +100,7 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
         const { stockNames: stockNamesData, cleanCompanyName } = await import('investing/stocks')
         const infoMap = new Map<string, { name: string; marketCap: number }>()
 
-        data.peers.slice(0, 10).forEach((peerSymbol: string) => {
+        data.peers?.slice(0, 10).forEach((peerSymbol: string) => {
           const stockData = stockNamesData.find(
             (stock) => stock[0] === peerSymbol.toUpperCase()
           )

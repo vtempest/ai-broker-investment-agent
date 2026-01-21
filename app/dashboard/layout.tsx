@@ -1,6 +1,7 @@
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/dashboard/layout/app-sidebar"
 import { MobileDock } from "@/components/dashboard/layout/mobile-dock"
+import { StockTicker } from "@/components/dashboard/shared/stock-ticker"
 
 export default function DashboardLayout({
   children,
@@ -17,6 +18,7 @@ export default function DashboardLayout({
             <SidebarTrigger className="-ml-1" />
           </div>
         </header>
+        <StockTicker />
         {children}
       </SidebarInset>
 

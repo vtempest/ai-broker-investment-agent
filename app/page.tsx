@@ -7,6 +7,7 @@ import { StrategiesSection } from "@/components/landing/strategies-section"
 import { SignalIndicators } from "@/components/landing/signal-indicators"
 import { PredictionMarketsSection } from "@/components/landing/prediction-markets-section"
 import { CTASection } from "@/components/landing/cta-section"
+import { StockTicker } from "@/components/dashboard/shared/stock-ticker"
 
 import { Footer } from "@/components/landing/footer"
 
@@ -14,6 +15,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <StockTicker />
       <main>
         <HeroSection />
         <ArchitectureSection />

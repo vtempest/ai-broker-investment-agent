@@ -5,14 +5,14 @@
  * Data format: [symbol, name, industryId, marketCap, cik]
  */
 
-import stockNamesData from '../stock-names-data/stock-names.json';
+import stockNamesData from "../stock-names-data/stock-names.json";
 
 export type StockNameEntry = [
   symbol: string,
   name: string,
   industryId: number,
   marketCap: number,
-  cik: number
+  cik: number,
 ];
 
 /**
@@ -33,8 +33,6 @@ const COMPANY_NAME_SUFFIXES = [
   " Corp.",
   " Corp",
   " Company",
-  " Co.",
-  " Co",
   " Limited",
   " Ltd.",
   " Ltd",
@@ -81,7 +79,7 @@ const COMPANY_NAME_SUFFIXES = [
   " AB",
   " AG",
   " AS",
-  " ASA"
+  " ASA",
 ];
 
 /**
@@ -95,19 +93,21 @@ export function cleanCompanyName(name: string): string {
   let cleaned = name.trim();
 
   // Sort suffixes by length (longest first) to match more specific suffixes first
-  const sortedSuffixes = [...COMPANY_NAME_SUFFIXES].sort((a, b) => b.length - a.length);
+  const sortedSuffixes = [...COMPANY_NAME_SUFFIXES].sort(
+    (a, b) => b.length - a.length,
+  );
 
   for (const suffix of sortedSuffixes) {
     // Case insensitive match, allowing for anything after the suffix
-    const regex = new RegExp(suffix.replace(/\./g, '\\.') + '.*$', 'i');
+    const regex = new RegExp(suffix.replace(/\./g, "\\.") + ".*$", "i");
     if (regex.test(cleaned)) {
-      cleaned = cleaned.replace(regex, '').trim();
+      cleaned = cleaned.replace(regex, "").trim();
       break; // Stop after first match
     }
   }
 
   // Remove trailing commas and periods
-  cleaned = cleaned.replace(/[,.]$/, '').trim();
+  cleaned = cleaned.replace(/[,.]$/, "").trim();
 
   return cleaned;
 }

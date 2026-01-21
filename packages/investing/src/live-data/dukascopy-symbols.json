@@ -1,0 +1,8037 @@
+[
+  {
+    "symbol": "bundtreur",
+    "name": "Euro Bund",
+    "category": "bonds"
+  },
+  {
+    "symbol": "ukgilttrgbp",
+    "name": "UK Long Gilt",
+    "category": "bonds"
+  },
+  {
+    "symbol": "ustbondtrusd",
+    "name": "US T-Bond",
+    "category": "bonds"
+  },
+  {
+    "symbol": "adausd",
+    "name": "Cardano vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "aveusd",
+    "name": "Aave vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "batusd",
+    "name": "Basic Attention Token vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "bchchf",
+    "name": "Bitcoin Cash vs. Swiss franc",
+    "category": "crypto"
+  },
+  {
+    "symbol": "bcheur",
+    "name": "Bitcoin Cash vs. Euro",
+    "category": "crypto"
+  },
+  {
+    "symbol": "bchgbp",
+    "name": "Bitcoin Cash vs. Pound sterling",
+    "category": "crypto"
+  },
+  {
+    "symbol": "bchusd",
+    "name": "Bitcoin Cash vs US dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "btcchf",
+    "name": "Bitcoin vs. Swiss franc",
+    "category": "crypto"
+  },
+  {
+    "symbol": "btceur",
+    "name": "Bitcoin vs. Euro",
+    "category": "crypto"
+  },
+  {
+    "symbol": "btcgbp",
+    "name": "Bitcoin vs. Pound sterling",
+    "category": "crypto"
+  },
+  {
+    "symbol": "btcusd",
+    "name": "Bitcoin vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "cmpusd",
+    "name": "Compound vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "dshusd",
+    "name": "Dashcoin vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "enjusd",
+    "name": "Enjin vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "eosusd",
+    "name": "EOS vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "ethchf",
+    "name": "Ethereum vs. Swiss franc",
+    "category": "crypto"
+  },
+  {
+    "symbol": "etheur",
+    "name": "Ethereum vs. Euro",
+    "category": "crypto"
+  },
+  {
+    "symbol": "ethgbp",
+    "name": "Ethereum vs. Pound sterling",
+    "category": "crypto"
+  },
+  {
+    "symbol": "ethusd",
+    "name": "Ether vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "lnkusd",
+    "name": "Chainlink vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "ltcchf",
+    "name": "Litecoin vs. Swiss franc",
+    "category": "crypto"
+  },
+  {
+    "symbol": "ltceur",
+    "name": "Litecoin vs. Euro",
+    "category": "crypto"
+  },
+  {
+    "symbol": "ltcgbp",
+    "name": "Litecoin vs. Pound sterling",
+    "category": "crypto"
+  },
+  {
+    "symbol": "ltcusd",
+    "name": "Litecoin vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "matusd",
+    "name": "Polygon vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "mkrusd",
+    "name": "Maker vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "trxusd",
+    "name": "TRON vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "uniusd",
+    "name": "Uniswap vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "xlmchf",
+    "name": "Stellar vs. Swiss franc",
+    "category": "crypto"
+  },
+  {
+    "symbol": "xlmeur",
+    "name": "Stellar vs. Euro",
+    "category": "crypto"
+  },
+  {
+    "symbol": "xlmgbp",
+    "name": "Stellar vs. Pound sterling",
+    "category": "crypto"
+  },
+  {
+    "symbol": "xlmusd",
+    "name": "Stellar vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "yfiusd",
+    "name": "Yearn.finance vs US Dollar",
+    "category": "crypto"
+  },
+  {
+    "symbol": "cocoacmdusd",
+    "name": "NY Cocoa",
+    "category": "commodities"
+  },
+  {
+    "symbol": "coffeecmdusx",
+    "name": "Coffee Arabica",
+    "category": "commodities"
+  },
+  {
+    "symbol": "cottoncmdusx",
+    "name": "Cotton",
+    "category": "commodities"
+  },
+  {
+    "symbol": "ojuicecmdusx",
+    "name": "Orange Juice",
+    "category": "commodities"
+  },
+  {
+    "symbol": "soybeancmdusx",
+    "name": "Soybean",
+    "category": "commodities"
+  },
+  {
+    "symbol": "sugarcmdusd",
+    "name": "London Sugar No.5",
+    "category": "commodities"
+  },
+  {
+    "symbol": "dieselcmdusd",
+    "name": "Gas oil",
+    "category": "commodities"
+  },
+  {
+    "symbol": "brentcmdusd",
+    "name": "US Brent Crude Oil",
+    "category": "commodities"
+  },
+  {
+    "symbol": "lightcmdusd",
+    "name": "US Light Crude Oil",
+    "category": "commodities"
+  },
+  {
+    "symbol": "gascmdusd",
+    "name": "Natural Gas",
+    "category": "commodities"
+  },
+  {
+    "symbol": "coppercmdusd",
+    "name": "High Grade Copper",
+    "category": "commodities"
+  },
+  {
+    "symbol": "xpdcmdusd",
+    "name": "Palladium",
+    "category": "commodities"
+  },
+  {
+    "symbol": "xptcmdusd",
+    "name": "Platinum",
+    "category": "commodities"
+  },
+  {
+    "symbol": "tecdaxedeeur",
+    "name": "iShares TecDAX UCITS DE ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "dsbfreur",
+    "name": "LYXOR ETF Daily X2 Short Bund",
+    "category": "etf"
+  },
+  {
+    "symbol": "lvcfreur",
+    "name": "Lyxor ETF Leverage CAC 40",
+    "category": "etf"
+  },
+  {
+    "symbol": "lyxbnkfreur",
+    "name": "Lyxor UCITS ETF STOXX EUROPE 600 Banks",
+    "category": "etf"
+  },
+  {
+    "symbol": "2822hkhkd",
+    "name": "CSOP FTSE China A50 ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "2828hkhkd",
+    "name": "Hang Seng H-Share Index ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "2836hkhkd",
+    "name": "iShares Core S&P BSE SENSEX India ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "3188hkhkd",
+    "name": "ChinaAMC CSI 300 Index ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "diaususd",
+    "name": "SPDR Dow Jones® Industrial Average ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "dvyususd",
+    "name": "iShares Select Dividend ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "eemususd",
+    "name": "iShares MSCI Emerging Markets ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "efaususd",
+    "name": "iShares MSCI EAFE ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "embususd",
+    "name": "iShares J.P. Morgan USD Emerging Markets Bond ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ewhususd",
+    "name": "iShares MSCI Hong Kong ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ewjususd",
+    "name": "iShares MSCI Japan ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ewwususd",
+    "name": "iShares MSCI Mexico Capped",
+    "category": "etf"
+  },
+  {
+    "symbol": "ewzususd",
+    "name": "iShares MSCI Brazil Capped",
+    "category": "etf"
+  },
+  {
+    "symbol": "ezuususd",
+    "name": "iShares MSCI EMU ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "fxiususd",
+    "name": "iShares China Large-Cap ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "gdxususd",
+    "name": "VanEck Vectors Gold Miners ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "gdxjususd",
+    "name": "VanEck Vectors Junior Gold Miners ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "gldususd",
+    "name": "SPDR Gold Shares ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ibbususd",
+    "name": "iShares Nasdaq Biotechnology ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "iefususd",
+    "name": "iShares 7-10 Year Treasury Bond ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ijhususd",
+    "name": "iShares Core S&P Mid-Cap ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ijrususd",
+    "name": "iShares Core S&P Small-Cap ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "iveususd",
+    "name": "iShares S&P 500 Value ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ivwususd",
+    "name": "iShares S&P 500 Growth ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "iwdususd",
+    "name": "iShares Russell 1000 Value ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "iwfususd",
+    "name": "iShares Russell 1000 Growth ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "iwmususd",
+    "name": "iShares Russell 2000 ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "iyrususd",
+    "name": "iShares U.S. Real Estate ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "jnkususd",
+    "name": "SPDR Barclays Capital High Yield Bond ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "qqqususd",
+    "name": "PowerShares QQQ ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "slvususd",
+    "name": "iShares Silver Trust ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "spyususd",
+    "name": "SPDR S&P 500 ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "tltususd",
+    "name": "iShares 20+ Year Treasury Bond ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "usoususd",
+    "name": "United States Oil Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "veaususd",
+    "name": "Vanguard FTSE Developed Markets ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "vgkususd",
+    "name": "Vanguard FTSE Europe ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "vnqususd",
+    "name": "Vanguard REIT ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "vxxususd",
+    "name": "iPath S&P 500 VIX ST Futures ETN",
+    "category": "etf"
+  },
+  {
+    "symbol": "xleususd",
+    "name": "Energy Select Sector SPDR Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xlfususd",
+    "name": "Financial Select Sector SPDR Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xliususd",
+    "name": "Industrial Select Sector SPDR Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xlkususd",
+    "name": "Technology Select Sector SPDR Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xlpususd",
+    "name": "Consumer Staples Select Sector SPDR Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xluususd",
+    "name": "Utilities Select Sector SPDR Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xlvususd",
+    "name": "Health Care Select Sector SPDR Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xlyususd",
+    "name": "Consumer Discretionary Select Sector SPDR Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xopususd",
+    "name": "SPDR S&P Oil & Gas Explor & Prodtn ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "arkqususd",
+    "name": "ARK Autonomous Technology & Robotics ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "arkxususd",
+    "name": "ARK Space Exporation & Innovation ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "awayususd",
+    "name": "Amplify Travel Tech ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "bitoususd",
+    "name": "ProShares Bitcoin ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "btfususd",
+    "name": "Valkyrie Bitcoin and Ether Strategy ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "espoususd",
+    "name": "VanEck Video Gaming and eSports ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "finxususd",
+    "name": "Global X FinTech ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ftxgususd",
+    "name": "First Trust Nasdaq Food & Beverage ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "iakususd",
+    "name": "iShares US Insurance ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "itaususd",
+    "name": "iShares US Aerospace & Defense ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "jetsususd",
+    "name": "US Global Jets ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "kieususd",
+    "name": "SPDR S&P Insurance ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "kreususd",
+    "name": "SPDR S&P Regional Banking ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "pbjususd",
+    "name": "Invesco Food & Beverage ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "pejususd",
+    "name": "Invesco Leisure & Entertainment ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "ppaususd",
+    "name": "Invesco Aerospace & Defense ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "roboususd",
+    "name": "ROBO Global Robotics & Automation Index ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "vdeususd",
+    "name": "Vanguard Energy ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "xresususd",
+    "name": "Invesco Real Estate S&P US Select Sector UCITS ETF Acc",
+    "category": "etf"
+  },
+  {
+    "symbol": "audcad",
+    "name": "Australian Dollar vs Canadian Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "audchf",
+    "name": "Australian Dollar vs Swiss Franc",
+    "category": "forex"
+  },
+  {
+    "symbol": "audjpy",
+    "name": "Australian Dollar vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "audnzd",
+    "name": "Australian Dollar vs New Zealand Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "audsgd",
+    "name": "Australian Dollar vs Singapore Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadchf",
+    "name": "Canadian Dollar vs Swiss Franc",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadhkd",
+    "name": "Canadian Dollar vs Hong Kong Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadjpy",
+    "name": "Canadian Dollar vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfjpy",
+    "name": "Swiss Franc vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfsgd",
+    "name": "Swiss Franc vs Singapore Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "euraud",
+    "name": "Euro vs Australian Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurcad",
+    "name": "Euro vs Canadian Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurchf",
+    "name": "Euro vs Swiss Franc",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurczk",
+    "name": "Euro vs Czech Koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurdkk",
+    "name": "Euro vs Danish Krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurgbp",
+    "name": "Euro vs Pound Sterling",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurhkd",
+    "name": "Euro vs Hong Kong Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurhuf",
+    "name": "Euro vs Hungarian Forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurjpy",
+    "name": "Euro vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurnok",
+    "name": "Euro vs Norwegian Krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurnzd",
+    "name": "Euro vs New Zealand Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurpln",
+    "name": "Euro vs Polish Zloty",
+    "category": "forex"
+  },
+  {
+    "symbol": "eursek",
+    "name": "Euro vs Swedish Krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "eursgd",
+    "name": "Euro vs Singapore Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurtry",
+    "name": "Euro vs Turkish Lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpaud",
+    "name": "Pound Sterling vs Australian Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpcad",
+    "name": "Pound Sterling vs Canadian Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpchf",
+    "name": "Pound Sterling vs Swiss Franc",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpjpy",
+    "name": "Pound Sterling vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpnzd",
+    "name": "Pound Sterling vs New Zealand Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "hkdjpy",
+    "name": "Hong Kong Dollar vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdcad",
+    "name": "New Zealand Dollar vs Canadian Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdchf",
+    "name": "New Zealand Dollar vs Swiss Franc",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdjpy",
+    "name": "New Zealand Dollar vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdjpy",
+    "name": "Singapore Dollar vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "tryjpy",
+    "name": "Turkish Lira vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdaed",
+    "name": "US Dollar vs United Arab Emirates Dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdcnh",
+    "name": "US Dollar vs Offshore Chinese Renminbi",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdczk",
+    "name": "US Dollar vs Czech Koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "usddkk",
+    "name": "US Dollar vs Danish Krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdhkd",
+    "name": "US Dollar vs Hong Kong Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdhuf",
+    "name": "US Dollar vs Hungarian Forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdils",
+    "name": "US Dollar vs Israeli Shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdmxn",
+    "name": "US Dollar vs Mexican Peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdnok",
+    "name": "US Dollar vs Norwegian Krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdpln",
+    "name": "US Dollar vs Polish Zloty",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdron",
+    "name": "US Dollar vs Romanian Leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdsar",
+    "name": "US Dollar vs Saudi Riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdsek",
+    "name": "US Dollar vs Swedish Krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdsgd",
+    "name": "US Dollar vs Singapore Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdthb",
+    "name": "US Dollar vs Thai Baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdtry",
+    "name": "US Dollar vs Turkish Lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdzar",
+    "name": "US Dollar vs South African Rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "zarjpy",
+    "name": "South African Rand vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedcnh",
+    "name": "United Arab Emirates dirham vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedczk",
+    "name": "United Arab Emirates dirham vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedhkd",
+    "name": "United Arab Emirates dirham vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedhuf",
+    "name": "United Arab Emirates dirham vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedjpy",
+    "name": "United Arab Emirates dirham vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedmxn",
+    "name": "United Arab Emirates dirham vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedron",
+    "name": "United Arab Emirates dirham vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedsar",
+    "name": "United Arab Emirates dirham vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedthb",
+    "name": "United Arab Emirates dirham vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedtry",
+    "name": "United Arab Emirates dirham vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "aedzar",
+    "name": "United Arab Emirates dirham vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "audaed",
+    "name": "Australian dollar vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "audcnh",
+    "name": "Australian dollar vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "audczk",
+    "name": "Australian dollar vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "auddkk",
+    "name": "Australian dollar vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "audhkd",
+    "name": "Australian dollar vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "audhuf",
+    "name": "Australian dollar vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "audils",
+    "name": "Australian dollar vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "audmxn",
+    "name": "Australian dollar vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "audnok",
+    "name": "Australian dollar vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "audpln",
+    "name": "Australian dollar vs. Polish zÅ‚oty",
+    "category": "forex"
+  },
+  {
+    "symbol": "audron",
+    "name": "Australian dollar vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "audsar",
+    "name": "Australian dollar vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "audsek",
+    "name": "Australian dollar vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "audthb",
+    "name": "Australian dollar vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "audtry",
+    "name": "Australian dollar vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "audzar",
+    "name": "Australian dollar vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadaed",
+    "name": "Canadian dollar vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadcnh",
+    "name": "Canadian dollar vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadczk",
+    "name": "Canadian dollar vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "caddkk",
+    "name": "Canadian dollar vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadhuf",
+    "name": "Canadian dollar vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadils",
+    "name": "Canadian dollar vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadmxn",
+    "name": "Canadian dollar vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadnok",
+    "name": "Canadian dollar vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadpln",
+    "name": "Canadian dollar vs. Polish zÅ‚oty",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadron",
+    "name": "Canadian dollar vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadsar",
+    "name": "Canadian dollar vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadsek",
+    "name": "Canadian dollar vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadsgd",
+    "name": "Canadian dollar vs. Singapore dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadthb",
+    "name": "Canadian dollar vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadtry",
+    "name": "Canadian dollar vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "cadzar",
+    "name": "Canadian dollar vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfaed",
+    "name": "Swiss franc vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfcnh",
+    "name": "Swiss franc vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfczk",
+    "name": "Swiss franc vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfdkk",
+    "name": "Swiss franc vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfhkd",
+    "name": "Swiss franc vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfhuf",
+    "name": "Swiss franc vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfils",
+    "name": "Swiss franc vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfmxn",
+    "name": "Swiss franc vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfnok",
+    "name": "Swiss franc vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfpln",
+    "name": "Swiss franc vs. Polish zÅ‚oty",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfron",
+    "name": "Swiss franc vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfsar",
+    "name": "Swiss franc vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfsek",
+    "name": "Swiss franc vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfthb",
+    "name": "Swiss franc vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "chftry",
+    "name": "Swiss franc vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "chfzar",
+    "name": "Swiss franc vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "cnhczk",
+    "name": "Renminbi (offshore) vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "cnhhkd",
+    "name": "Renminbi (offshore) vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "cnhhuf",
+    "name": "Renminbi (offshore) vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "cnhjpy",
+    "name": "Renminbi (offshore) vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "cnhmxn",
+    "name": "Renminbi (offshore) vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "cnhthb",
+    "name": "Renminbi (offshore) vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "cnhtry",
+    "name": "Renminbi (offshore) vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "cnhzar",
+    "name": "Renminbi (offshore) vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "czkhuf",
+    "name": "Czech koruna vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "czkjpy",
+    "name": "Czech koruna vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "czkthb",
+    "name": "Czech koruna vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "czktry",
+    "name": "Czech koruna vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkaed",
+    "name": "Danish krone vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkcnh",
+    "name": "Danish krone vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkczk",
+    "name": "Danish krone vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkhkd",
+    "name": "Danish krone vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkhuf",
+    "name": "Danish krone vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkils",
+    "name": "Danish krone vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkjpy",
+    "name": "Danish krone vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkmxn",
+    "name": "Danish krone vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkron",
+    "name": "Danish krone vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkksar",
+    "name": "Danish krone vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkthb",
+    "name": "Danish krone vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkktry",
+    "name": "Danish krone vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "dkkzar",
+    "name": "Danish krone vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "euraed",
+    "name": "Euro vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurcnh",
+    "name": "Euro vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurils",
+    "name": "Euro vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurmxn",
+    "name": "Euro vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurron",
+    "name": "Euro vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "eursar",
+    "name": "Euro vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurthb",
+    "name": "Euro vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurzar",
+    "name": "Euro vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpaed",
+    "name": "Pound sterling vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpcnh",
+    "name": "Pound sterling vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpczk",
+    "name": "Pound sterling vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpdkk",
+    "name": "Pound sterling vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbphkd",
+    "name": "Pound sterling vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbphuf",
+    "name": "Pound sterling vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpils",
+    "name": "Pound sterling vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpmxn",
+    "name": "Pound sterling vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpnok",
+    "name": "Pound sterling vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbppln",
+    "name": "Pound sterling vs. Polish zÅ‚oty",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpron",
+    "name": "Pound sterling vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpsar",
+    "name": "Pound sterling vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpsek",
+    "name": "Pound sterling vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpsgd",
+    "name": "Pound sterling vs. Singapore dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpthb",
+    "name": "Pound sterling vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbptry",
+    "name": "Pound sterling vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpzar",
+    "name": "Pound sterling vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "hkdczk",
+    "name": "Hong Kong dollar vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "hkdhuf",
+    "name": "Hong Kong dollar vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "hkdmxn",
+    "name": "Hong Kong dollar vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "hkdthb",
+    "name": "Hong Kong dollar vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "hkdtry",
+    "name": "Hong Kong dollar vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "hkdzar",
+    "name": "Hong Kong dollar vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilsaed",
+    "name": "Israeli new shekel vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilscnh",
+    "name": "Israeli new shekel vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilsczk",
+    "name": "Israeli new shekel vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilshkd",
+    "name": "Israeli new shekel vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilshuf",
+    "name": "Israeli new shekel vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilsjpy",
+    "name": "Israeli new shekel vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilsmxn",
+    "name": "Israeli new shekel vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilsron",
+    "name": "Israeli new shekel vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilssar",
+    "name": "Israeli new shekel vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilsthb",
+    "name": "Israeli new shekel vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilstry",
+    "name": "Israeli new shekel vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "ilszar",
+    "name": "Israeli new shekel vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "jpyhuf",
+    "name": "Japanese yen vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "mxnczk",
+    "name": "Mexican peso vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "mxnhuf",
+    "name": "Mexican peso vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "mxnjpy",
+    "name": "Mexican peso vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "mxnthb",
+    "name": "Mexican peso vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "mxntry",
+    "name": "Mexican peso vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokaed",
+    "name": "Norwegian krone vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokcnh",
+    "name": "Norwegian krone vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokczk",
+    "name": "Norwegian krone vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokdkk",
+    "name": "Norwegian krone vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokhkd",
+    "name": "Norwegian krone vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokhuf",
+    "name": "Norwegian krone vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokils",
+    "name": "Norwegian krone vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokjpy",
+    "name": "Norwegian krone vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokmxn",
+    "name": "Norwegian krone vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokron",
+    "name": "Norwegian krone vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "noksar",
+    "name": "Norwegian krone vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "noksek",
+    "name": "Norwegian krone vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokthb",
+    "name": "Norwegian krone vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "noktry",
+    "name": "Norwegian krone vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "nokzar",
+    "name": "Norwegian krone vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdaed",
+    "name": "New Zealand dollar vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdcnh",
+    "name": "New Zealand dollar vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdczk",
+    "name": "New Zealand dollar vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzddkk",
+    "name": "New Zealand dollar vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdhkd",
+    "name": "New Zealand dollar vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdhuf",
+    "name": "New Zealand dollar vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdils",
+    "name": "New Zealand dollar vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdmxn",
+    "name": "New Zealand dollar vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdnok",
+    "name": "New Zealand dollar vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdpln",
+    "name": "New Zealand dollar vs. Polish zÅ‚oty",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdron",
+    "name": "New Zealand dollar vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdsar",
+    "name": "New Zealand dollar vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdsek",
+    "name": "New Zealand dollar vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdsgd",
+    "name": "New Zealand dollar vs. Singapore dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdthb",
+    "name": "New Zealand dollar vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdtry",
+    "name": "New Zealand dollar vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdzar",
+    "name": "New Zealand dollar vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnaed",
+    "name": "Polish zÅ‚oty vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "plncnh",
+    "name": "Polish zÅ‚oty vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnczk",
+    "name": "Polish zÅ‚oty vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "plndkk",
+    "name": "Polish zÅ‚oty vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnhkd",
+    "name": "Polish zÅ‚oty vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnhuf",
+    "name": "Polish zÅ‚oty vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnils",
+    "name": "Polish zÅ‚oty vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnjpy",
+    "name": "Polish zÅ‚oty vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnmxn",
+    "name": "Polish zÅ‚oty vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnnok",
+    "name": "Polish zÅ‚oty vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnron",
+    "name": "Polish zÅ‚oty vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnsar",
+    "name": "Polish zÅ‚oty vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnsek",
+    "name": "Polish zÅ‚oty vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnthb",
+    "name": "Polish zÅ‚oty vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "plntry",
+    "name": "Polish zÅ‚oty vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "plnzar",
+    "name": "Polish zÅ‚oty vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "roncnh",
+    "name": "Romanian leu vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "ronczk",
+    "name": "Romanian leu vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "ronhkd",
+    "name": "Romanian leu vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "ronhuf",
+    "name": "Romanian leu vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "ronjpy",
+    "name": "Romanian leu vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "ronmxn",
+    "name": "Romanian leu vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "ronthb",
+    "name": "Romanian leu vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "rontry",
+    "name": "Romanian leu vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "ronzar",
+    "name": "Romanian leu vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarcnh",
+    "name": "Saudi riyal vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarczk",
+    "name": "Saudi riyal vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarhkd",
+    "name": "Saudi riyal vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarhuf",
+    "name": "Saudi riyal vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarjpy",
+    "name": "Saudi riyal vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarmxn",
+    "name": "Saudi riyal vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarron",
+    "name": "Saudi riyal vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarthb",
+    "name": "Saudi riyal vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "sartry",
+    "name": "Saudi riyal vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "sarzar",
+    "name": "Saudi riyal vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekaed",
+    "name": "Swedish krona vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekcnh",
+    "name": "Swedish krona vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekczk",
+    "name": "Swedish krona vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekdkk",
+    "name": "Swedish krona vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekhkd",
+    "name": "Swedish krona vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekhuf",
+    "name": "Swedish krona vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekils",
+    "name": "Swedish krona vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekjpy",
+    "name": "Swedish krona vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekmxn",
+    "name": "Swedish krona vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekron",
+    "name": "Swedish krona vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "seksar",
+    "name": "Swedish krona vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekthb",
+    "name": "Swedish krona vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "sektry",
+    "name": "Swedish krona vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "sekzar",
+    "name": "Swedish krona vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdaed",
+    "name": "Singapore dollar vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdcnh",
+    "name": "Singapore dollar vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdczk",
+    "name": "Singapore dollar vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgddkk",
+    "name": "Singapore dollar vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdhkd",
+    "name": "Singapore dollar vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdhuf",
+    "name": "Singapore dollar vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdils",
+    "name": "Singapore dollar vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdmxn",
+    "name": "Singapore dollar vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdnok",
+    "name": "Singapore dollar vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdpln",
+    "name": "Singapore dollar vs. Polish zÅ‚oty",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdron",
+    "name": "Singapore dollar vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdsar",
+    "name": "Singapore dollar vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdsek",
+    "name": "Singapore dollar vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdthb",
+    "name": "Singapore dollar vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdtry",
+    "name": "Singapore dollar vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "sgdzar",
+    "name": "Singapore dollar vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "thbhuf",
+    "name": "Thai baht vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "thbjpy",
+    "name": "Thai baht vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "tryhuf",
+    "name": "Turkish lira vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "trythb",
+    "name": "Turkish lira vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "zarczk",
+    "name": "South African rand vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "zarhuf",
+    "name": "South African rand vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "zarmxn",
+    "name": "South African rand vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "zarthb",
+    "name": "South African rand vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "zartry",
+    "name": "South African rand vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "audusd",
+    "name": "Australian Dollar vs US Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "eurusd",
+    "name": "Euro vs US Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "gbpusd",
+    "name": "Pound Sterling vs US Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "nzdusd",
+    "name": "New Zealand Dollar vs US Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdcad",
+    "name": "US Dollar vs Canadian Dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdchf",
+    "name": "US Dollar vs Swiss Franc",
+    "category": "forex"
+  },
+  {
+    "symbol": "usdjpy",
+    "name": "US Dollar vs Japanese Yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagusd",
+    "name": "Spot silver",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauusd",
+    "name": "Spot gold",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagaed",
+    "name": "Silver (troy oz) vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagaud",
+    "name": "Silver (troy oz) vs. Australian dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagcad",
+    "name": "Silver (troy oz) vs. Canadian dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagchf",
+    "name": "Silver (troy oz) vs. Swiss franc",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagcnh",
+    "name": "Silver (troy oz) vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagczk",
+    "name": "Silver (troy oz) vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagdkk",
+    "name": "Silver (troy oz) vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "xageur",
+    "name": "Silver (troy oz) vs. Euro",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaggbp",
+    "name": "Silver (troy oz) vs. Pound sterling",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaghkd",
+    "name": "Silver (troy oz) vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaghuf",
+    "name": "Silver (troy oz) vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagils",
+    "name": "Silver (troy oz) vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagjpy",
+    "name": "Silver (troy oz) vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagmxn",
+    "name": "Silver (troy oz) vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagnok",
+    "name": "Silver (troy oz) vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagnzd",
+    "name": "Silver (troy oz) vs. New Zealand dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagpln",
+    "name": "Silver (troy oz) vs. Polish zÅ‚oty",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagron",
+    "name": "Silver (troy oz) vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagsar",
+    "name": "Silver (troy oz) vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagsek",
+    "name": "Silver (troy oz) vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagsgd",
+    "name": "Silver (troy oz) vs. Singapore dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagthb",
+    "name": "Silver (troy oz) vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagtry",
+    "name": "Silver (troy oz) vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "xagzar",
+    "name": "Silver(troy oz) vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauaed",
+    "name": "Gold (troy oz) vs. United Arab Emirates dirham",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauaud",
+    "name": "Gold (troy oz) vs. Australian dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaucad",
+    "name": "Gold (troy oz) vs. Canadian dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauchf",
+    "name": "Gold (troy oz) vs. Swiss franc",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaucnh",
+    "name": "Gold (troy oz) vs. Renminbi (offshore)",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauczk",
+    "name": "Gold (troy oz) vs. Czech koruna",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaudkk",
+    "name": "Gold (troy oz) vs. Danish krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaueur",
+    "name": "Gold (troy oz) vs. Euro",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaugbp",
+    "name": "Gold (troy oz) vs. Pound sterling",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauhkd",
+    "name": "Gold (troy oz) vs. Hong Kong dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauhuf",
+    "name": "Gold (troy oz) vs. Hungarian forint",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauils",
+    "name": "Gold (troy oz) vs. Israeli new shekel",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaujpy",
+    "name": "Gold (troy oz) vs. Japanese yen",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaumxn",
+    "name": "Gold (troy oz) vs. Mexican peso",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaunok",
+    "name": "Gold (troy oz) vs. Norwegian krone",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaunzd",
+    "name": "Gold (troy oz) vs. New Zealand dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xaupln",
+    "name": "Gold (troy oz) vs. Polish zÅ‚oty",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauron",
+    "name": "Gold (troy oz) vs. Romanian leu",
+    "category": "forex"
+  },
+  {
+    "symbol": "xausar",
+    "name": "Gold (troy oz) vs. Saudi riyal",
+    "category": "forex"
+  },
+  {
+    "symbol": "xausek",
+    "name": "Gold (troy oz) vs. Swedish krona",
+    "category": "forex"
+  },
+  {
+    "symbol": "xausgd",
+    "name": "Gold (troy oz) vs. Singapore dollar",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauthb",
+    "name": "Gold (troy oz) vs. Thai baht",
+    "category": "forex"
+  },
+  {
+    "symbol": "xautry",
+    "name": "Gold (troy oz) vs. Turkish lira",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauxag",
+    "name": "Gold (troy oz) vs. Silver (troy oz)",
+    "category": "forex"
+  },
+  {
+    "symbol": "xauzar",
+    "name": "Gold (troy oz) vs. South African rand",
+    "category": "forex"
+  },
+  {
+    "symbol": "dollaridxusd",
+    "name": "US Dollar Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "usa30idxusd",
+    "name": "USA 30 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "usatechidxusd",
+    "name": "USA 100 Technical Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "usa500idxusd",
+    "name": "USA 500 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "ussc2000idxusd",
+    "name": "US Small Cap 2000",
+    "category": "indices"
+  },
+  {
+    "symbol": "volidxusd",
+    "name": "Volatility Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "chiidxusd",
+    "name": "China A50 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "hkgidxhkd",
+    "name": "Hong Kong 40 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "jpnidxjpy",
+    "name": "Japan 225",
+    "category": "indices"
+  },
+  {
+    "symbol": "ausidxaud",
+    "name": "Australia 200 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "indidxusd",
+    "name": "India 50 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "sgdidxsgd",
+    "name": "Singapore Blue Chip Cash Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "fraidxeur",
+    "name": "France 40 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "deuidxeur",
+    "name": "Germany 40 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "eusidxeur",
+    "name": "Europe 50 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "gbridxgbp",
+    "name": "UK 100 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "espidxeur",
+    "name": "Spain 35 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "cheidxchf",
+    "name": "Switzerland 20 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "itaidxeur",
+    "name": "Italy 40 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "nldidxeur",
+    "name": "Netherlands 25 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "plnidxpln",
+    "name": "Poland 20 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "soaidxzar",
+    "name": "South Africa 40 Index",
+    "category": "indices"
+  },
+  {
+    "symbol": "ebsateur",
+    "name": "Erste Group Bank AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rbiateur",
+    "name": "Raiffeisen Bank International AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "voeateur",
+    "name": "Voestalpine AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "abibeeur",
+    "name": "Anheuser-Busch InBev NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "agsbeeur",
+    "name": "Ageas",
+    "category": "stocks"
+  },
+  {
+    "symbol": "belgbeeur",
+    "name": "Proximus",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kbcbeeur",
+    "name": "KBC Groep NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "solbbeeur",
+    "name": "Solvay SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ucbbeeur",
+    "name": "UCB SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "umibeeur",
+    "name": "Umicore SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "carlbdkdkk",
+    "name": "Carlsberg A/S",
+    "category": "stocks"
+  },
+  {
+    "symbol": "colobdkdkk",
+    "name": "Coloplast A/S",
+    "category": "stocks"
+  },
+  {
+    "symbol": "danskedkdkk",
+    "name": "Danske Bank A/S",
+    "category": "stocks"
+  },
+  {
+    "symbol": "maerskbdkdkk",
+    "name": "AP Moeller - Maersk A/S",
+    "category": "stocks"
+  },
+  {
+    "symbol": "novobdkdkk",
+    "name": "Novo Nordisk A/S",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nzymbdkdkk",
+    "name": "Novozymes A/S",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pndoradkdkk",
+    "name": "Pandora A/S",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vwsdkdkk",
+    "name": "Vestas Wind Systems A/S",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eli1vfieur",
+    "name": "Elisa OYJ",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nes1vfieur",
+    "name": "Neste OYJ",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nre1vfieur",
+    "name": "Nokian Renkaat OYJ",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ote1vfieur",
+    "name": "Outotec OYJ",
+    "category": "stocks"
+  },
+  {
+    "symbol": "out1vfieur",
+    "name": "Outokumpu OYJ",
+    "category": "stocks"
+  },
+  {
+    "symbol": "stervfieur",
+    "name": "Stora Enso OYJ",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tls1vfieur",
+    "name": "Telia Company AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "acfreur",
+    "name": "Accor SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "acafreur",
+    "name": "Credit Agricole SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "affreur",
+    "name": "Air France-KLM",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aifreur",
+    "name": "Air Liquide SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "airfreur",
+    "name": "Airbus Group SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alofreur",
+    "name": "Alstom SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "atofreur",
+    "name": "ATOS SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bnfreur",
+    "name": "Danone SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bnpfreur",
+    "name": "BNP Paribas SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cafreur",
+    "name": "Carrefour SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "capfreur",
+    "name": "Cap Gemini SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "csfreur",
+    "name": "AXA SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dgfreur",
+    "name": "Vinci SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dsyfreur",
+    "name": "DASSAULT SYSTEMES SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "edffreur",
+    "name": "Electricite de France SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "enfreur",
+    "name": "Bouygues SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "engifreur",
+    "name": "Engie",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fpfreur",
+    "name": "Total SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "frfreur",
+    "name": "Valeo SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "glefreur",
+    "name": "Societe Generale SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hofreur",
+    "name": "THALES SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kerfreur",
+    "name": "Kering",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lifreur",
+    "name": "Klepierre",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lrfreur",
+    "name": "Legrand SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mcfreur",
+    "name": "LVMH Moet Hennessy Louis Vuitton SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mlfreur",
+    "name": "Michelin SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "orfreur",
+    "name": "L'Oreal SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "orafreur",
+    "name": "Orange SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pubfreur",
+    "name": "Publicis Groupe SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rifreur",
+    "name": "Pernod-Ricard SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rmsfreur",
+    "name": "HERMES INTERNATIONAL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rnofreur",
+    "name": "Renault SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "saffreur",
+    "name": "Safran SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sanfreur",
+    "name": "Sanofi",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sgofreur",
+    "name": "Cie de St-Gobain",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sufreur",
+    "name": "Schneider Electric SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "swfreur",
+    "name": "SODEXO SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ugfreur",
+    "name": "Peugeot SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "viefreur",
+    "name": "Veolia Environnement SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vivfreur",
+    "name": "Vivendi SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vkfreur",
+    "name": "Vallourec SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "adsdeeur",
+    "name": "Adidas AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alvdeeur",
+    "name": "Allianz SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "basdeeur",
+    "name": "BASF SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bayndeeur",
+    "name": "Bayer AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "beideeur",
+    "name": "Beiersdorf AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bmwdeeur",
+    "name": "Bayerische Motoren Werke AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bnrdeeur",
+    "name": "BRENNTAG SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bossdeeur",
+    "name": "HUGO BOSS AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cbkdeeur",
+    "name": "Commerzbank AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "condeeur",
+    "name": "Continental AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "covdeeur",
+    "name": "Covestro AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "daideeur",
+    "name": "Daimler AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "db1deeur",
+    "name": "Deutsche Boerse AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dbkdeeur",
+    "name": "Deutsche Bank AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dhrdeeur",
+    "name": "Delivery Hero AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dpwdeeur",
+    "name": "Deutsche Post AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dtedeeur",
+    "name": "Deutsche Telekom AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eoandeeur",
+    "name": "E.ON SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fmedeeur",
+    "name": "Fresenius Medical Care AG & Co KGaA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fredeeur",
+    "name": "Fresenius SE & Co KGaA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "heideeur",
+    "name": "HeidelbergCement AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hen3deeur",
+    "name": "Henkel AG & Co KGaA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hfgdeeur",
+    "name": "HELLOFRESH SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hnrdeeur",
+    "name": "Hannover Rueckversicheru-Reg",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ifxdeeur",
+    "name": "Infineon Technologies AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lhadeeur",
+    "name": "Deutsche Lufthansa AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lindeeur",
+    "name": "Linde AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lxsdeeur",
+    "name": "Lanxess AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mrkdeeur",
+    "name": "Merck KGaA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mtxdeeur",
+    "name": "MTU AERO ENGINES AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "muv2deeur",
+    "name": "Muenchener Rueckversicherungs AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pah3deeur",
+    "name": "Porsche Automobil Holding SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "psmdeeur",
+    "name": "ProSiebenSat.1 Media AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pumdeeur",
+    "name": "PUMA SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rwedeeur",
+    "name": "RWE AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sapdeeur",
+    "name": "SAP AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sdfdeeur",
+    "name": "K+S AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "siedeeur",
+    "name": "Siemens AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "srtdeeur",
+    "name": "Sartorius AG - Vorzug",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sy1deeur",
+    "name": "SYMRISE AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tkadeeur",
+    "name": "ThyssenKrupp AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tui1deeur",
+    "name": "TUI AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vnadeeur",
+    "name": "Vonovia SE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vow3deeur",
+    "name": "Volkswagen AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0005hkhkd",
+    "name": "HSBC Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0027hkhkd",
+    "name": "Galaxy Entertainment Group",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0175hkhkd",
+    "name": "Geely Automobile Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0291hkhkd",
+    "name": "China Resources Beer Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0386hkhkd",
+    "name": "Sinopec Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0388hkhkd",
+    "name": "HK Exchanges & Clearing",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0700hkhkd",
+    "name": "Tencent Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0857hkhkd",
+    "name": "PetroChina",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0883hkhkd",
+    "name": "China National Offshore Oil Corporation",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0939hkhkd",
+    "name": "China Construction Bank",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0941hkhkd",
+    "name": "China Mobile",
+    "category": "stocks"
+  },
+  {
+    "symbol": "0998hkhkd",
+    "name": "CITIC Bank International",
+    "category": "stocks"
+  },
+  {
+    "symbol": "1093hkhkd",
+    "name": "CSPC Pharmaceutical Group",
+    "category": "stocks"
+  },
+  {
+    "symbol": "1177hkhkd",
+    "name": "Sino Biopharmeceutical",
+    "category": "stocks"
+  },
+  {
+    "symbol": "1288hkhkd",
+    "name": "Agricultural Bank of China",
+    "category": "stocks"
+  },
+  {
+    "symbol": "1299hkhkd",
+    "name": "AIA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "1398hkhkd",
+    "name": "Industrial and Commercial Bank of China",
+    "category": "stocks"
+  },
+  {
+    "symbol": "1810hkhkd",
+    "name": "Xiaomi Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "1918hkhkd",
+    "name": "Sunac China Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "2007hkhkd",
+    "name": "Country Garden Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "2018hkhkd",
+    "name": "AAC Technologies Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "2318hkhkd",
+    "name": "Ping An Insurance",
+    "category": "stocks"
+  },
+  {
+    "symbol": "2388hkhkd",
+    "name": "BOC Hong Kong (Holdings)",
+    "category": "stocks"
+  },
+  {
+    "symbol": "2628hkhkd",
+    "name": "China Life Insurance Company",
+    "category": "stocks"
+  },
+  {
+    "symbol": "3333hkhkd",
+    "name": "China Evergrande Group",
+    "category": "stocks"
+  },
+  {
+    "symbol": "3968hkhkd",
+    "name": "China Merchants Bank",
+    "category": "stocks"
+  },
+  {
+    "symbol": "3988hkhkd",
+    "name": "Bank of China",
+    "category": "stocks"
+  },
+  {
+    "symbol": "birgieeur",
+    "name": "Bank Of Ireland Plc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "crgieeur",
+    "name": "CRH Plc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "krxieeur",
+    "name": "Kingspan Group Plc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "krzieeur",
+    "name": "Kerry Group Plc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ry4cieeur",
+    "name": "Ryanair Holdings Plc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "a2aiteur",
+    "name": "A2A Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "agliteur",
+    "name": "Autogrill Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ampiteur",
+    "name": "Amplifon Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "atliteur",
+    "name": "Atlantia Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "azmiteur",
+    "name": "Azimut Holding Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bamiiteur",
+    "name": "Banco BPM Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bciteur",
+    "name": "Brunello Cucinelli Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bmpsiteur",
+    "name": "Banca Monte dei Paschi di Siena Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bpeiteur",
+    "name": "Bper Banca Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "breiteur",
+    "name": "Brembo Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bzuiteur",
+    "name": "Buzzi Unicem Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cassiteur",
+    "name": "Cattolica Ass Coop A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cerviteur",
+    "name": "Cerved Information Solutions SPA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cpriteur",
+    "name": "Davide Campari-Milano Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cvaliteur",
+    "name": "Credito Valtellinese Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "daniteur",
+    "name": "Danieli & Co Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "diaiteur",
+    "name": "Diasorin Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eneliteur",
+    "name": "Enel SpA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eniiteur",
+    "name": "ENI Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ergiteur",
+    "name": "ERG Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fbkiteur",
+    "name": "FinecoBank Banca Fineco Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fcaiteur",
+    "name": "Fiat Chrysler Auto NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "giteur",
+    "name": "Assicurazioni Generali Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "igiteur",
+    "name": "Italgas Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "inwiteur",
+    "name": "Infrastrutture Wireless Italiane Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ispiteur",
+    "name": "Intesa Sanpaolo Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "juveiteur",
+    "name": "Juventus Football Club Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ldoiteur",
+    "name": "Leonardo Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mbiteur",
+    "name": "Mediobanca Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "monciteur",
+    "name": "Moncler Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "msiteur",
+    "name": "Mediaset Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "piaiteur",
+    "name": "Piaggio & C. Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pryiteur",
+    "name": "Prysmian Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "raceiteur",
+    "name": "Ferrari NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "reciteur",
+    "name": "Recordati Industria Chimica e Farma Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sferiteur",
+    "name": "Salvat Ferragamo Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "spmiteur",
+    "name": "SAIPEM Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "srgiteur",
+    "name": "Snam Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "srsiteur",
+    "name": "Saras Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "stmiteur",
+    "name": "STMicroelectronics NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "teniteur",
+    "name": "Tenaris SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tisiteur",
+    "name": "Tiscali Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tititeur",
+    "name": "Telecom Italia Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "toditeur",
+    "name": "Tods Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "trniteur",
+    "name": "Terna Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ucgiteur",
+    "name": "UniCredit Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "usiteur",
+    "name": "Unipolsai Assicurazioni Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wbditeur",
+    "name": "WeBuild Spa",
+    "category": "stocks"
+  },
+  {
+    "symbol": "2502jpjpy",
+    "name": "Asahi Group Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "2503jpjpy",
+    "name": "Kirin Brewery Co",
+    "category": "stocks"
+  },
+  {
+    "symbol": "2914jpjpy",
+    "name": "Japan Tobacco",
+    "category": "stocks"
+  },
+  {
+    "symbol": "3382jpjpy",
+    "name": "Seven and I Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "3436jpjpy",
+    "name": "Sumco Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4004jpjpy",
+    "name": "Showa Denko",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4005jpjpy",
+    "name": "Sumitomo Chemical",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4063jpjpy",
+    "name": "Shin-Etsu Chemical",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4452jpjpy",
+    "name": "Kao Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4502jpjpy",
+    "name": "Takeda",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4503jpjpy",
+    "name": "Astellas Pharma",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4507jpjpy",
+    "name": "Shionogi",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4523jpjpy",
+    "name": "Eisai",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4543jpjpy",
+    "name": "Terumo Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4689jpjpy",
+    "name": "Yahoo Japan Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "4911jpjpy",
+    "name": "Shiseido",
+    "category": "stocks"
+  },
+  {
+    "symbol": "5108jpjpy",
+    "name": "Bridgestone Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "5301jpjpy",
+    "name": "Tokai Carbon",
+    "category": "stocks"
+  },
+  {
+    "symbol": "5401jpjpy",
+    "name": "Nippon Steel Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6098jpjpy",
+    "name": "Recruit Holdings Co Ltd",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6301jpjpy",
+    "name": "Komatsu",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6367jpjpy",
+    "name": "Daikin Industries",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6501jpjpy",
+    "name": "Hitachi",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6502jpjpy",
+    "name": "Toshiba Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6503jpjpy",
+    "name": "Mitsubishi Electric Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6506jpjpy",
+    "name": "Yaskawa Electric Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6702jpjpy",
+    "name": "Fujitsu",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6752jpjpy",
+    "name": "Panasonic Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6758jpjpy",
+    "name": "Sony Corp Japan",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6762jpjpy",
+    "name": "TDK Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6902jpjpy",
+    "name": "Denso Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6954jpjpy",
+    "name": "Fanuc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "6971jpjpy",
+    "name": "Kyocera",
+    "category": "stocks"
+  },
+  {
+    "symbol": "7201jpjpy",
+    "name": "Nissan Motor Co",
+    "category": "stocks"
+  },
+  {
+    "symbol": "7203jpjpy",
+    "name": "Toyota Motor Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "7261jpjpy",
+    "name": "Mazda Motor",
+    "category": "stocks"
+  },
+  {
+    "symbol": "7267jpjpy",
+    "name": "Honda Motor Company",
+    "category": "stocks"
+  },
+  {
+    "symbol": "7269jpjpy",
+    "name": "Suzuki Motor Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "7270jpjpy",
+    "name": "Subaru Corporation",
+    "category": "stocks"
+  },
+  {
+    "symbol": "7751jpjpy",
+    "name": "Canon",
+    "category": "stocks"
+  },
+  {
+    "symbol": "7974jpjpy",
+    "name": "Nintendo Co Ltd",
+    "category": "stocks"
+  },
+  {
+    "symbol": "8031jpjpy",
+    "name": "Mitsui and Company",
+    "category": "stocks"
+  },
+  {
+    "symbol": "8035jpjpy",
+    "name": "Tokyo Electron",
+    "category": "stocks"
+  },
+  {
+    "symbol": "8306jpjpy",
+    "name": "Mitsubishi UFJ Financial Group",
+    "category": "stocks"
+  },
+  {
+    "symbol": "8316jpjpy",
+    "name": "Sumitomo Mitsui Financial Group",
+    "category": "stocks"
+  },
+  {
+    "symbol": "8411jpjpy",
+    "name": "Mizuho Financial Group",
+    "category": "stocks"
+  },
+  {
+    "symbol": "8766jpjpy",
+    "name": "Tokio Marine Holdings",
+    "category": "stocks"
+  },
+  {
+    "symbol": "8801jpjpy",
+    "name": "Mitsui Fudosan Company",
+    "category": "stocks"
+  },
+  {
+    "symbol": "8802jpjpy",
+    "name": "Mitsubishi Estate Company",
+    "category": "stocks"
+  },
+  {
+    "symbol": "9020jpjpy",
+    "name": "East Japan Railway Company",
+    "category": "stocks"
+  },
+  {
+    "symbol": "9432jpjpy",
+    "name": "Nippon Telegraph and Tel",
+    "category": "stocks"
+  },
+  {
+    "symbol": "9433jpjpy",
+    "name": "KDDI Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "9501jpjpy",
+    "name": "Tokyo Electric Power Company",
+    "category": "stocks"
+  },
+  {
+    "symbol": "9983jpjpy",
+    "name": "Fast Retailing",
+    "category": "stocks"
+  },
+  {
+    "symbol": "9984jpjpy",
+    "name": "Softbank Group Corp",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alfaamxmxn",
+    "name": "Alfa SA B A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alseamxmxn",
+    "name": "Alsea SAB de CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amxlmxmxn",
+    "name": "America Movil SAB de C SERL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "arcamxmxn",
+    "name": "Arca Continental SAB de CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "asurbmxmxn",
+    "name": "Grupo Aeroportuario del Sureste",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bbajioomxmxn",
+    "name": "Banco Del Bajio SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bolsaamxmxn",
+    "name": "Bolsa Mexicana de Valores SAB de CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cemexcpomxmxn",
+    "name": "Cemex Sab de CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "elektramxmxn",
+    "name": "Grupo Elektra SAB DE CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "femsaubdmxmxn",
+    "name": "Fomento Economico Mexica UBD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gapbmxmxn",
+    "name": "Grupo Aeroportuario del Pacific Sab CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gcarsoa1mxmxn",
+    "name": "Grupo Carso Sab De CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gccmxmxn",
+    "name": "Grupo Cementos de Chihuahua",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gfnorteomxmxn",
+    "name": "Grupo Financiero Banorte O",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gmexicobmxmxn",
+    "name": "Grupo Mexico SAB DE CV SER B",
+    "category": "stocks"
+  },
+  {
+    "symbol": "grumabmxmxn",
+    "name": "Gruma SA BB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kimberamxmxn",
+    "name": "Kimberly Clark DE Mexico A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kofublmxmxn",
+    "name": "Coca Cola Femsa Sab",
+    "category": "stocks"
+  },
+  {
+    "symbol": "labbmxmxn",
+    "name": "Genomma Lab Internacional SAB de CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "livepolc1mxmxn",
+    "name": "El Puerto de Liverpool",
+    "category": "stocks"
+  },
+  {
+    "symbol": "megacpomxmxn",
+    "name": "Megacable Holdings SAB de CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "omabmxmxn",
+    "name": "Grupo Aeroportuario del Centro Norte",
+    "category": "stocks"
+  },
+  {
+    "symbol": "orbiamxmxn",
+    "name": "Orbia Advance Corp SAB DE CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "peolesmxmxn",
+    "name": "Industrias Penoles SAB DE CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pinframxmxn",
+    "name": "Promotora Y Operadora DE INF",
+    "category": "stocks"
+  },
+  {
+    "symbol": "qmxmxn",
+    "name": "Qualitas Controladora SAB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ramxmxn",
+    "name": "Regional Sab De CV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "volaramxmxn",
+    "name": "Controladora Vuela Comp de Aviacion",
+    "category": "stocks"
+  },
+  {
+    "symbol": "walmexmxmxn",
+    "name": "Walmart De Mexico SAB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "agnnleur",
+    "name": "Aegon NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ahnleur",
+    "name": "Koninklijke Ahold Delhaize NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "akzanleur",
+    "name": "Akzo Nobel NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "asmlnleur",
+    "name": "ASML Holding NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dsmnleur",
+    "name": "Koninklijke DSM NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "heianleur",
+    "name": "Heineken NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "inganleur",
+    "name": "ING Groep NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kpnnleur",
+    "name": "Koninklijke KPN NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mtnleur",
+    "name": "ArcelorMittal",
+    "category": "stocks"
+  },
+  {
+    "symbol": "phianleur",
+    "name": "Koninklijke Philips NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "qianleur",
+    "name": "QIAGEN N.V.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "randnleur",
+    "name": "Randstad Holding NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rdsanleur",
+    "name": "Royal Dutch Shell PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rennleur",
+    "name": "RELX NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "unanleur",
+    "name": "Unilever NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vpknleur",
+    "name": "Koninklijke Vopak NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wklnleur",
+    "name": "Wolters Kluwer NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dnbnonok",
+    "name": "DNB ASA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mhgnonok",
+    "name": "Marine Harvest ASA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nhynonok",
+    "name": "Norsk Hydro ASA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "orknonok",
+    "name": "Orkla ASA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "stlnonok",
+    "name": "Statoil ASA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "telnonok",
+    "name": "Telenor ASA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "edppteur",
+    "name": "EDP - Energias de Portugal SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "galppteur",
+    "name": "Galp Energia SGPS SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "acseseur",
+    "name": "ACS Actividades de Construccion y Servicios SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "acxeseur",
+    "name": "Acerinox SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aenaeseur",
+    "name": "Aena SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amseseur",
+    "name": "Amadeus IT Holding SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "appeseur",
+    "name": "Applus Services",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bbvaeseur",
+    "name": "Banco Bilbao Vizcaya Argentaria SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cabkeseur",
+    "name": "CaixaBank",
+    "category": "stocks"
+  },
+  {
+    "symbol": "diaeseur",
+    "name": "Distribuidora Internacional de Alimentacion SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ebreseur",
+    "name": "Ebro Foods SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eleeseur",
+    "name": "Endesa SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "engeseur",
+    "name": "Enagas SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fcceseur",
+    "name": "Fomento de Construcciones y Contratas SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fereseur",
+    "name": "Ferrovial SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gameseur",
+    "name": "Gamesa Corporacion Tecnologica SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gaseseur",
+    "name": "Gas Natural SDG SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "grfeseur",
+    "name": "GRIFOLS SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ibeeseur",
+    "name": "Iberdrola SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "itxeseur",
+    "name": "Inditex SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mapeseur",
+    "name": "Mapfre SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "reeeseur",
+    "name": "Red Electrica Corp SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "repeseur",
+    "name": "Repsol SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "saneseur",
+    "name": "Banco Santander SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tefeseur",
+    "name": "Telefonica SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "viseseur",
+    "name": "Viscofan SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "abbsesek",
+    "name": "ABB Ltd",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alfasesek",
+    "name": "Alfa Laval AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "atcoasesek",
+    "name": "Atlas Copco AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eluxbsesek",
+    "name": "Electrolux AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ericbsesek",
+    "name": "Telefonaktiebolaget LM Ericsson",
+    "category": "stocks"
+  },
+  {
+    "symbol": "getibsesek",
+    "name": "Getinge AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hmbsesek",
+    "name": "Hennes & Mauritz AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "invebsesek",
+    "name": "Investor AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ndasesek",
+    "name": "Nordea Bank AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sandsesek",
+    "name": "Sandvik AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "scabsesek",
+    "name": "Svenska Cellulosa AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sebasesek",
+    "name": "Skandinaviska Enskilda Banken AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "secubsesek",
+    "name": "Securitas AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "skabsesek",
+    "name": "Skanska AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "skfbsesek",
+    "name": "SKF AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "swedasesek",
+    "name": "Swedbank AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "swmasesek",
+    "name": "Swedish Match AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tel2bsesek",
+    "name": "Tele2 AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tlsnsesek",
+    "name": "Telia Company AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "volvbsesek",
+    "name": "Volvo AB",
+    "category": "stocks"
+  },
+  {
+    "symbol": "abbnchchf",
+    "name": "ABB Ltd",
+    "category": "stocks"
+  },
+  {
+    "symbol": "adenchchf",
+    "name": "Adecco SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "baerchchf",
+    "name": "Julius Baer Group Ltd",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cfrchchf",
+    "name": "Richemont",
+    "category": "stocks"
+  },
+  {
+    "symbol": "clnchchf",
+    "name": "Clariant AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "csgnchchf",
+    "name": "Credit Suisse Group AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "givnchchf",
+    "name": "Givaudan SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kninchchf",
+    "name": "Kuehne + Nagel International AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lhnchchf",
+    "name": "Lafarge Holcim Ltd",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lispchchf",
+    "name": "Chocoladefabriken Lindt & Sprungli",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lognchchf",
+    "name": "Logitech International SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lonnchchf",
+    "name": "Lonza Group AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mbtnchchf",
+    "name": "Meyer Burger",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nesnchchf",
+    "name": "Nestle SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "novnchchf",
+    "name": "Novartis AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "oerlchchf",
+    "name": "OC Oerlikon Corporation",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rogchchf",
+    "name": "Roche Holding AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "scmnchchf",
+    "name": "Swisscom AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sgsnchchf",
+    "name": "SGS SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "slhnchchf",
+    "name": "Swiss Life Holding AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "soonchchf",
+    "name": "Sonova Holding AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "srenchchf",
+    "name": "Swiss Re AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "temnchchf",
+    "name": "Temenos Group AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ubsgchchf",
+    "name": "UBS Group AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uhrchchf",
+    "name": "Swatch Group AG/The",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uhrnchchf",
+    "name": "Swatch Group AG (The Registered)",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vifnchchf",
+    "name": "Vifor Pharma",
+    "category": "stocks"
+  },
+  {
+    "symbol": "zurnchchf",
+    "name": "Zurich Insurance Group AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aalgbgbx",
+    "name": "Anglo American PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "abfgbgbx",
+    "name": "Associated British Foods PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "admgbgbx",
+    "name": "Admiral Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "agkgbgbx",
+    "name": "Aggreko PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ahtgbgbx",
+    "name": "Ashtead Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "antogbgbx",
+    "name": "Antofagasta PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "avgbgbx",
+    "name": "Aviva PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "avvgbgbx",
+    "name": "AVEVA GROUP PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "azngbgbx",
+    "name": "AstraZeneca PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bagbgbx",
+    "name": "BAE Systems PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "babgbgbx",
+    "name": "Babcock International Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "barcgbgbx",
+    "name": "Barclays PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "batsgbgbx",
+    "name": "British American Tobacco PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bdevgbgbx",
+    "name": "BARRATT DEVELOPMENTS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "blndgbgbx",
+    "name": "British Land Co PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bltgbgbx",
+    "name": "BHP Billiton PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bnzlgbgbx",
+    "name": "Bunzl PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bpgbgbx",
+    "name": "BP PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "brbygbgbx",
+    "name": "Burberry Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "btgbgbx",
+    "name": "BT Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cclgbgbx",
+    "name": "Carnival PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cnagbgbx",
+    "name": "Centrica PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cpggbgbx",
+    "name": "Compass Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cpigbgbx",
+    "name": "Capita PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "crdagbgbx",
+    "name": "Croda International PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "crhgbgbx",
+    "name": "CRH PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dccgbgbx",
+    "name": "DCC PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dgegbgbx",
+    "name": "Diageo PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dphgbgbx",
+    "name": "DECHRA PHARMACEUTICALS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ecmgbgbx",
+    "name": "ELECTROCOMPONENTS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "expngbgbx",
+    "name": "Experian PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ezjgbgbx",
+    "name": "easyJet PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fresgbgbx",
+    "name": "Fresnillo PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gfsgbgbx",
+    "name": "G4S PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "glengbgbx",
+    "name": "Glencore PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gskgbgbx",
+    "name": "GlaxoSmithKline PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hikgbgbx",
+    "name": "HIKMA PHARMACEUTICALS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hlmagbgbx",
+    "name": "HALMA PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hmsogbgbx",
+    "name": "Hammerson PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hsbagbgbx",
+    "name": "HSBC Holdings PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "iaggbgbx",
+    "name": "International Consolidated Airlines Grou",
+    "category": "stocks"
+  },
+  {
+    "symbol": "icpgbgbx",
+    "name": "INTERMEDIATE CAPITAL GROUP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ihggbgbx",
+    "name": "InterContinental Hotels Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "iiigbgbx",
+    "name": "3i Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "imtgbgbx",
+    "name": "Imperial Brands Plc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "itrkgbgbx",
+    "name": "Intertek Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "itvgbgbx",
+    "name": "ITV PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kgfgbgbx",
+    "name": "Kingfisher PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "landgbgbx",
+    "name": "Land Securities Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lgengbgbx",
+    "name": "Legal & General Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lloygbgbx",
+    "name": "Lloyds Banking Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lsegbgbx",
+    "name": "London Stock Exchange Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mggtgbgbx",
+    "name": "Meggitt PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mksgbgbx",
+    "name": "Marks & Spencer Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mndigbgbx",
+    "name": "Mondi PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mnggbgbx",
+    "name": "M&G PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mrwgbgbx",
+    "name": "WM Morrison Supermarkets PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nggbgbx",
+    "name": "National Grid PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nxtgbgbx",
+    "name": "Next PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ocdogbgbx",
+    "name": "OCADO GROUP PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pfcgbgbx",
+    "name": "Petrofac Ltd",
+    "category": "stocks"
+  },
+  {
+    "symbol": "phnxgbgbx",
+    "name": "PHOENIX GROUP HOLDINGS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "prugbgbx",
+    "name": "Prudential PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "psngbgbx",
+    "name": "Persimmon PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "psongbgbx",
+    "name": "Pearson PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rbgbgbx",
+    "name": "Reckitt Benckiser Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rbsgbgbx",
+    "name": "Royal Bank of Scotland Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rdsbgbgbx",
+    "name": "Royal Dutch Shell PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "relgbgbx",
+    "name": "Reed Elsevier PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "riogbgbx",
+    "name": "Rio Tinto PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rmggbgbx",
+    "name": "Royal Mail PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rmvgbgbx",
+    "name": "RIGHTMOVE PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rrgbgbx",
+    "name": "Rolls-Royce Holdings PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rsagbgbx",
+    "name": "RSA Insurance Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rtogbgbx",
+    "name": "RENTOKIL INITIAL PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sbrygbgbx",
+    "name": "J Sainsbury PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sdrgbgbx",
+    "name": "Schroders PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sgegbgbx",
+    "name": "Sage Group PLC/The",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sgrogbgbx",
+    "name": "SEGRO PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "skygbgbx",
+    "name": "Sky Plc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "slagbgbx",
+    "name": "Standard Life Aberdeen Plc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "smdsgbgbx",
+    "name": "DS SMITH PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "smingbgbx",
+    "name": "Smiths Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "smtgbgbx",
+    "name": "SCOTTISH MORTGAGE INV TR PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sngbgbx",
+    "name": "Smith & Nephew PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "spxgbgbx",
+    "name": "SPIRAX-SARCO ENGINEERING PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ssegbgbx",
+    "name": "SSE PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "stangbgbx",
+    "name": "Standard Chartered PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "stjgbgbx",
+    "name": "ST JAMES'S PLACE PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "svtgbgbx",
+    "name": "Severn Trent PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tategbgbx",
+    "name": "Tate & Lyle PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tlwgbgbx",
+    "name": "Tullow Oil PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tpkgbgbx",
+    "name": "Travis Perkins PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tscogbgbx",
+    "name": "Tesco PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "twgbgbx",
+    "name": "TAYLOR WIMPEY PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ulvrgbgbx",
+    "name": "Unilever PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uugbgbx",
+    "name": "United Utilities Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vodgbgbx",
+    "name": "Vodafone Group PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "weirgbgbx",
+    "name": "Weir Group PLC/The",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wosgbgbx",
+    "name": "Wolseley PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wppgbgbx",
+    "name": "WPP PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wtbgbgbx",
+    "name": "Whitbread PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aususd",
+    "name": "AGILENT TECHNOLOGIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aaususd",
+    "name": "ALCOA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aabvususd",
+    "name": "AbbVie Inc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aalususd",
+    "name": "AMERICAN AIRLINES GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aapususd",
+    "name": "ADVANCE AUTO PARTS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aaplususd",
+    "name": "APPLE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "abcususd",
+    "name": "AMERISOURCEBERGEN CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "abevususd",
+    "name": "Ambev S.A.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "abmdususd",
+    "name": "ABIOMED INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "abtususd",
+    "name": "ABBOTT LABORATORIES",
+    "category": "stocks"
+  },
+  {
+    "symbol": "acglususd",
+    "name": "ARCH CAPITAL GROUP LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "acmususd",
+    "name": "AECOM",
+    "category": "stocks"
+  },
+  {
+    "symbol": "acnususd",
+    "name": "ACCENTURE PLC-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "adbeususd",
+    "name": "ADOBE SYSTEMS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "adiususd",
+    "name": "ANALOG DEVICES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "adpususd",
+    "name": "AUTOMATIC DATA PROCESSING",
+    "category": "stocks"
+  },
+  {
+    "symbol": "adskususd",
+    "name": "AUTODESK INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aepususd",
+    "name": "AMERICAN ELECTRIC POWER",
+    "category": "stocks"
+  },
+  {
+    "symbol": "afgususd",
+    "name": "AMERICAN FINANCIAL GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "agncususd",
+    "name": "AGNC INVESTMENT CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aigususd",
+    "name": "AMERICAN INTERNATIONAL GROUP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ajgususd",
+    "name": "ARTHUR J GALLAGHER & CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "albususd",
+    "name": "ALBEMARLE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "algnususd",
+    "name": "ALIGN TECHNOLOGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alkususd",
+    "name": "ALASKA AIR GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alksususd",
+    "name": "ALKERMES PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "allususd",
+    "name": "ALLSTATE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alleususd",
+    "name": "ALLEGION PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "allyususd",
+    "name": "ALLY FINANCIAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alnyususd",
+    "name": "ALNYLAM PHARMACEUTICALS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "alxnususd",
+    "name": "ALEXION PHARMACEUTICALS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amatususd",
+    "name": "APPLIED MATERIALS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amcrususd",
+    "name": "AMCOR PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amdususd",
+    "name": "ADVANCED MICRO DEVICES",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amgnususd",
+    "name": "AMGEN INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amhususd",
+    "name": "AMERICAN HOMES 4 RENT- A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ampususd",
+    "name": "AMERIPRISE FINANCIAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amtususd",
+    "name": "AMERICAN TOWER CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amwlususd",
+    "name": "American Well Corp Class A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "amznususd",
+    "name": "AMAZON.COM INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "anetususd",
+    "name": "ARISTA NETWORKS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "anssususd",
+    "name": "ANSYS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "antmususd",
+    "name": "ANTHEM INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aonususd",
+    "name": "AON PLC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aosususd",
+    "name": "SMITH (A.O.) CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "apaususd",
+    "name": "APACHE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "apdususd",
+    "name": "AIR PRODUCTS & CHEMICALS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aptvususd",
+    "name": "APTIV PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "arususd",
+    "name": "ANTERO RESOURCES CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "areususd",
+    "name": "ALEXANDRIA REAL ESTATE EQUIT",
+    "category": "stocks"
+  },
+  {
+    "symbol": "armkususd",
+    "name": "ARAMARK",
+    "category": "stocks"
+  },
+  {
+    "symbol": "arwususd",
+    "name": "ARROW ELECTRONICS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "atoususd",
+    "name": "ATMOS ENERGY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "atviususd",
+    "name": "ACTIVISION BLIZZARD INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "avbususd",
+    "name": "AVALONBAY COMMUNITIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "avgoususd",
+    "name": "Broadcom Limited",
+    "category": "stocks"
+  },
+  {
+    "symbol": "avlrususd",
+    "name": "AVALARA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "avtrususd",
+    "name": "AVANTOR INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "awkususd",
+    "name": "AMERICAN WATER WORKS CO INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "axpususd",
+    "name": "AMERICAN EXPRESS CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "axtaususd",
+    "name": "AXALTA COATING SYSTEMS LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ayxususd",
+    "name": "ALTERYX INC - CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "aznususd",
+    "name": "AstraZeneca PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "azoususd",
+    "name": "AUTOZONE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "azpnususd",
+    "name": "ASPEN TECHNOLOGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "baususd",
+    "name": "Boeing Co",
+    "category": "stocks"
+  },
+  {
+    "symbol": "babaususd",
+    "name": "ALIBABA GROUP HOLDING-SP ADR",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bacususd",
+    "name": "BANK OF AMERICA CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bahususd",
+    "name": "BOOZ ALLEN HAMILTON HOLDINGS",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bbdususd",
+    "name": "Banco Bradesco S.A.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bbwiususd",
+    "name": "BATH & BODY WORKS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bbyususd",
+    "name": "BEST BUY CO INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bdxususd",
+    "name": "BECTON DICKINSON AND CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "beryususd",
+    "name": "BERRY GLOBAL GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bgususd",
+    "name": "BUNGE LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "biduususd",
+    "name": "BAIDU INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "biibususd",
+    "name": "BIOGEN INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bioususd",
+    "name": "BIO-RAD LABORATORIES-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bkususd",
+    "name": "BANK OF NEW YORK MELLON CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bkiususd",
+    "name": "BLACK KNIGHT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bkrususd",
+    "name": "BAKER HUGHES CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "blkususd",
+    "name": "BLACKROCK INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bmrnususd",
+    "name": "BIOMARIN PHARMACEUTICAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bmyususd",
+    "name": "BRISTOL-MYERS SQUIBB CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bpususd",
+    "name": "BP p.l.c.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bpopususd",
+    "name": "POPULAR INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "brususd",
+    "name": "BROADRIDGE FINANCIAL SOLUTIO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "brkbususd",
+    "name": "BERKSHIRE HATHAWAY INC-CL B",
+    "category": "stocks"
+  },
+  {
+    "symbol": "brkrususd",
+    "name": "BRUKER CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "broususd",
+    "name": "BROWN & BROWN INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "brxususd",
+    "name": "BRIXMOR PROPERTY GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bsxususd",
+    "name": "BOSTON SCIENTIFIC CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "burlususd",
+    "name": "BURLINGTON STORES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "bwaususd",
+    "name": "BORGWARNER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "byndususd",
+    "name": "BEYOND MEAT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cususd",
+    "name": "CITIGROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "caccususd",
+    "name": "CREDIT ACCEPTANCE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "caciususd",
+    "name": "CACI INTERNATIONAL INC -CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cagususd",
+    "name": "CONAGRA FOODS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cahususd",
+    "name": "CARDINAL HEALTH INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "carrususd",
+    "name": "CARRIER GLOBAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "casyususd",
+    "name": "CASEY'S GENERAL STORES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "catususd",
+    "name": "CATERPILLAR INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cbususd",
+    "name": "CHUBB LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cboeususd",
+    "name": "CBOE GLOBAL MARKETS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cciususd",
+    "name": "CROWN CASTLE INTL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cckususd",
+    "name": "CROWN HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cclususd",
+    "name": "CARNIVAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cdayususd",
+    "name": "CERIDIAN HCM HOLDING INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cdevususd",
+    "name": "CENTENNIAL RESOURCE DEVELO-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cdkususd",
+    "name": "CDK GLOBAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cdnsususd",
+    "name": "CADENCE DESIGN SYS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cdwususd",
+    "name": "CDW CORP/DE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ceususd",
+    "name": "CELANESE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cernususd",
+    "name": "CERNER CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cfususd",
+    "name": "CF INDUSTRIES HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cfgususd",
+    "name": "CITIZENS FINANCIAL GROUP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cfrususd",
+    "name": "CULLEN/FROST BANKERS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cgnxususd",
+    "name": "COGNEX CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "chdususd",
+    "name": "CHURCH & DWIGHT CO INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "chngususd",
+    "name": "CHANGE HEALTHCARE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ciususd",
+    "name": "CIGNA CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "clususd",
+    "name": "COLGATE-PALMOLIVE CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "clrususd",
+    "name": "CONTINENTAL RESOURCES INC/OK",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cmcsaususd",
+    "name": "COMCAST CORP-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cmeususd",
+    "name": "CME GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cmgususd",
+    "name": "CHIPOTLE MEXICAN GRILL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cmiususd",
+    "name": "CUMMINS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cncususd",
+    "name": "CENTENE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cofususd",
+    "name": "CAPITAL ONE FINANCIAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cohrususd",
+    "name": "COHERENT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "coldususd",
+    "name": "AMERICOLD REALTY TRUST",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cooususd",
+    "name": "COOPER COS INC/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "copususd",
+    "name": "CONOCOPHILLIPS",
+    "category": "stocks"
+  },
+  {
+    "symbol": "costususd",
+    "name": "COSTCO WHOLESALE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "coupususd",
+    "name": "COUPA SOFTWARE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cpriususd",
+    "name": "CAPRI HOLDINGS LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cprtususd",
+    "name": "COPART INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cptususd",
+    "name": "CAMDEN PROPERTY TRUST",
+    "category": "stocks"
+  },
+  {
+    "symbol": "crlususd",
+    "name": "CHARLES RIVER LABORATORIES",
+    "category": "stocks"
+  },
+  {
+    "symbol": "crmususd",
+    "name": "SALESFORCE.COM INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "csususd",
+    "name": "Credit Suisse Group AG",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cscoususd",
+    "name": "CISCO SYSTEMS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "csgpususd",
+    "name": "COSTAR GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cslususd",
+    "name": "CARLISLE COS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "csxususd",
+    "name": "CSX CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ctlususd",
+    "name": "CENTURYLINK INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ctltususd",
+    "name": "CATALENT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ctshususd",
+    "name": "COGNIZANT TECH SOLUTIONS-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ctvaususd",
+    "name": "CORTEVA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ctxsususd",
+    "name": "CITRIX SYSTEMS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cubeususd",
+    "name": "CUBESMART",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cvnaususd",
+    "name": "CARVANA CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cvsususd",
+    "name": "CVS HEALTH CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "cvxususd",
+    "name": "CHEVRON CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "czrususd",
+    "name": "CAESARS ENTERTAINMENT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dususd",
+    "name": "DOMINION RESOURCES INC/VA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dalususd",
+    "name": "DELTA AIR LINES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dbxususd",
+    "name": "DROPBOX INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "deususd",
+    "name": "DEERE & CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dellususd",
+    "name": "DELL TECHNOLOGIES -C",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dfsususd",
+    "name": "DISCOVER FINANCIAL SERVICES",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dgususd",
+    "name": "DOLLAR GENERAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dhiususd",
+    "name": "DR HORTON INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dhrususd",
+    "name": "DANAHER CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "disususd",
+    "name": "WALT DISNEY CO/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dksususd",
+    "name": "DICK'S SPORTING GOODS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dlrususd",
+    "name": "DIGITAL REALTY TRUST INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dltrususd",
+    "name": "DOLLAR TREE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "docuususd",
+    "name": "DOCUSIGN INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "doxususd",
+    "name": "AMDOCS LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dpzususd",
+    "name": "DOMINO'S PIZZA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dreususd",
+    "name": "DUKE REALTY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dtususd",
+    "name": "DYNATRACE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dukususd",
+    "name": "DUKE ENERGY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dvaususd",
+    "name": "DAVITA HEALTHCARE PARTNERS I",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dvnususd",
+    "name": "DEVON ENERGY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dxcususd",
+    "name": "DXC TECHNOLOGY CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "dxcmususd",
+    "name": "DEXCOM INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eaususd",
+    "name": "ELECTRONIC ARTS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ebayususd",
+    "name": "EBAY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eeftususd",
+    "name": "EURONET WORLDWIDE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "efxususd",
+    "name": "EQUIFAX INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ehcususd",
+    "name": "ENCOMPASS HEALTH CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eixususd",
+    "name": "EDISON INTERNATIONAL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "elususd",
+    "name": "ESTEE LAUDER COMPANIES-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "elanususd",
+    "name": "ELANCO ANIMAL HEALTH INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "elsususd",
+    "name": "EQUITY LIFESTYLE PROPERTIES",
+    "category": "stocks"
+  },
+  {
+    "symbol": "emrususd",
+    "name": "EMERSON ELECTRIC CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "enphususd",
+    "name": "ENPHASE ENERGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "entgususd",
+    "name": "ENTEGRIS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eogususd",
+    "name": "EOG RESOURCES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "epamususd",
+    "name": "EPAM SYSTEMS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eqhususd",
+    "name": "EQUITABLE HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "eqtususd",
+    "name": "EQT CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "esususd",
+    "name": "EVERSOURCE ENERGY",
+    "category": "stocks"
+  },
+  {
+    "symbol": "essususd",
+    "name": "ESSEX PROPERTY TRUST INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "estcususd",
+    "name": "ELASTIC NV",
+    "category": "stocks"
+  },
+  {
+    "symbol": "etnususd",
+    "name": "EATON CORP PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "etsyususd",
+    "name": "ETSY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "evrgususd",
+    "name": "EVERGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ewususd",
+    "name": "EDWARDS LIFESCIENCES CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ewbcususd",
+    "name": "EAST WEST BANCORP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "excususd",
+    "name": "EXELON CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "exelususd",
+    "name": "EXELIXIS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "expeususd",
+    "name": "EXPEDIA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "exrususd",
+    "name": "EXTRA SPACE STORAGE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fususd",
+    "name": "FORD MOTOR CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fangususd",
+    "name": "DIAMONDBACK ENERGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fbususd",
+    "name": "FACEBOOK INC-A / META",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fbhsususd",
+    "name": "FORTUNE BRANDS HOME & SECURI",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fcncaususd",
+    "name": "FIRST CITIZENS BCSHS -CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fcxususd",
+    "name": "FREEPORT-MCMORAN INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fdsususd",
+    "name": "FACTSET RESEARCH SYSTEMS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fdxususd",
+    "name": "FEDEX CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "feususd",
+    "name": "FIRSTENERGY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ficoususd",
+    "name": "FAIR ISAAC CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fitbususd",
+    "name": "FIFTH THIRD BANCORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fiveususd",
+    "name": "FIVE BELOW",
+    "category": "stocks"
+  },
+  {
+    "symbol": "flususd",
+    "name": "FOOT LOCKER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fltususd",
+    "name": "FLEETCOR TECHNOLOGIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fndususd",
+    "name": "FLOOR & DECOR HOLDINGS INC-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "fnfususd",
+    "name": "FIDELITY NATIONAL FINANCIAL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "foxaususd",
+    "name": "TWENTY-FIRST CENTURY FOX-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "frcususd",
+    "name": "FIRST REPUBLIC BANK/CA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ftiususd",
+    "name": "FMC TECHNOLOGIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ftntususd",
+    "name": "FORTINET INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ftvususd",
+    "name": "FORTIVE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gususd",
+    "name": "GENPACT LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gdususd",
+    "name": "GENERAL DYNAMICS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gddyususd",
+    "name": "GODADDY INC - CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "geususd",
+    "name": "GENERAL ELECTRIC CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gggususd",
+    "name": "GRACO INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ghususd",
+    "name": "GUARDANT HEALTH INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gildususd",
+    "name": "GILEAD SCIENCES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gisususd",
+    "name": "GENERAL MILLS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "glususd",
+    "name": "GLOBE LIFE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "glpiususd",
+    "name": "GAMING AND LEISURE PROPERTIE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "glwususd",
+    "name": "CORNING INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gmususd",
+    "name": "GENERAL MOTORS CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gnrcususd",
+    "name": "GENERAC HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "googususd",
+    "name": "ALPHABET INC-CL C",
+    "category": "stocks"
+  },
+  {
+    "symbol": "googlususd",
+    "name": "ALPHABET INC-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gpnususd",
+    "name": "GLOBAL PAYMENTS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gpsususd",
+    "name": "GAP INC/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gsususd",
+    "name": "GOLDMAN SACHS GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "gwwususd",
+    "name": "WW GRAINGER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hususd",
+    "name": "HYATT HOTELS CORP - CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "halususd",
+    "name": "HALLIBURTON CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hbiususd",
+    "name": "HANESBRANDS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hcaususd",
+    "name": "HCA HEALTHCARE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hcnususd",
+    "name": "WELLTOWER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hdususd",
+    "name": "HOME DEPOT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "heiususd",
+    "name": "HEICO CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hesususd",
+    "name": "HESS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hiiususd",
+    "name": "HUNTINGTON INGALLS INDUSTRIE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hltususd",
+    "name": "HILTON WORLDWIDE HOLDINGS IN",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hogususd",
+    "name": "HARLEY-DAVIDSON INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "honususd",
+    "name": "HONEYWELL INTERNATIONAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hpeususd",
+    "name": "HEWLETT PACKARD ENTERPRISE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hpqususd",
+    "name": "HP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "htaususd",
+    "name": "HEALTHCARE TRUST OF AME-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hubbususd",
+    "name": "HUBBELL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hubsususd",
+    "name": "HUBSPOT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "humususd",
+    "name": "HUMANA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hwmususd",
+    "name": "HOWMET AEROSPACE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "hznpususd",
+    "name": "HORIZON THERAPEUTICS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ibkrususd",
+    "name": "INTERACTIVE BROKERS GRO-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ibmususd",
+    "name": "INTL BUSINESS MACHINES CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "iceususd",
+    "name": "INTERCONTINENTAL EXCHANGE IN",
+    "category": "stocks"
+  },
+  {
+    "symbol": "idxxususd",
+    "name": "IDEXX LABORATORIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "iexususd",
+    "name": "IDEX CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ilmnususd",
+    "name": "ILLUMINA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "incyususd",
+    "name": "INCYTE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "intcususd",
+    "name": "INTEL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "intuususd",
+    "name": "INTUIT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "invhususd",
+    "name": "INVITATION HOMES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ionsususd",
+    "name": "IONIS PHARMACEUTICALS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ipgususd",
+    "name": "INTERPUBLIC GROUP OF COS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ipgpususd",
+    "name": "IPG PHOTONICS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "iqvususd",
+    "name": "IQVIA HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "irususd",
+    "name": "INGERSOLL-RAND INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "isrgususd",
+    "name": "INTUITIVE SURGICAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "itususd",
+    "name": "GARTNER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "itubususd",
+    "name": "Itau Unibanco Holding S.A.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "itwususd",
+    "name": "ILLINOIS TOOL WORKS",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ivzususd",
+    "name": "INVESCO LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jazzususd",
+    "name": "JAZZ PHARMACEUTICALS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jbluususd",
+    "name": "JETBLUE AIRWAYS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jciususd",
+    "name": "JOHNSON CONTROLS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jefususd",
+    "name": "JEFFERIES FINANCIAL GROUP IN",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jkhyususd",
+    "name": "JACK HENRY & ASSOCIATES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jllususd",
+    "name": "JONES LANG LASALLE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jnjususd",
+    "name": "JOHNSON & JOHNSON",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jpmususd",
+    "name": "JPMORGAN CHASE & CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "jwnususd",
+    "name": "NORDSTROM INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kususd",
+    "name": "KELLOGG CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "keyususd",
+    "name": "KEYCORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "keysususd",
+    "name": "KEYSIGHT TECHNOLOGIES IN",
+    "category": "stocks"
+  },
+  {
+    "symbol": "khcususd",
+    "name": "KRAFT HEINZ CO/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kmbususd",
+    "name": "KIMBERLY-CLARK CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kmiususd",
+    "name": "KINDER MORGAN INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kmxususd",
+    "name": "CARMAX INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "knxususd",
+    "name": "KNIGHT-SWIFT TRANSPORTATION",
+    "category": "stocks"
+  },
+  {
+    "symbol": "koususd",
+    "name": "COCA-COLA CO/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "krususd",
+    "name": "KROGER CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "krcususd",
+    "name": "KILROY REALTY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "kssususd",
+    "name": "KOHLS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lususd",
+    "name": "LOEWS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lamrususd",
+    "name": "LAMAR ADVERTISING CO-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ldosususd",
+    "name": "LEIDOS HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "leaususd",
+    "name": "LEAR CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lenususd",
+    "name": "LENNAR CORP-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lhxususd",
+    "name": "L3HARRIS TECHNOLOGIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lkqususd",
+    "name": "LKQ CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "llyususd",
+    "name": "ELI LILLY & CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lmtususd",
+    "name": "LOCKHEED MARTIN CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lncususd",
+    "name": "LINCOLN NATIONAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lngususd",
+    "name": "CHENIERE ENERGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lntususd",
+    "name": "ALLIANT ENERGY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lowususd",
+    "name": "LOWE'S COS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lplaususd",
+    "name": "LPL FINANCIAL HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lrcxususd",
+    "name": "LAM RESEARCH CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lsiususd",
+    "name": "LIFE STORAGE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lstrususd",
+    "name": "LANDSTAR SYSTEM INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "luluususd",
+    "name": "LULULEMON ATHLETICA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "luvususd",
+    "name": "SOUTHWEST AIRLINES CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lvsususd",
+    "name": "Las Vegas Sands Corp.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lwususd",
+    "name": "LAMB WESTON HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lybususd",
+    "name": "LYONDELLBASELL INDU-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lyftususd",
+    "name": "LYFT INC-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "lyvususd",
+    "name": "LIVE NATION ENTERTAINMENT IN",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mususd",
+    "name": "MACY'S INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "maususd",
+    "name": "MASTERCARD INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "maaususd",
+    "name": "MID-AMERICA APARTMENT COMM",
+    "category": "stocks"
+  },
+  {
+    "symbol": "manhususd",
+    "name": "MANHATTAN ASSOCIATES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "marususd",
+    "name": "MARRIOTT INTERNATIONAL -CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "masiususd",
+    "name": "MASIMO CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "matususd",
+    "name": "MATTEL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mcdususd",
+    "name": "MCDONALD'S CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mchpususd",
+    "name": "MICROCHIP TECHNOLOGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mckususd",
+    "name": "MCKESSON CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mdbususd",
+    "name": "MONGODB INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mdlzususd",
+    "name": "MONDELEZ INTERNATIONAL INC-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mdtususd",
+    "name": "MEDTRONIC PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "metususd",
+    "name": "METLIFE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mgmususd",
+    "name": "MGM RESORTS INTERNATIONAL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mhkususd",
+    "name": "MOHAWK INDUSTRIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "middususd",
+    "name": "MIDDLEBY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mklususd",
+    "name": "MARKEL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mksiususd",
+    "name": "MKS INSTRUMENTS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mktxususd",
+    "name": "MARKETAXESS HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mlmususd",
+    "name": "MARTIN MARIETTA MATERIALS",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mmmususd",
+    "name": "3M CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mndtususd",
+    "name": "MANDIANT INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "moususd",
+    "name": "ALTRIA GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mohususd",
+    "name": "MOLINA HEALTHCARE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mpcususd",
+    "name": "MARATHON PETROLEUM CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mpwususd",
+    "name": "MEDICAL PROPERTIES TRUST INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mpwrususd",
+    "name": "MONOLITHIC POWER SYSTEMS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mrkususd",
+    "name": "MERCK & CO. INC.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mrnaususd",
+    "name": "Moderna",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mroususd",
+    "name": "MARATHON OIL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mrvlususd",
+    "name": "MARVELL TECHNOLOGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "msususd",
+    "name": "MORGAN STANLEY",
+    "category": "stocks"
+  },
+  {
+    "symbol": "msciususd",
+    "name": "MSCI INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "msftususd",
+    "name": "MICROSOFT CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mtchususd",
+    "name": "MATCH GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mtdususd",
+    "name": "METTLER-TOLEDO INTERNATIONAL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "mtnususd",
+    "name": "VAIL RESORTS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "muususd",
+    "name": "MICRON TECHNOLOGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nbixususd",
+    "name": "NEUROCRINE BIOSCIENCES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nclhususd",
+    "name": "NORWEGIAN CRUISE LINE HOLDIN",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ndsnususd",
+    "name": "NORDSON CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "neeususd",
+    "name": "NEXTERA ENERGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nemususd",
+    "name": "NEWMONT MINING CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nflxususd",
+    "name": "NETFLIX INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nioususd",
+    "name": "Nio INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nkeususd",
+    "name": "NIKE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nlokususd",
+    "name": "NORTONLIFELOCK INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nlsnususd",
+    "name": "NIELSEN HOLDINGS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nlyususd",
+    "name": "ANNALY CAPITAL MANAGEMENT IN",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nocususd",
+    "name": "NORTHROP GRUMMAN CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nowususd",
+    "name": "SERVICENOW INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nrgususd",
+    "name": "NRG ENERGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nscususd",
+    "name": "NORFOLK SOUTHERN CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ntnxususd",
+    "name": "NUTANIX INC - A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nvdaususd",
+    "name": "NVIDIA CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nvrususd",
+    "name": "NVR INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nwlususd",
+    "name": "NEWELL BRANDS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nwsususd",
+    "name": "NEWS CORP - CLASS B",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nxstususd",
+    "name": "NEXSTAR MEDIA GROUP INC-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "nytususd",
+    "name": "NEW YORK TIMES CO-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "oususd",
+    "name": "REALTY INCOME CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ocususd",
+    "name": "OWENS CORNING",
+    "category": "stocks"
+  },
+  {
+    "symbol": "odflususd",
+    "name": "OLD DOMINION FREIGHT LINE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ogeususd",
+    "name": "OGE ENERGY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ognususd",
+    "name": "ORGANON & CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ohiususd",
+    "name": "OMEGA HEALTHCARE INVESTORS",
+    "category": "stocks"
+  },
+  {
+    "symbol": "okeususd",
+    "name": "ONEOK INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "oktaususd",
+    "name": "OKTA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "oledususd",
+    "name": "UNIVERSAL DISPLAY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "olliususd",
+    "name": "OLLIE'S BARGAIN OUTLET HOLDI",
+    "category": "stocks"
+  },
+  {
+    "symbol": "olnususd",
+    "name": "OLIN CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "omcususd",
+    "name": "OMNICOM GROUP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "omfususd",
+    "name": "ONEMAIN HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "onususd",
+    "name": "ON SEMICONDUCTOR",
+    "category": "stocks"
+  },
+  {
+    "symbol": "orclususd",
+    "name": "ORACLE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "orlyususd",
+    "name": "O'REILLY AUTOMOTIVE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "otisususd",
+    "name": "OTIS WORLDWIDE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "oxyususd",
+    "name": "OCCIDENTAL PETROLEUM CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "panwususd",
+    "name": "PALO ALTO NETWORKS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "paraususd",
+    "name": "PARAMOUNT GLOBAL-CLASS B",
+    "category": "stocks"
+  },
+  {
+    "symbol": "paycususd",
+    "name": "PAYCOM SOFTWARE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "payxususd",
+    "name": "PAYCHEX INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pbfususd",
+    "name": "PBF ENERGY INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pbrususd",
+    "name": "Petroleo Brasileiro S.A.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pcarususd",
+    "name": "PACCAR INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pcgususd",
+    "name": "P G & E CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pclnususd",
+    "name": "PRICELINE GROUP INC/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pctyususd",
+    "name": "PAYLOCITY HOLDING CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "peakususd",
+    "name": "HEALTHPEAK PROPERTIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pennususd",
+    "name": "PENN NATIONAL GAMING INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pepususd",
+    "name": "PEPSICO INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pfeususd",
+    "name": "PFIZER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pgususd",
+    "name": "PROCTER & GAMBLE CO/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pgrususd",
+    "name": "PROGRESSIVE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "phususd",
+    "name": "PARKER HANNIFIN CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "piiususd",
+    "name": "POLARIS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pkgususd",
+    "name": "PACKAGING CORP OF AMERICA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "planususd",
+    "name": "ANAPLAN INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "plntususd",
+    "name": "PLANET FITNESS INC - CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pltrususd",
+    "name": "Palantir Tech Inc A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "plugususd",
+    "name": "Plug Power Inc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pmususd",
+    "name": "PHILIP MORRIS INTERNATIONAL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pncususd",
+    "name": "PNC FINANCIAL SERVICES GROUP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pnrususd",
+    "name": "PENTAIR PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "poddususd",
+    "name": "INSULET CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "poolususd",
+    "name": "POOL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ppgususd",
+    "name": "PPG INDUSTRIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "prgoususd",
+    "name": "PERRIGO CO PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pruususd",
+    "name": "PRUDENTIAL FINANCIAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "psaususd",
+    "name": "PUBLIC STORAGE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pstgususd",
+    "name": "PURE STORAGE INC - CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "psxususd",
+    "name": "PHILLIPS 66",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ptcususd",
+    "name": "PTC INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ptenususd",
+    "name": "PATTERSON-UTI ENERGY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ptonususd",
+    "name": "Peloton Interactive Inc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pvhususd",
+    "name": "PVH CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pxdususd",
+    "name": "PIONEER NATURAL RESOURCES CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "pyplususd",
+    "name": "PAYPAL HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "qcomususd",
+    "name": "QUALCOMM INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "qrvoususd",
+    "name": "QORVO INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rclususd",
+    "name": "ROYAL CARIBBEAN CRUISES LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "reususd",
+    "name": "EVEREST RE GROUP LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "regususd",
+    "name": "REGENCY CENTERS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "regnususd",
+    "name": "REGENERON PHARMACEUTICALS",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rfususd",
+    "name": "REGIONS FINANCIAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rgaususd",
+    "name": "REINSURANCE GROUP OF AMERICA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rgldususd",
+    "name": "ROYAL GOLD INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rjfususd",
+    "name": "RAYMOND JAMES FINANCIAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rmdususd",
+    "name": "RESMED INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rngususd",
+    "name": "RINGCENTRAL INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rnrususd",
+    "name": "RENAISSANCERE HOLDINGS LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rokuususd",
+    "name": "Roku Inc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rolususd",
+    "name": "ROLLINS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rostususd",
+    "name": "ROSS STORES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rpmususd",
+    "name": "RPM INTERNATIONAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rrcususd",
+    "name": "RANGE RESOURCES CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rrxususd",
+    "name": "REGAL REXNORD CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rsususd",
+    "name": "RELIANCE STEEL & ALUMINUM",
+    "category": "stocks"
+  },
+  {
+    "symbol": "rtxususd",
+    "name": "RAYTHEON TECHNOLOGIES CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sabrususd",
+    "name": "SABRE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sbnyususd",
+    "name": "SIGNATURE BANK",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sbuxususd",
+    "name": "STARBUCKS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sccoususd",
+    "name": "SOUTHERN COPPER CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "schwususd",
+    "name": "SCHWAB (CHARLES) CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sciususd",
+    "name": "SERVICE CORP INTERNATIONAL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sedgususd",
+    "name": "SOLAREDGE TECHNOLOGIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "seicususd",
+    "name": "SEI INVESTMENTS COMPANY",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sfmususd",
+    "name": "SPROUTS FARMERS MARKET INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sgenususd",
+    "name": "SEAGEN INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "shwususd",
+    "name": "SHERWIN-WILLIAMS COMPANY",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sivbususd",
+    "name": "SVB FINANCIAL GROUP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sjmususd",
+    "name": "JM SMUCKER COMPANY",
+    "category": "stocks"
+  },
+  {
+    "symbol": "slbususd",
+    "name": "SCHLUMBERGER LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "slmususd",
+    "name": "SLM CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "snapususd",
+    "name": "SNAP Inc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "snowususd",
+    "name": "Snowflake Inc Class A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "snpsususd",
+    "name": "SYNOPSYS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "soususd",
+    "name": "SOUTHERN CO/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "spgususd",
+    "name": "SIMON PROPERTY GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "spgiususd",
+    "name": "S&P GLOBAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "splkususd",
+    "name": "SPLUNK INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "spotususd",
+    "name": "SPOTIFY TECHNOLOGY SA",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sprususd",
+    "name": "SPIRIT AEROSYSTEMS HOLD-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sqususd",
+    "name": "Square Inc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "srptususd",
+    "name": "SAREPTA THERAPEUTICS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ssncususd",
+    "name": "SS&C TECHNOLOGIES HOLDINGS",
+    "category": "stocks"
+  },
+  {
+    "symbol": "steususd",
+    "name": "STERIS PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sttususd",
+    "name": "STATE STREET CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "stzususd",
+    "name": "CONSTELLATION BRANDS INC-A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "suiususd",
+    "name": "SUN COMMUNITIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "swkususd",
+    "name": "STANLEY BLACK & DECKER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "swksususd",
+    "name": "SKYWORKS SOLUTIONS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "syfususd",
+    "name": "SYNCHRONY FINANCIAL",
+    "category": "stocks"
+  },
+  {
+    "symbol": "sykususd",
+    "name": "STRYKER CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "syyususd",
+    "name": "SYSCO CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tususd",
+    "name": "AT&T INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tapususd",
+    "name": "MOLSON COORS BREWING CO -B",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tdgususd",
+    "name": "TRANSDIGM GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tdyususd",
+    "name": "TELEDYNE TECHNOLOGIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "teamususd",
+    "name": "ATLASSIAN CORP PLC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "techususd",
+    "name": "BIO-TECHNE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "telususd",
+    "name": "TE CONNECTIVITY LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tevaususd",
+    "name": "TEVA PHARMACEUTICAL-SP ADR",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tfcususd",
+    "name": "TRUIST FINANCIAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tfxususd",
+    "name": "TELEFLEX INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tgtususd",
+    "name": "TARGET CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tjxususd",
+    "name": "TJX COMPANIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tmoususd",
+    "name": "THERMO FISHER SCIENTIFIC INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tmusususd",
+    "name": "T-MOBILE US INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tolususd",
+    "name": "TOLL BROTHERS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tprususd",
+    "name": "TAPESTRY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tpxususd",
+    "name": "TEMPUR SEALY INTERNATIONAL I",
+    "category": "stocks"
+  },
+  {
+    "symbol": "trgpususd",
+    "name": "TARGA RESOURCES CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "trmbususd",
+    "name": "TRIMBLE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "trowususd",
+    "name": "T ROWE PRICE GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "truususd",
+    "name": "TRANSUNION",
+    "category": "stocks"
+  },
+  {
+    "symbol": "trvususd",
+    "name": "TRAVELERS COS INC/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tslaususd",
+    "name": "TESLA MOTORS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tsmususd",
+    "name": "Taiwan Semiconductor Manufacturing Company Limited",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tsnususd",
+    "name": "TYSON FOODS INC-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ttususd",
+    "name": "TRANE TECHNOLOGIES PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ttdususd",
+    "name": "TRADE DESK INC/THE -CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ttwoususd",
+    "name": "TAKE-TWO INTERACTIVE SOFTWRE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "twloususd",
+    "name": "TWILIO INC - A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "twtrususd",
+    "name": "TWITTER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "txnususd",
+    "name": "TEXAS INSTRUMENTS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "tylususd",
+    "name": "TYLER TECHNOLOGIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uaususd",
+    "name": "UNDER ARMOUR INC-CLASS C",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uaaususd",
+    "name": "UNDER ARMOUR INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uberususd",
+    "name": "Uber Inc",
+    "category": "stocks"
+  },
+  {
+    "symbol": "udrususd",
+    "name": "UDR INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ugiususd",
+    "name": "UGI CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uhsususd",
+    "name": "UNIVERSAL HEALTH SERVICES-B",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ultaususd",
+    "name": "ULTA SALON COSMETICS & FRAGR",
+    "category": "stocks"
+  },
+  {
+    "symbol": "unhususd",
+    "name": "UNITEDHEALTH GROUP INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "unpususd",
+    "name": "UNION PACIFIC CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "upsususd",
+    "name": "UNITED PARCEL SERVICE-CL B",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uriususd",
+    "name": "UNITED RENTALS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "usbususd",
+    "name": "US BANCORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "usfdususd",
+    "name": "US FOODS HOLDING CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "uthrususd",
+    "name": "UNITED THERAPEUTICS CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vususd",
+    "name": "VISA INC-CLASS A SHARES",
+    "category": "stocks"
+  },
+  {
+    "symbol": "valeususd",
+    "name": "Vale S.A.",
+    "category": "stocks"
+  },
+  {
+    "symbol": "veevususd",
+    "name": "VEEVA SYSTEMS INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vfcususd",
+    "name": "VF CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "viciususd",
+    "name": "VICI PROPERTIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "virtususd",
+    "name": "VIRTU FINANCIAL INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vloususd",
+    "name": "VALERO ENERGY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vmcususd",
+    "name": "VULCAN MATERIALS CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vmwususd",
+    "name": "VMWARE INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "voyaususd",
+    "name": "VOYA FINANCIAL INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vrtxususd",
+    "name": "VERTEX PHARMACEUTICALS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vstususd",
+    "name": "VISTRA CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ualususd",
+    "name": "VIATRIS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "vzususd",
+    "name": "VERIZON COMMUNICATIONS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wususd",
+    "name": "WAYFAIR INC- CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wabususd",
+    "name": "WABTEC CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "walususd",
+    "name": "WESTERN ALLIANCE BANCORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wbaususd",
+    "name": "WALGREENS BOOTS ALLIANCE INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wbsususd",
+    "name": "WEBSTER FINANCIAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wdayususd",
+    "name": "WORKDAY INC-CLASS A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wdcususd",
+    "name": "WESTERN DIGITAL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wenususd",
+    "name": "WENDY'S CO/THE",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wexususd",
+    "name": "WEX INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wfcususd",
+    "name": "WELLS FARGO & CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "whususd",
+    "name": "WYNDHAM HOTELS & RESORTS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "whrususd",
+    "name": "WHIRLPOOL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wlkususd",
+    "name": "WESTLAKE CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wmtususd",
+    "name": "WAL-MART STORES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wpcususd",
+    "name": "WP CAREY INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wrbususd",
+    "name": "WR BERKLEY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wrkususd",
+    "name": "WESTROCK CO",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wsmususd",
+    "name": "WILLIAMS-SONOMA INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wsoususd",
+    "name": "WATSCO INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wstususd",
+    "name": "WEST PHARMACEUTICAL SERVICES",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wtrgususd",
+    "name": "ESSENTIAL UTILITIES INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wtwususd",
+    "name": "WILLIS TOWERS WATSON PLC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wwdususd",
+    "name": "WOODWARD INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "wynnususd",
+    "name": "WYNN RESORTS LTD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "xususd",
+    "name": "UNITED STATES STEEL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "xlnxususd",
+    "name": "XILINX INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "xomususd",
+    "name": "EXXON MOBIL CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "xpevususd",
+    "name": "Xpeng Inc ADR",
+    "category": "stocks"
+  },
+  {
+    "symbol": "xpoususd",
+    "name": "XPO LOGISTICS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "xylususd",
+    "name": "XYLEM INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "yususd",
+    "name": "ALLEGHANY CORP",
+    "category": "stocks"
+  },
+  {
+    "symbol": "yumususd",
+    "name": "YUM! BRANDS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "yumcususd",
+    "name": "YUM CHINA HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "zususd",
+    "name": "ZILLOW GROUP INC - C",
+    "category": "stocks"
+  },
+  {
+    "symbol": "zbhususd",
+    "name": "ZIMMER BIOMET HOLDINGS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "zbraususd",
+    "name": "ZEBRA TECHNOLOGIES CORP-CL A",
+    "category": "stocks"
+  },
+  {
+    "symbol": "zenususd",
+    "name": "ZEN.US/USD",
+    "category": "stocks"
+  },
+  {
+    "symbol": "zmususd",
+    "name": "Zoom Video Communications (A Class)",
+    "category": "stocks"
+  },
+  {
+    "symbol": "zsususd",
+    "name": "ZSCALER INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "ztsususd",
+    "name": "ZOETIS INC",
+    "category": "stocks"
+  },
+  {
+    "symbol": "arkiususd",
+    "name": "ARK 21Shares Active Bitcoin Ethereum Strategy ETF Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "bugggbgbx",
+    "name": "Global X Cybersecurity UCITS ETF Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "csh2gbgbx",
+    "name": "Lyxor Smart Overnight Return - UCITS ETF C-GBP",
+    "category": "etf"
+  },
+  {
+    "symbol": "cysegbgbx",
+    "name": "WisdomTree Cybersecurity UCITS ETF Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "esihgbgbx",
+    "name": "iShares MSCI Europe Health Care Sector UCITS ETF Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "iglnususd",
+    "name": "iShares Physical Gold ETC Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "iufsususd",
+    "name": "iShares S&P 500 Financials Sector UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "semigbgbx",
+    "name": "iShares MSCI Global Semiconductors UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "sgldususd",
+    "name": "Invesco Physical Gold ETC Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "smhususd",
+    "name": "VanEck Semiconductor ETF Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "smtcususd",
+    "name": "Lyxor Smart Overnight Return - UCITS ETF C-USD",
+    "category": "etf"
+  },
+  {
+    "symbol": "wtaiususd",
+    "name": "Wisdomtree Artificial Intelligence And Innovation Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xdergbgbx",
+    "name": "Xtrackers FTSE Developed Europe Real Estate UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "xdwhususd",
+    "name": "Xtrackers MSCI World Health Care UCITS ETF Fund",
+    "category": "etf"
+  },
+  {
+    "symbol": "xdwtususd",
+    "name": "Xtrackers MSCI World Information Technology UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "xresususd",
+    "name": "Invesco Real Estate S&P US Select Sector UCITS ETF Acc",
+    "category": "etf"
+  },
+  {
+    "symbol": "csh2freur",
+    "name": "Lyxor Smart Overnight Return - UCITS ETF C-EUR",
+    "category": "etf"
+  },
+  {
+    "symbol": "agesgbgbx",
+    "name": "iShares Ageing Population UCITS ETF USD (Acc)",
+    "category": "etf"
+  },
+  {
+    "symbol": "aiaigbusd",
+    "name": "L&G Artificial Intelligence UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "cndxgbusd",
+    "name": "iShares NASDAQ 100 UCITS ETF USD (Acc)",
+    "category": "etf"
+  },
+  {
+    "symbol": "dfnggbgbp",
+    "name": "VanEck Defense ETF A USD Acc (GBP)",
+    "category": "etf"
+  },
+  {
+    "symbol": "ecargbusd",
+    "name": "iShares Electric Vehicles and Driving Technology UCITS ETF USD (Acc)",
+    "category": "etf"
+  },
+  {
+    "symbol": "glgggbgbx",
+    "name": "L&G Clean Water UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "intlgbgbx",
+    "name": "WisdomTree Artificial Intelligence UCITS ETF - USD Acc",
+    "category": "etf"
+  },
+  {
+    "symbol": "ispygbgbx",
+    "name": "L&G Cyber Security UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "suasgbusd",
+    "name": "iShares MSCI USA SRI UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "susmgbusd",
+    "name": "iShares MSCI EM SRI UCITS ETF USD (Acc)",
+    "category": "etf"
+  },
+  {
+    "symbol": "suusgbgbx",
+    "name": "iShares MSCI USA SRI UCITS ETF USD (Acc)",
+    "category": "etf"
+  },
+  {
+    "symbol": "sxlugbusd",
+    "name": "SPDR S&P U.S. Utilities Select Sector UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "vukggbgbp",
+    "name": "Vanguard FTSE 100 UCITS ETF GBP Acc",
+    "category": "etf"
+  },
+  {
+    "symbol": "vwrpgbgbp",
+    "name": "VWRP VANGUARD FTSE ALL-WORLD UCITS ETF",
+    "category": "etf"
+  },
+  {
+    "symbol": "wsmlgbusd",
+    "name": "iShares MSCI World Small Cap UCITS ETF USD (Acc)",
+    "category": "etf"
+  },
+  {
+    "symbol": "xnaqgbgbp",
+    "name": "Xtrackers NASDAQ 100 UCITS ETF 1C (GBP)",
+    "category": "etf"
+  },
+  {
+    "symbol": "xs6rgbgbx",
+    "name": "Xtrackers MSCI Europe Utilities Screened UCITS ETF 1C",
+    "category": "etf"
+  }
+]

@@ -107,11 +107,7 @@ async function hasStockInfobox(pageTitle: string): Promise<boolean> {
   const apiUrl = `https://en.wikipedia.org/w/api.php?action=parse&page=${encodedTitle}&prop=wikitext&section=0&format=json`;
 
   try {
-    const response = await fetch(apiUrl, {
-      headers: {
-        "User-Agent": "StockWikiLookup/1.0 (educational project)",
-      },
-    });
+    const response = await fetch(apiUrl);
 
     if (!response.ok) {
       return false;
@@ -143,7 +139,7 @@ async function hasStockInfobox(pageTitle: string): Promise<boolean> {
 async function searchWikipedia(
   companyName: string,
   symbol: string,
-  maxRetries = 3
+  maxRetries = 3,
 ): Promise<{ title: string; verified: boolean } | null> {
   // Skip ETFs and non-company securities
   if (isETFOrFund(companyName, symbol)) {
@@ -162,9 +158,14 @@ async function searchWikipedia(
       });
 
       if (response.status === 429) {
-        const retryAfter = parseInt(response.headers.get("Retry-After") || "5", 10);
+        const retryAfter = parseInt(
+          response.headers.get("Retry-After") || "5",
+          10,
+        );
         const waitTime = Math.max(retryAfter * 1000, attempt * 2000);
-        console.log(`Rate limited for ${companyName}, waiting ${waitTime}ms (attempt ${attempt}/${maxRetries})`);
+        console.log(
+          `Rate limited for ${companyName}, waiting ${waitTime}ms (attempt ${attempt}/${maxRetries})`,
+        );
         await sleep(waitTime);
         continue;
       }
@@ -203,10 +204,7 @@ async function searchWikipedia(
 /**
  * Save current progress to file
  */
-function saveProgress(
-  results: StockResults,
-  outputPath: string
-): void {
+function saveProgress(results: StockResults, outputPath: string): void {
   writeFileSync(outputPath, JSON.stringify(results, null, 2));
 }
 
@@ -218,7 +216,7 @@ async function processStocks(
   outputPath: string,
   delayMs = 500,
   startIndex = 0,
-  existingResults: StockResults = {}
+  existingResults: StockResults = {},
 ): Promise<StockResults> {
   const results: StockResults = { ...existingResults };
 
@@ -242,10 +240,12 @@ async function processStocks(
     if ((i + 1) % 10 === 0 || i === stocks.length - 1) {
       const values = Object.values(results);
       const foundCount = values.filter((r) => r.wikiTitle !== null).length;
-      const verifiedCount = values.filter((r) => r.wikiTitle !== null && !r.error).length;
+      const verifiedCount = values.filter(
+        (r) => r.wikiTitle !== null && !r.error,
+      ).length;
       const status = wikiResult ? (wikiResult.verified ? "✓" : "?") : "✗";
       console.log(
-        `[${i + 1}/${stocks.length}] ${verifiedCount} verified, ${foundCount - verifiedCount} potential miss. Last: ${symbol} ${status} ${wikiResult?.title ?? "not found"}`
+        `[${i + 1}/${stocks.length}] ${verifiedCount} verified, ${foundCount - verifiedCount} potential miss. Last: ${symbol} ${status} ${wikiResult?.title ?? "not found"}`,
       );
       saveProgress(results, outputPath);
     }
@@ -263,14 +263,14 @@ async function main() {
   console.log("Loading stock names...");
   const stockNamesPath = join(__dirname, "stock-names.json");
   const stockData: Array<[string, string, ...unknown[]]> = JSON.parse(
-    readFileSync(stockNamesPath, "utf-8")
+    readFileSync(stockNamesPath, "utf-8"),
   );
 
   console.log(`Found ${stockData.length} total entries`);
 
   // Filter out ETFs, funds, and non-company securities
   const validStocks = stockData.filter(
-    ([symbol, name]) => !isETFOrFund(name, symbol)
+    ([symbol, name]) => !isETFOrFund(name, symbol),
   );
   const skippedCount = stockData.length - validStocks.length;
   console.log(`Skipping ${skippedCount} ETFs/funds/non-company securities`);
@@ -285,9 +285,13 @@ async function main() {
 
   if (existsSync(outputPath)) {
     try {
-      existingResults = JSON.parse(readFileSync(outputPath, "utf-8")) as StockResults;
+      existingResults = JSON.parse(
+        readFileSync(outputPath, "utf-8"),
+      ) as StockResults;
       startIndex = Object.keys(existingResults).length;
-      console.log(`Resuming from index ${startIndex} (${startIndex} already processed)`);
+      console.log(
+        `Resuming from index ${startIndex} (${startIndex} already processed)`,
+      );
     } catch {
       console.log("Could not parse existing results, starting fresh");
     }
@@ -299,13 +303,15 @@ async function main() {
     outputPath,
     500,
     startIndex,
-    existingResults
+    existingResults,
   );
 
   // Count how many were found
   const values = Object.values(results);
   const foundCount = values.filter((r) => r.wikiTitle !== null).length;
-  const verifiedCount = values.filter((r) => r.wikiTitle !== null && !r.error).length;
+  const verifiedCount = values.filter(
+    (r) => r.wikiTitle !== null && !r.error,
+  ).length;
   const potentialMissCount = values.filter((r) => r.error).length;
   const totalCount = Object.keys(results).length;
   console.log(`\nResults for ${totalCount} stocks:`);
