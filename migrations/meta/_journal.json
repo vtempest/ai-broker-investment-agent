@@ -57,6 +57,13 @@
       "when": 1766190955124,
       "tag": "0007_tranquil_liz_osborn",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1769027696863,
+      "tag": "0008_slim_mauler",
+      "breakpoints": true
     }
   ]
 }

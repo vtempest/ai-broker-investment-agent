@@ -5,7 +5,7 @@ import { Chart, CandlestickSeries, LineSeries, HistogramSeries, AreaSeries, Time
 import { Button } from "@/components/ui/button"
 import { rsi, macd, atr, stochasticOscillator, cci, obv } from "indicatorts"
 import { TagInput, Tag } from "@/components/ui/tag-input"
-import { Loader2 } from "lucide-react"
+import { Loader2, CandlestickChart, TrendingUp } from "lucide-react"
 import { setStateInURL } from "@/lib/utils"
 import { type IChartApi, type Time, type LogicalRange } from "lightweight-charts"
 import grab from 'grab-url';
@@ -14,6 +14,16 @@ interface DynamicStockChartProps {
   symbol: string
   initialRange?: string // '1d', '5d', '1mo', '3mo', '6mo', '1y', etc.
   interval?: string // '1m', '5m', '15m', '1h', '1d', etc.
+  performance?: {
+    day: number | null
+    week: number | null
+    month: number | null
+    month3: number | null
+    month6: number | null
+    year: number | null
+    year5: number | null
+    ytd: number | null
+  }
 }
 
 interface ChartData {
@@ -40,7 +50,8 @@ type ChartType = "candlestick" | "line" | "area"
 export function DynamicStockChart({
   symbol,
   initialRange = "1y",
-  interval = "1d"
+  interval = "1d",
+  performance
 }: DynamicStockChartProps) {
   const [activeTags, setActiveTags] = useState<Tag[]>([])
   const [showVolume, setShowVolume] = useState(true)
@@ -76,7 +87,7 @@ export function DynamicStockChart({
 
         // Handle both nested data structure (data.data) and flat structure (data)
         const dataArray = Array.isArray(json.data?.data) ? json.data.data :
-                         Array.isArray(json.data) ? json.data : null;
+          Array.isArray(json.data) ? json.data : null;
 
         if (json.success && dataArray) {
           const transformedData: ChartData[] = dataArray.map((d: any) => ({
@@ -162,7 +173,7 @@ export function DynamicStockChart({
           if (json.success) {
             // Handle both nested data structure (data.data) and flat structure (data)
             const dataArray = Array.isArray(json.data?.data) ? json.data.data :
-                             Array.isArray(json.data) ? json.data : null;
+              Array.isArray(json.data) ? json.data : null;
             return { symbol: tag.value, data: dataArray }
           }
           return null
@@ -221,7 +232,7 @@ export function DynamicStockChart({
 
       // Handle both nested data structure (data.data) and flat structure (data)
       const dataArray = Array.isArray(json.data?.data) ? json.data.data :
-                       Array.isArray(json.data) ? json.data : null;
+        Array.isArray(json.data) ? json.data : null;
 
       if (json.success && dataArray && dataArray.length > 0) {
         const newPoints: ChartData[] = dataArray.map((d: any) => ({
@@ -424,78 +435,73 @@ export function DynamicStockChart({
   }
 
   const ranges = [
-    { value: "1d", label: "1D", interval: "5m" },
-    { value: "5d", label: "5D", interval: "15m" },
-    { value: "1mo", label: "1M", interval: "1h" },
-    { value: "6mo", label: "6M", interval: "1d" },
-    { value: "1y", label: "1Y", interval: "1d" },
-    { value: "5y", label: "5Y", interval: "1wk" },
+    { value: "1d", label: "1D", interval: "5m", perfKey: "day" as const },
+    { value: "5d", label: "5D", interval: "15m", perfKey: "week" as const },
+    { value: "1mo", label: "1M", interval: "1h", perfKey: "month" as const },
+    { value: "6mo", label: "6M", interval: "1d", perfKey: "month6" as const },
+    { value: "1y", label: "1Y", interval: "1d", perfKey: "year" as const },
+    { value: "5y", label: "5Y", interval: "1wk", perfKey: "year5" as const },
   ]
 
+  // Helper to format percent
+  const formatPercent = (num: number | null) => {
+    if (num === null || num === undefined) return null
+    const formatted = (num * 100).toFixed(num >= 0.1 || num <= -0.1 ? 0 : 1)
+    return num >= 0 ? `+${formatted}%` : `${formatted}%`
+  }
+
   const chartTypes = [
-    { value: "candlestick", label: "Candlestick" },
-    { value: "line", label: "Line" },
-    { value: "area", label: "Area" },
+    { value: "candlestick", label: "Candlestick", icon: CandlestickChart },
+    { value: "line", label: "Line", icon: TrendingUp },
   ]
 
   return (
     <div className="w-full space-y-4">
       {/* Chart Controls */}
       <div className="space-y-3 p-4 bg-muted/30 rounded-lg border border-border">
-        {/* Top Row: Tag Input + Basic Controls */}
-        <div className="flex flex-col md:flex-row gap-4 justify-between">
-          <div className="flex-1 min-w-[300px]">
-            <TagInput
-              placeholder="Add indicators (RSI, MACD) or symbols (AAPL)..."
-              tags={activeTags}
-              onTagsChange={setActiveTags}
-              suggestions={INDICATOR_SUGGESTIONS}
-              onSearch={handleStockSearch}
-            />
-          </div>
 
-          <div className="flex gap-2 items-center">
-            <Button
-              variant={showVolume ? "default" : "outline"}
-              size="sm"
-              onClick={() => setShowVolume(!showVolume)}
-            >
-              {showVolume ? "Hide Volume" : "Show Volume"}
-            </Button>
-          </div>
-        </div>
 
         {/* Second Row: Time & Type */}
         <div className="flex flex-wrap gap-4 items-center justify-between border-t border-border/50 pt-2">
           <div className="flex flex-wrap gap-2 items-center">
             <span className="text-xs font-medium text-muted-foreground mr-1">Range:</span>
-            {ranges.map((range) => (
-              <Button
-                key={range.value}
-                variant={selectedRange === range.value ? "default" : "outline"}
-                size="sm"
-                className="h-7 text-xs"
-                onClick={() => setSelectedRange(range.value)} // Just set state, effect will load
-              >
-                {range.label}
-              </Button>
-            ))}
+            {ranges.map((range) => {
+              const perfValue = performance?.[range.perfKey] ?? null
+              const perfFormatted = formatPercent(perfValue)
+              const isPositive = perfValue !== null && perfValue !== undefined && perfValue >= 0
+
+              return (
+                <Button
+                  key={range.value}
+                  variant={selectedRange === range.value ? "default" : "outline"}
+                  size="sm"
+                  className="h-7 px-2 text-xs flex items-center gap-1.5"
+                  onClick={() => setSelectedRange(range.value)}
+                >
+                  <span className="font-medium">{range.label}</span>
+                  {perfFormatted && (
+                    <span className={`text-xs font-bold ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+                      {perfFormatted}
+                    </span>
+                  )}
+                </Button>
+              )
+            })}
           </div>
 
-          <div className="flex flex-wrap gap-2 items-center">
-            <span className="text-xs font-medium text-muted-foreground mr-1">Type:</span>
-            {chartTypes.map((type) => (
-              <Button
-                key={type.value}
-                variant={chartType === type.value ? "default" : "outline"}
-                size="sm"
-                className="h-7 text-xs"
-                onClick={() => setChartType(type.value as ChartType)}
-              >
-                {type.label}
-              </Button>
-            ))}
-          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 px-2"
+            onClick={() => setChartType(chartType === "candlestick" ? "line" : "candlestick")}
+            title={chartType === "candlestick" ? "Switch to Line Chart" : "Switch to Candlestick Chart"}
+          >
+            {chartType === "candlestick" ? (
+              <CandlestickChart className="h-4 w-4" />
+            ) : (
+              <TrendingUp className="h-4 w-4" />
+            )}
+          </Button>
         </div>
       </div>
 
@@ -598,7 +604,30 @@ export function DynamicStockChart({
         )}
       </div>
 
-      <div className="flex flex-wrap gap-4 text-xs text-muted-foreground px-2">
+      {/* Top Row: Tag Input + Basic Controls */}
+      <div className="flex flex-col md:flex-row gap-4 justify-between">
+        <div className="flex-1 min-w-[300px]">
+          <TagInput
+            placeholder="Add indicators (RSI, MACD) or symbols (AAPL)..."
+            tags={activeTags}
+            onTagsChange={setActiveTags}
+            suggestions={INDICATOR_SUGGESTIONS}
+            onSearch={handleStockSearch}
+          />
+        </div>
+
+        <div className="flex gap-2 items-center">
+          <Button
+            variant={showVolume ? "default" : "outline"}
+            size="sm"
+            onClick={() => setShowVolume(!showVolume)}
+          >
+            {showVolume ? "Hide Volume" : "Show Volume"}
+          </Button>
+        </div>
+      </div>
+
+      {/* <div className="flex flex-wrap gap-4 text-xs text-muted-foreground px-2">
         {activeTags.length > 0 && <span>Active:</span>}
         {activeTags.map(tag => (
           <span key={tag.id} className="flex items-center gap-1">
@@ -606,7 +635,7 @@ export function DynamicStockChart({
             {tag.label}
           </span>
         ))}
-      </div>
+      </div> */}
     </div>
   )
 }

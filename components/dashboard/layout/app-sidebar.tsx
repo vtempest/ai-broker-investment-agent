@@ -320,12 +320,12 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="pt-10">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href={logoHref}>
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
+                <div className=" flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
                   <Image
                     src="/apple-touch-icon.png"
                     alt="Logo"

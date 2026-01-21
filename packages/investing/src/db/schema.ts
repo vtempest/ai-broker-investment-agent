@@ -598,3 +598,63 @@ export const likes = sqliteTable("likes", {
   itemId: text("item_id").notNull(), // ID of the item being liked
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 })
+
+// ============================================================================
+// Stock Data Cache
+// ============================================================================
+
+// Stock Quote Cache - Cache real-time quote data from yfinance/finnhub/alpaca
+export const stockQuoteCache = sqliteTable("stock_quote_cache", {
+  symbol: text("symbol").primaryKey(),
+  price: real("price").notNull(),
+  change: real("change"),
+  changePercent: real("change_percent"),
+  open: real("open"),
+  high: real("high"),
+  low: real("low"),
+  previousClose: real("previous_close"),
+  volume: real("volume"),
+  marketCap: real("market_cap"),
+  currency: text("currency").default("USD"),
+  name: text("name"),
+  exchange: text("exchange"),
+  source: text("source").notNull(), // yfinance, finnhub, alpaca
+  lastFetched: integer("last_fetched", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+})
+
+// Stock Fundamentals - Store fundamental data like PE ratio, etc.
+export const stockFundamentals = sqliteTable("stock_fundamentals", {
+  symbol: text("symbol").primaryKey(),
+  peRatio: real("pe_ratio"),
+  eps: real("eps"),
+  dividendYield: real("dividend_yield"),
+  beta: real("beta"),
+  fiftyTwoWeekHigh: real("fifty_two_week_high"),
+  fiftyTwoWeekLow: real("fifty_two_week_low"),
+  fiftyDayAverage: real("fifty_day_average"),
+  twoHundredDayAverage: real("two_hundred_day_average"),
+  sharesOutstanding: real("shares_outstanding"),
+  bookValue: real("book_value"),
+  priceToBook: real("price_to_book"),
+  trailingPE: real("trailing_pe"),
+  forwardPE: real("forward_pe"),
+  lastFetched: integer("last_fetched", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+})
+
+// Historical Quote Data - Store daily historical quotes
+export const stockHistoricalQuotes = sqliteTable("stock_historical_quotes", {
+  id: text("id").primaryKey(),
+  symbol: text("symbol").notNull(),
+  date: text("date").notNull(), // YYYY-MM-DD format
+  open: real("open").notNull(),
+  high: real("high").notNull(),
+  low: real("low").notNull(),
+  close: real("close").notNull(),
+  volume: real("volume"),
+  adjustedClose: real("adjusted_close"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+})

@@ -45,15 +45,14 @@
 
 ## 🚀 Overview
 
-The **Auto Investment Broker** is a sophisticated platform combining 8 specialized AI agents to analyze markets, debate strategies, and execute trades. It features real-time data processing, a "Bull vs. Bear" debate engine, and a modern dashboard for visualization.
+The **Auto Investment Broker** is a sophisticated platform combining specialized LLM agents to analyze markets, debate strategies, and execute trades. It features real-time data processing, a "Bull vs. Bear" debate engine, and a modern dashboard for visualization.
 
 ### ✨ Key Features
 
-- **Multi-Agent Architecture**: 8 agents including Fundamentals, News, Technical, and Risk Managers.
+- **Multi-Agent Architecture**: LLM agents including Fundamentals, News, Technical, and Risk Managers.
 - **Top Traders Leaderboard**: Real-time tracking of top performers from ZuluTrade and Polymarket.
 - **Interactive Dashboard**: Modern UI with specific agent reports, history tracking, and technical charts.
 - **"Bull vs. Bear" Debates**: Automated debates to assess risk and reward before every trade.
-- **Groq Integration**: High-speed inference using `llama-3.3-70b-versatile`.
 
 ## 🤖 AI Agents & Strategies
 
@@ -86,13 +85,9 @@ The **Auto Investment Broker** is a sophisticated platform combining 8 specializ
 ## 📂 Third Party APIs
 
 - **[Alpaca](https://alpaca.markets/)**: Broker & trading as a service.
-- **[Finnhub](https://finnhub.io/dashboard)**: Stock market data.
 - **[TradingView](https://www.tradingview.com/ideas/)**: TradingView PineScript automated trading.
+- **[Finnhub](https://finnhub.io/dashboard)**: Stock market data.
 - **[ZuluTrade](https://www.zulutrade.com/traders/list/75932)**: Top traders leaderboard.
 - **[Polymarket](https://polymarketanalytics.com/)**: Top event predictions leaderboard & correlation with stock market.
 - **[Lightweight Charts](https://www.tradingview.com/lightweight-charts/)**: Candlestick UI widget from TradingView
 - **[TradingAgents](https://github.com/TauricResearch/TradingAgents)**: Implementation of LLM research bots ([paper](https://arxiv.org/pdf/2412.20138))
-
-## 🤝 Contributing & License
-
-Contributions are welcome! Please open an issue or PR.

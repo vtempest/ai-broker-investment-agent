@@ -673,8 +673,7 @@ export function StrategiesTab() {
                     .map((strategy) => (
                       <div
                         key={strategy.id}
-                        className={`flex items-center space-x-2 ${!selectedStrategies.includes(strategy.id) ? 'hidden' : ''
-                          }`}
+                        className="flex items-center space-x-2"
                       >
                         <Checkbox
                           id={`strategy-${strategy.id}`}

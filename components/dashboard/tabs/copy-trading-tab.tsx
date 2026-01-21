@@ -388,6 +388,16 @@ export function CopyTradingTab() {
           <div className="space-y-3"></div>
         </Card>
       )}
+
+      {/* Risk Disclaimer */}
+      <Card className="p-4 border-yellow-500/50 bg-yellow-500/5">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="h-5 w-5 text-yellow-500 flex-shrink-0 mt-0.5" />
+          <div className="text-sm text-muted-foreground">
+            <strong className="text-foreground">Risk Disclaimer:</strong> Copy Trading does not amount to investment advice. The value of your investments may go up or down. Your capital is at risk. Past performance is not an indication of future results.
+          </div>
+        </div>
+      </Card>
     </div>
   )
 }

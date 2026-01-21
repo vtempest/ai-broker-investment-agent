@@ -208,11 +208,17 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
 
     const fetchPerformanceData = async () => {
       try {
-        // Try to fetch 2 years of data first (more reliable than 5y)
-        let res = await fetch(`/api/stocks/historical/${symbol}?range=2y&interval=1d`)
+        // Try to fetch 5 years of data first
+        let res = await fetch(`/api/stocks/historical/${symbol}?range=5y&interval=1d`)
         let json = await res.json()
 
-        // If 2y fails, try 1y as fallback
+        // If 5y fails, try 2y as fallback
+        if (!json.success || !json.data || !Array.isArray(json.data) || json.data.length === 0) {
+          res = await fetch(`/api/stocks/historical/${symbol}?range=2y&interval=1d`)
+          json = await res.json()
+        }
+
+        // If 2y fails, try 1y as final fallback
         if (!json.success || !json.data || !Array.isArray(json.data) || json.data.length === 0) {
           res = await fetch(`/api/stocks/historical/${symbol}?range=1y&interval=1d`)
           json = await res.json()
@@ -380,9 +386,37 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
       <div className="w-full max-w-7xl mx-auto space-y-6">
 
         {/* Header Section */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-1">
-            <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-4">
+          {/* Stock Info Row */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <img
+              src={getStockLogoUrl(symbol, true)}
+              alt={`${symbol} logo`}
+              className="w-10 h-10 rounded object-contain flex-shrink-0 bg-white"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement
+                if (target.src.includes('github.com')) {
+                  target.src = getStockLogoUrl(symbol, false)
+                } else {
+                  target.style.display = 'none'
+                }
+              }}
+            />
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xl font-semibold">{price.longName || price.shortName || symbol}</span>
+              <Badge variant="outline" className="font-mono text-base px-2 py-0.5">
+                {symbol}
+              </Badge>
+              <span className="text-muted-foreground">•</span>
+              <span className="text-muted-foreground">${formatNumber(price.marketCap)}</span>
+              {summary.trailingPE && (
+                <>
+                  <span className="text-muted-foreground">•</span>
+                  <span className="text-muted-foreground">P/E {summary.trailingPE.toFixed(2)}</span>
+                </>
+              )}
+            </div>
+            <div className="ml-auto flex items-center gap-2">
               {session?.user && (
                 <>
                   <Button
@@ -413,91 +447,6 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
               )}
             </div>
           </div>
-
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-                <CardTitle className="text-xs font-medium text-muted-foreground">
-                  {price.longName || price.shortName || symbol}
-
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-
-
-                <div className="flex items-center gap-2">
-                  <span className="text-md font-bold">{formatCurrency(price.regularMarketPrice)}</span>
-                </div>
-                <h1 className="text-3xl font-bold tracking-tight">{symbol}</h1>
-              </CardContent>
-            </Card>
-
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-                <CardTitle className="text-xs font-medium text-muted-foreground">Performance</CardTitle>
-                <TrendingUp className="h-3 w-3 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-2 text-sm">
-                  <div>
-                    <div className="text-xs text-muted-foreground">D</div>
-                    <div className={`font-bold ${price.regularMarketChangePercent >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {price.regularMarketChangePercent ? formatPercent(price.regularMarketChangePercent / 100) : '-'}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-muted-foreground">W</div>
-                    <div className={`font-bold ${performance.week && performance.week >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {performance.week ? formatPercent(performance.week) : '-'}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-muted-foreground">M</div>
-                    <div className={`font-bold ${performance.month && performance.month >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {performance.month ? formatPercent(performance.month) : '-'}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-muted-foreground">6M</div>
-                    <div className={`font-bold ${performance.month6 && performance.month6 >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {performance.month6 ? formatPercent(performance.month6) : '-'}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-muted-foreground">Y</div>
-                    <div className={`font-bold ${performance.year && performance.year >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {performance.year ? formatPercent(performance.year) : '-'}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-muted-foreground">5Y</div>
-                    <div className={`font-bold ${performance.year5 && performance.year5 >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {performance.year5 ? formatPercent(performance.year5) : '-'}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-                <CardTitle className="text-xs font-medium text-muted-foreground">Market Cap & Volume</CardTitle>
-                <Activity className="h-3 w-3 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-
-                <div className="text-lg font-bold">{formatNumber(price.marketCap)}</div>
-
-                <div className="text-lg font-bold">{formatNumber(price.regularMarketVolume)}</div>
-                <div className="text-xs text-muted-foreground">Avg: {formatNumber(summary.averageVolume)}</div>
-              </CardContent>
-            </Card>
-
-
-          </div>
-
         </div>
 
         {/* Price Chart with Lazy Loading */}
@@ -505,6 +454,7 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
           symbol={symbol}
           initialRange="1y"
           interval="1d"
+          performance={performance}
         />
 
         {/* Key Stats Grid */}

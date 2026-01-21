@@ -12,17 +12,19 @@ export default function DashboardLayout({
     <SidebarProvider>
       <AppSidebar />
 
-      <SidebarInset className="pb-24 md:pb-0 relative">
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+      <SidebarInset className="pb-24 md:pb-0">
+        {/* Stock Ticker - Fixed at Top */}
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <StockTicker />
+        </div>
+
+        <header className="flex pt-8 h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
           </div>
         </header>
 
-        {/* Stock Ticker - Absolute Positioned at Top */}
-        <div className="absolute top-16 left-0 right-0 z-40">
-          <StockTicker />
-        </div>
+
 
         {/* Add top padding to content to account for ticker */}
         <div className="pt-10">

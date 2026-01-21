@@ -195,9 +195,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    console.log(`[Backtest] Request: ${symbol}, ${startDate} to ${endDate}, strategies: ${strategyIds.length > 0 ? strategyIds.join(', ') : 'ALL'}`)
+
     // Fetch historical data
-    const historicalData = await yfinance.getHistoricalData({
-      symbol,
+    const historicalData = await yfinance.getHistorical(symbol, {
       period1: new Date(startDate),
       period2: new Date(endDate),
       interval: '1d'
@@ -273,6 +274,8 @@ export async function POST(request: NextRequest) {
       initialCapital,
       results,
     }
+
+    console.log(`[Backtest] ${symbol}: Tested ${results.length} strategies, returning results`)
 
     return NextResponse.json(response)
 

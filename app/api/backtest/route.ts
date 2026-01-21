@@ -67,8 +67,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Fetch historical data
-    const historicalData = await yfinance.getHistoricalData({
-      symbol,
+    const historicalData = await yfinance.getHistorical(symbol, {
       period1: new Date(startDate),
       period2: new Date(endDate),
       interval: '1d'

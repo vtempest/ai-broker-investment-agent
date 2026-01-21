@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import { TrendingUp, TrendingDown, Plus, X, Settings, CalendarDays, Play, Pause } from "lucide-react"
+import { TrendingUp, TrendingDown, Plus, X, Settings, CalendarDays, Calendar, Play, Pause } from "lucide-react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import {
   Tooltip,
@@ -30,14 +31,17 @@ interface TickerData {
   changePercent: number
   monthlyChange: number
   monthlyChangePercent: number
+  yearlyChange: number
+  yearlyChangePercent: number
   high: number
   low: number
   volume: string
   type: "index" | "stock"
+  source?: string
 }
 
 function getStockLogoUrl(symbol: string): string {
-  return `https://img.logo.dev/ticker/${symbol.replace("^", "")}?token=pk_TttrZhYwSReZxFePkXo-Bg&size=38&retina=true`
+  return `https://img.logo.dev/ticker/${symbol.replace("^", "")}?token=pk_TttrZhYwSReZxFePkXo-Bg&size=48&retina=true`
 }
 
 const defaultWatchlist = [
@@ -45,8 +49,13 @@ const defaultWatchlist = [
   { symbol: "^GSPC", name: "S&P 500", type: "index" as const },
   { symbol: "^DJI", name: "Dow Jones", type: "index" as const },
   { symbol: "^IXIC", name: "NASDAQ", type: "index" as const },
-  { symbol: "^RUT", name: "Russell 2000", type: "index" as const },
   { symbol: "^VIX", name: "Volatility Index", type: "index" as const },
+  // Crypto
+  { symbol: "BTC-USD", name: "Bitcoin", type: "stock" as const },
+  { symbol: "ETH-USD", name: "Ethereum", type: "stock" as const },
+  // Commodities
+  { symbol: "GC=F", name: "Gold", type: "index" as const },
+  { symbol: "CL=F", name: "Crude Oil", type: "index" as const },
   // Stocks
   { symbol: "AAPL", name: "Apple Inc.", type: "stock" as const },
   { symbol: "MSFT", name: "Microsoft", type: "stock" as const },
@@ -84,14 +93,12 @@ async function fetchTickerData(symbols: string[]): Promise<TickerData[]> {
       const price = quote.regularMarketPrice || 0
       const change = quote.regularMarketChange || 0
       const changePercent = quote.regularMarketChangePercent || 0
-      const previousClose = quote.regularMarketPreviousClose || price
 
-      // Calculate approximate monthly change (using 52-week data if available)
-      const fiftyTwoWeekLow = quote.fiftyTwoWeekLow || price
-      const fiftyTwoWeekHigh = quote.fiftyTwoWeekHigh || price
-      const fiftyTwoWeekRange = fiftyTwoWeekHigh - fiftyTwoWeekLow
-      const monthlyChange = (Math.random() - 0.5) * fiftyTwoWeekRange * 0.1
-      const monthlyChangePercent = previousClose > 0 ? (monthlyChange / previousClose) * 100 : 0
+      // Use real monthly and yearly change from API (calculated from historical data)
+      const monthlyChange = quote.monthlyChange || 0
+      const monthlyChangePercent = quote.monthlyChangePercent || 0
+      const yearlyChange = quote.yearlyChange || 0
+      const yearlyChangePercent = quote.yearlyChangePercent || 0
 
       return {
         symbol: quote.symbol || "N/A",
@@ -100,7 +107,9 @@ async function fetchTickerData(symbols: string[]): Promise<TickerData[]> {
         change: Number(change.toFixed(2)),
         changePercent: Number(changePercent.toFixed(2)),
         monthlyChange: Number(monthlyChange.toFixed(2)),
-        monthlyChangePercent: Number(monthlyChangePercent.toFixed(2)),
+        monthlyChangePercent: monthlyChangePercent, // Already rounded from API
+        yearlyChange: Number(yearlyChange.toFixed(2)),
+        yearlyChangePercent: yearlyChangePercent, // Already rounded from API
         high: quote.regularMarketDayHigh || price,
         low: quote.regularMarketDayLow || price,
         volume: quote.regularMarketVolume
@@ -109,6 +118,7 @@ async function fetchTickerData(symbols: string[]): Promise<TickerData[]> {
             : `${(quote.regularMarketVolume / 1e6).toFixed(1)}M`
           : "N/A",
         type: quote.symbol?.startsWith("^") ? "index" : "stock",
+        source: quote.source,
       }
     })
   } catch (error) {
@@ -118,37 +128,46 @@ async function fetchTickerData(symbols: string[]): Promise<TickerData[]> {
 }
 
 function TickerItem({ data }: { data: TickerData }) {
+  const router = useRouter()
   const isDailyPositive = data.change >= 0
   const isMonthlyPositive = data.monthlyChange >= 0
+  const isYearlyPositive = data.yearlyChange >= 0
+
+  const handleClick = () => {
+    router.push(`/dashboard?symbol=${data.symbol}`)
+  }
 
   return (
     <TooltipProvider delayDuration={100}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex text-semibold items-center gap-2 px-3 py-1 cursor-pointer hover:bg-muted/50 transition-colors text-xs">
+          <div
+            onClick={handleClick}
+            className="flex items-center gap-2 px-3 py-1 cursor-pointer hover:bg-muted/50 transition-colors text-sm"
+          >
             <Image
               src={getStockLogoUrl(data.symbol) || "/placeholder.svg"}
               alt={data.symbol}
-              width={16}
-              height={16}
+              width={24}
+              height={24}
               className="rounded-sm"
               unoptimized
             />
             {/* <span className="font-semibold text-foreground">{data.symbol}</span> */}
-            <span className=" text-foreground">{cleanCompanyName(data.name)}</span>
+            <span className="font-medium text-foreground">{cleanCompanyName(data.name)}</span>
             {/* <span className="font-mono text-foreground">
               ${data.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span> */}
             <div
               className={cn(
-                "flex font-semibold items-center gap-0.5 font-mono",
+                "flex font-bold items-center gap-1 font-mono text-sm",
                 isDailyPositive ? "text-emerald-500" : "text-red-500"
               )}
             >
               {isDailyPositive ? (
-                <TrendingUp className="h-2.5 w-2.5" />
+                <TrendingUp className="h-3 w-3" />
               ) : (
-                <TrendingDown className="h-2.5 w-2.5" />
+                <TrendingDown className="h-3 w-3" />
               )}
               <span>
                 {data.changePercent.toFixed(1)}%
@@ -156,13 +175,26 @@ function TickerItem({ data }: { data: TickerData }) {
             </div>
             <div
               className={cn(
-                "flex items-center gap-0.5 font-mono",
+                "flex items-center gap-1 font-mono font-semibold text-sm",
                 isMonthlyPositive ? "text-emerald-500" : "text-red-500"
               )}
             >
-              <CalendarDays className="h-2.5 w-2.5 text-muted-foreground" />
+              <CalendarDays className="h-3 w-3 text-muted-foreground" />
               <span>
                 {data.monthlyChangePercent.toFixed(0)}%
+              </span>
+            </div>
+            <div
+              className={cn(
+                "flex items-center gap-1 font-mono font-semibold text-sm",
+                isYearlyPositive ? "text-emerald-500" : "text-red-500"
+              )}
+            >
+              <Calendar className="h-3 w-3 text-muted-foreground" />
+
+              {/* <span className="text-muted-foreground text-xs">Y:</span> */}
+              <span>
+                {data.yearlyChangePercent.toFixed(0)}%
               </span>
             </div>
             <span className="text-muted-foreground/50">|</span>
@@ -175,12 +207,26 @@ function TickerItem({ data }: { data: TickerData }) {
           <div className="space-y-2">
             <div className="font-semibold text-sm">{data.name}</div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+              <span className="text-muted-foreground">Price:</span>
+              <span className="font-mono">${data.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              <span className="text-muted-foreground">Daily Change:</span>
+              <span className={cn("font-mono", isDailyPositive ? "text-emerald-500" : "text-red-500")}>
+                {isDailyPositive ? "+" : ""}{data.change.toFixed(2)} ({data.changePercent.toFixed(2)}%)
+              </span>
+              <span className="text-muted-foreground">Monthly Change:</span>
+              <span className={cn("font-mono", isMonthlyPositive ? "text-emerald-500" : "text-red-500")}>
+                {isMonthlyPositive ? "+" : ""}{data.monthlyChange.toFixed(2)} ({data.monthlyChangePercent.toFixed(0)}%)
+              </span>
+              <span className="text-muted-foreground">Yearly Change:</span>
+              <span className={cn("font-mono", isYearlyPositive ? "text-emerald-500" : "text-red-500")}>
+                {isYearlyPositive ? "+" : ""}{data.yearlyChange.toFixed(2)} ({data.yearlyChangePercent.toFixed(0)}%)
+              </span>
               <span className="text-muted-foreground">High:</span>
               <span className="font-mono">${data.high.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               <span className="text-muted-foreground">Low:</span>
               <span className="font-mono">${data.low.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-              <span className="text-muted-foreground">Volume:</span>
-              <span className="font-mono">{data.volume}</span>
+              {/* <span className="text-muted-foreground">Volume:</span>
+              <span className="font-mono">{data.volume}</span> */}
               <span className="text-muted-foreground">Type:</span>
               <Badge variant="outline" className="w-fit text-xs capitalize">
                 {data.type}
@@ -233,7 +279,7 @@ export function StockTicker() {
     }
   }, [updateTickerData, isPaused])
 
-  // Auto-scroll effect
+  // Auto-scroll effect with seamless loop
   useEffect(() => {
     if (isHovered || isPaused || !scrollRef.current) return
 
@@ -241,7 +287,10 @@ export function StockTicker() {
     const scrollSpeed = 0.5
 
     const autoScroll = setInterval(() => {
-      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
+      // When we reach halfway, reset to the beginning for seamless loop
+      const halfWidth = scrollContainer.scrollWidth / 2
+
+      if (scrollContainer.scrollLeft >= halfWidth) {
         scrollContainer.scrollLeft = 0
       } else {
         scrollContainer.scrollLeft += scrollSpeed
@@ -249,7 +298,7 @@ export function StockTicker() {
     }, 16)
 
     return () => clearInterval(autoScroll)
-  }, [isHovered, isPaused])
+  }, [isHovered, isPaused, tickerData])
 
   const addSymbol = () => {
     if (!newSymbol.trim() || !newName.trim()) return
@@ -284,9 +333,13 @@ export function StockTicker() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="flex whitespace-nowrap py-1">
+        <div className="flex whitespace-nowrap py-0">
+          {/* Render items twice for seamless infinite loop */}
           {tickerData.map((data) => (
-            <TickerItem key={data.symbol} data={data} />
+            <TickerItem key={`first-${data.symbol}`} data={data} />
+          ))}
+          {tickerData.map((data) => (
+            <TickerItem key={`second-${data.symbol}`} data={data} />
           ))}
         </div>
       </div>
