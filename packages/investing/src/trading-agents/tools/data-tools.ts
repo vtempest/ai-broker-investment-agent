@@ -9,7 +9,7 @@ import {
   FundamentalsData,
   NewsItem,
 } from "../types";
-import { yfinance } from "../../stocks/yfinance-wrapper";
+import { yahooFinance } from "../../stocks/yahoo-finance-wrapper";
 
 /**
  * Get historical stock data for a symbol
@@ -20,8 +20,7 @@ export async function getStockData(
   endDate: Date
 ): Promise<StockData[]> {
   try {
-    const result = await yfinance.getHistoricalData({
-      symbol,
+    const result = await yahooFinance.getHistorical(symbol, {
       period1: startDate,
       period2: endDate,
       interval: "1d",

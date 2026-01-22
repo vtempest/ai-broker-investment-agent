@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { yfinance } from '@/packages/investing/src/stocks/yfinance-wrapper'
+import { yahooFinance } from '@/packages/investing/src/stocks/yahoo-finance-wrapper'
 
 interface BacktestRequest {
   symbol: string
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Fetch historical data
-    const historicalData = await yfinance.getHistorical(symbol, {
+    const historicalData = await yahooFinance.getHistorical(symbol, {
       period1: new Date(startDate),
       period2: new Date(endDate),
       interval: '1d'
