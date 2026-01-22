@@ -7,7 +7,7 @@
  * Note: finnhub is preferred for most reliable stock data
  */
 
-import { yahooFinance } from "./yahoo-finance-wrapper";
+import { yahooFinanceWrapper as yahooFinance } from "./yahoo-finance-wrapper";
 import { finnhub } from "./finnhub-wrapper";
 import { getAlpacaMCPClient } from "../alpaca/alpaca-mcp-client";
 import { quoteCacheService } from "./quote-cache-service";

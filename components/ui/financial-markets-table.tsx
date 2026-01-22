@@ -9,15 +9,13 @@ export interface MarketIndex {
   name: string;
   country: string;
   countryCode: string;
-  ytdReturn: number;
-  pltmEps: number | null;
-  divYield: number;
-  marketCap: number;
   volume: number;
   chartData: number[];
   price: number;
   dailyChange: number;
   dailyChangePercent: number;
+  monthlyChangePercent?: number;
+  yearlyChangePercent?: number;
 }
 
 interface FinancialTableProps {
@@ -33,90 +31,39 @@ const defaultIndices: MarketIndex[] = [
     name: "Dow Jones USA",
     country: "USA",
     countryCode: "US",
-    ytdReturn: 0.40,
-    pltmEps: 18.74,
-    divYield: 2.00,
-    marketCap: 28.04,
     volume: 1.7,
     chartData: [330.5, 331.2, 330.8, 331.5, 332.1, 331.8, 332.4, 333.2, 333.9, 333.7],
     price: 333.90,
     dailyChange: -0.20,
-    dailyChangePercent: -0.06
+    dailyChangePercent: -0.06,
+    monthlyChangePercent: 2.5,
+    yearlyChangePercent: 12.3
   },
   {
     id: "2",
     name: "S&P 500 USA",
     country: "USA",
     countryCode: "US",
-    ytdReturn: 11.72,
-    pltmEps: 7.42,
-    divYield: 1.44,
-    marketCap: 399.6,
     volume: 24.6,
     chartData: [425.1, 426.3, 427.8, 428.1, 429.2, 428.9, 429.5, 429.1, 428.7, 428.9],
     price: 428.72,
     dailyChange: -0.82,
-    dailyChangePercent: -0.19
+    dailyChangePercent: -0.19,
+    monthlyChangePercent: 3.2,
+    yearlyChangePercent: 15.8
   },
   {
     id: "3",
     name: "Nasdaq USA",
     country: "USA",
     countryCode: "US",
-    ytdReturn: 36.59,
-    pltmEps: null,
-    divYield: 0.54,
-    marketCap: 199.9,
     volume: 18.9,
     chartData: [360.2, 361.8, 362.4, 363.1, 364.3, 363.8, 364.1, 363.5, 363.2, 362.97],
     price: 362.97,
     dailyChange: -1.73,
-    dailyChangePercent: -0.47
-  },
-  {
-    id: "4",
-    name: "TSX Canada",
-    country: "Canada",
-    countryCode: "CA",
-    ytdReturn: -0.78,
-    pltmEps: 6.06,
-    divYield: 2.56,
-    marketCap: 3.67,
-    volume: 771.5,
-    chartData: [32.1, 32.3, 32.5, 32.4, 32.7, 32.8, 32.9, 33.0, 32.9, 32.96],
-    price: 32.96,
-    dailyChange: 0.19,
-    dailyChangePercent: 0.58
-  },
-  {
-    id: "5",
-    name: "Grupo BMV Mexico",
-    country: "Mexico",
-    countryCode: "MX",
-    ytdReturn: 4.15,
-    pltmEps: 8.19,
-    divYield: 2.34,
-    marketCap: 1.22,
-    volume: 1.1,
-    chartData: [52.1, 52.8, 53.2, 53.5, 53.9, 54.1, 54.3, 54.0, 53.8, 53.7],
-    price: 53.70,
-    dailyChange: -1.01,
-    dailyChangePercent: -1.85
-  },
-  {
-    id: "6",
-    name: "Ibovespa Brazil",
-    country: "Brazil",
-    countryCode: "BR",
-    ytdReturn: 11.19,
-    pltmEps: 6.23,
-    divYield: 9.46,
-    marketCap: 4.87,
-    volume: 6.8,
-    chartData: [28.5, 28.8, 29.1, 29.3, 29.5, 29.4, 29.6, 29.5, 29.3, 29.28],
-    price: 29.28,
-    dailyChange: -0.06,
-    dailyChangePercent: -0.22
+    dailyChangePercent: -0.47,
+    monthlyChangePercent: 4.1,
+    yearlyChangePercent: 22.5
   }
 ];
 
@@ -248,7 +195,11 @@ export function FinancialTable({
     }
   };
 
-  const renderSparkline = (data: number[]) => {
+  const renderSparkline = (data: number[], dailyChangePercent: number) => {
+    if (!data || data.length < 2) {
+      return <div className="w-16 h-6" />;
+    }
+
     const min = Math.min(...data);
     const max = Math.max(...data);
     const range = max - min || 1;
@@ -262,6 +213,10 @@ export function FinancialTable({
     };
 
     const fullPath = createPath(data);
+
+    // Color based on performance - green for positive, red for negative
+    const isPositive = dailyChangePercent >= 0;
+    const strokeColor = isPositive ? "#22c55e" : "#ef4444";
 
     return (
       <div className="w-16 h-6">
@@ -279,13 +234,15 @@ export function FinancialTable({
             duration: shouldReduceMotion ? 0.2 : 0.5
           }}
         >
-          {/* Full line (white) */}
+          {/* Performance-colored line */}
           {fullPath && (
             <motion.polyline
               points={fullPath}
               fill="none"
-              stroke="white"
-              strokeWidth="1.5"
+              stroke={strokeColor}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
               transition={{
@@ -341,19 +298,17 @@ export function FinancialTable({
               className="px-8 py-3 text-xs font-medium text-muted-foreground/70 uppercase tracking-wide bg-muted/15 border-b border-border/20 text-left"
               style={{
                 display: 'grid',
-                gridTemplateColumns: '250px 100px minmax(60px, 1fr) minmax(60px, 1fr) minmax(60px, 1fr) minmax(60px, 1fr) minmax(80px, 1fr) minmax(60px, 1fr) minmax(100px, 1fr)',
+                gridTemplateColumns: '250px minmax(80px, 1fr) minmax(60px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(120px, 1fr)',
                 columnGap: '6px'
               }}
             >
               <div style={{ textAlign: 'left' }}>{title}</div>
-              <div style={{ textAlign: 'left' }}>YTD Return</div>
-              <div style={{ textAlign: 'left' }}>P/LTM EPS</div>
-              <div style={{ textAlign: 'left' }}>Div yield</div>
-              <div style={{ textAlign: 'left' }}>Mkt cap</div>
-              <div style={{ textAlign: 'left' }}>Volume</div>
-              <div style={{ textAlign: 'left' }}>2-day chart</div>
+              <div style={{ textAlign: 'left' }}>Chart</div>
               <div style={{ textAlign: 'left' }}>Price</div>
-              <div style={{ textAlign: 'left' }} className="pr-4">Daily performance</div>
+              <div style={{ textAlign: 'left' }}>Daily</div>
+              <div style={{ textAlign: 'left' }}>Monthly</div>
+              <div style={{ textAlign: 'left' }}>Yearly</div>
+              <div style={{ textAlign: 'left' }} className="pr-4">Volume</div>
             </div>
 
             {/* Table Rows */}
@@ -372,7 +327,7 @@ export function FinancialTable({
                     } ${indexNum < indices.length - 1 && selectedIndex !== index.id ? "border-b border-border/20" : ""}`}
                     style={{
                       display: 'grid',
-                      gridTemplateColumns: '250px 100px minmax(60px, 1fr) minmax(60px, 1fr) minmax(60px, 1fr) minmax(60px, 1fr) minmax(80px, 1fr) minmax(60px, 1fr) minmax(100px, 1fr)',
+                      gridTemplateColumns: '250px minmax(80px, 1fr) minmax(60px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(120px, 1fr)',
                       columnGap: '6px'
                     }}
                     onClick={() => handleIndexSelect(index.id)}
@@ -390,51 +345,9 @@ export function FinancialTable({
                   </div>
                 </div>
 
-                {/* YTD Return */}
+                {/* Chart */}
                 <div className="flex items-center">
-                  {(() => {
-                    const { bgColor, borderColor, textColor } = getPerformanceColor(index.ytdReturn);
-                    return (
-                      <div className={`px-2 py-1 rounded-lg text-xs font-medium border ${bgColor} ${borderColor} ${textColor}`}>
-                        {formatPercentage(index.ytdReturn)}
-                      </div>
-                    );
-                  })()}
-                </div>
-
-                {/* P/LTM EPS */}
-                <div className="flex items-center">
-                  <span className="font-semibold text-foreground/90">
-                    {index.pltmEps ? index.pltmEps.toFixed(2) : "N/A"}
-                  </span>
-                </div>
-
-                {/* Dividend Yield */}
-                <div className="flex items-center">
-                  <span className="font-semibold text-orange-500">
-                    {formatPercentage(index.divYield)}
-                  </span>
-                </div>
-
-                {/* Market Cap */}
-                <div className="flex items-center">
-                  <span className="font-semibold text-foreground/90">
-                    {formatLargeNumber(index.marketCap, "B")}
-                  </span>
-                </div>
-
-                {/* Volume */}
-                <div className="flex items-center">
-                  <span className="font-semibold text-foreground/90">
-                    {index.volume >= 1 ? formatLargeNumber(index.volume, "M") : `${(index.volume * 1000).toFixed(1)}k`}
-                  </span>
-                </div>
-
-                {/* 2-day Chart */}
-                <div className="flex items-center">
-                  <div className="px-6">
-                    {renderSparkline(index.chartData)}
-                  </div>
+                  {renderSparkline(index.chartData, index.dailyChangePercent)}
                 </div>
 
                 {/* Price */}
@@ -445,7 +358,7 @@ export function FinancialTable({
                 </div>
 
                 {/* Daily Performance */}
-                <div className="flex items-center gap-2 pr-4">
+                <div className="flex items-center gap-2">
                   <span className={`font-semibold ${getPerformanceColor(index.dailyChange).textColor}`}>
                     {index.dailyChange >= 0 ? "+" : ""}{index.dailyChange.toFixed(2)}
                   </span>
@@ -457,6 +370,39 @@ export function FinancialTable({
                       </div>
                     );
                   })()}
+                </div>
+
+                {/* Monthly Performance */}
+                <div className="flex items-center">
+                  {(() => {
+                    const monthlyChange = index.monthlyChangePercent ?? 0;
+                    const { bgColor, borderColor, textColor } = getPerformanceColor(monthlyChange);
+                    return (
+                      <div className={`px-2 py-1 rounded-lg text-xs font-medium border ${bgColor} ${borderColor} ${textColor}`}>
+                        {formatPercentage(monthlyChange)}
+                      </div>
+                    );
+                  })()}
+                </div>
+
+                {/* Yearly Performance */}
+                <div className="flex items-center">
+                  {(() => {
+                    const yearlyChange = index.yearlyChangePercent ?? 0;
+                    const { bgColor, borderColor, textColor } = getPerformanceColor(yearlyChange);
+                    return (
+                      <div className={`px-2 py-1 rounded-lg text-xs font-medium border ${bgColor} ${borderColor} ${textColor}`}>
+                        {formatPercentage(yearlyChange)}
+                      </div>
+                    );
+                  })()}
+                </div>
+
+                {/* Volume */}
+                <div className="flex items-center pr-4">
+                  <span className="font-semibold text-foreground/90">
+                    {index.volume >= 1 ? formatLargeNumber(index.volume, "M") : index.volume > 0 ? `${(index.volume * 1000).toFixed(1)}k` : "N/A"}
+                  </span>
                 </div>
               </div>
             </motion.div>

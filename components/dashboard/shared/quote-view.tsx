@@ -98,17 +98,19 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
     const loadIndustryInfo = async () => {
       try {
         // Import sectors-industries data
-        const sectorsIndustriesData = await import('investing/stock-names-data/sectors-industries.json')
+        // Format: { sectors: { name: number }, industries: [[id, name, emoji, sectorId], ...] }
+        const sectorsIndustriesData = await import('@/packages/investing/src/stock-names-data/sectors-industries.json')
         const industries = sectorsIndustriesData.industries as Array<[number, string, string, number]>
 
-        // Find the industry by matching the industry name
+        // Find the industry by matching the industry name (case-insensitive)
+        const industryName = data.summaryProfile?.industry?.toLowerCase()
         const industryMatch = industries.find(
-          (industry) => industry[1] === data.summaryProfile?.industry
+          (industry) => industry[1].toLowerCase() === industryName
         )
 
         if (industryMatch) {
           setIndustryInfo({
-            number: industryMatch[0], // Industry number
+            number: industryMatch[0], // Industry ID
             emoji: industryMatch[2],  // Emoji
           })
         }

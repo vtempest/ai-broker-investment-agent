@@ -17,16 +17,18 @@ import { eq, desc, asc } from "drizzle-orm";
  * Fetches active prediction markets from the Polymarket Gamma API.
  * @param limit - Maximum number of markets to retrieve (default: 50)
  * @param sortBy - Field to sort results by (default: "volume24hr")
+ * @param offset - Number of markets to skip for pagination (default: 0)
  * @returns Array of market objects from Polymarket
  * @throws Error if the API request fails
  */
-export async function fetchMarkets(limit = 50, sortBy = "volume24hr") {
+export async function fetchMarkets(limit = 50, sortBy = "volume24hr", offset = 0) {
   const BASE = "https://gamma-api.polymarket.com";
   const url = new URL(`${BASE}/markets`);
 
   url.searchParams.set("closed", "false");
   url.searchParams.set("active", "true");
   url.searchParams.set("limit", String(limit));
+  url.searchParams.set("offset", String(offset));
   url.searchParams.set("order", sortBy);
   url.searchParams.set("ascending", "false");
 
@@ -37,6 +39,44 @@ export async function fetchMarkets(limit = 50, sortBy = "volume24hr") {
 
   if (!resp.ok) throw new Error(`markets fetch failed: ${resp.status}`);
   return await resp.json();
+}
+
+/**
+ * Fetches all active prediction markets from the Polymarket Gamma API using pagination.
+ * @param sortBy - Field to sort results by (default: "volume24hr")
+ * @param maxMarkets - Maximum total number of markets to retrieve (default: 1000, set to 0 for unlimited)
+ * @returns Array of all market objects from Polymarket
+ * @throws Error if the API request fails
+ */
+export async function fetchAllMarkets(sortBy = "volume24hr", maxMarkets = 1000) {
+  const allMarkets = [];
+  let offset = 0;
+  const limit = 100; // Fetch 100 at a time
+  let hasMore = true;
+
+  while (hasMore) {
+    const markets = await fetchMarkets(limit, sortBy, offset);
+
+    if (!markets || markets.length === 0) {
+      hasMore = false;
+      break;
+    }
+
+    allMarkets.push(...markets);
+    offset += markets.length;
+
+    // Stop if we've reached the maximum or if we got fewer results than requested
+    if ((maxMarkets > 0 && allMarkets.length >= maxMarkets) || markets.length < limit) {
+      hasMore = false;
+    }
+  }
+
+  // Trim to maxMarkets if specified
+  if (maxMarkets > 0 && allMarkets.length > maxMarkets) {
+    return allMarkets.slice(0, maxMarkets);
+  }
+
+  return allMarkets;
 }
 
 /**
@@ -202,6 +242,33 @@ export async function fetchMarketDetails(marketId: string) {
     return null;
   }
   return await resp.json();
+}
+
+/**
+ * Searches for active markets matching a query string.
+ * @param query - The search query string
+ * @param limit - Maximum number of results to return (default: 100)
+ * @returns Array of market objects matching the search query
+ * @throws Error if the API request fails
+ */
+export async function searchMarkets(query: string, limit = 100) {
+  if (!query || query.trim() === '') {
+    return [];
+  }
+
+  const searchResults = await searchPublic({
+    q: query,
+    keep_closed_markets: 0,
+    limit_per_type: limit,
+    search_tags: true,
+    search_profiles: false,
+  });
+
+  // Extract markets from search results
+  const markets = searchResults.markets || [];
+
+  // Filter to only active markets
+  return markets.filter((market: any) => market.active && !market.closed);
 }
 
 /**
@@ -904,6 +971,24 @@ export async function syncMarkets(limit = 200) {
   await db.delete(polymarketMarkets);
 
   const markets: any = await fetchMarkets(limit, "volume24hr");
+  await saveMarkets(markets);
+  console.log(`Saved ${markets.length} markets`);
+
+  return { markets: markets.length };
+}
+
+/**
+ * Syncs all active markets from Polymarket API to the database.
+ * Clears existing markets and fetches all available data sorted by 24h volume.
+ * @param maxMarkets - Maximum total number of markets to sync (default: 1000, set to 0 for unlimited)
+ * @returns Object with count of synced markets
+ */
+export async function syncAllMarkets(maxMarkets = 1000) {
+  console.log("Starting Polymarket all markets sync...");
+
+  await db.delete(polymarketMarkets);
+
+  const markets: any = await fetchAllMarkets("volume24hr", maxMarkets);
   await saveMarkets(markets);
   console.log(`Saved ${markets.length} markets`);
 

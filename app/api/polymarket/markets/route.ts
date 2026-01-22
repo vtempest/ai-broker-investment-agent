@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getMarkets, syncMarkets } from '@/packages/investing/src/prediction/polymarket'
+import { getMarkets, syncMarkets, syncAllMarkets, searchMarkets, saveMarkets } from '@/packages/investing/src/prediction/polymarket'
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,6 +8,40 @@ export async function GET(request: NextRequest) {
     const window = searchParams.get('window') || '24h'
     const category = searchParams.get('category') || undefined
     const sync = searchParams.get('sync') === 'true'
+    const search = searchParams.get('search') || ''
+
+    // If search query provided, use search API
+    if (search && search.trim() !== '') {
+      const searchResults = await searchMarkets(search, limit)
+
+      // Format search results
+      const formattedMarkets = searchResults.map((m: any) => ({
+        id: m.id,
+        question: m.question,
+        slug: m.slug,
+        eventSlug: m.events && m.events.length > 0 ? m.events[0].slug : null,
+        volume24hr: Math.floor(m.volume24hr || 0),
+        volumeTotal: Math.floor(m.volumeNum || m.volumeTotal || 0),
+        active: m.active,
+        closed: m.closed,
+        outcomes: m.outcomes || [],
+        outcomePrices: m.outcomePrices || [],
+        image: m.imageUrl || m.image,
+        description: m.description,
+        endDate: m.endDate,
+        groupItemTitle: m.groupItemTitle,
+        enableOrderBook: m.enableOrderBook,
+        tags: m.tags || [],
+      }))
+
+      return NextResponse.json({
+        success: true,
+        markets: formattedMarkets,
+        count: formattedMarkets.length,
+        source: 'search',
+        timestamp: new Date().toISOString()
+      })
+    }
 
     // If sync requested, fetch fresh data from API
     if (sync) {

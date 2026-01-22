@@ -8,8 +8,9 @@ import { Progress } from "@/components/ui/progress"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import { TrendingUp, ExternalLink, Loader2, DollarSign, Activity, Clock, RefreshCw, Filter } from "lucide-react"
+import { TrendingUp, ExternalLink, Loader2, DollarSign, Activity, Clock, RefreshCw, Filter, Search } from "lucide-react"
 import { MarketDebate } from "@/components/dashboard/analysis/market-debate"
+import { Input } from "@/components/ui/input"
 
 interface PolymarketMarket {
   id: string
@@ -38,11 +39,12 @@ export function PredictionMarketsTab() {
   const [availableCategories, setAvailableCategories] = useState<string[]>([])
   const [hideHighProb, setHideHighProb] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const observerTarget = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchMarkets()
-  }, [limit, timeWindow, selectedCategory])
+  }, [limit, timeWindow, selectedCategory, searchQuery])
 
   // Infinite scroll observer
   useEffect(() => {
@@ -90,7 +92,8 @@ export function PredictionMarketsTab() {
       setLoading(true)
       const categoryParam = selectedCategory !== 'all' ? `&category=${selectedCategory}` : ''
       const syncParam = sync ? '&sync=true' : ''
-      const response = await fetch(`/api/polymarket/markets?limit=${limit}&window=${timeWindow}${categoryParam}${syncParam}`)
+      const searchParam = searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
+      const response = await fetch(`/api/polymarket/markets?limit=${limit}&window=${timeWindow}${categoryParam}${syncParam}${searchParam}`)
       const data = await response.json()
 
       if (data.success) {
@@ -108,6 +111,24 @@ export function PredictionMarketsTab() {
     try {
       setSyncing(true)
       await fetchMarkets(true)
+    } finally {
+      setSyncing(false)
+    }
+  }
+
+  const syncAllMarkets = async () => {
+    try {
+      setSyncing(true)
+      const response = await fetch('/api/polymarket/markets/sync-all', {
+        method: 'POST'
+      })
+      const data = await response.json()
+
+      if (data.success) {
+        await fetchMarkets()
+      }
+    } catch (error) {
+      console.error('Error syncing all markets:', error)
     } finally {
       setSyncing(false)
     }
@@ -150,24 +171,44 @@ export function PredictionMarketsTab() {
             </p>
           </div>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={syncMarkets}
-            disabled={syncing}
-          >
-            {syncing ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Syncing...
-              </>
-            ) : (
-              <>
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Sync Data
-              </>
-            )}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={syncMarkets}
+              disabled={syncing}
+            >
+              {syncing ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Syncing...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Sync Data
+                </>
+              )}
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
+              onClick={syncAllMarkets}
+              disabled={syncing}
+            >
+              {syncing ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Syncing...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Sync All Markets
+                </>
+              )}
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -190,8 +231,18 @@ export function PredictionMarketsTab() {
 
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="flex items-center space-x-2 mr-4 bg-muted/30 px-3 py-1.5 rounded-md border">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search markets..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+
+          <div className="flex items-center space-x-2 bg-muted/30 px-3 py-1.5 rounded-md border">
             <Checkbox
               id="hide-probs"
               checked={hideHighProb}
@@ -202,20 +253,22 @@ export function PredictionMarketsTab() {
             </Label>
           </div>
 
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Filter by category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              {availableCategories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4 text-muted-foreground" />
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Filter by category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {availableCategories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
       </div>

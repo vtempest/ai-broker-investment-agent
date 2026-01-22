@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getQuotes } from "@/packages/investing/src/stocks/unified-quote-service";
-import { yahooFinance } from "@/packages/investing/src/stocks/yahoo-finance-wrapper";
+import { yahooFinanceWrapper as yahooFinance } from "@/packages/investing/src/stocks/yahoo-finance-wrapper";
 import { quoteCacheService } from "@/packages/investing/src/stocks/quote-cache-service";
 
 export const runtime = "nodejs";

@@ -6,15 +6,16 @@
 
 import YahooFinance from "yahoo-finance2";
 
+// Create singleton instance of YahooFinance
+const yf = new YahooFinance();
+
 /**
  * Yahoo Finance Wrapper Class
  * Provides a comprehensive API for stock market data
  */
 export class YahooFinanceWrapper {
-  private yf: typeof YahooFinance.prototype;
-
   constructor() {
-    this.yf = new YahooFinance();
+    // Using the singleton yf instance created above
   }
 
   /**
@@ -24,7 +25,7 @@ export class YahooFinanceWrapper {
    */
   async getQuote(symbol: string, options?: any) {
     try {
-      const quote = await this.yf.quoteCombine(symbol, options);
+      const quote = await yf.quoteCombine(symbol, options);
       return {
         success: true,
         data: quote,
@@ -45,7 +46,7 @@ export class YahooFinanceWrapper {
   async getQuotes(symbols: string[]) {
     try {
       const quotes = await Promise.all(
-        symbols.map((symbol) => this.yf.quoteCombine(symbol)),
+        symbols.map((symbol) => yf.quoteCombine(symbol)),
       );
       return {
         success: true,
@@ -74,12 +75,17 @@ export class YahooFinanceWrapper {
     },
   ) {
     try {
-      const data = await this.yf.historical(symbol, {
-        period1:
-          options?.period1 || new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
-        period2: options?.period2 || new Date(),
-        interval: options?.interval || "1d",
-      });
+      const data = await yf.historical(
+        symbol,
+        {
+          period1:
+            options?.period1 ||
+            new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+          period2: options?.period2 || new Date(),
+          interval: options?.interval || "1d",
+        },
+        { validateResult: false },
+      );
       return {
         success: true,
         data,
@@ -107,7 +113,7 @@ export class YahooFinanceWrapper {
     },
   ) {
     try {
-      const data = await this.yf.chart(symbol, {
+      const data = await yf.chart(symbol, {
         period1:
           options?.period1 || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
         period2: options?.period2 || new Date(),
@@ -144,7 +150,7 @@ export class YahooFinanceWrapper {
         "earningsTrend",
       ];
 
-      const data = await this.yf.quoteSummary(symbol, {
+      const data = await yf.quoteSummary(symbol, {
         modules: defaultModules as any,
       });
 
@@ -170,7 +176,7 @@ export class YahooFinanceWrapper {
     options?: { quotesCount?: number; newsCount?: number },
   ) {
     try {
-      const data = await this.yf.search(query, {
+      const data = await yf.search(query, {
         quotesCount: options?.quotesCount || 10,
         newsCount: options?.newsCount || 5,
       });
@@ -194,7 +200,7 @@ export class YahooFinanceWrapper {
    */
   async getOptions(symbol: string, date?: Date) {
     try {
-      const data = await this.yf.options(symbol, date ? { date } : undefined);
+      const data = await yf.options(symbol, date ? { date } : undefined);
       return {
         success: true,
         data,
@@ -214,7 +220,7 @@ export class YahooFinanceWrapper {
    */
   async getRecommendations(symbol: string) {
     try {
-      const data = await this.yf.recommendationsBySymbol(symbol);
+      const data = await yf.recommendationsBySymbol(symbol);
       return {
         success: true,
         data,
@@ -237,7 +243,7 @@ export class YahooFinanceWrapper {
    */
   async getTrending(region: string = "US") {
     try {
-      const data = await this.yf.trendingSymbols(region);
+      const data = await yf.trendingSymbols(region);
       return {
         success: true,
         data,
@@ -257,7 +263,7 @@ export class YahooFinanceWrapper {
    */
   async getInsights(symbol: string) {
     try {
-      const data = await this.yf.insights(symbol);
+      const data = await yf.insights(symbol);
       return {
         success: true,
         data,
@@ -285,7 +291,7 @@ export class YahooFinanceWrapper {
     },
   ) {
     try {
-      const data = await this.yf.fundamentalsTimeSeries(symbol, options as any);
+      const data = await yf.fundamentalsTimeSeries(symbol, options as any);
       return {
         success: true,
         data,
@@ -308,7 +314,7 @@ export class YahooFinanceWrapper {
    */
   async screener(options: any) {
     try {
-      const data = await this.yf.screener(options);
+      const data = await yf.screener(options);
       return {
         success: true,
         data,
@@ -328,7 +334,7 @@ export class YahooFinanceWrapper {
    */
   async getCompanyProfile(symbol: string) {
     try {
-      const data = await this.yf.quoteSummary(symbol, {
+      const data = await yf.quoteSummary(symbol, {
         modules: ["assetProfile", "summaryProfile"] as any,
       });
       return {
@@ -356,7 +362,7 @@ export class YahooFinanceWrapper {
    */
   async getFinancialStatements(symbol: string) {
     try {
-      const data = await this.yf.quoteSummary(symbol, {
+      const data = await yf.quoteSummary(symbol, {
         modules: [
           "incomeStatementHistory",
           "incomeStatementHistoryQuarterly",
@@ -395,7 +401,7 @@ export class YahooFinanceWrapper {
    */
   async getKeyStatistics(symbol: string) {
     try {
-      const data = await this.yf.quoteSummary(symbol, {
+      const data = await yf.quoteSummary(symbol, {
         modules: ["defaultKeyStatistics", "summaryDetail"] as any,
       });
       return {
@@ -420,7 +426,7 @@ export class YahooFinanceWrapper {
    */
   async getEarnings(symbol: string) {
     try {
-      const data = await this.yf.quoteSummary(symbol, {
+      const data = await yf.quoteSummary(symbol, {
         modules: [
           "earnings",
           "earningsHistory",
@@ -452,7 +458,7 @@ export class YahooFinanceWrapper {
    */
   async getOwnership(symbol: string) {
     try {
-      const data = await this.yf.quoteSummary(symbol, {
+      const data = await yf.quoteSummary(symbol, {
         modules: [
           "institutionOwnership",
           "fundOwnership",
@@ -486,7 +492,7 @@ export class YahooFinanceWrapper {
    */
   async getSECFilings(symbol: string) {
     try {
-      const data = await this.yf.quoteSummary(symbol, {
+      const data = await yf.quoteSummary(symbol, {
         modules: ["secFilings"] as any,
       });
       return {
@@ -541,7 +547,7 @@ export class YahooFinanceWrapper {
 }
 
 // Export singleton instance
-export const yahooFinance = new YahooFinanceWrapper();
+export const yahooFinanceWrapper = new YahooFinanceWrapper();
 
 // Export default
-export default yahooFinance;
+export default yahooFinanceWrapper;

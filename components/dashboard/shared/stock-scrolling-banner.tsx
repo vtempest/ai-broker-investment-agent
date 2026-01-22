@@ -44,12 +44,13 @@ function getStockLogoUrl(symbol: string): string {
   return `https://img.logo.dev/ticker/${symbol.replace("^", "")}?token=pk_TttrZhYwSReZxFePkXo-Bg&size=48&retina=true`
 }
 
+const showPercentSign = true;
 const defaultWatchlist = [
-  // Major Indexes
-  { symbol: "GSPC", name: "S&P 500", type: "index" as const },
-  { symbol: "DJI", name: "Dow Jones", type: "index" as const },
-  { symbol: "IXIC", name: "NASDAQ", type: "index" as const },
-  { symbol: "VIX", name: "Volatility Index", type: "index" as const },
+  // Major Indexes (Yahoo Finance requires ^ prefix for indices)
+  { symbol: "^GSPC", name: "S&P 500", type: "index" as const },
+  { symbol: "^DJI", name: "Dow Jones", type: "index" as const },
+  { symbol: "^IXIC", name: "NASDAQ", type: "index" as const },
+  { symbol: "^VIX", name: "Volatility Index", type: "index" as const },
   // Crypto
   { symbol: "BTC-USD", name: "Bitcoin", type: "stock" as const },
   { symbol: "ETH-USD", name: "Ethereum", type: "stock" as const },
@@ -170,7 +171,7 @@ function TickerItem({ data }: { data: TickerData }) {
                 <TrendingDown className="h-3 w-3" />
               )}
               <span>
-                {data.changePercent.toFixed(1)}
+                {data.changePercent.toFixed(1)}{showPercentSign ? "%" : ""}
               </span>
             </div>
             <div
@@ -181,7 +182,7 @@ function TickerItem({ data }: { data: TickerData }) {
             >
               <CalendarDays className="h-3 w-3 text-muted-foreground" />
               <span>
-                {data.monthlyChangePercent.toFixed(0)}
+                {data.monthlyChangePercent.toFixed(0)}{showPercentSign ? "%" : ""}
               </span>
             </div>
             <div
@@ -194,7 +195,7 @@ function TickerItem({ data }: { data: TickerData }) {
 
               {/* <span className="text-muted-foreground text-xs">Y:</span> */}
               <span>
-                {data.yearlyChangePercent.toFixed(0)}
+                {data.yearlyChangePercent.toFixed(0)}{showPercentSign ? "%" : ""}
               </span>
             </div>
             <span className="text-muted-foreground/50">|</span>
