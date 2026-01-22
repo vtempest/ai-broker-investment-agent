@@ -44,7 +44,8 @@ function getStockLogoUrl(symbol: string): string {
   return `https://img.logo.dev/ticker/${symbol.replace("^", "")}?token=pk_TttrZhYwSReZxFePkXo-Bg&size=48&retina=true`
 }
 
-const showPercentSign = true;
+const showPercentSign = false;
+
 const defaultWatchlist = [
   // Major Indexes (Yahoo Finance requires ^ prefix for indices)
   { symbol: "^GSPC", name: "S&P 500", type: "index" as const },
@@ -144,7 +145,7 @@ function TickerItem({ data }: { data: TickerData }) {
         <TooltipTrigger asChild>
           <div
             onClick={handleClick}
-            className="flex items-center gap-2 px-3 py-1 cursor-pointer hover:bg-muted/50 transition-colors text-sm"
+            className="flex items-center font-mono gap-2 px-3 py-1 cursor-pointer hover:bg-muted/50 transition-colors text-sm"
           >
             <Image
               src={getStockLogoUrl(data.symbol) || "/placeholder.svg"}
@@ -171,7 +172,7 @@ function TickerItem({ data }: { data: TickerData }) {
                 <TrendingDown className="h-3 w-3" />
               )}
               <span>
-                {data.changePercent.toFixed(1)}{showPercentSign ? "%" : ""}
+                {Math.round(data.changePercent)}{showPercentSign ? "%" : ""}
               </span>
             </div>
             <div
@@ -182,7 +183,7 @@ function TickerItem({ data }: { data: TickerData }) {
             >
               <CalendarDays className="h-3 w-3 text-muted-foreground" />
               <span>
-                {data.monthlyChangePercent.toFixed(0)}{showPercentSign ? "%" : ""}
+                {Math.round(data.monthlyChangePercent)}{showPercentSign ? "%" : ""}
               </span>
             </div>
             <div
@@ -195,7 +196,7 @@ function TickerItem({ data }: { data: TickerData }) {
 
               {/* <span className="text-muted-foreground text-xs">Y:</span> */}
               <span>
-                {data.yearlyChangePercent.toFixed(0)}{showPercentSign ? "%" : ""}
+                {Math.round(data.yearlyChangePercent)}{showPercentSign ? "%" : ""}
               </span>
             </div>
             <span className="text-muted-foreground/50">|</span>
@@ -251,6 +252,54 @@ export function StockTicker() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const batchLoadRef = useRef<NodeJS.Timeout | null>(null)
+  const [currentBatchIndex, setCurrentBatchIndex] = useState(0)
+
+  const BATCH_SIZE = 5 // Load 5 symbols at a time
+  const BATCH_DELAY = 20000 // 20 seconds between batches
+
+  const updateTickerDataInBatches = useCallback(async () => {
+    const symbols = watchlist.map((item) => item.symbol)
+    const totalBatches = Math.ceil(symbols.length / BATCH_SIZE)
+
+    // Reset ticker data when starting fresh
+    setTickerData([])
+    setCurrentBatchIndex(0)
+
+    const loadBatch = async (batchIndex: number) => {
+      const startIdx = batchIndex * BATCH_SIZE
+      const endIdx = Math.min(startIdx + BATCH_SIZE, symbols.length)
+      const batchSymbols = symbols.slice(startIdx, endIdx)
+
+      if (batchSymbols.length > 0) {
+        const data = await fetchTickerData(batchSymbols)
+        if (data.length > 0) {
+          setTickerData((prev) => [...prev, ...data])
+        }
+      }
+
+      // Schedule next batch if there are more
+      const nextBatchIndex = (batchIndex + 1) % totalBatches
+      setCurrentBatchIndex(nextBatchIndex)
+
+      if (batchLoadRef.current) {
+        clearTimeout(batchLoadRef.current)
+      }
+
+      // If we've completed all batches, wait before starting over
+      // Otherwise, wait the delay before loading the next batch
+      batchLoadRef.current = setTimeout(() => {
+        if (nextBatchIndex === 0) {
+          // Starting over - reload all batches
+          setTickerData([])
+        }
+        loadBatch(nextBatchIndex)
+      }, BATCH_DELAY)
+    }
+
+    // Start loading the first batch
+    loadBatch(0)
+  }, [watchlist])
 
   const updateTickerData = useCallback(async () => {
     const symbols = watchlist.map((item) => item.symbol)
@@ -261,24 +310,29 @@ export function StockTicker() {
   }, [watchlist])
 
   useEffect(() => {
-    updateTickerData()
-
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current)
-    }
-
-    intervalRef.current = setInterval(() => {
-      if (!isPaused) {
-        updateTickerData()
-      }
-    }, 10000) // Update every 10 seconds
+    // Start batched loading on mount
+    updateTickerDataInBatches()
 
     return () => {
+      // Cleanup batch loading timeout
+      if (batchLoadRef.current) {
+        clearTimeout(batchLoadRef.current)
+      }
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
       }
     }
-  }, [updateTickerData, isPaused])
+  }, [updateTickerDataInBatches])
+
+  // Pause/Resume batch loading
+  useEffect(() => {
+    if (isPaused && batchLoadRef.current) {
+      clearTimeout(batchLoadRef.current)
+    } else if (!isPaused) {
+      // Resume batch loading when unpaused
+      updateTickerDataInBatches()
+    }
+  }, [isPaused, updateTickerDataInBatches])
 
   // Auto-scroll effect with seamless loop
   useEffect(() => {
