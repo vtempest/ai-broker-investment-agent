@@ -27,9 +27,7 @@ export default function DashboardLayout({
 
 
         {/* Add top padding to content to account for ticker */}
-        <div className="pt-10">
-          {children}
-        </div>
+        {children}
       </SidebarInset>
 
       <MobileDock />

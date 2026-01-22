@@ -339,9 +339,8 @@ export function StrategiesTab({ symbol: symbolProp }: StrategiesTabProps = {}) {
     <div className="space-y-6">
 
       {/* Top Section: Search & Chart */}
-      <div className="grid gap-4">
+      <div className="grid gap-4 pt-4">
         <div>
-          <Label htmlFor="symbol" className="mb-2 block">Analyze Stock</Label>
           <StockSearch
             value={selectedStock}
             onChange={(val) => setSelectedStock(val.toUpperCase())}
@@ -740,7 +739,7 @@ export function StrategiesTab({ symbol: symbolProp }: StrategiesTabProps = {}) {
                   <div className="space-y-2 max-h-96 overflow-y-auto">
                     {backtestResults.map((result, index) => (
                       <div
-                        key={result.strategyId}
+                        key={`${result.strategyId}-${index}`}
                         onClick={() => setSelectedBacktestSignals(result.signals)}
                         className={`flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer border-2 ${selectedBacktestSignals === result.signals
                           ? 'bg-primary/10 border-primary'

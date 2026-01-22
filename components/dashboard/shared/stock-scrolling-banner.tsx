@@ -49,15 +49,8 @@ const showPercentSign = false;
 const defaultWatchlist = [
   // Major Indexes (Yahoo Finance requires ^ prefix for indices)
   { symbol: "^GSPC", name: "S&P 500", type: "index" as const },
-  { symbol: "^DJI", name: "Dow Jones", type: "index" as const },
-  { symbol: "^IXIC", name: "NASDAQ", type: "index" as const },
-  { symbol: "^VIX", name: "Volatility Index", type: "index" as const },
-  // Crypto
   { symbol: "BTC-USD", name: "Bitcoin", type: "stock" as const },
   { symbol: "ETH-USD", name: "Ethereum", type: "stock" as const },
-  // Commodities
-  { symbol: "GC=F", name: "Gold", type: "index" as const },
-  { symbol: "CL=F", name: "Crude Oil", type: "index" as const },
   // Stocks
   { symbol: "AAPL", name: "Apple Inc.", type: "stock" as const },
   { symbol: "MSFT", name: "Microsoft", type: "stock" as const },
@@ -68,17 +61,25 @@ const defaultWatchlist = [
   { symbol: "META", name: "Meta Platforms", type: "stock" as const },
   { symbol: "JPM", name: "JPMorgan Chase", type: "stock" as const },
   { symbol: "V", name: "Visa Inc.", type: "stock" as const },
+  { symbol: "SNDK", name: "SanDisk", type: "stock" as const },
   { symbol: "WMT", name: "Walmart", type: "stock" as const },
   { symbol: "UNH", name: "UnitedHealth", type: "stock" as const },
   { symbol: "HD", name: "Home Depot", type: "stock" as const },
   { symbol: "PG", name: "Procter & Gamble", type: "stock" as const },
-  { symbol: "MA", name: "Mastercard", type: "stock" as const },
   { symbol: "XOM", name: "Exxon Mobil", type: "stock" as const },
   { symbol: "JNJ", name: "Johnson & Johnson", type: "stock" as const },
   { symbol: "BAC", name: "Bank of America", type: "stock" as const },
   { symbol: "KO", name: "Coca-Cola", type: "stock" as const },
   { symbol: "DIS", name: "Walt Disney", type: "stock" as const },
   { symbol: "NFLX", name: "Netflix", type: "stock" as const },
+
+  { symbol: "^DJI", name: "Dow Jones", type: "index" as const },
+  { symbol: "^IXIC", name: "NASDAQ", type: "index" as const },
+  { symbol: "^VIX", name: "Volatility Index", type: "index" as const },
+  // Crypto
+  // Commodities
+  { symbol: "GC=F", name: "Gold", type: "index" as const },
+  { symbol: "CL=F", name: "Crude Oil", type: "index" as const },
 ]
 
 async function fetchTickerData(symbols: string[]): Promise<TickerData[]> {
@@ -162,7 +163,7 @@ function TickerItem({ data }: { data: TickerData }) {
             </span> */}
             <div
               className={cn(
-                "flex font-bold items-center gap-1 font-mono text-sm",
+                "flex font-bold items-center gap-1 text-sm",
                 isDailyPositive ? "text-emerald-500" : "text-red-500"
               )}
             >
@@ -171,31 +172,31 @@ function TickerItem({ data }: { data: TickerData }) {
               ) : (
                 <TrendingDown className="h-3 w-3" />
               )}
-              <span>
+              <span className="font-mono tabular-nums">
                 {Math.round(data.changePercent)}{showPercentSign ? "%" : ""}
               </span>
             </div>
             <div
               className={cn(
-                "flex items-center gap-1 font-mono font-semibold text-sm",
+                "flex items-center gap-1 font-semibold text-sm",
                 isMonthlyPositive ? "text-emerald-500" : "text-red-500"
               )}
             >
               <CalendarDays className="h-3 w-3 text-muted-foreground" />
-              <span>
+              <span className="font-mono tabular-nums">
                 {Math.round(data.monthlyChangePercent)}{showPercentSign ? "%" : ""}
               </span>
             </div>
             <div
               className={cn(
-                "flex items-center gap-1 font-mono font-semibold text-sm",
+                "flex items-center gap-1 font-semibold text-sm",
                 isYearlyPositive ? "text-emerald-500" : "text-red-500"
               )}
             >
               <Calendar className="h-3 w-3 text-muted-foreground" />
 
               {/* <span className="text-muted-foreground text-xs">Y:</span> */}
-              <span>
+              <span className="font-mono tabular-nums">
                 {Math.round(data.yearlyChangePercent)}{showPercentSign ? "%" : ""}
               </span>
             </div>
@@ -390,11 +391,11 @@ export function StockTicker() {
       >
         <div className="flex whitespace-nowrap py-0">
           {/* Render items twice for seamless infinite loop */}
-          {tickerData.map((data) => (
-            <TickerItem key={`first-${data.symbol}`} data={data} />
+          {tickerData.map((data, index) => (
+            <TickerItem key={`first-${data.symbol}-${index}`} data={data} />
           ))}
-          {tickerData.map((data) => (
-            <TickerItem key={`second-${data.symbol}`} data={data} />
+          {tickerData.map((data, index) => (
+            <TickerItem key={`second-${data.symbol}-${index}`} data={data} />
           ))}
         </div>
       </div>

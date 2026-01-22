@@ -44,7 +44,7 @@ export function MetaMaskSignIn() {
       const chainId = Number(network.chainId)
 
       // Step 1: Get nonce from backend
-      const nonceResponse = await (authClient as any).siwe.nonce({
+      const nonceResponse = await authClient.siwe.nonce({
         walletAddress: address,
         chainId: chainId,
       })
@@ -73,7 +73,7 @@ export function MetaMaskSignIn() {
       const signature = await signer.signMessage(preparedMessage)
 
       // Step 4: Verify signature on backend
-      const { data, error: verifyError } = await (authClient as any).siwe.verify({
+      const { data, error: verifyError } = await authClient.siwe.verify({
         message: preparedMessage,
         signature,
         walletAddress: address,

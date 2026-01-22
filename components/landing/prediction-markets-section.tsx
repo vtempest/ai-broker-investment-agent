@@ -221,7 +221,7 @@ export function PredictionMarketsSection() {
             </p>
           </div>
           <Image
-            src="/images/banner-polymarket-sphere.jpg"
+            src="/images/image-polymarket-sphere.jpg"
             alt="Polymarket Sphere"
             width={250}
             height={200}

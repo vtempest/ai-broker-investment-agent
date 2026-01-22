@@ -32,7 +32,7 @@ export function SiweSignIn() {
       const chainId = Number(network.chainId)
 
       // 1. Get Nonce from backend
-      const nonceResponse = await (authClient as any).siwe.nonce({
+      const nonceResponse = await authClient.siwe.nonce({
         walletAddress: address,
         chainId: chainId,
       })
@@ -64,7 +64,7 @@ export function SiweSignIn() {
       const signature = await signer.signMessage(preparedMessage)
 
       // 4. Verify Signature & Create Session
-      const { data, error } = await (authClient as any).siwe.verify({
+      const { data, error } = await authClient.siwe.verify({
         message: preparedMessage,
         signature,
         walletAddress: address,
