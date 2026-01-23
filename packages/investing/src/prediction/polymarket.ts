@@ -6,6 +6,7 @@ import {
   polymarketMarkets,
   polymarketMarketPositions,
   polymarketDebates,
+  polymarketPriceHistory,
 } from "../db/schema";
 import { eq, desc, asc, like } from "drizzle-orm";
 
@@ -241,6 +242,69 @@ export async function fetchMarketDetails(marketId: string) {
     );
     return null;
   }
+  return await resp.json();
+}
+
+/**
+ * Fetches historical price data for a specific token/market.
+ * @param options - Configuration options for the price history query
+ * @param options.market - The token ID of the market outcome
+ * @param options.interval - Time interval for data points (e.g., "1h", "1d", "max")
+ * @param options.startTs - Optional start timestamp (Unix timestamp in seconds)
+ * @param options.endTs - Optional end timestamp (Unix timestamp in seconds)
+ * @param options.abs - Optional flag to return absolute prices instead of 0-1 probability scale
+ * @returns Object containing history array with { t: timestamp, p: price } entries
+ * @throws Error if the API request fails
+ *
+ * @example
+ * // Get entire 1-hour interval history for a token
+ * const history = await fetchPriceHistory({ market: "token_id", interval: "1h" });
+ *
+ * @example
+ * // Get history for a specific time range
+ * const history = await fetchPriceHistory({
+ *   market: "token_id",
+ *   interval: "1h",
+ *   startTs: 1700000000,
+ *   endTs: 1700086400
+ * });
+ */
+export async function fetchPriceHistory(options: {
+  market: string;
+  interval?: string;
+  startTs?: number;
+  endTs?: number;
+  abs?: boolean;
+}) {
+  const {
+    market,
+    interval = "1h",
+    startTs,
+    endTs,
+    abs = false,
+  } = options;
+
+  const url = new URL("https://clob.polymarket.com/prices-history");
+  url.searchParams.set("market", market);
+  url.searchParams.set("interval", interval);
+  url.searchParams.set("abs", String(abs));
+
+  if (startTs !== undefined) {
+    url.searchParams.set("startTs", String(startTs));
+  }
+  if (endTs !== undefined) {
+    url.searchParams.set("endTs", String(endTs));
+  }
+
+  const resp = await fetch(url, {
+    headers: { accept: "application/json" },
+    cache: "no-store",
+  });
+
+  if (!resp.ok) {
+    throw new Error(`Price history fetch failed: ${resp.status}`);
+  }
+
   return await resp.json();
 }
 
@@ -575,6 +639,7 @@ export async function saveMarkets(marketsData: any[]) {
         closed: market.closed ?? false,
         outcomes: JSON.parse(market.outcomes || []),
         outcomePrices: JSON.parse(market.outcomePrices || []),
+        clobTokenIds: JSON.stringify(market.clobTokenIds || []),
         tags: JSON.stringify(market.tags || []),
         endDate: market.endDate || null,
         groupItemTitle: market.groupItemTitle || null,
@@ -595,6 +660,7 @@ export async function saveMarkets(marketsData: any[]) {
           closed: market.closed ?? false,
           outcomes: JSON.parse(market.outcomes || []),
           outcomePrices: JSON.parse(market.outcomePrices || []),
+          clobTokenIds: JSON.stringify(market.clobTokenIds || []),
           tags: JSON.stringify(market.tags || []),
           endDate: market.endDate || null,
           groupItemTitle: market.groupItemTitle || null,
@@ -731,6 +797,47 @@ export async function saveDebateAnalysis(
         updatedAt: new Date(now),
       },
     });
+}
+
+/**
+ * Saves historical price data for a specific token/market.
+ * Stores each price point as a separate record.
+ * @param tokenId - The unique identifier of the market token
+ * @param priceHistory - Price history object containing history array with { t: timestamp, p: price } entries
+ * @param interval - The interval used for the price data (e.g., "1h", "1d")
+ */
+export async function savePriceHistory(
+  tokenId: string,
+  priceHistory: { history: Array<{ t: number; p: number }> },
+  interval: string = "1h"
+) {
+  const now = Date.now();
+
+  if (!priceHistory.history || priceHistory.history.length === 0) {
+    return;
+  }
+
+  // Save each price point
+  for (const point of priceHistory.history) {
+    const id = `${tokenId}-${point.t}-${interval}`;
+
+    await db
+      .insert(polymarketPriceHistory)
+      .values({
+        id: id,
+        tokenId: tokenId,
+        timestamp: point.t,
+        price: point.p,
+        interval: interval,
+        createdAt: new Date(now),
+      })
+      .onConflictDoUpdate({
+        target: polymarketPriceHistory.id,
+        set: {
+          price: point.p,
+        },
+      });
+  }
 }
 
 // ============================================================================
@@ -971,6 +1078,64 @@ export async function getMarketDebate(marketId: string) {
   return results.length > 0 ? results[0] : null;
 }
 
+/**
+ * Retrieves historical price data for a specific token from the database.
+ * @param tokenId - The unique identifier of the market token
+ * @param options - Query configuration options
+ * @param options.interval - Optional interval filter (e.g., "1h", "1d")
+ * @param options.startTimestamp - Optional start timestamp to filter from
+ * @param options.endTimestamp - Optional end timestamp to filter to
+ * @param options.limit - Maximum number of records to retrieve
+ * @returns Array of price history records sorted by timestamp ascending
+ */
+export async function getPriceHistory(
+  tokenId: string,
+  options: {
+    interval?: string;
+    startTimestamp?: number;
+    endTimestamp?: number;
+    limit?: number;
+  } = {}
+) {
+  const { interval, startTimestamp, endTimestamp, limit } = options;
+
+  let query = db
+    .select()
+    .from(polymarketPriceHistory)
+    .where(eq(polymarketPriceHistory.tokenId, tokenId));
+
+  // Filter by interval if specified
+  if (interval) {
+    query = query.where(eq(polymarketPriceHistory.interval, interval)) as any;
+  }
+
+  // Sort by timestamp ascending (oldest to newest)
+  query = query.orderBy(asc(polymarketPriceHistory.timestamp)) as any;
+
+  // Apply limit if specified
+  if (limit) {
+    query = query.limit(limit) as any;
+  }
+
+  const results = await query;
+
+  // Filter by timestamp range if specified
+  let filteredResults = results;
+  if (startTimestamp !== undefined || endTimestamp !== undefined) {
+    filteredResults = results.filter((record: any) => {
+      if (startTimestamp !== undefined && record.timestamp < startTimestamp) {
+        return false;
+      }
+      if (endTimestamp !== undefined && record.timestamp > endTimestamp) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  return filteredResults;
+}
+
 // ============================================================================
 // Analysis Functions
 // ============================================================================
@@ -1020,10 +1185,12 @@ export function analyzeCategories(allPositions: any[]) {
 /**
  * Syncs markets from Polymarket API to the database.
  * Clears existing markets and fetches fresh data sorted by 24h volume.
+ * Also fetches and stores price history for markets with token IDs.
  * @param limit - Maximum number of markets to sync (default: 200)
- * @returns Object with count of synced markets
+ * @param syncPriceHistory - Whether to also fetch price history (default: true)
+ * @returns Object with count of synced markets and price history data points
  */
-export async function syncMarkets(limit = 200) {
+export async function syncMarkets(limit = 200, syncPriceHistoryFlag = true) {
   console.log("Starting Polymarket markets sync...");
 
   await db.delete(polymarketMarkets);
@@ -1032,16 +1199,38 @@ export async function syncMarkets(limit = 200) {
   await saveMarkets(markets);
   console.log(`Saved ${markets.length} markets`);
 
-  return { markets: markets.length };
+  let totalPricePoints = 0;
+
+  // Fetch price history for markets with token IDs
+  if (syncPriceHistoryFlag) {
+    console.log("Fetching price history for markets...");
+    for (const market of markets) {
+      if (market.clobTokenIds && market.clobTokenIds.length > 0) {
+        try {
+          // Fetch history for the first token (typically "Yes" outcome)
+          const tokenId = market.clobTokenIds[0];
+          const result = await syncPriceHistory(tokenId, { interval: "1h" });
+          totalPricePoints += result.pricePoints;
+        } catch (error) {
+          console.error(`Error syncing price history for market ${market.id}:`, error);
+        }
+      }
+    }
+    console.log(`Saved ${totalPricePoints} price data points across all markets`);
+  }
+
+  return { markets: markets.length, pricePoints: totalPricePoints };
 }
 
 /**
  * Syncs all active markets from Polymarket API to the database.
  * Clears existing markets and fetches all available data sorted by 24h volume.
+ * Also fetches and stores price history for markets with token IDs.
  * @param maxMarkets - Maximum total number of markets to sync (default: 1000, set to 0 for unlimited)
- * @returns Object with count of synced markets
+ * @param syncPriceHistoryFlag - Whether to also fetch price history (default: true)
+ * @returns Object with count of synced markets and price history data points
  */
-export async function syncAllMarkets(maxMarkets = 1000) {
+export async function syncAllMarkets(maxMarkets = 1000, syncPriceHistoryFlag = true) {
   console.log("Starting Polymarket all markets sync...");
 
   await db.delete(polymarketMarkets);
@@ -1050,7 +1239,27 @@ export async function syncAllMarkets(maxMarkets = 1000) {
   await saveMarkets(markets);
   console.log(`Saved ${markets.length} markets`);
 
-  return { markets: markets.length };
+  let totalPricePoints = 0;
+
+  // Fetch price history for markets with token IDs
+  if (syncPriceHistoryFlag) {
+    console.log("Fetching price history for markets...");
+    for (const market of markets) {
+      if (market.clobTokenIds && market.clobTokenIds.length > 0) {
+        try {
+          // Fetch history for the first token (typically "Yes" outcome)
+          const tokenId = market.clobTokenIds[0];
+          const result = await syncPriceHistory(tokenId, { interval: "1h" });
+          totalPricePoints += result.pricePoints;
+        } catch (error) {
+          console.error(`Error syncing price history for market ${market.id}:`, error);
+        }
+      }
+    }
+    console.log(`Saved ${totalPricePoints} price data points across all markets`);
+  }
+
+  return { markets: markets.length, pricePoints: totalPricePoints };
 }
 
 /**
@@ -1128,4 +1337,49 @@ export async function syncAll() {
     leaders: leadersResult.leaders,
     positions: leadersResult.positions,
   };
+}
+
+/**
+ * Fetches and saves historical price data for a specific token.
+ * Convenience function that combines fetchPriceHistory and savePriceHistory.
+ * @param tokenId - The unique identifier of the market token
+ * @param options - Configuration options for the price history query
+ * @param options.interval - Time interval for data points (default: "1h")
+ * @param options.startTs - Optional start timestamp (Unix timestamp in seconds)
+ * @param options.endTs - Optional end timestamp (Unix timestamp in seconds)
+ * @param options.abs - Optional flag to return absolute prices instead of 0-1 probability scale
+ * @returns Object with count of saved price points
+ *
+ * @example
+ * // Fetch and save 1-hour interval history for a token
+ * const result = await syncPriceHistory("token_id");
+ * console.log(`Saved ${result.pricePoints} price points`);
+ */
+export async function syncPriceHistory(
+  tokenId: string,
+  options: {
+    interval?: string;
+    startTs?: number;
+    endTs?: number;
+    abs?: boolean;
+  } = {}
+) {
+  const { interval = "1h", startTs, endTs, abs = false } = options;
+
+  console.log(`Fetching price history for token ${tokenId}...`);
+
+  const priceHistory = await fetchPriceHistory({
+    market: tokenId,
+    interval,
+    startTs,
+    endTs,
+    abs,
+  });
+
+  await savePriceHistory(tokenId, priceHistory, interval);
+
+  const pricePoints = priceHistory.history?.length || 0;
+  console.log(`Saved ${pricePoints} price points for token ${tokenId}`);
+
+  return { pricePoints };
 }

@@ -205,8 +205,8 @@ export function PredictionMarketsSection() {
   const [selectedTrader, setSelectedTrader] = useState<string | null>(null)
 
   return (
-    <section id="prediction-markets" className="py-24 bg-muted/30">
-      <div className="container mx-auto px-4">
+    <section id="prediction-markets" className="py-24 bg-muted/30 overflow-hidden">
+      <div className="container mx-auto px-4 max-w-7xl">
 
 
         <div className="flex items-center justify-center gap-8 mb-16">
@@ -294,15 +294,15 @@ export function PredictionMarketsSection() {
 
 
             <div id="copy-trading" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <div className="flex ml-[200px] justify-center mb-2">
+              <div className="w-full flex justify-center">
+                <div className="flex justify-center mb-2">
 
                   <Image
                     src="/images/copy-trading-leaders.jpg"
                     alt="AI Trading Floor with Multiple Agents"
                     width={400}
                     height={400}
-                    className="object-cover"
+                    className="object-cover max-w-full h-auto"
                   />
                 </div>
               </div>
@@ -310,8 +310,8 @@ export function PredictionMarketsSection() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
+            <div className="overflow-x-auto -mx-6 px-6">
+              <table className="w-full min-w-[600px]">
                 <thead>
                   <tr className="border-b border-border/50">
                     <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Rank</th>

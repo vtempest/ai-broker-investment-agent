@@ -121,7 +121,7 @@ export function BrokerPlatformsSection() {
           {brokers.map((broker) => (
             <Card
               key={broker.name}
-              className="group relative flex-shrink-0 w-64 overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50"
+              className="group relative flex-shrink-0 w-52 overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50"
             >
               {/* Gradient Background */}
               <div
@@ -144,7 +144,7 @@ export function BrokerPlatformsSection() {
                       )}
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold">{broker.name}</h3>
+                      <h3 className="text-sm font-bold">{broker.name}</h3>
                       <div className="flex items-center gap-1 mt-0.5">
                         <Badge
                           variant={

@@ -1,8 +1,7 @@
 import { NextProvider } from 'fumadocs-core/framework/next'
 import { DocsLayout } from 'fumadocs-ui/layouts/docs'
 import { RootProvider } from 'fumadocs-ui/provider/base'
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/layout/app-sidebar"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 import { AISearchTrigger } from '@/components/fumadocs/ai/search'
 import { baseOptions, linkItems, logo } from '@/lib/layout.shared'
 import { source } from '@/lib/docs/source'
@@ -20,63 +19,58 @@ export default function Layout({ children }: LayoutProps<'/docs'>) {
   return (
     <NextProvider>
       <RootProvider>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset className="w-full">
-            <DocsLayout
-              {...base}
-              links={linkItems.filter((item) => item.type === 'icon')}
-              tree={source.pageTree}
-              sidebar={{
-                collapsible: false,
-                tabs: {
-                  transform(option, node) {
-                    const meta = source.getNodeMeta(node)
-                    if (!meta || !node.icon) return option
+        <DocsLayout
+          {...base}
+          links={linkItems.filter((item) => item.type === 'icon')}
+          tree={source.pageTree}
+          sidebar={{
+            collapsible: false,
+            tabs: {
+              transform(option, node) {
+                const meta = source.getNodeMeta(node)
+                if (!meta || !node.icon) return option
 
-                    const segments = meta.path.split('/')
-                    const segment = serializeSegment(segments[0])
+                const segments = meta.path.split('/')
+                const segment = serializeSegment(segments[0])
 
-                    const color = `var(--${segment}-color, var(--color-fd-foreground))`
-                    return {
-                      ...option,
-                      icon: (
-                        <div
-                          className='size-full rounded-lg text-(--tab-color) max-md:border max-md:bg-(--tab-color)/10 max-md:p-1.5 [&_svg]:size-full'
-                          style={
-                            {
-                              '--tab-color': color,
-                            } as CSSProperties
-                          }
-                        >
-                          {node.icon}
-                        </div>
-                      ),
-                    }
-                  },
-                },
-              }}
-              tabMode='top'
+                const color = `var(--${segment}-color, var(--color-fd-foreground))`
+                return {
+                  ...option,
+                  icon: (
+                    <div
+                      className='size-full rounded-lg text-(--tab-color) max-md:border max-md:bg-(--tab-color)/10 max-md:p-1.5 [&_svg]:size-full'
+                      style={
+                        {
+                          '--tab-color': color,
+                        } as CSSProperties
+                      }
+                    >
+                      {node.icon}
+                    </div>
+                  ),
+                }
+              },
+            },
+          }}
+          tabMode='top'
 
-              nav={{
-                ...base.nav,
-                mode: 'top',
-                url: undefined,
-                title: (
-                  <>
-                    <SidebarTrigger className="mr-2" />
-                    {logo}
-                    <span className='font-medium max-md:hidden'>{DOCS_TITLE}</span>
-                  </>
-                ),
-              }}
-            >
-              {children}
-              {/* <DocsBackground /> */}
-              {/* <AISearchTrigger /> */}
-            </DocsLayout>
-          </SidebarInset>
-        </SidebarProvider>
+          nav={{
+            ...base.nav,
+            mode: 'top',
+            url: undefined,
+            title: (
+              <>
+                <SidebarTrigger className="mr-2" />
+                {logo}
+                <span className='font-medium max-md:hidden'>{DOCS_TITLE}</span>
+              </>
+            ),
+          }}
+        >
+          {children}
+          {/* <DocsBackground /> */}
+          {/* <AISearchTrigger /> */}
+        </DocsLayout>
       </RootProvider>
     </NextProvider>
   )

@@ -29,7 +29,7 @@ export function Header() {
   const mobileNavLinkClasses = "flex items-center gap-2 text-sm text-muted-foreground transition-all hover:bg-accent hover:text-accent-foreground hover:rounded-md px-2 py-1 -mx-2 -my-1"
 
   return (
-    <header className="sticky top-0 h-12 z-50 border-b border-border/40 bg-background/75 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300">
+    <header className="h-12 border-b border-border/40 bg-background shadow-xl hover:shadow-2xl transition-all duration-300">
       <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg overflow-hidden">

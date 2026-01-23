@@ -77,8 +77,8 @@ const otherTeams = [
 
 export function AgentsSection() {
   return (
-    <section id="agents">
-      <div className="mx-auto max-w-7xl px-20">
+    <section id="agents" className="overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Analyst Team */}
         <div className="">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -145,13 +145,13 @@ export function AgentsSection() {
 
       </div>
 
-      <div className="mt-8 flex justify-center">
+      <div className="mt-8 flex justify-center px-4">
         <Image
           src="/images/diagram-research-flow.png"
           alt="Stock Prediction System Architecture Flow Diagram"
           width={900}
           height={600}
-          className="object-contain rounded-lg shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          className="object-contain rounded-lg shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl max-w-full h-auto"
         />
       </div>
 

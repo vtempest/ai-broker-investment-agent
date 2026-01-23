@@ -78,6 +78,20 @@
       "when": 1769120024454,
       "tag": "0010_clumsy_khan",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1769188769125,
+      "tag": "0011_old_freak",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1769189801888,
+      "tag": "0012_misty_tomas",
+      "breakpoints": true
     }
   ]
 }

@@ -184,7 +184,7 @@ export function StrategiesSection() {
   const colors = colorVariants[activeStrategy.color as keyof typeof colorVariants]
 
   return (
-    <section id="strategies" className="border-t border-border px-4 py-24 sm:px-6 lg:px-8">
+    <section id="strategies" className="border-t border-border px-4 py-24 sm:px-6 lg:px-8 overflow-hidden">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-12">
           <div className="flex-1 text-center lg:text-left">
@@ -197,13 +197,13 @@ export function StrategiesSection() {
               volume signals, and momentum indicators with precision timing.
             </p>
           </div>
-          <div className="relative h-48 w-72 overflow-hidden rounded-xl border border-border lg:h-56 lg:w-80">
+          <div className="relative h-48 w-full max-w-xs overflow-hidden rounded-xl border border-border lg:h-56 lg:max-w-md">
             <Image
               src="/images/algo-bot-timing.png"
               alt="AI Trading Floor with Multiple Agents"
               width={400}
               height={400}
-              className="items-center justify-center object-cover"
+              className="items-center justify-center object-cover w-full h-full"
             />
 
           </div>

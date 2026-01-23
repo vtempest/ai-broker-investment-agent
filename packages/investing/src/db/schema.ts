@@ -313,6 +313,7 @@ export const polymarketMarkets = sqliteTable("polymarket_markets", {
   // Outcomes and prices (stored as JSON strings)
   outcomes: text("outcomes").notNull(), // JSON array: ["Yes", "No"]
   outcomePrices: text("outcome_prices").notNull(), // JSON array: ["0.65", "0.35"]
+  clobTokenIds: text("clob_token_ids"), // JSON array of token IDs for price history
 
   // Additional metadata
   tags: text("tags"), // JSON array
@@ -361,6 +362,16 @@ export const polymarketDebates = sqliteTable("polymarket_debates", {
 
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+})
+
+// Polymarket Price History - Historical price data for market tokens
+export const polymarketPriceHistory = sqliteTable("polymarket_price_history", {
+  id: text("id").primaryKey(),
+  tokenId: text("token_id").notNull(), // The market token ID
+  timestamp: integer("timestamp").notNull(), // Unix timestamp from API
+  price: real("price").notNull(), // Price in 0-1 range (or absolute if abs=true)
+  interval: text("interval").notNull(), // "1h", "1d", "max", etc.
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 })
 
 // ============================================================================

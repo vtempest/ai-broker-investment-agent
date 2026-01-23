@@ -11,6 +11,9 @@ import { Label } from "@/components/ui/label"
 import { TrendingUp, ExternalLink, Loader2, DollarSign, Activity, Clock, RefreshCw, Filter, Search } from "lucide-react"
 import { MarketDebate } from "@/components/investing/analysis/market-debate"
 import { Input } from "@/components/ui/input"
+import { PolymarketPriceChart } from "@/components/investing/charts/polymarket-price-chart"
+import { ChangeIcon } from "@/components/investing/stock-ticker/change-icon"
+import { cn } from "@/lib/utils"
 
 interface PolymarketMarket {
   id: string
@@ -23,10 +26,106 @@ interface PolymarketMarket {
   closed: boolean
   outcomes: string[]
   outcomePrices: string[]
+  clobTokenIds?: string[]
   image?: string
   description?: string
   endDate?: string
   tags?: string[]
+}
+
+interface PriceHistoryData {
+  timestamp: number
+  price: number
+}
+
+interface PriceChanges {
+  daily: number | null
+  weekly: number | null
+  monthly: number | null
+  yearly: number | null
+}
+
+// Helper function to calculate price changes from history
+const calculatePriceChanges = (history: PriceHistoryData[], currentPrice: number): PriceChanges => {
+  if (!history || history.length === 0) {
+    return { daily: null, weekly: null, monthly: null, yearly: null }
+  }
+
+  const now = Math.floor(Date.now() / 1000) // Current time in seconds
+  const oneDay = 24 * 60 * 60
+  const oneWeek = 7 * oneDay
+  const oneMonth = 30 * oneDay
+  const oneYear = 365 * oneDay
+
+  // Sort history by timestamp ascending
+  const sortedHistory = [...history].sort((a, b) => a.timestamp - b.timestamp)
+
+  // Find price at different time points
+  const findPriceAtTime = (targetTime: number): number | null => {
+    // Find the closest price point before or at the target time
+    for (let i = sortedHistory.length - 1; i >= 0; i--) {
+      if (sortedHistory[i].timestamp <= targetTime) {
+        return sortedHistory[i].price
+      }
+    }
+    return null
+  }
+
+  const dailyPrice = findPriceAtTime(now - oneDay)
+  const weeklyPrice = findPriceAtTime(now - oneWeek)
+  const monthlyPrice = findPriceAtTime(now - oneMonth)
+  const yearlyPrice = findPriceAtTime(now - oneYear)
+
+  return {
+    daily: dailyPrice !== null ? (currentPrice - dailyPrice) * 100 : null,
+    weekly: weeklyPrice !== null ? (currentPrice - weeklyPrice) * 100 : null,
+    monthly: monthlyPrice !== null ? (currentPrice - monthlyPrice) * 100 : null,
+    yearly: yearlyPrice !== null ? (currentPrice - yearlyPrice) * 100 : null,
+  }
+}
+
+// Get background color class based on change magnitude
+const getChangeBackgroundClass = (changePercent: number, isPositive: boolean) => {
+  const absChange = Math.abs(changePercent)
+
+  if (absChange <= 2) {
+    return "" // No background for small changes
+  } else if (absChange >= 50) {
+    return isPositive ? "bg-emerald-500/40" : "bg-red-500/40"
+  } else if (absChange >= 25) {
+    return isPositive ? "bg-emerald-500/30" : "bg-red-500/30"
+  } else if (absChange >= 10) {
+    return isPositive ? "bg-emerald-500/20" : "bg-red-500/20"
+  } else {
+    return isPositive ? "bg-emerald-500/10" : "bg-red-500/10"
+  }
+}
+
+// Get text color class based on change magnitude
+const getChangeTextColor = (changePercent: number, isPositive: boolean) => {
+  const absChange = Math.abs(changePercent)
+  if (absChange <= 2) {
+    return "text-muted-foreground" // Muted color for small changes
+  }
+  return isPositive ? "text-emerald-500" : "text-red-500"
+}
+
+// Get border class for extreme changes
+const getChangeBorderClass = (changePercent: number, isPositive: boolean) => {
+  const absChange = Math.abs(changePercent)
+  if (absChange >= 50) {
+    return isPositive ? "border border-emerald-500" : "border border-red-500"
+  }
+  return ""
+}
+
+// Get direction for ChangeIcon
+const getChangeDirection = (changePercent: number): 'positive' | 'negative' | 'neutral' => {
+  const absChange = Math.abs(changePercent)
+  if (absChange <= 2) {
+    return 'neutral'
+  }
+  return changePercent >= 0 ? 'positive' : 'negative'
 }
 
 export function PredictionMarketsTab() {
@@ -41,6 +140,7 @@ export function PredictionMarketsTab() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const [priceHistory, setPriceHistory] = useState<Record<string, PriceHistoryData[]>>({})
   const observerTarget = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -99,6 +199,8 @@ export function PredictionMarketsTab() {
 
       if (data.success) {
         setMarkets(data.markets)
+        // Fetch price history for markets with token IDs
+        fetchPriceHistoryForMarkets(data.markets, sync)
       }
     } catch (error) {
       console.error('Error fetching markets:', error)
@@ -106,6 +208,30 @@ export function PredictionMarketsTab() {
       setLoading(false)
       setLoadingMore(false)
     }
+  }
+
+  const fetchPriceHistoryForMarkets = async (markets: PolymarketMarket[], sync = false) => {
+    const historyData: Record<string, PriceHistoryData[]> = {}
+
+    // Fetch price history for first token of each market (typically "Yes" outcome)
+    for (const market of markets) {
+      if (market.clobTokenIds && market.clobTokenIds.length > 0) {
+        try {
+          const tokenId = market.clobTokenIds[0] // First token (usually "Yes")
+          const syncParam = sync ? '&sync=true' : ''
+          const response = await fetch(`/api/polymarket/price-history?tokenId=${tokenId}&interval=1h${syncParam}`)
+          const data = await response.json()
+
+          if (data.success && data.data.length > 0) {
+            historyData[market.id] = data.data
+          }
+        } catch (error) {
+          console.error(`Error fetching price history for market ${market.id}:`, error)
+        }
+      }
+    }
+
+    setPriceHistory(historyData)
   }
 
   const syncMarkets = async () => {
@@ -307,6 +433,7 @@ export function PredictionMarketsTab() {
                       , 0)
                     const outcome = market.outcomes[highestIdx]
                     const percentage = parseFloat(market.outcomePrices[highestIdx]) * 100
+                    const currentPrice = parseFloat(market.outcomePrices[highestIdx])
                     const isYes = outcome.toLowerCase() === 'yes'
                     const isNo = outcome.toLowerCase() === 'no'
 
@@ -334,6 +461,77 @@ export function PredictionMarketsTab() {
                     )
                   })()}
 
+                  {/* Price Changes */}
+                  {priceHistory[market.id] && market.outcomePrices && (() => {
+                    const currentPrice = parseFloat(market.outcomePrices[0])
+                    const changes = calculatePriceChanges(priceHistory[market.id], currentPrice)
+
+                    return (
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        {changes.daily !== null && (
+                          <div
+                            className={cn(
+                              "flex font-bold items-center text-xs rounded-md gap-0 px-1",
+                              getChangeTextColor(changes.daily, changes.daily >= 0),
+                              getChangeBackgroundClass(changes.daily, changes.daily >= 0),
+                              getChangeBorderClass(changes.daily, changes.daily >= 0)
+                            )}
+                          >
+                            <span className="font-mono tabular-nums">
+                              {changes.daily >= 0 ? '+' : ''}{Math.round(changes.daily)}
+                            </span>
+                            <ChangeIcon letter="d" direction={getChangeDirection(changes.daily)} isPositive={changes.daily >= 0} />
+                          </div>
+                        )}
+                        {changes.weekly !== null && (
+                          <div
+                            className={cn(
+                              "flex items-center font-semibold text-xs rounded-md gap-0 px-1",
+                              getChangeTextColor(changes.weekly, changes.weekly >= 0),
+                              getChangeBackgroundClass(changes.weekly, changes.weekly >= 0),
+                              getChangeBorderClass(changes.weekly, changes.weekly >= 0)
+                            )}
+                          >
+                            <span className="font-mono tabular-nums">
+                              {changes.weekly >= 0 ? '+' : ''}{Math.round(changes.weekly)}
+                            </span>
+                            <ChangeIcon letter="w" direction={getChangeDirection(changes.weekly)} isPositive={changes.weekly >= 0} />
+                          </div>
+                        )}
+                        {changes.monthly !== null && (
+                          <div
+                            className={cn(
+                              "flex items-center font-semibold text-xs rounded-md gap-0 px-1",
+                              getChangeTextColor(changes.monthly, changes.monthly >= 0),
+                              getChangeBackgroundClass(changes.monthly, changes.monthly >= 0),
+                              getChangeBorderClass(changes.monthly, changes.monthly >= 0)
+                            )}
+                          >
+                            <span className="font-mono tabular-nums">
+                              {changes.monthly >= 0 ? '+' : ''}{Math.round(changes.monthly)}
+                            </span>
+                            <ChangeIcon letter="m" direction={getChangeDirection(changes.monthly)} isPositive={changes.monthly >= 0} />
+                          </div>
+                        )}
+                        {changes.yearly !== null && (
+                          <div
+                            className={cn(
+                              "flex items-center font-semibold text-xs rounded-md gap-0 px-1",
+                              getChangeTextColor(changes.yearly, changes.yearly >= 0),
+                              getChangeBackgroundClass(changes.yearly, changes.yearly >= 0),
+                              getChangeBorderClass(changes.yearly, changes.yearly >= 0)
+                            )}
+                          >
+                            <span className="font-mono tabular-nums">
+                              {changes.yearly >= 0 ? '+' : ''}{Math.round(changes.yearly)}
+                            </span>
+                            <ChangeIcon letter="y" direction={getChangeDirection(changes.yearly)} isPositive={changes.yearly >= 0} />
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })()}
+
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <h3 className="text-lg font-bold leading-tight">{market.question}</h3>
@@ -353,6 +551,23 @@ export function PredictionMarketsTab() {
                     )}
                   </div>
                 </div>
+
+                {/* Price History Chart */}
+                {priceHistory[market.id] && priceHistory[market.id].length > 0 && (
+                  <div className="mb-4">
+                    <div className="text-xs text-muted-foreground mb-2 flex items-center gap-2">
+                      <Activity className="h-3 w-3" />
+                      Price History (1h intervals)
+                    </div>
+                    <div className="rounded-lg overflow-hidden border border-border bg-card p-2">
+                      <PolymarketPriceChart
+                        data={priceHistory[market.id]}
+                        height={100}
+                        showGrid={true}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {/* Polymarket Embed */}
                 <div className="mb-4 rounded-lg overflow-hidden border border-border bg-background">

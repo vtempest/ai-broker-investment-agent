@@ -16,7 +16,7 @@ const workflow = [
 
 export function ArchitectureSection() {
   return (
-    <section id="workflow" className=" m-10  px-4 sm:px-6 lg:px-8">
+    <section id="workflow" className="m-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="relative flex items-center justify-center overflow-hidden rounded-2xl ">
@@ -27,7 +27,7 @@ export function ArchitectureSection() {
               alt="Stock Prediction System Architecture Flow Diagram"
               width={600}
               height={450}
-              className="object-contain "
+              className="object-contain max-w-full h-auto"
             />
           </div>
           <div className="flex flex-col justify-center">
@@ -45,7 +45,7 @@ export function ArchitectureSection() {
                 alt="Real Time Securities"
                 width={200}
                 height={200}
-                className="w-[200px] bg-zinc-950 p-6 rounded-2xl border border-white/10"
+                className="max-w-[200px] w-full bg-zinc-950 p-6 rounded-2xl border border-white/10"
               />
             </div>
           </div>        </div>

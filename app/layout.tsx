@@ -6,6 +6,9 @@ import { Toaster } from "sonner"
 import "./globals.css"
 import "@/components/theme/themes-shadcn.css"
 import { StockTicker } from "@/components/investing/stock-ticker"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/layout/app-sidebar"
+import { MobileDock } from "@/components/layout/mobile-dock"
 
 export const metadata: Metadata = {
   title: "AI Broker - LLM Agents Debate Stocks & Events",
@@ -41,9 +44,15 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* Stock Ticker - Fixed at Top */}
-          <StockTicker fixed="top" />
-          {children}
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset className="pb-24 md:pb-0">
+              {/* Stock Ticker - Fixed at Top */}
+              <StockTicker fixed="top" />
+              {children}
+            </SidebarInset>
+            <MobileDock />
+          </SidebarProvider>
           <Toaster position="top-right" />
         </ThemeProvider>
       </body>

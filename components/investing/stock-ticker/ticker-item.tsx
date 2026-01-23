@@ -115,7 +115,7 @@ export function TickerItem({
               <span className="font-semibold text-foreground/80">{data.symbol}</span>
             )}
             {showName && (
-              <span className="font-medium text-foreground px-1">{cleanCompanyName(data.name)}</span>
+              <span className="font-medium text-foreground pl-1 pr-2">{cleanCompanyName(data.name)}</span>
             )}
             {showPrice && (
               <span className="font-mono text-foreground/90">
@@ -131,10 +131,10 @@ export function TickerItem({
                   getChangeBorderClass(data.changePercent, isDailyPositive)
                 )}
               >
-                <ChangeIcon letter="d" direction={getChangeDirection(data.changePercent)} isPositive={isDailyPositive} />
                 <span className="font-mono tabular-nums ">
                   {Math.round(data.changePercent)}{showPercentSign ? "%" : ""}
                 </span>
+                <ChangeIcon letter="d" direction={getChangeDirection(data.changePercent)} isPositive={isDailyPositive} />
               </div>
             )}
             {enabledChanges.includes('w') && hasWeeklyData && (
@@ -146,10 +146,10 @@ export function TickerItem({
                   getChangeBorderClass(data.weeklyChangePercent ?? 0, isWeeklyPositive)
                 )}
               >
-                <ChangeIcon letter="w" direction={getChangeDirection(data.weeklyChangePercent ?? 0)} isPositive={isWeeklyPositive} />
                 <code className="font-mono tabular-nums ">
                   {Math.round(data.weeklyChangePercent ?? 0)}{showPercentSign ? "%" : ""}
                 </code>
+                <ChangeIcon letter="w" direction={getChangeDirection(data.weeklyChangePercent ?? 0)} isPositive={isWeeklyPositive} />
               </div>
             )}
             {enabledChanges.includes('m') && (
@@ -161,10 +161,10 @@ export function TickerItem({
                   getChangeBorderClass(data.monthlyChangePercent, isMonthlyPositive)
                 )}
               >
-                <ChangeIcon letter="m" direction={getChangeDirection(data.monthlyChangePercent)} isPositive={isMonthlyPositive} />
                 <code className="font-mono tabular-nums ">
                   {Math.round(data.monthlyChangePercent)}{showPercentSign ? "%" : ""}
                 </code>
+                <ChangeIcon letter="m" direction={getChangeDirection(data.monthlyChangePercent)} isPositive={isMonthlyPositive} />
               </div>
             )}
             {enabledChanges.includes('y') && (
@@ -176,10 +176,10 @@ export function TickerItem({
                   getChangeBorderClass(data.yearlyChangePercent, isYearlyPositive)
                 )}
               >
-                <ChangeIcon letter="y" direction={getChangeDirection(data.yearlyChangePercent)} isPositive={isYearlyPositive} />
                 <code className="font-mono tabular-nums ">
                   {Math.round(data.yearlyChangePercent)}{showPercentSign ? "%" : ""}
                 </code>
+                <ChangeIcon letter="y" direction={getChangeDirection(data.yearlyChangePercent)} isPositive={isYearlyPositive} />
               </div>
             )}
             <span className="text-muted-foreground/50">|</span>

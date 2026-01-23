@@ -346,6 +346,7 @@ export const polymarketMarkets = sqliteTable("polymarket_markets", {
   // Outcomes and prices (stored as JSON strings)
   outcomes: text("outcomes").notNull(), // JSON array: ["Yes", "No"]
   outcomePrices: text("outcome_prices").notNull(), // JSON array: ["0.65", "0.35"]
+  clobTokenIds: text("clob_token_ids"), // JSON array of token IDs for price history
 
   // Additional metadata
   tags: text("tags"), // JSON array
