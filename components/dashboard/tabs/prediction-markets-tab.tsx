@@ -40,11 +40,12 @@ export function PredictionMarketsTab() {
   const [hideHighProb, setHideHighProb] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const observerTarget = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchMarkets()
-  }, [limit, timeWindow, selectedCategory, searchQuery])
+  }, [limit, timeWindow, selectedCategory, searchTerm])
 
   // Infinite scroll observer
   useEffect(() => {
@@ -92,7 +93,7 @@ export function PredictionMarketsTab() {
       setLoading(true)
       const categoryParam = selectedCategory !== 'all' ? `&category=${selectedCategory}` : ''
       const syncParam = sync ? '&sync=true' : ''
-      const searchParam = searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
+      const searchParam = searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : ''
       const response = await fetch(`/api/polymarket/markets?limit=${limit}&window=${timeWindow}${categoryParam}${syncParam}${searchParam}`)
       const data = await response.json()
 
@@ -168,6 +169,11 @@ export function PredictionMarketsTab() {
             <h2 className="text-2xl font-bold">Most Traded Prediction Markets</h2>
             <p className="text-sm text-muted-foreground mt-1">
               Live from Polymarket • {filteredMarkets.length} active markets
+              {searchTerm && (
+                <span className="ml-2 text-primary font-medium">
+                  • Searching for "{searchTerm}"
+                </span>
+              )}
             </p>
           </div>
 
@@ -235,9 +241,14 @@ export function PredictionMarketsTab() {
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search markets..."
+              placeholder="Search markets... (Press Enter to search)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setSearchTerm(searchQuery)
+                }
+              }}
               className="pl-9"
             />
           </div>
@@ -288,6 +299,41 @@ export function PredictionMarketsTab() {
                       className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                     />
                   )}
+
+                  {/* Highest Odds Outcome Card */}
+                  {market.outcomes && market.outcomePrices && (() => {
+                    const highestIdx = market.outcomePrices.reduce((maxIdx, price, idx) =>
+                      parseFloat(price) > parseFloat(market.outcomePrices[maxIdx]) ? idx : maxIdx
+                    , 0)
+                    const outcome = market.outcomes[highestIdx]
+                    const percentage = parseFloat(market.outcomePrices[highestIdx]) * 100
+                    const isYes = outcome.toLowerCase() === 'yes'
+                    const isNo = outcome.toLowerCase() === 'no'
+
+                    return (
+                      <div
+                        className={`px-2 py-1.5 rounded border flex-shrink-0 ${isYes
+                          ? 'bg-green-50 dark:bg-green-950/20 border-green-300 dark:border-green-800'
+                          : isNo
+                            ? 'bg-red-50 dark:bg-red-950/20 border-red-300 dark:border-red-800'
+                            : 'bg-muted border-border'
+                          }`}
+                      >
+                        <div className="text-[10px] font-medium text-muted-foreground">
+                          {outcome}
+                        </div>
+                        <div className={`text-lg font-bold leading-tight ${isYes
+                          ? 'text-green-600 dark:text-green-400'
+                          : isNo
+                            ? 'text-red-600 dark:text-red-400'
+                            : 'text-primary'
+                          }`}>
+                          {percentage.toFixed(1)}%
+                        </div>
+                      </div>
+                    )
+                  })()}
+
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <h3 className="text-lg font-bold leading-tight">{market.question}</h3>
@@ -308,45 +354,17 @@ export function PredictionMarketsTab() {
                   </div>
                 </div>
 
-                {/* Outcomes - Prominent Display */}
-                {market.outcomes && market.outcomePrices && (
-                  <div className="mb-4">
-                    <div className="grid grid-cols-2 gap-3 mb-3">
-                      {market.outcomes.map((outcome, idx) => {
-                        const percentage = parseFloat(market.outcomePrices[idx]) * 100
-                        const isYes = outcome.toLowerCase() === 'yes'
-                        const isNo = outcome.toLowerCase() === 'no'
-                        return (
-                          <div
-                            key={idx}
-                            className={`p-4 rounded-lg border-2 ${isYes
-                              ? 'bg-green-50 dark:bg-green-950/20 border-green-300 dark:border-green-800'
-                              : isNo
-                                ? 'bg-red-50 dark:bg-red-950/20 border-red-300 dark:border-red-800'
-                                : 'bg-muted border-border'
-                              }`}
-                          >
-                            <div className="text-xs font-medium text-muted-foreground mb-1">
-                              {outcome}
-                            </div>
-                            <div className={`text-3xl font-bold ${isYes
-                              ? 'text-green-600 dark:text-green-400'
-                              : isNo
-                                ? 'text-red-600 dark:text-red-400'
-                                : 'text-primary'
-                              }`}>
-                              {percentage.toFixed(1)}%
-                            </div>
-                            <Progress
-                              value={percentage}
-                              className="mt-2 h-1"
-                            />
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                )}
+                {/* Polymarket Embed */}
+                <div className="mb-4 rounded-lg overflow-hidden border border-border bg-background">
+                  <iframe
+                    src={`https://embed.polymarket.com/market.html?market=${market.slug}&features=volume,chart&theme=dark`}
+                    width="100%"
+                    height="330"
+                    className="w-full dark:[color-scheme:dark] light:[color-scheme:light]"
+                    style={{ border: 'none' }}
+                    loading="lazy"
+                  />
+                </div>
 
                 {/* Stats Row */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -387,20 +405,6 @@ export function PredictionMarketsTab() {
                     currentNoPrice={market.outcomePrices && market.outcomePrices[1] ? parseFloat(market.outcomePrices[1]) : 0.5}
                   />
                 </div>
-
-                {/* Polymarket Embed */}
-                <div className="mt-4">
-                  <div className="rounded-lg overflow-hidden border border-border bg-background">
-                    <iframe
-                      src={`https://embed.polymarket.com/market.html?market=${market.slug}&features=volume,price`}
-                      width="100%"
-                      height="200"
-                      className="w-full dark:[color-scheme:dark] light:[color-scheme:light]"
-                      style={{ border: 'none' }}
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
               </div>
 
               {/* Action Buttons */}
@@ -439,8 +443,23 @@ export function PredictionMarketsTab() {
           <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-xl font-bold mb-2">No Markets Found</h3>
           <p className="text-muted-foreground">
-            Unable to load prediction markets at this time.
+            {searchTerm
+              ? `No markets found matching "${searchTerm}". Try a different search term.`
+              : 'Unable to load prediction markets at this time.'}
           </p>
+          {searchTerm && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setSearchQuery('')
+                setSearchTerm('')
+              }}
+              className="mt-4"
+            >
+              Clear Search
+            </Button>
+          )}
         </Card>
       )}
     </div>

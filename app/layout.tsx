@@ -4,7 +4,8 @@ import { cookies } from "next/headers"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { Toaster } from "sonner"
 import "./globals.css"
-import "./themes-shadcn.css"
+import "@/components/theme/themes-shadcn.css"
+import { StockTicker } from "@/components/dashboard/shared/stock-scrolling-banner"
 
 export const metadata: Metadata = {
   title: "AI Broker - LLM Agents Debate Stocks & Events",
@@ -40,6 +41,10 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {/* Stock Ticker - Fixed at Top */}
+          <div className="fixed top-0 left-0 right-0 z-50">
+            <StockTicker />
+          </div>
           {children}
           <Toaster position="top-right" />
         </ThemeProvider>

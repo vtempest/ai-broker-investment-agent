@@ -17,12 +17,12 @@ export default function PredictLayout({
         <div className="fixed top-0 left-0 right-0 z-50">
           <StockTicker />
         </div>
-
+        {/* 
         <header className="flex pt-8 h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
           </div>
-        </header>
+        </header> */}
 
         {/* Add top padding to content to account for ticker */}
         <div className="pt-10">

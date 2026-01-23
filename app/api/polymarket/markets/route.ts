@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getMarkets, syncMarkets, syncAllMarkets, searchMarkets, saveMarkets } from '@/packages/investing/src/prediction/polymarket'
+import { getMarkets, syncMarkets, syncAllMarkets, searchMarkets, searchMarketsInDB, saveMarkets } from '@/packages/investing/src/prediction/polymarket'
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,35 +10,40 @@ export async function GET(request: NextRequest) {
     const sync = searchParams.get('sync') === 'true'
     const search = searchParams.get('search') || ''
 
-    // If search query provided, use search API
+    // If search query provided, search in database
     if (search && search.trim() !== '') {
-      const searchResults = await searchMarkets(search, limit)
+      const sortBy = window === "total" ? "volumeTotal" : "volume24hr"
+      const searchResults = await searchMarketsInDB(search, {
+        limit,
+        sortBy: sortBy as any,
+        activeOnly: true
+      })
 
       // Format search results
       const formattedMarkets = searchResults.map((m: any) => ({
         id: m.id,
         question: m.question,
         slug: m.slug,
-        eventSlug: m.events && m.events.length > 0 ? m.events[0].slug : null,
+        eventSlug: m.eventSlug,
         volume24hr: Math.floor(m.volume24hr || 0),
-        volumeTotal: Math.floor(m.volumeNum || m.volumeTotal || 0),
+        volumeTotal: Math.floor(m.volumeTotal || 0),
         active: m.active,
         closed: m.closed,
-        outcomes: m.outcomes || [],
-        outcomePrices: m.outcomePrices || [],
-        image: m.imageUrl || m.image,
+        outcomes: (m.outcomes || '[]').split(","),
+        outcomePrices: (m.outcomePrices || '[]').split(","),
+        image: m.image,
         description: m.description,
         endDate: m.endDate,
         groupItemTitle: m.groupItemTitle,
         enableOrderBook: m.enableOrderBook,
-        tags: m.tags || [],
+        tags: JSON.parse(m.tags || '[]'),
       }))
 
       return NextResponse.json({
         success: true,
         markets: formattedMarkets,
         count: formattedMarkets.length,
-        source: 'search',
+        source: 'database-search',
         timestamp: new Date().toISOString()
       })
     }

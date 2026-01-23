@@ -38,7 +38,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuBadge,
-  SidebarRail,
+  SidebarRail, SidebarProvider,
   useSidebar,
 } from "@/components/ui/sidebar"
 import {
@@ -57,67 +57,7 @@ import { SettingsDialog } from "@/components/settings/settings-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher"
-
-// Theme names
-const themeNames = [
-  "modern-minimal",
-  "pink-lemonade",
-  "twitter",
-  "mocha-mousse",
-  "bubblegum",
-  "amethyst-haze",
-  "notebook",
-  "doom-64",
-  "catppuccin",
-  "graphite",
-  "perpetuity",
-  "kodama-grove",
-  "cosmic-night",
-  "tangerine",
-  "quantum-rose",
-  "nature",
-  "bold-tech",
-  "elegant-luxury",
-  "amber-minimal",
-  "supabase",
-  "neo-brutalism",
-  "solar-dusk",
-  "claymorphism",
-  "cyberpunk",
-  "pastel-dreams"
-]
-
-const themeColors: Record<string, { primary: string; secondary: string }> = {
-  "modern-minimal": { primary: "#3b82f6", secondary: "#f3f4f6" },
-  "pink-lemonade": { primary: "#a84370", secondary: "#f1c4e6" },
-  "twitter": { primary: "#1e9df1", secondary: "#0f1419" },
-  "mocha-mousse": { primary: "#A37764", secondary: "#BAAB92" },
-  "bubblegum": { primary: "#d04f99", secondary: "#8acfd1" },
-  "amethyst-haze": { primary: "#8a79ab", secondary: "#dfd9ec" },
-  "notebook": { primary: "#606060", secondary: "#dedede" },
-  "doom-64": { primary: "#b71c1c", secondary: "#556b2f" },
-  "catppuccin": { primary: "#8839ef", secondary: "#ccd0da" },
-  "graphite": { primary: "#606060", secondary: "#e0e0e0" },
-  "perpetuity": { primary: "#06858e", secondary: "#d9eaea" },
-  "kodama-grove": { primary: "#8d9d4f", secondary: "#decea0" },
-  "cosmic-night": { primary: "#6e56cf", secondary: "#e4dfff" },
-  "tangerine": { primary: "#e05d38", secondary: "#f3f4f6" },
-  "quantum-rose": { primary: "#e6067a", secondary: "#ffd6ff" },
-  "nature": { primary: "#2e7d32", secondary: "#e8f5e9" },
-  "bold-tech": { primary: "#8b5cf6", secondary: "#f3f0ff" },
-  "elegant-luxury": { primary: "#9b2c2c", secondary: "#fdf2d6" },
-  "amber-minimal": { primary: "#f59e0b", secondary: "#f3f4f6" },
-  "supabase": { primary: "#72e3ad", secondary: "#fdfdfd" },
-  "neo-brutalism": { primary: "#ff3333", secondary: "#ffff00" },
-  "solar-dusk": { primary: "#B45309", secondary: "#E4C090" },
-  "claymorphism": { primary: "#6366f1", secondary: "#d6d3d1" },
-  "cyberpunk": { primary: "#ff00c8", secondary: "#f0f0ff" },
-  "pastel-dreams": { primary: "#a78bfa", secondary: "#e9d8fd" }
-}
-
-const formatThemeName = (name: string) => {
-  return name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-}
+import { themeNames, themeColors, formatThemeName } from "@/components/theme/theme-dropdown"
 
 // Helper component for Search
 function SidebarSearch() {
@@ -227,25 +167,24 @@ function SidebarSearch() {
 // Navigation Configuration
 const navigationGroups = [
   {
-    title: "Market",
+    title: "Trade",
     items: [
-      { name: "Analyze Strategy", href: "/stock", icon: "/icons/icon-indicators.png" },
-      { name: "Market Scanner", href: "/markets", icon: "/icons/icon-market-screener.svg" },
+      { name: "Analyze Strategy", href: "/stock", icon: "/icons/icon-graph-chart.svg" },
+      { name: "Prediction Markets", href: "/predict", icon: "/icons/icon-prediction-markets.png" },
     ],
   },
   {
-    title: "Trading",
+    title: "Signal",
     items: [
+      { name: "Market Scanner", href: "/markets", icon: "/icons/icon-market-screener.svg" },
       { name: "Copy Trade Leaders", href: "/leaders", icon: "/icons/icon-copy-trade.png" },
       // { name: "Orders", tab: "orders", icon: TrendingUp },
-      { name: "Prediction Markets", href: "/predict", icon: "/icons/icon-prediction-markets.png" },
     ],
   },
   {
     title: "Risk & Portfolio",
     items: [
-      { name: "Overview", href: "/dashboard", icon: "/icons/icon-graph-chart.svg" },
-      { name: "Risk Management", tab: "risk", icon: Shield },
+      { name: "Portfolio Management", href: "/portfolio", icon: "/icons/icon-indicators.png" },
     ],
   },
 ]
@@ -319,7 +258,7 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const logoHref = pathname.startsWith('/docs') ? '/dashboard' : '/'
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    < Sidebar collapsible="icon" {...props} >
       <SidebarHeader className="pt-10">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -393,7 +332,14 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SettingsDialog
                   trigger={
                     <SidebarMenuButton tooltip="Settings">
-                      <Settings className="w-6 h-6" />
+                      <Image
+                        src="/icons/icon-settings.svg"
+                        alt="Settings"
+                        width={24}
+                        height={24}
+                        className="w-6 h-6 shrink-0"
+                        unoptimized
+                      />
                       <span className="group-data-[collapsible=icon]:hidden">Settings</span>
                     </SidebarMenuButton>
                   }
@@ -540,7 +486,7 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarFooter>
       <SidebarRail />
-    </Sidebar>
+    </Sidebar >
   )
 }
 

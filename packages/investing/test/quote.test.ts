@@ -4,7 +4,11 @@
  * Run with: tsx packages/investing/src/stocks/test-unified-quotes.ts
  */
 
-import { getQuote, getQuotes, unifiedQuoteService } from "./unified-quote-service";
+import {
+  getQuote,
+  getQuotes,
+  unifiedQuoteService,
+} from "../src/stocks/unified-quote-service";
 
 // Colors for console output
 const colors = {
@@ -31,7 +35,10 @@ async function testSingleQuote() {
       log(`Symbol: ${result.data.symbol}`, "blue");
       log(`Price: $${result.data.price.toFixed(2)}`, "blue");
       log(`Change: ${result.data.change?.toFixed(2) || "N/A"}`, "blue");
-      log(`Change %: ${result.data.changePercent?.toFixed(2) || "N/A"}%`, "blue");
+      log(
+        `Change %: ${result.data.changePercent?.toFixed(2) || "N/A"}%`,
+        "blue",
+      );
       log(`Source: ${result.data.source}`, "yellow");
       log(`Name: ${result.data.name}`, "blue");
       log(`Exchange: ${result.data.exchange}`, "blue");
@@ -52,13 +59,16 @@ async function testMultipleQuotes() {
     const result = await getQuotes(symbols);
 
     if (result.success && result.data) {
-      log(`✓ Fetched ${result.data.quotes.length}/${symbols.length} quotes`, "green");
+      log(
+        `✓ Fetched ${result.data.quotes.length}/${symbols.length} quotes`,
+        "green",
+      );
       log(`Source: ${result.data.source}`, "yellow");
 
       result.data.quotes.forEach((quote) => {
         log(
           `  ${quote.symbol}: $${quote.price.toFixed(2)} (${quote.source})`,
-          "blue"
+          "blue",
         );
       });
     } else {
@@ -77,7 +87,10 @@ async function testSourceSelection() {
 
   for (const source of sources) {
     try {
-      const result = await unifiedQuoteService.getQuoteFromSource(symbol, source);
+      const result = await unifiedQuoteService.getQuoteFromSource(
+        symbol,
+        source,
+      );
 
       if (result.success && result.data) {
         log(`✓ ${source}: $${result.data.price.toFixed(2)}`, "green");
@@ -110,7 +123,16 @@ async function testErrorHandling() {
 async function testPerformance() {
   log("\n=== Test 5: Performance Test ===", "cyan");
 
-  const symbols = ["AAPL", "MSFT", "GOOGL", "TSLA", "AMZN", "META", "NVDA", "AMD"];
+  const symbols = [
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "TSLA",
+    "AMZN",
+    "META",
+    "NVDA",
+    "AMD",
+  ];
 
   try {
     const startTime = Date.now();
@@ -118,8 +140,14 @@ async function testPerformance() {
     const duration = Date.now() - startTime;
 
     if (result.success && result.data) {
-      log(`✓ Fetched ${result.data.quotes.length} quotes in ${duration}ms`, "green");
-      log(`Average: ${(duration / result.data.quotes.length).toFixed(0)}ms per quote`, "yellow");
+      log(
+        `✓ Fetched ${result.data.quotes.length} quotes in ${duration}ms`,
+        "green",
+      );
+      log(
+        `Average: ${(duration / result.data.quotes.length).toFixed(0)}ms per quote`,
+        "yellow",
+      );
     } else {
       log(`✗ Failed: ${result.error}`, "red");
     }

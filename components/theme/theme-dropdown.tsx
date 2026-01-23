@@ -14,7 +14,7 @@ import {
 import { useTheme } from "next-themes"
 import Image from "next/image"
 
-const themeNames = [
+export const themeNames = [
   "modern-minimal",
   "elegant-luxury",
   "cyberpunk",
@@ -42,7 +42,7 @@ const themeNames = [
   "pastel-dreams"
 ];
 
-const themeColors: Record<string, { primary: string; secondary: string }> = {
+export const themeColors: Record<string, { primary: string; secondary: string }> = {
   "modern-minimal": { primary: "#3b82f6", secondary: "#f3f4f6" },
   "elegant-luxury": { primary: "#9b2c2c", secondary: "#fdf2d6" },
   "cyberpunk": { primary: "#ff00c8", secondary: "#f0f0ff" },
@@ -69,6 +69,11 @@ const themeColors: Record<string, { primary: string; secondary: string }> = {
   "claymorphism": { primary: "#6366f1", secondary: "#d6d3d1" },
   "pastel-dreams": { primary: "#a78bfa", secondary: "#e9d8fd" }
 };
+
+export const formatThemeName = (name: string) => {
+  return name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+}
+
 
 export function ThemeDropdown() {
   const { theme, setTheme } = useTheme()
@@ -126,7 +131,7 @@ export function ThemeDropdown() {
     <DropdownMenu onOpenChange={(open) => !open && handlePreviewEnd()}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
-            <Image src="/icons/icon-themes.svg" alt="Algo Strategies" width={32} height={32} />
+          <Image src="/icons/icon-themes.svg" alt="Algo Strategies" width={32} height={32} />
 
         </Button>
       </DropdownMenuTrigger>

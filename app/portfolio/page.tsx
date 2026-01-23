@@ -1,39 +1,19 @@
 "use client"
 
 import { Suspense, useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useSession } from "@/lib/auth-client"
 
-import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { OverviewTab } from "@/components/dashboard/tabs/overview-tab"
 import { RiskPortfolioTab } from "@/components/dashboard/tabs/risk-portfolio-tab"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader2, LogIn } from "lucide-react"
 
-function DashboardContent() {
+function PortfolioContent() {
   const { data: session, isPending } = useSession()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const [activeTab, setActiveTab] = useState(searchParams.get('tab') || "overview")
   const [isInitializing, setIsInitializing] = useState(false)
-
-  // Sync tab with URL
-  useEffect(() => {
-    const tab = searchParams.get('tab')
-    if (tab) {
-      setActiveTab(tab)
-    }
-  }, [searchParams])
-
-  // Update URL when tab changes
-  const handleTabChange = (newTab: string) => {
-    setActiveTab(newTab)
-    // Preserve existing query params (like symbol)
-    const currentParams = new URLSearchParams(searchParams.toString())
-    currentParams.set('tab', newTab)
-    router.push(`/dashboard?${currentParams.toString()}`, { scroll: false })
-  }
 
   // Initialize portfolio on first login and check survey completion
   useEffect(() => {
@@ -102,9 +82,9 @@ function DashboardContent() {
         <Card className="p-8 max-w-md text-center">
           <div className="mb-6">
             <LogIn className="h-16 w-16 text-primary mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Welcome to Your Dashboard</h2>
+            <h2 className="text-2xl font-bold mb-2">Welcome to Your Portfolio</h2>
             <p className="text-muted-foreground">
-              Sign in to access your trading dashboard with $100,000 in play money
+              Sign in to view your portfolio and track your investments
             </p>
           </div>
 
@@ -127,23 +107,18 @@ function DashboardContent() {
     )
   }
 
-  // Show dashboard for authenticated users
+  // Show portfolio for authenticated users
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full" >
-        <TabsContent value="overview" className="space-y-6 mt-6">
-          <OverviewTab />
-        </TabsContent>
-
-        <TabsContent value="risk" className="space-y-6 mt-6">
-          <RiskPortfolioTab />
-        </TabsContent>
-      </Tabs>
+      <div className="space-y-6 mt-6">
+        <OverviewTab />
+        <RiskPortfolioTab />
+      </div>
     </div>
   )
 }
 
-export default function DashboardPage() {
+export default function PortfolioPage() {
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center bg-background">
@@ -154,7 +129,7 @@ export default function DashboardPage() {
         </Card>
       </div>
     }>
-      <DashboardContent />
+      <PortfolioContent />
     </Suspense>
   )
 }

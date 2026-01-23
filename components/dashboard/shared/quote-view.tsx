@@ -89,8 +89,8 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
   const [watchlistLoading, setWatchlistLoading] = useState(false)
   const [tradeModalOpen, setTradeModalOpen] = useState(false)
   const [peerStockInfo, setPeerStockInfo] = useState<Map<string, { name: string; marketCap: number }>>(new Map())
-  const [industryInfo, setIndustryInfo] = useState<{ emoji: string; number: number } | null>(null)
-  const [sectorInfo, setSectorInfo] = useState<{ emoji: string; number: number } | null>(null)
+  const [industryInfo, setIndustryInfo] = useState<{ emoji: string; number: number; name: string } | null>(null)
+  const [sectorInfo, setSectorInfo] = useState<{ emoji: string; number: number; name: string } | null>(null)
 
   // Sector emoji mapping
   const sectorEmojis: Record<string, string> = {
@@ -108,45 +108,47 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
     'Telecommunications': '📞',
   }
 
-  // Fetch industry and sector info from sectors-industries.json
+  // Fetch industry and sector info from stock-names.json and sectors-industries.json
   useEffect(() => {
-    // Get industry from any available source with fallbacks
-    const industry = data?.summaryProfile?.industry || data?.summaryDetail?.industry || data?.price?.industry
-    const sector = data?.summaryProfile?.sector || data?.summaryDetail?.sector || data?.price?.sector
-
-    if (!industry && !sector) return
+    if (!symbol) return
 
     const loadIndustryAndSectorInfo = async () => {
       try {
+        // Import stock names to get the industryId for this symbol
+        const { stockNames: stockNamesData } = await import('investing/stocks')
+        const stockData = stockNamesData.find(
+          (stock) => stock[0] === symbol.toUpperCase()
+        )
+
+        if (!stockData) return
+
+        const industryId = stockData[2] // Third element is industryId
+
         // Import sectors-industries data
         // Format: { sectors: { name: number }, industries: [[id, name, emoji, sectorId], ...] }
         const sectorsIndustriesData = await import('@/packages/investing/src/stock-names-data/sectors-industries.json')
         const industries = sectorsIndustriesData.industries as Array<[number, string, string, number]>
         const sectors = sectorsIndustriesData.sectors as Record<string, number>
 
-        // Find the industry by matching the industry name (case-insensitive)
-        if (industry) {
-          const industryName = industry.toLowerCase()
-          const industryMatch = industries.find(
-            (ind) => ind[1].toLowerCase() === industryName
-          )
+        // Find the industry by industryId
+        const industryMatch = industries.find((ind) => ind[0] === industryId)
 
-          if (industryMatch) {
-            setIndustryInfo({
-              number: industryMatch[0], // Industry ID
-              emoji: industryMatch[2],  // Emoji
-            })
-          }
-        }
+        if (industryMatch) {
+          const [id, name, emoji, sectorId] = industryMatch
+          setIndustryInfo({
+            number: id,
+            name: name,
+            emoji: emoji,
+          })
 
-        // Find the sector by matching the sector name
-        if (sector) {
-          const sectorNumber = sectors[sector]
-          const sectorEmoji = sectorEmojis[sector] || '📊'
-
-          if (sectorNumber) {
+          // Find the sector name from sectorId
+          const sectorEntry = Object.entries(sectors).find(([_, num]) => num === sectorId)
+          if (sectorEntry) {
+            const [sectorName, sectorNumber] = sectorEntry
+            const sectorEmoji = sectorEmojis[sectorName] || '📊'
             setSectorInfo({
               number: sectorNumber,
+              name: sectorName,
               emoji: sectorEmoji,
             })
           }
@@ -157,7 +159,7 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
     }
 
     loadIndustryAndSectorInfo()
-  }, [data?.summaryProfile?.industry, data?.summaryDetail?.industry, data?.price?.industry, data?.summaryProfile?.sector, data?.summaryDetail?.sector, data?.price?.sector])
+  }, [symbol])
 
   // Fetch peer stock information from stock-names.json
   useEffect(() => {
@@ -570,7 +572,7 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
                   <div className="text-sm font-medium text-muted-foreground">Sector</div>
                   <div className="text-lg font-bold flex items-center gap-2">
                     {sectorInfo?.emoji && <span>{sectorInfo.emoji}</span>}
-                    {data.summaryProfile?.sector || data.summaryDetail?.sector || data.price?.sector || "N/A"}
+                    {sectorInfo?.name || data.summaryProfile?.sector || data.summaryDetail?.sector || data.price?.sector || "N/A"}
                     {sectorInfo?.number && (
                       <span className="text-sm text-muted-foreground">#{sectorInfo.number}</span>
                     )}
@@ -580,7 +582,7 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
                   <div className="text-sm font-medium text-muted-foreground">Industry</div>
                   <div className="text-lg font-bold flex items-center gap-2">
                     {industryInfo?.emoji && <span>{industryInfo.emoji}</span>}
-                    {data.summaryProfile?.industry || data.summaryDetail?.industry || data.price?.industry || "N/A"}
+                    {industryInfo?.name || data.summaryProfile?.industry || data.summaryDetail?.industry || data.price?.industry || "N/A"}
                     {industryInfo?.number && (
                       <span className="text-sm text-muted-foreground">#{industryInfo.number}</span>
                     )}

@@ -12,11 +12,8 @@ export default function StockLayout({
     <SidebarProvider>
       <AppSidebar />
 
-      <SidebarInset className="pb-24 md:pb-0">
-        {/* Stock Ticker - Fixed at Top */}
-        <div className="fixed top-0 left-0 right-0 z-50">
-          <StockTicker />
-        </div>
+      <SidebarInset className=" md:pb-0">
+
 
 
         {children}

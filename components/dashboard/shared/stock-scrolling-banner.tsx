@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import { TrendingUp, TrendingDown, Plus, X, Settings, CalendarDays, Calendar, Play, Pause } from "lucide-react"
+import { TrendingUp, TrendingDown, Plus, X, Settings, Play, Pause } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -45,6 +45,59 @@ function getStockLogoUrl(symbol: string): string {
 }
 
 const showPercentSign = false;
+
+function ChangeIcon({ letter, isPositive }: { letter: string; isPositive: boolean }) {
+  if (!isPositive) {
+    // Red inverted triangle for negative changes
+    return (
+      <svg width="24" height="24" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" className="opacity-60">
+        <polygon
+          points="20,36 236,36 128,232"
+          fill="none"
+          stroke="#ff2b2b"
+          strokeWidth="10"
+          strokeLinejoin="round"
+        />
+        <text
+          x="128"
+          y="120"
+          textAnchor="middle"
+          fontSize="150"
+          fontFamily="Inter, Arial, sans-serif"
+          fontWeight="700"
+          fill="#ffffff"
+        >
+          {letter}
+        </text>
+      </svg>
+    )
+  }
+
+  // Green upward triangle for positive changes
+  return (
+    <svg width="24" height="24" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" className="opacity-60">
+      <polygon
+        points="128,24 236,220 20,220"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="10"
+        strokeLinejoin="round"
+      />
+      <text
+        x="130"
+        y="200"
+        textAnchor="middle"
+        fontSize="150"
+        fontFamily="Inter, Arial, sans-serif"
+        fontWeight="700"
+        fill="currentColor"
+        className="letter"
+      >
+        {letter}
+      </text>
+    </svg>
+  )
+}
 
 const defaultWatchlist = [
   // Major Indexes (Yahoo Finance requires ^ prefix for indices)
@@ -137,7 +190,7 @@ function TickerItem({ data }: { data: TickerData }) {
   const isYearlyPositive = data.yearlyChange >= 0
 
   const handleClick = () => {
-    router.push(`/dashboard?symbol=${data.symbol}`)
+    router.push(`/stock/${data.symbol}`)
   }
 
   return (
@@ -146,7 +199,7 @@ function TickerItem({ data }: { data: TickerData }) {
         <TooltipTrigger asChild>
           <div
             onClick={handleClick}
-            className="flex items-center font-mono gap-2 px-3 py-1 cursor-pointer hover:bg-muted/50 transition-colors text-sm"
+            className="flex items-center font-mono gap-2 px-3 cursor-pointer hover:bg-muted/50 transition-colors text-sm"
           >
             <Image
               src={getStockLogoUrl(data.symbol) || "/placeholder.svg"}
@@ -182,7 +235,7 @@ function TickerItem({ data }: { data: TickerData }) {
                 isMonthlyPositive ? "text-emerald-500" : "text-red-500"
               )}
             >
-              <CalendarDays className="h-3 w-3 text-muted-foreground" />
+              <ChangeIcon letter="m" isPositive={isMonthlyPositive} />
               <span className="font-mono tabular-nums">
                 {Math.round(data.monthlyChangePercent)}{showPercentSign ? "%" : ""}
               </span>
@@ -193,8 +246,7 @@ function TickerItem({ data }: { data: TickerData }) {
                 isYearlyPositive ? "text-emerald-500" : "text-red-500"
               )}
             >
-              <Calendar className="h-3 w-3 text-muted-foreground" />
-
+              <ChangeIcon letter="y" isPositive={isYearlyPositive} />
               {/* <span className="text-muted-foreground text-xs">Y:</span> */}
               <span className="font-mono tabular-nums">
                 {Math.round(data.yearlyChangePercent)}{showPercentSign ? "%" : ""}
@@ -381,7 +433,10 @@ export function StockTicker() {
   }
 
   return (
-    <div className="w-full bg-card border-b border-border flex items-center overflow-hidden max-w-full">
+    <div className={cn(
+      "w-full h-full mx-2 bg-card border-b border-border flex items-center overflow-hidden max-w-full transition-all",
+      tickerData.length === 0 && "h-0 border-0"
+    )}>
       {/* Scrolling Ticker */}
       <div
         ref={scrollRef}
@@ -389,7 +444,7 @@ export function StockTicker() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="flex whitespace-nowrap py-0">
+        <div className="flex whitespace-nowrap">
           {/* Render items twice for seamless infinite loop */}
           {tickerData.map((data, index) => (
             <TickerItem key={`first-${data.symbol}-${index}`} data={data} />

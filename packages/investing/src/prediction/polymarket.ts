@@ -7,7 +7,7 @@ import {
   polymarketMarketPositions,
   polymarketDebates,
 } from "../db/schema";
-import { eq, desc, asc } from "drizzle-orm";
+import { eq, desc, asc, like } from "drizzle-orm";
 
 // ============================================================================
 // Fetching Functions
@@ -852,6 +852,64 @@ export async function getMarkets(
   }
 
   return results;
+}
+
+/**
+ * Searches markets in the database by question text.
+ * @param searchTerm - The search term to match against market questions
+ * @param options - Query configuration options
+ * @param options.limit - Maximum number of markets to retrieve (default: 50)
+ * @param options.sortBy - Sort field: "volume24hr", "volumeTotal", or "createdAt" (default: "volume24hr")
+ * @param options.activeOnly - Only include active markets (default: true)
+ * @returns Array of market records matching the search term
+ */
+export async function searchMarketsInDB(
+  searchTerm: string,
+  options: {
+    limit?: number;
+    sortBy?: "volume24hr" | "volumeTotal" | "createdAt";
+    activeOnly?: boolean;
+  } = {}
+) {
+  const {
+    limit = 50,
+    sortBy = "volume24hr",
+    activeOnly = true,
+  } = options;
+
+  if (!searchTerm || searchTerm.trim() === '') {
+    return [];
+  }
+
+  let query = db.select().from(polymarketMarkets);
+
+  // Filter by active status and search term
+  if (activeOnly) {
+    query = query.where(
+      eq(polymarketMarkets.active, true)
+    ) as any;
+  }
+
+  // Sort
+  const orderByColumn =
+    sortBy === "volume24hr"
+      ? polymarketMarkets.volume24hr
+      : sortBy === "volumeTotal"
+        ? polymarketMarkets.volumeTotal
+        : polymarketMarkets.createdAt;
+
+  query = query.orderBy(desc(orderByColumn)) as any;
+
+  const results = await query;
+
+  // Filter by search term (case-insensitive)
+  const searchLower = searchTerm.toLowerCase();
+  const filteredResults = results.filter((market: any) => {
+    return market.question.toLowerCase().includes(searchLower);
+  });
+
+  // Apply limit
+  return filteredResults.slice(0, limit);
 }
 
 /**
