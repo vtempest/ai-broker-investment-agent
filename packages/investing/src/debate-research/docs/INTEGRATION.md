@@ -14,47 +14,48 @@ The debate-agents-js library is now accessible via:
 
 \`\`\`
 ┌─────────────────────────────────────────────────────────────┐
-│                     Next.js Dashboard                       │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  /dashboard/debate-agents                           │   │
-│  │  - User interface for stock analysis                │   │
-│  │  - Ticker input and quick mode toggle               │   │
-│  │  - Results display                                  │   │
-│  └─────────────────┬───────────────────────────────────┘   │
-│                    │                                        │
-│                    ▼                                        │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  /api/debate-agents/route.ts                        │   │
-│  │  - POST endpoint for analysis requests              │   │
-│  │  - GET endpoint for quick analysis                  │   │
-│  │  - Spawns Node.js subprocess                        │   │
-│  └─────────────────┬───────────────────────────────────┘   │
-│                    │                                        │
+│ Next.js Dashboard │
+│ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ /dashboard/debate-agents │ │
+│ │ - User interface for stock analysis │ │
+│ │ - Ticker input and quick mode toggle │ │
+│ │ - Results display │ │
+│ └─────────────────┬───────────────────────────────────┘ │
+│ │ │
+│ ▼ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ /api/debate-agents/route.ts │ │
+│ │ - POST endpoint for analysis requests │ │
+│ │ - GET endpoint for quick analysis │ │
+│ │ - Spawns Node.js subprocess │ │
+│ └─────────────────┬───────────────────────────────────┘ │
+│ │ │
 └────────────────────┼────────────────────────────────────────┘
-                     │
-                     ▼
+│
+▼
 ┌─────────────────────────────────────────────────────────────┐
-│              lib/debate-agents-js/                          │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  simple-runner.js                                   │   │
-│  │  - CLI and programmatic interface                   │   │
-│  │  - Uses available modules:                          │   │
-│  │    • config.js - Environment setup                  │   │
-│  │    • llms.js - Gemini/OpenAI models                │   │
-│  │    • prompts.js - Agent prompts                     │   │
-│  │    • ticker_corrections.js - Ticker validation      │   │
-│  │    • report_generator.js - Markdown reports         │   │
-│  │    • token_tracker.js - Cost tracking              │   │
-│  │    • yahoo-finance2 - Market data                   │   │
-│  └─────────────────────────────────────────────────────┘   │
+│ lib/debate-agents-js/ │
+│ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ simple-runner.js │ │
+│ │ - CLI and programmatic interface │ │
+│ │ - Uses available modules: │ │
+│ │ • config.js - Environment setup │ │
+│ │ • llms.js - Gemini/OpenAI models │ │
+│ │ • prompts.js - Agent prompts │ │
+│ │ • ticker_corrections.js - Ticker validation │ │
+│ │ • report_generator.js - Markdown reports │ │
+│ │ • token_tracker.js - Cost tracking │ │
+│ │ • yahoo-finance2 - Market data │ │
+│ └─────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 \`\`\`
 
 ## Files Created
 
 ### 1. API Endpoint
+
 **File**: `app/api/debate-agents/route.ts`
 
 Provides REST API access to debate agents analysis:
@@ -63,9 +64,9 @@ Provides REST API access to debate agents analysis:
 // POST request
 POST /api/debate-agents
 {
-  "ticker": "AAPL",
-  "quickMode": true,
-  "quiet": true
+"ticker": "AAPL",
+"quickMode": true,
+"quiet": true
 }
 
 // GET request (uses quick mode by default)
@@ -73,6 +74,7 @@ GET /api/debate-agents?ticker=AAPL
 \`\`\`
 
 **Features**:
+
 - Ticker validation
 - Subprocess spawning for isolated execution
 - Environment variable passing for API keys
@@ -81,6 +83,7 @@ GET /api/debate-agents?ticker=AAPL
 - Error handling
 
 ### 2. Simple Analysis Runner
+
 **File**: `lib/debate-agents-js/simple-runner.js`
 
 Lightweight runner that uses available debate-agents-js modules:
@@ -91,6 +94,7 @@ node simple-runner.js --ticker NVDA --quick
 \`\`\`
 
 **Features**:
+
 - System initialization
 - Ticker correction and validation
 - Yahoo Finance quote data fetching
@@ -100,11 +104,13 @@ node simple-runner.js --ticker NVDA --quick
 - Markdown report generation
 
 ### 3. Dashboard Component
-**File**: `components/dashboard/debate-agents-analysis.tsx`
+
+**File**: `components/investing/debate-agents-analysis.tsx`
 
 React component for user interaction:
 
 **Features**:
+
 - Ticker input with validation
 - Quick mode toggle
 - Loading states
@@ -114,20 +120,24 @@ React component for user interaction:
 - Error handling
 
 ### 4. Dashboard Page
+
 **File**: `app/dashboard/debate-agents/page.tsx`
 
 Full page dedicated to debate agents:
 
 **Features**:
+
 - Introduction to the multi-agent system
 - Agent role descriptions
 - How it works explanation
 - Integration of the analysis component
 
 ### 5. Dashboard Integration
-**File**: `components/dashboard/agents-tab.tsx` (modified)
+
+**File**: `components/investing/agents-tab.tsx` (modified)
 
 Added prominent call-to-action card:
+
 - Featured at top of Agents tab
 - Direct link to debate agents page
 - Visual distinction with gradient background
@@ -138,34 +148,34 @@ Added prominent call-to-action card:
 
 \`\`\`javascript
 const response = await fetch('/api/debate-agents', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    ticker: 'AAPL',
-    quickMode: true,
-    quiet: true
-  })
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+ticker: 'AAPL',
+quickMode: true,
+quiet: true
+})
 })
 
 const data = await response.json()
 
 // Response structure:
 {
-  "success": true,
-  "ticker": "AAPL",
-  "result": {
-    "company": "Apple Inc.",
-    "price": 185.50,
-    "decision": "BUY",
-    "analysis": "...",
-    "quote_data": { ... },
-    "final_trade_decision": "...",
-    "token_usage": {
-      "total_tokens": 1234,
-      "total_cost_usd": 0.0025
-    },
-    "timestamp": "2025-12-21T..."
-  }
+"success": true,
+"ticker": "AAPL",
+"result": {
+"company": "Apple Inc.",
+"price": 185.50,
+"decision": "BUY",
+"analysis": "...",
+"quote_data": { ... },
+"final_trade_decision": "...",
+"token_usage": {
+"total_tokens": 1234,
+"total_cost_usd": 0.0025
+},
+"timestamp": "2025-12-21T..."
+}
 }
 \`\`\`
 
@@ -181,16 +191,20 @@ const data = await response.json()
 The following environment variables must be set for the debate agents to work:
 
 \`\`\`bash
+
 # Required
+
 GOOGLE_API_KEY=your_gemini_api_key
 FINNHUB_API_KEY=your_finnhub_key
 TAVILY_API_KEY=your_tavily_key
 
 # Optional
+
 EODHD_API_KEY=your_eodhd_key
 OPENAI_API_KEY=your_openai_key
 
 # Model Configuration (optional)
+
 DEEP_MODEL=gemini-3-pro-preview
 QUICK_MODEL=gemini-2.0-flash
 GEMINI_RPM_LIMIT=15
@@ -212,12 +226,15 @@ GEMINI_RPM_LIMIT=15
 ### From the API
 
 \`\`\`bash
+
 # Using curl
+
 curl -X POST http://localhost:3000/api/debate-agents \
-  -H "Content-Type: application/json" \
-  -d '{"ticker": "AAPL", "quickMode": true}'
+ -H "Content-Type: application/json" \
+ -d '{"ticker": "AAPL", "quickMode": true}'
 
 # Using curl with GET
+
 curl http://localhost:3000/api/debate-agents?ticker=AAPL
 \`\`\`
 
@@ -234,6 +251,7 @@ node simple-runner.js --ticker AAPL --quick
 Based on the available modules, the system can:
 
 ✅ **Working Features**:
+
 - Ticker validation and correction
 - Real-time quote data fetching
 - Company information lookup
@@ -245,6 +263,7 @@ Based on the available modules, the system can:
 - Quick mode (Gemini Flash) and Deep mode (Gemini Pro)
 
 ⚠️ **Limited Features** (awaiting full implementation):
+
 - Full multi-agent debate (simplified to single analyst)
 - Memory/ChromaDB integration (available but not used)
 - Advanced sentiment analysis tools
@@ -265,21 +284,25 @@ See [COMPLETION_SUMMARY.md](COMPLETION_SUMMARY.md) for details.
 ## Troubleshooting
 
 ### "Analysis failed" error
+
 - Check that environment variables are set (GOOGLE_API_KEY, etc.)
 - Verify API keys are valid
 - Check Node.js version (18+ required)
 
 ### "Timed out" error
+
 - Use Quick Mode for faster results
 - Check network connectivity
 - Verify API rate limits
 
 ### "Invalid ticker" error
+
 - Use standard US ticker symbols
 - International tickers may need format adjustment
 - Check ticker exists on Yahoo Finance
 
 ### No results displayed
+
 - Check browser console for errors
 - Verify API endpoint is accessible
 - Check server logs for subprocess errors
@@ -289,13 +312,16 @@ See [COMPLETION_SUMMARY.md](COMPLETION_SUMMARY.md) for details.
 ### Test the API endpoint
 
 \`\`\`bash
+
 # In project root
+
 npm run dev
 
 # In another terminal
+
 curl -X POST http://localhost:3000/api/debate-agents \
-  -H "Content-Type: application/json" \
-  -d '{"ticker": "AAPL", "quickMode": true}'
+ -H "Content-Type: application/json" \
+ -d '{"ticker": "AAPL", "quickMode": true}'
 \`\`\`
 
 ### Test the runner directly
@@ -329,6 +355,7 @@ node simple-runner.js --ticker AAPL --quick
 ## Support
 
 For issues or questions:
+
 - Check [README.md](README.md) for setup instructions
 - Review [QUICKSTART.md](QUICKSTART.md) for basic usage
 - See [SETUP.md](SETUP.md) for detailed configuration

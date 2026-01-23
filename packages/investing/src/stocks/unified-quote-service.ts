@@ -58,16 +58,16 @@ export class UnifiedQuoteService {
    * Get a single stock quote with automatic fallback
    * Tries: cache -> finnhub -> yfinance -> alpaca
    * @param symbol - Stock symbol to fetch
-   * @param options - Options object with useCache flag (default: true)
+   * @param options - Options object with useCache flag (default: true) and cacheTTL in milliseconds
    */
-  async getQuote(symbol: string, options: { useCache?: boolean } = {}): Promise<QuoteServiceResponse> {
-    const { useCache = true } = options;
-    console.log(`[UnifiedQuote] Fetching quote for ${symbol} (useCache: ${useCache})`);
+  async getQuote(symbol: string, options: { useCache?: boolean; cacheTTL?: number } = {}): Promise<QuoteServiceResponse> {
+    const { useCache = true, cacheTTL } = options;
+    console.log(`[UnifiedQuote] Fetching quote for ${symbol} (useCache: ${useCache}${cacheTTL ? `, cacheTTL: ${cacheTTL}ms` : ''})`);
 
     // Check cache first (unless bypassed)
     if (useCache) {
       try {
-        const cached = await quoteCacheService.getCachedQuote(symbol);
+        const cached = await quoteCacheService.getCachedQuote(symbol, cacheTTL);
         if (cached) {
           console.log(`[UnifiedQuote] ✓ Returning cached quote for ${symbol}`);
           return { success: true, data: cached };
@@ -200,11 +200,11 @@ export class UnifiedQuoteService {
    * Get multiple stock quotes with automatic fallback
    * Tries: cache -> individual fetch (finnhub -> yfinance -> alpaca)
    * @param symbols - Array of stock symbols to fetch
-   * @param options - Options object with useCache flag (default: true)
+   * @param options - Options object with useCache flag (default: true) and cacheTTL in milliseconds
    */
-  async getQuotes(symbols: string[], options: { useCache?: boolean } = {}): Promise<QuotesServiceResponse> {
-    const { useCache = true } = options;
-    console.log(`[UnifiedQuotes] Fetching quotes for ${symbols.length} symbols (useCache: ${useCache})`);
+  async getQuotes(symbols: string[], options: { useCache?: boolean; cacheTTL?: number } = {}): Promise<QuotesServiceResponse> {
+    const { useCache = true, cacheTTL } = options;
+    console.log(`[UnifiedQuotes] Fetching quotes for ${symbols.length} symbols (useCache: ${useCache}${cacheTTL ? `, cacheTTL: ${cacheTTL}ms` : ''})`);
 
     if (symbols.length === 0) {
       return {
@@ -220,7 +220,7 @@ export class UnifiedQuoteService {
     if (useCache) {
       try {
         for (const symbol of symbols) {
-          const cached = await quoteCacheService.getCachedQuote(symbol);
+          const cached = await quoteCacheService.getCachedQuote(symbol, cacheTTL);
           if (cached) {
             cachedQuotes.push(cached);
           } else {
@@ -258,7 +258,7 @@ export class UnifiedQuoteService {
     const quotes: NormalizedQuote[] = [...cachedQuotes];
 
     for (const symbol of symbolsToFetch) {
-      const result = await this.getQuote(symbol, { useCache });
+      const result = await this.getQuote(symbol, { useCache, cacheTTL });
       if (result.success && result.data) {
         quotes.push(result.data);
       }

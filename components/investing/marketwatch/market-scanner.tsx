@@ -1,17 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { 
-  TrendingUp, 
-  Zap, 
-  Activity, 
-  BarChart3, 
-  LineChart, 
+import {
+  TrendingUp,
+  Zap,
+  Activity,
+  BarChart3,
+  LineChart,
   Plus,
   Star,
   List,
-  Trash2, 
-  Loader2
+  Trash2,
+  Loader2,
+  Pencil
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -27,7 +28,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { StockList, StockData } from "@/components/dashboard/shared/stock-list"
+import { StockList, StockData } from "@/components/investing/shared/stock-list"
 import { toast } from "sonner"
 import { useSession } from "@/lib/auth-client"
 import { FinancialTable, type MarketIndex } from "@/components/ui/financial-markets-table"
@@ -103,6 +104,12 @@ export function MarketScanner() {
   const [createOpen, setCreateOpen] = useState(false)
   const [newListName, setNewListName] = useState("")
   const [creating, setCreating] = useState(false)
+
+  // Rename List State
+  const [renameOpen, setRenameOpen] = useState(false)
+  const [renameListId, setRenameListId] = useState<string | null>(null)
+  const [renameListName, setRenameListName] = useState("")
+  const [renaming, setRenaming] = useState(false)
 
   // Fetch Global Markets from Dukascopy API
   const fetchGlobalMarkets = async () => {
@@ -198,6 +205,43 @@ export function MarketScanner() {
     }
   }
 
+  const handleOpenRename = (listId: string, currentName: string) => {
+    setRenameListId(listId)
+    setRenameListName(currentName)
+    setRenameOpen(true)
+  }
+
+  const handleRenameList = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!renameListName.trim() || !renameListId) return
+
+    try {
+      setRenaming(true)
+      const res = await fetch("/api/user/watchlists", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: renameListId, name: renameListName }),
+      })
+      const json = await res.json()
+
+      if (json.success) {
+        toast.success("Watchlist renamed")
+        setWatchlists(prev =>
+          prev.map(l => l.id === renameListId ? { ...l, name: renameListName } : l)
+        )
+        setRenameOpen(false)
+        setRenameListId(null)
+        setRenameListName("")
+      } else {
+        toast.error(json.error || "Failed to rename list")
+      }
+    } catch (error) {
+      toast.error("An error occurred")
+    } finally {
+      setRenaming(false)
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -207,7 +251,7 @@ export function MarketScanner() {
             Track market indexes, trending stocks, and your custom watchlists.
           </p>
         </div>
-        
+
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
           <DialogTrigger asChild>
             <Button>
@@ -226,11 +270,11 @@ export function MarketScanner() {
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Name</Label>
-                  <Input 
-                    id="name" 
-                    value={newListName} 
-                    onChange={(e) => setNewListName(e.target.value)} 
-                    placeholder="e.g., High Growth, Dividend Aristocrats" 
+                  <Input
+                    id="name"
+                    value={newListName}
+                    onChange={(e) => setNewListName(e.target.value)}
+                    placeholder="e.g., High Growth, Dividend Aristocrats"
                   />
                 </div>
               </div>
@@ -246,6 +290,39 @@ export function MarketScanner() {
             </form>
           </DialogContent>
         </Dialog>
+
+        <Dialog open={renameOpen} onOpenChange={setRenameOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Rename Watchlist</DialogTitle>
+              <DialogDescription>
+                Enter a new name for your watchlist.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleRenameList}>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="rename-name">Name</Label>
+                  <Input
+                    id="rename-name"
+                    value={renameListName}
+                    onChange={(e) => setRenameListName(e.target.value)}
+                    placeholder="e.g., Growth Stocks"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setRenameOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={renaming || !renameListName}>
+                  {renaming && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Save
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
@@ -256,8 +333,8 @@ export function MarketScanner() {
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-             <div className="text-2xl font-bold">{mockIndexes.length}</div>
-             <p className="text-xs text-muted-foreground">Trackers</p>
+            <div className="text-2xl font-bold">{mockIndexes.length}</div>
+            <p className="text-xs text-muted-foreground">Trackers</p>
           </CardContent>
         </Card>
         <Card>
@@ -265,29 +342,29 @@ export function MarketScanner() {
             <CardTitle className="text-sm font-medium">Trending</CardTitle>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </CardHeader>
-           <CardContent>
-             <div className="text-2xl font-bold">{mostTrending.length}</div>
-             <p className="text-xs text-muted-foreground">High Momentum</p>
+          <CardContent>
+            <div className="text-2xl font-bold">{mostTrending.length}</div>
+            <p className="text-xs text-muted-foreground">High Momentum</p>
           </CardContent>
         </Card>
         <Card>
-           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Breakout</CardTitle>
             <Zap className="h-4 w-4 text-amber-500" />
           </CardHeader>
-           <CardContent>
-             <div className="text-2xl font-bold">{highestBreakout.length}</div>
-             <p className="text-xs text-muted-foreground">Above 20-day high</p>
+          <CardContent>
+            <div className="text-2xl font-bold">{highestBreakout.length}</div>
+            <p className="text-xs text-muted-foreground">Above 20-day high</p>
           </CardContent>
         </Card>
         <Card>
-           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Your Lists</CardTitle>
             <List className="h-4 w-4 text-blue-500" />
           </CardHeader>
-           <CardContent>
-             <div className="text-2xl font-bold">{watchlists.length + 1}</div>
-             <p className="text-xs text-muted-foreground">Includes Favorites</p>
+          <CardContent>
+            <div className="text-2xl font-bold">{watchlists.length + 1}</div>
+            <p className="text-xs text-muted-foreground">Includes Favorites</p>
           </CardContent>
         </Card>
       </div>
@@ -330,18 +407,18 @@ export function MarketScanner() {
           />
         </TabsContent>
         <TabsContent value="trending">
-          <StockList 
-            title="Most Trending" 
-            mode="static" 
+          <StockList
+            title="Most Trending"
+            mode="static"
             initialStocks={mostTrending}
-            showIndicator 
+            showIndicator
             indicatorLabel="Momentum"
           />
         </TabsContent>
         <TabsContent value="breakout">
-          <StockList 
-            title="Highest Breakout" 
-            mode="static" 
+          <StockList
+            title="Highest Breakout"
+            mode="static"
             initialStocks={highestBreakout}
             showIndicator
             indicatorLabel="ATR"
@@ -362,7 +439,11 @@ export function MarketScanner() {
         {watchlists.map(list => (
           <TabsContent key={list.id} value={`list-${list.id}`}>
             <div className="flex flex-col gap-4">
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" size="sm" onClick={() => handleOpenRename(list.id, list.name)}>
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Rename
+                </Button>
                 <Button variant="destructive" size="sm" onClick={() => handleDeleteList(list.id)}>
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete List
@@ -378,6 +459,6 @@ export function MarketScanner() {
           </TabsContent>
         ))}
       </Tabs>
-    </div>
+    </div >
   )
 }

@@ -7,6 +7,37 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
+ * Calculate weekly change from historical data (last 5 trading days)
+ */
+async function getWeeklyChange(symbol: string): Promise<{ change: number; changePercent: number } | null> {
+  try {
+    const fiveDaysAgo = new Date();
+    fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 7); // Go back 7 calendar days to ensure we get 5 trading days
+
+    const result = await yahooFinance.getHistorical(symbol, {
+      period1: fiveDaysAgo,
+      period2: new Date(),
+      interval: "1d",
+    });
+
+    if (result.success && result.data && result.data.length >= 2) {
+      const oldestPrice = result.data[0].close;
+      const latestPrice = result.data[result.data.length - 1].close;
+      const change = latestPrice - oldestPrice;
+      const changePercent = (change / oldestPrice) * 100;
+
+      return {
+        change: Number(change.toFixed(2)),
+        changePercent: Math.round(changePercent), // Round to whole number
+      };
+    }
+  } catch (error) {
+    // Silent fail
+  }
+  return null;
+}
+
+/**
  * Calculate monthly change from historical data
  */
 async function getMonthlyChange(symbol: string): Promise<{ change: number; changePercent: number } | null> {
@@ -91,17 +122,20 @@ async function getYearlyChange(symbol: string): Promise<{ change: number; change
 }
 
 /**
- * GET /api/stocks/quotes?symbols=AAPL,MSFT,GOOGL&live=true
- * Get real-time quotes for multiple stock symbols with monthly change data
+ * GET /api/stocks/quotes?symbols=AAPL,MSFT,GOOGL&live=true&cacheTTL=300000
+ * Get real-time quotes for multiple stock symbols with weekly, monthly and yearly change data
  * @param symbols - Comma-separated list of stock symbols
  * @param live - Optional: set to 'true' to bypass cache and get fresh data (default: false, uses cache)
+ * @param cacheTTL - Optional: cache TTL in milliseconds (default: 60000 = 1 minute)
  */
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const symbolsParam = searchParams.get("symbols");
     const liveParam = searchParams.get("live");
+    const cacheTTLParam = searchParams.get("cacheTTL");
     const useCache = liveParam !== "true"; // Use cache by default, bypass if live=true
+    const cacheTTL = cacheTTLParam ? parseInt(cacheTTLParam, 10) : undefined;
 
     if (!symbolsParam) {
       return NextResponse.json(
@@ -113,7 +147,7 @@ export async function GET(request: NextRequest) {
     const symbols = symbolsParam.split(",").map((s) => s.trim().toUpperCase());
 
     // Use unified quote service with fallback
-    const result = await getQuotes(symbols, { useCache });
+    const result = await getQuotes(symbols, { useCache, cacheTTL });
 
     if (!result.success || !result.data) {
       return NextResponse.json(
@@ -122,10 +156,11 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Enrich quotes with monthly and yearly change data
+    // Enrich quotes with weekly, monthly and yearly change data
     const enrichedQuotes = await Promise.all(
       result.data.quotes.map(async (quote) => {
-        const [monthlyData, yearlyData] = await Promise.all([
+        const [weeklyData, monthlyData, yearlyData] = await Promise.all([
+          getWeeklyChange(quote.symbol),
           getMonthlyChange(quote.symbol),
           getYearlyChange(quote.symbol),
         ]);
@@ -145,6 +180,8 @@ export async function GET(request: NextRequest) {
           marketCap: quote.marketCap,
           fiftyTwoWeekHigh: null,
           fiftyTwoWeekLow: null,
+          weeklyChange: weeklyData?.change || 0,
+          weeklyChangePercent: weeklyData?.changePercent || 0,
           monthlyChange: monthlyData?.change || 0,
           monthlyChangePercent: monthlyData?.changePercent || 0,
           yearlyChange: yearlyData?.change || 0,

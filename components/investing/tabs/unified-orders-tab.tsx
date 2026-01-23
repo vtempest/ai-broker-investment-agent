@@ -10,8 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { StockSearch } from "@/components/dashboard/shared/stock-search"
-import { OptionsAdvisor } from "@/components/dashboard/trading/options-advisor"
+import { StockSearch } from "@/components/investing/shared/stock-search"
+import { OptionsAdvisor } from "@/components/investing/trading/options-advisor"
 import {
   Bot,
   Send,
@@ -469,13 +469,12 @@ What would you like help with today?`,
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[85%] rounded-lg p-4 ${
-                message.role === 'user'
+              className={`max-w-[85%] rounded-lg p-4 ${message.role === 'user'
                   ? 'bg-primary text-primary-foreground'
                   : message.role === 'system'
-                  ? 'bg-muted'
-                  : 'bg-secondary'
-              }`}
+                    ? 'bg-muted'
+                    : 'bg-secondary'
+                }`}
             >
               {message.role !== 'user' && (
                 <div className="flex items-center gap-2 mb-2">

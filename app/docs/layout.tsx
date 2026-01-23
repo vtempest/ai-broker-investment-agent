@@ -2,7 +2,7 @@ import { NextProvider } from 'fumadocs-core/framework/next'
 import { DocsLayout } from 'fumadocs-ui/layouts/docs'
 import { RootProvider } from 'fumadocs-ui/provider/base'
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/dashboard/layout/app-sidebar"
+import { AppSidebar } from "@/components/layout/app-sidebar"
 import { AISearchTrigger } from '@/components/fumadocs/ai/search'
 import { baseOptions, linkItems, logo } from '@/lib/layout.shared'
 import { source } from '@/lib/docs/source'

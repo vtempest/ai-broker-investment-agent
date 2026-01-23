@@ -10,8 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Loader2, TrendingUp, TrendingDown, DollarSign, Activity, BarChart3, Star } from "lucide-react"
 import Link from "next/link"
 import { useSession } from "@/lib/auth-client"
-import { DynamicStockChart } from "@/components/dashboard/charts/dynamic-stock-chart"
-import { TradeModal } from "@/components/dashboard/trading/trade-modal"
+import { DynamicStockChart } from "@/components/investing/charts/dynamic-stock-chart"
+import { TradeModal } from "@/components/investing/trading/trade-modal"
 
 // Helper function to get stock logo URLs
 function getStockLogoUrl(symbol: string, useGithub: boolean = true): string {

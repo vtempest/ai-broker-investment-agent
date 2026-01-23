@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { StockSearch } from "@/components/dashboard/shared/stock-search"
+import { StockSearch } from "@/components/investing/shared/stock-search"
 import {
   TrendingUp,
   TrendingDown,
@@ -255,7 +255,7 @@ export function OptionsAdvisor({ initialSymbol = 'AAPL' }: { initialSymbol?: str
                   </Badge>
                   <Badge variant={
                     result.recommendedStrategy.bullishBearish === 'bullish' ? 'default' :
-                    result.recommendedStrategy.bullishBearish === 'bearish' ? 'destructive' : 'secondary'
+                      result.recommendedStrategy.bullishBearish === 'bearish' ? 'destructive' : 'secondary'
                   }>
                     {result.recommendedStrategy.bullishBearish}
                   </Badge>
@@ -310,9 +310,8 @@ export function OptionsAdvisor({ initialSymbol = 'AAPL' }: { initialSymbol?: str
               {result.allStrategies.map((strategy) => (
                 <Card
                   key={strategy.name}
-                  className={`p-4 cursor-pointer transition-all hover:shadow-lg ${
-                    selectedStrategy?.name === strategy.name ? 'border-2 border-primary' : ''
-                  } ${strategy.recommended ? 'bg-primary/5' : ''}`}
+                  className={`p-4 cursor-pointer transition-all hover:shadow-lg ${selectedStrategy?.name === strategy.name ? 'border-2 border-primary' : ''
+                    } ${strategy.recommended ? 'bg-primary/5' : ''}`}
                   onClick={() => setSelectedStrategy(strategy)}
                 >
                   <div className="flex items-start justify-between mb-2">
@@ -330,8 +329,8 @@ export function OptionsAdvisor({ initialSymbol = 'AAPL' }: { initialSymbol?: str
                       variant="outline"
                       className={
                         strategy.bullishBearish === 'bullish' ? 'border-green-500 text-green-500' :
-                        strategy.bullishBearish === 'bearish' ? 'border-red-500 text-red-500' :
-                        'border-blue-500 text-blue-500'
+                          strategy.bullishBearish === 'bearish' ? 'border-red-500 text-red-500' :
+                            'border-blue-500 text-blue-500'
                       }
                     >
                       {strategy.bullishBearish}

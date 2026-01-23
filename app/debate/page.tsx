@@ -1,6 +1,6 @@
 'use client'
 
-import { DebateAgentsAnalysis } from '@/components/dashboard/analysis/debate-agents-analysis'
+import { DebateAgentsAnalysis } from '@/components/investing/analysis/debate-agents-analysis'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function DebateAgentsPage() {

@@ -40,11 +40,6 @@ export function MobileDock() {
       label: "Markets",
       onClick: () => router.push("/predict")
     },
-    {
-      icon: Shield,
-      label: "Risk",
-      onClick: () => router.push("/dashboard?tab=risk")
-    },
   ]
 
   return (

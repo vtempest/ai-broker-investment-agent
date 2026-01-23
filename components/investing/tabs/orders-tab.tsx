@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { StockSearch } from "@/components/dashboard/shared/stock-search"
+import { StockSearch } from "@/components/investing/shared/stock-search"
 import {
   TrendingUp,
   TrendingDown,
@@ -594,11 +594,10 @@ export function OrdersTab() {
           {trades.map((trade) => (
             <div key={trade.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50">
               <div className="flex items-center gap-4">
-                <div className={`p-2 rounded-lg ${
-                  trade.action === 'buy' ? 'bg-green-500/10' :
-                  trade.action === 'short' ? 'bg-red-500/10' :
-                  'bg-blue-500/10'
-                }`}>
+                <div className={`p-2 rounded-lg ${trade.action === 'buy' ? 'bg-green-500/10' :
+                    trade.action === 'short' ? 'bg-red-500/10' :
+                      'bg-blue-500/10'
+                  }`}>
                   {trade.action === 'buy' || trade.action === 'cover' ? (
                     <TrendingUp className="h-5 w-5 text-green-500" />
                   ) : (

@@ -65,7 +65,7 @@ import { Switch } from "@/components/ui/switch"
 import { toast } from "sonner"
 import { TeamsManager } from "@/components/settings/teams-manager"
 import { PremiumUpgrade } from "@/components/settings/premium-upgrade"
-import { ThirdPartySyncTab } from "@/components/dashboard/tabs/third-party-sync-tab"
+import { ThirdPartySyncTab } from "@/components/investing/tabs/third-party-sync-tab"
 
 const LLM_PROVIDERS = [
   {

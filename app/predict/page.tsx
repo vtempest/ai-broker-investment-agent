@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useSession } from "@/lib/auth-client"
 
-import { PredictionMarketsTab } from "@/components/dashboard/tabs/prediction-markets-tab"
+import { PredictionMarketsTab } from "@/components/investing/tabs/prediction-markets-tab"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader2, LogIn } from "lucide-react"

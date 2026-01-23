@@ -6,21 +6,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import {
-  LayoutDashboard,
-  Zap,
-  Target,
-  Copy,
-  Shield,
-  Settings,
-  HelpCircle,
   ChevronUp,
   User2,
   LogOut,
-  Sparkles,
   CreditCard,
   Search,
   Bell,
-  BarChart3,
   Palette
 } from 'lucide-react'
 import { useSession, signOut } from "@/lib/auth-client"
@@ -310,8 +301,6 @@ function AppSidebarContent({ ...props }: React.ComponentProps<typeof Sidebar>) {
                               className="w-6 h-6 shrink-0"
                               unoptimized
                             />
-                          ) : IconComponent ? (
-                            <IconComponent className="w-6 h-6" />
                           ) : null}
                           <span className="group-data-[collapsible=icon]:hidden">{item.name}</span>
                         </Link>

@@ -1,7 +1,7 @@
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/dashboard/layout/app-sidebar"
-import { MobileDock } from "@/components/dashboard/layout/mobile-dock"
-import { StockTicker } from "@/components/dashboard/shared/stock-scrolling-banner"
+import { AppSidebar } from "@/components/layout/app-sidebar"
+import { MobileDock } from "@/components/layout/mobile-dock"
+import { StockTicker } from "@/components/investing/stock-ticker"
 
 export default function DashboardLayout({
   children,

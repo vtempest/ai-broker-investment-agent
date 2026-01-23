@@ -50,7 +50,7 @@ export class QuoteCacheService {
   /**
    * Get cached quote if available and fresh
    */
-  async getCachedQuote(symbol: string): Promise<CachedQuote | null> {
+  async getCachedQuote(symbol: string, customTTL?: number): Promise<CachedQuote | null> {
     try {
       const cached = await db
         .select()
@@ -67,8 +67,9 @@ export class QuoteCacheService {
       const lastFetched = new Date(quote.lastFetched);
       const age = now.getTime() - lastFetched.getTime();
 
-      // Check if cache is still fresh
-      if (age > QUOTE_CACHE_TTL) {
+      // Check if cache is still fresh (use custom TTL if provided)
+      const ttl = customTTL ?? QUOTE_CACHE_TTL;
+      if (age > ttl) {
         return null;
       }
 
@@ -168,32 +169,67 @@ export class QuoteCacheService {
    * Save historical quotes to cache
    */
   async saveHistoricalQuotes(symbol: string, quotes: HistoricalQuote[]): Promise<void> {
+    if (!quotes || quotes.length === 0) {
+      return;
+    }
+
     try {
       const now = new Date();
       const symbolUpper = symbol.toUpperCase();
 
-      const values = quotes.map((quote) => ({
-        id: `${symbolUpper}-${quote.date}`,
-        symbol: symbolUpper,
-        date: quote.date,
-        open: this.roundPrice(quote.open) || 0,
-        high: this.roundPrice(quote.high) || 0,
-        low: this.roundPrice(quote.low) || 0,
-        close: this.roundPrice(quote.close) || 0,
-        volume: quote.volume,
-        adjustedClose: this.roundPrice(quote.adjustedClose),
-        createdAt: now,
-      }));
+      // Filter out invalid quotes and prepare values
+      const values = quotes
+        .filter((quote) => {
+          // Validate required fields
+          if (!quote.date || !quote.open || !quote.high || !quote.low || !quote.close) {
+            console.warn(`[QuoteCache] Skipping invalid quote for ${symbol} on ${quote.date}`);
+            return false;
+          }
+          return true;
+        })
+        .map((quote) => ({
+          id: `${symbolUpper}-${quote.date}`,
+          symbol: symbolUpper,
+          date: quote.date,
+          open: this.roundPrice(quote.open) || 0,
+          high: this.roundPrice(quote.high) || 0,
+          low: this.roundPrice(quote.low) || 0,
+          close: this.roundPrice(quote.close) || 0,
+          volume: quote.volume || null,
+          adjustedClose: this.roundPrice(quote.adjustedClose) || null,
+          createdAt: now,
+        }));
 
-      // Insert historical quotes (ignore conflicts for existing dates)
-      for (const value of values) {
-        await db
-          .insert(schema.stockHistoricalQuotes)
-          .values(value)
-          .onConflictDoNothing();
+      if (values.length === 0) {
+        return;
+      }
+
+      // Insert historical quotes in batches (ignore conflicts for existing dates)
+      const batchSize = 50;
+      for (let i = 0; i < values.length; i += batchSize) {
+        const batch = values.slice(i, i + batchSize);
+
+        for (const value of batch) {
+          try {
+            await db
+              .insert(schema.stockHistoricalQuotes)
+              .values(value)
+              .onConflictDoNothing();
+          } catch (insertError: any) {
+            // Log individual insert errors but don't fail the entire batch
+            console.error(
+              `[QuoteCache] Failed to insert historical quote for ${symbol} on ${value.date}:`,
+              insertError.message || insertError
+            );
+          }
+        }
       }
     } catch (error: any) {
-      console.error(`[QuoteCache] Error saving historical quotes for ${symbol}:`, error.message);
+      console.error(
+        `[QuoteCache] Error saving historical quotes for ${symbol}:`,
+        error.message || error,
+        error.stack
+      );
     }
   }
 

@@ -4,10 +4,9 @@ import { Suspense, useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import { useSession } from "@/lib/auth-client"
 
-import { StrategiesTab } from "@/components/dashboard/tabs/strategies-tab"
+import { StrategiesTab } from "@/components/investing/tabs/strategies-tab"
 import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Loader2, LogIn } from "lucide-react"
+import { Loader2 } from "lucide-react"
 
 function StockContent() {
   const { data: session, isPending } = useSession()
@@ -16,7 +15,7 @@ function StockContent() {
   const symbol = params?.symbol as string | undefined
   const [isInitializing, setIsInitializing] = useState(false)
 
-  // Initialize portfolio on first login and check survey completion
+  // Initialize portfolio on first login and check survey completion (only for authenticated users)
   useEffect(() => {
     const checkSurveyAndInitialize = async () => {
       if (session?.user && !isPending) {
@@ -59,56 +58,22 @@ function StockContent() {
     }
   }
 
-  // Show loading state
-  if (isPending || isInitializing) {
+  // Show loading state only when initializing for authenticated users
+  if (session?.user && isInitializing) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <Card className="p-8 text-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
-          <h2 className="text-xl font-semibold mb-2">
-            {isInitializing ? 'Setting up your portfolio...' : 'Loading...'}
-          </h2>
+          <h2 className="text-xl font-semibold mb-2">Setting up your portfolio...</h2>
           <p className="text-sm text-muted-foreground">
-            {isInitializing ? 'Initializing your $100,000 play money account' : 'Please wait'}
+            Initializing your $100,000 play money account
           </p>
         </Card>
       </div>
     )
   }
 
-  // Show login screen if not authenticated
-  if (!session?.user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <Card className="p-8 max-w-md text-center">
-          <div className="mb-6">
-            <LogIn className="h-16 w-16 text-primary mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Welcome to Your Dashboard</h2>
-            <p className="text-muted-foreground">
-              Sign in to access your trading dashboard with $100,000 in play money
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <Button
-              className="w-full"
-              size="lg"
-              onClick={() => router.push('/login')}
-            >
-              <LogIn className="mr-2 h-5 w-5" />
-              Sign In to Continue
-            </Button>
-
-            <p className="text-xs text-muted-foreground">
-              New users automatically receive $100,000 in virtual trading capital
-            </p>
-          </div>
-        </Card>
-      </div>
-    )
-  }
-
-  // Show dashboard for authenticated users
+  // Show dashboard for all users (authenticated or not)
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="space-y-6 mt-6">

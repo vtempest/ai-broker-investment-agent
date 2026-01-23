@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { TrendingUp, ExternalLink, Loader2, DollarSign, Activity, Clock, RefreshCw, Filter, Search } from "lucide-react"
-import { MarketDebate } from "@/components/dashboard/analysis/market-debate"
+import { MarketDebate } from "@/components/investing/analysis/market-debate"
 import { Input } from "@/components/ui/input"
 
 interface PolymarketMarket {
@@ -304,7 +304,7 @@ export function PredictionMarketsTab() {
                   {market.outcomes && market.outcomePrices && (() => {
                     const highestIdx = market.outcomePrices.reduce((maxIdx, price, idx) =>
                       parseFloat(price) > parseFloat(market.outcomePrices[maxIdx]) ? idx : maxIdx
-                    , 0)
+                      , 0)
                     const outcome = market.outcomes[highestIdx]
                     const percentage = parseFloat(market.outcomePrices[highestIdx]) * 100
                     const isYes = outcome.toLowerCase() === 'yes'

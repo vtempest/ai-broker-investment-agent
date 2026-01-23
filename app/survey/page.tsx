@@ -1,4 +1,4 @@
-import InvestorSurvey from "@/components/dashboard/shared/investor-survey"
+import InvestorSurvey from "@/components/investing/shared/investor-survey"
 
 export default function SurveyPage() {
     return (
