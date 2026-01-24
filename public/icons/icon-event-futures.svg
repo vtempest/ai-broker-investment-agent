@@ -1,0 +1,48 @@
+<svg width="420" height="220" viewBox="0 0 420 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Strong 3D shadow -->
+    <filter id="textShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+
+    <!-- YES gradient -->
+    <linearGradient id="yesTextGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8CFF8C"/>
+      <stop offset="100%" stop-color="#1E7F3A"/>
+    </linearGradient>
+
+    <!-- NO gradient -->
+    <linearGradient id="noTextGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF8A7A"/>
+      <stop offset="100%" stop-color="#8B1E1E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- YES -->
+  <text x="50%" y="85"
+        text-anchor="middle"
+        font-size="120"
+        font-weight="900"
+        font-family="Inter, Impact, Arial Black, sans-serif"
+        fill="url(#yesTextGrad)"
+        stroke="#0F4D27"
+        stroke-width="4"
+        filter="url(#textShadow)"
+        letter-spacing="6">
+    YES
+  </text>
+
+  <!-- NO -->
+  <text x="50%" y="190"
+        text-anchor="middle"
+        font-size="120"
+        font-weight="900"
+        font-family="Inter, Impact, Arial Black, sans-serif"
+        fill="url(#noTextGrad)"
+        stroke="#5F1414"
+        stroke-width="4"
+        filter="url(#textShadow)"
+        letter-spacing="6">
+    NO
+  </text>
+</svg>

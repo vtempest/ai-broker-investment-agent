@@ -167,13 +167,13 @@ export function StockTicker({
 
   const tickerContent = (
     <div className={cn(
-      "w-full py-[1px] h-full mx-2 bg-card border-b border-border flex items-center overflow-hidden max-w-full transition-all",
+      "w-full py-[1px] h-full bg-card border-b border-border flex items-center overflow-hidden max-w-full transition-all",
       tickerData.length === 0 && "h-0 border-0"
     )}>
       {/* Scrolling Ticker */}
       <div
         ref={scrollRef}
-        className="overflow-x-auto flex-1 hover:cursor-grab active:cursor-grabbing scrollbar-hide"
+        className="overflow-x-auto z-100 flex-1 hover:cursor-grab active:cursor-grabbing scrollbar-hide"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -301,7 +301,7 @@ export function StockTicker({
   if (fixed) {
     return (
       <div className={cn(
-        "fixed left-0 right-0 z-50",
+        "sticky z-50 w-full",
         fixed === "top" ? "top-0" : "bottom-0"
       )}>
         {tickerContent}

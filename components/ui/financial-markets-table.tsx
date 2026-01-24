@@ -288,11 +288,11 @@ export function FinancialTable({
   };
 
   return (
-    <div className={`w-full max-w-7xl mx-auto ${className}`}>
+    <div className={`w-full max-w-full mx-auto ${className}`}>
       {/* Table Container with horizontal scroll */}
       <div className="bg-background border border-border/50 rounded-2xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <div className="min-w-[1000px]">
+        <div className="overflow-x-auto scrollbar-hide">
+          <div className="min-w-[800px]">
             {/* Table Headers */}
             <div
               className="px-8 py-3 text-xs font-medium text-muted-foreground/70 uppercase tracking-wide bg-muted/15 border-b border-border/20 text-left"

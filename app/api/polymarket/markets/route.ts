@@ -11,7 +11,23 @@ import {
 
 // Helper to safely parse JSON or return array
 function safeParseArray(value: any, splitter: string | null = null) {
-  if (Array.isArray(value)) return value;
+  if (Array.isArray(value)) {
+    // Check if it's an array containing a single string that needs parsing (double serialization)
+    if (
+      value.length === 1 &&
+      typeof value[0] === "string" &&
+      value[0].trim().startsWith("[")
+    ) {
+      try {
+        const parsed = JSON.parse(value[0]);
+        if (Array.isArray(parsed)) return parsed;
+      } catch (e) {
+        // Ignore JSON parse errors and return original array
+      }
+    }
+    return value;
+  }
+
   if (!value) return [];
 
   // If it's a string, try to parse it
@@ -71,13 +87,22 @@ export async function GET(request: NextRequest) {
           const outcomePrices = safeParseArray(m.outcomePrices, ",");
 
           // Calculate price changes for the first token (typically "Yes" outcome)
-          let priceChanges = { daily: null, weekly: null, monthly: null };
+          let priceChanges: {
+            daily: number | null;
+            weekly: number | null;
+            monthly: number | null;
+          } = { daily: null, weekly: null, monthly: null };
           if (clobTokenIds.length > 0 && outcomePrices.length > 0) {
             const tokenId = clobTokenIds[0];
             const currentPrice = parseFloat(outcomePrices[0]);
 
             // Validate token ID before calculating
-            if (tokenId && typeof tokenId === 'string' && tokenId.length >= 10 && /^[a-zA-Z0-9_-]+$/.test(tokenId)) {
+            if (
+              tokenId &&
+              typeof tokenId === "string" &&
+              tokenId.length >= 10 &&
+              /^[a-zA-Z0-9_-]+$/.test(tokenId)
+            ) {
               priceChanges = await calculatePriceChanges(tokenId, currentPrice);
             }
           }
@@ -102,7 +127,7 @@ export async function GET(request: NextRequest) {
             tags: safeParseArray(m.tags),
             priceChanges, // Add price changes to the response
           };
-        })
+        }),
       );
 
       return NextResponse.json({
@@ -137,13 +162,22 @@ export async function GET(request: NextRequest) {
         const outcomePrices = safeParseArray(m.outcomePrices, ",");
 
         // Calculate price changes for the first token (typically "Yes" outcome)
-        let priceChanges = { daily: null, weekly: null, monthly: null };
+        let priceChanges: {
+          daily: number | null;
+          weekly: number | null;
+          monthly: number | null;
+        } = { daily: null, weekly: null, monthly: null };
         if (clobTokenIds.length > 0 && outcomePrices.length > 0) {
           const tokenId = clobTokenIds[0];
           const currentPrice = parseFloat(outcomePrices[0]);
 
           // Validate token ID before calculating
-          if (tokenId && typeof tokenId === 'string' && tokenId.length >= 10 && /^[a-zA-Z0-9_-]+$/.test(tokenId)) {
+          if (
+            tokenId &&
+            typeof tokenId === "string" &&
+            tokenId.length >= 10 &&
+            /^[a-zA-Z0-9_-]+$/.test(tokenId)
+          ) {
             priceChanges = await calculatePriceChanges(tokenId, currentPrice);
           }
         }
@@ -168,7 +202,7 @@ export async function GET(request: NextRequest) {
           tags: safeParseArray(m.tags),
           priceChanges, // Add price changes to the response
         };
-      })
+      }),
     );
 
     return NextResponse.json({

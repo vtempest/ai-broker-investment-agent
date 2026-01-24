@@ -6,7 +6,7 @@ import {
   fetchMarketDetails,
   saveHolders,
 } from "@/packages/investing/src/prediction";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300; // 5 minutes
@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
       .select()
       .from(polymarketMarkets)
       .where(eq(polymarketMarkets.active, true))
+      .orderBy(desc(polymarketMarkets.volume24hr))
       .limit(maxMarkets);
 
     console.log(`Found ${markets.length} active markets to sync holders for`);
@@ -46,9 +47,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (!eventId) {
-          console.log(
-            `Skipping market ${market.id} - no event ID found`,
-          );
+          console.log(`Skipping market ${market.id} - no event ID found`);
           failCount++;
           continue;
         }
@@ -71,12 +70,10 @@ export async function POST(request: NextRequest) {
                 outcome: "Yes",
               }),
             );
-            const noHolders = (dashboardData.noHolders || []).map(
-              (h: any) => ({
-                ...h,
-                outcome: "No",
-              }),
-            );
+            const noHolders = (dashboardData.noHolders || []).map((h: any) => ({
+              ...h,
+              outcome: "No",
+            }));
             allHolders = [...yesHolders, ...noHolders];
           }
 

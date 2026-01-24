@@ -19,6 +19,7 @@ import type { TickerData, TickerDisplayProps } from "./types"
 interface TickerItemProps extends TickerDisplayProps {
   data: TickerData
   orderHistorical?: boolean
+  useTextIcons?: boolean
 }
 
 export function TickerItem({
@@ -29,7 +30,8 @@ export function TickerItem({
   showPriceStock = false,
   showPriceIndex = false,
   enabledChanges = ['d', 'w', 'm', 'y'],
-  orderHistorical = true
+  orderHistorical = true,
+  useTextIcons = true
 }: TickerItemProps) {
   const router = useRouter()
 
@@ -114,10 +116,18 @@ export function TickerItem({
               getChangeBorderClass(data.changePercent, isDailyPositive)
             )}
           >
-            <span className="font-mono tabular-nums ">
-              {Math.round(data.changePercent)}{showPercentSign ? "%" : ""}
-            </span>
-            <ChangeIcon letter="d" direction={getChangeDirection(data.changePercent)} isPositive={isDailyPositive} />
+            {Math.abs(data.changePercent) > 2 && (
+              <span className="font-bold text-base tracking-wide tabular-nums">
+                {Math.round(data.changePercent)}{showPercentSign ? "%" : ""}
+              </span>
+            )}
+            {useTextIcons ? (
+              <span className={cn(getChangeTextColor(data.changePercent, isDailyPositive))}>
+                <span className="text-xs">d</span>{data.changePercent >= 0 ? "▲" : "▼"}
+              </span>
+            ) : (
+              <ChangeIcon letter="d" direction={getChangeDirection(data.changePercent)} isPositive={isDailyPositive} />
+            )}
           </div>
         )
       case 'w':
@@ -132,10 +142,18 @@ export function TickerItem({
               getChangeBorderClass(data.weeklyChangePercent ?? 0, isWeeklyPositive)
             )}
           >
-            <code className="font-mono tabular-nums ">
-              {Math.round(data.weeklyChangePercent ?? 0)}{showPercentSign ? "%" : ""}
-            </code>
-            <ChangeIcon letter="w" direction={getChangeDirection(data.weeklyChangePercent ?? 0)} isPositive={isWeeklyPositive} />
+            {Math.abs(data.weeklyChangePercent ?? 0) > 2 && (
+              <span className="font-bold text-base tracking-wide tabular-nums">
+                {Math.round(data.weeklyChangePercent ?? 0)}{showPercentSign ? "%" : ""}
+              </span>
+            )}
+            {useTextIcons ? (
+              <span className={cn(getChangeTextColor(data.weeklyChangePercent ?? 0, isWeeklyPositive))}>
+                <span className="text-xs">w</span>{(data.weeklyChangePercent ?? 0) >= 0 ? "▲" : "▼"}
+              </span>
+            ) : (
+              <ChangeIcon letter="w" direction={getChangeDirection(data.weeklyChangePercent ?? 0)} isPositive={isWeeklyPositive} />
+            )}
           </div>
         )
       case 'm':
@@ -149,10 +167,18 @@ export function TickerItem({
               getChangeBorderClass(data.monthlyChangePercent, isMonthlyPositive)
             )}
           >
-            <code className="font-mono tabular-nums ">
-              {Math.round(data.monthlyChangePercent)}{showPercentSign ? "%" : ""}
-            </code>
-            <ChangeIcon letter="m" direction={getChangeDirection(data.monthlyChangePercent)} isPositive={isMonthlyPositive} />
+            {Math.abs(data.monthlyChangePercent) > 2 && (
+              <span className="font-bold text-base tracking-wide tabular-nums">
+                {Math.round(data.monthlyChangePercent)}{showPercentSign ? "%" : ""}
+              </span>
+            )}
+            {useTextIcons ? (
+              <span className={cn(getChangeTextColor(data.monthlyChangePercent, isMonthlyPositive))}>
+                <span className="text-xs">m</span>{data.monthlyChangePercent >= 0 ? "▲" : "▼"}
+              </span>
+            ) : (
+              <ChangeIcon letter="m" direction={getChangeDirection(data.monthlyChangePercent)} isPositive={isMonthlyPositive} />
+            )}
           </div>
         )
       case 'y':
@@ -166,10 +192,18 @@ export function TickerItem({
               getChangeBorderClass(data.yearlyChangePercent, isYearlyPositive)
             )}
           >
-            <code className="font-mono tabular-nums ">
-              {Math.round(data.yearlyChangePercent)}{showPercentSign ? "%" : ""}
-            </code>
-            <ChangeIcon letter="y" direction={getChangeDirection(data.yearlyChangePercent)} isPositive={isYearlyPositive} />
+            {Math.abs(data.yearlyChangePercent) > 2 && (
+              <span className="font-bold text-base tracking-wide tabular-nums">
+                {Math.round(data.yearlyChangePercent)}{showPercentSign ? "%" : ""}
+              </span>
+            )}
+            {useTextIcons ? (
+              <span className={cn(getChangeTextColor(data.yearlyChangePercent, isYearlyPositive))}>
+                <span className="text-xs">y</span>{data.yearlyChangePercent >= 0 ? "▲" : "▼"}
+              </span>
+            ) : (
+              <ChangeIcon letter="y" direction={getChangeDirection(data.yearlyChangePercent)} isPositive={isYearlyPositive} />
+            )}
           </div>
         )
       default:

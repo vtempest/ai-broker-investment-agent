@@ -73,7 +73,7 @@ function MarketsContent() {
 
   // Show dashboard for all users (authenticated or not)
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-full overflow-x-hidden">
       <div className="space-y-6 mt-6">
         <MarketScanner />
       </div>

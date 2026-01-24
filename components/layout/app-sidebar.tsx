@@ -161,7 +161,7 @@ const navigationGroups = [
     title: "Trade",
     items: [
       { name: "Analyze Strategy", href: "/stock", icon: "/icons/icon-graph-chart.svg" },
-      { name: "Prediction Markets", href: "/predict", icon: "/icons/icon-prediction-markets.png" },
+      { name: "Prediction Markets", href: "/predict", icon: "/icons/icon-event-futures.svg" },
     ],
   },
   {

@@ -5,24 +5,22 @@ import { ArchitectureSection } from "@/components/landing/architecture-section"
 import { StrategiesSection } from "@/components/landing/strategies-section"
 import { SignalIndicators } from "@/components/landing/signal-indicators"
 import { PredictionMarketsSection } from "@/components/landing/prediction-markets-section"
-import { CTASection } from "@/components/landing/cta-section"
+import { Header } from "@/components/landing/header"
 import { Footer } from "@/components/landing/footer"
 
 export default function LandingPage() {
   return (
-    <div className="pr-[200px] min-h-screen bg-background  overflow-x-hidden">
-      <main className=" w-full  overflow-x-hidden">
-        <HeroSection />
-        <ArchitectureSection />
-        <AgentsSection />
-        <SignalIndicators />
+    <main className="w-full max-w-full overflow-x-hidden pt-6">
+      <Header />
+      <HeroSection />
+      <ArchitectureSection />
+      <AgentsSection />
+      <SignalIndicators />
+      <BrokerPlatformsSection />
+      <PredictionMarketsSection />
+      <StrategiesSection />
 
-        <BrokerPlatformsSection />
-        <PredictionMarketsSection />
-        <StrategiesSection />
-        {/* <CTASection /> */}
-      </main>
       <Footer />
-    </div>
+    </main>
   )
 }

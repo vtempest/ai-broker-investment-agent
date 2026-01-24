@@ -44,10 +44,10 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider>
+          <SidebarProvider defaultOpen={true}>
+
             <AppSidebar />
-            <SidebarInset className="pb-24 md:pb-0">
-              {/* Stock Ticker - Fixed at Top */}
+            <SidebarInset className="md:pb-0 overflow-x-hidden">
               <StockTicker fixed="top" />
               {children}
             </SidebarInset>
