@@ -1,15 +1,11 @@
 'use client'
 
 import * as React from 'react'
-import dynamic from 'next/dynamic'
 import { cn } from '@/lib/utils'
-import '@scalar/api-reference-react/style.css'
 
-// Dynamically import Scalar with SSR disabled to avoid module resolution issues
-const ApiReferenceReact = dynamic(
-  () => import('@scalar/api-reference-react').then((mod) => mod.ApiReferenceReact),
-  { ssr: false }
-)
+// Scalar API reference removed - using CDN version in /api/docs instead
+// If you need the React component, reinstall: pnpm add @scalar/api-reference-react
+const ApiReferenceReact = null
 
 interface APIPageProps {
   document?: any
@@ -64,18 +60,13 @@ export function APIPage({ className, children, document, operations, ...props }:
     }
 
     return (
-      <div className={cn('api-page rounded-lg border bg-card overflow-hidden', className)} {...props}>
-        {mounted && (
-          <ApiReferenceReact
-            configuration={{
-              // @ts-ignore
-              spec: { content: spec },
-              darkMode: true,
-              hideModels: true, // Optional: clean up view for single endpoints
-              // hideSidebar: true // If we only want the content
-            }}
-          />
-        )}
+      <div className={cn('api-page rounded-lg border bg-card overflow-hidden p-6', className)} {...props}>
+        <div className="text-muted-foreground">
+          <p>API Reference component not available.</p>
+          <p className="text-sm mt-2">
+            Use <a href="/api/docs" className="text-primary underline">/api/docs</a> for API documentation.
+          </p>
+        </div>
       </div>
     )
   }
