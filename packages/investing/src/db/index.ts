@@ -1,11 +1,11 @@
-import { createClient } from "@libsql/client"
-import { drizzle } from "drizzle-orm/libsql"
-import * as schema from "./schema"
-import * as relations from "./relations"
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
+import * as schema from "./schema";
+import * as relations from "./relations";
 
 const client = createClient({
-  url: process.env.DATABASE_URL || "file:./local.db",
+  url: process.env.DATABASE_URL || "file:./investing-local.db",
   authToken: process.env.DATABASE_AUTH_TOKEN,
-})
+});
 
-export const db = drizzle(client, { schema: { ...schema, ...relations } })
+export const db = drizzle(client, { schema: { ...schema, ...relations } });

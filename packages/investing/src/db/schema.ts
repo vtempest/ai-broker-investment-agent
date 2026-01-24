@@ -1,4 +1,10 @@
-import { sqliteTable, text, integer, real, type AnySQLiteColumn } from "drizzle-orm/sqlite-core"
+import {
+  sqliteTable,
+  text,
+  integer,
+  real,
+  type AnySQLiteColumn,
+} from "drizzle-orm/sqlite-core";
 
 // User table
 export const users = sqliteTable("users", {
@@ -21,36 +27,42 @@ export const users = sqliteTable("users", {
 
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Session table
 export const sessions = sqliteTable("sessions", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   token: text("token").notNull().unique(),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Account table (for OAuth)
 export const accounts = sqliteTable("accounts", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
   idToken: text("id_token"),
   expiresAt: integer("expires_at", { mode: "timestamp" }),
-  accessTokenExpiresAt: integer("access_token_expires_at", { mode: "timestamp" }),
+  accessTokenExpiresAt: integer("access_token_expires_at", {
+    mode: "timestamp",
+  }),
   scope: text("scope"),
   password: text("password"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Verification table
 export const verifications = sqliteTable("verifications", {
@@ -60,22 +72,27 @@ export const verifications = sqliteTable("verifications", {
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }),
   updatedAt: integer("updated_at", { mode: "timestamp" }),
-})
+});
 
 // Wallet addresses table (for SIWE / Web3 auth)
 export const walletAddresses = sqliteTable("wallet_addresses", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   address: text("address").notNull().unique(),
   chainId: integer("chain_id").notNull(),
   isPrimary: integer("is_primary", { mode: "boolean" }).default(false),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // User Settings (API Keys & Broker Credentials)
 export const userSettings = sqliteTable("user_settings", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }).unique(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" })
+    .unique(),
 
   // LLM Provider API Keys
   groqApiKey: text("groq_api_key"),
@@ -107,13 +124,14 @@ export const userSettings = sqliteTable("user_settings", {
 
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
-
+});
 
 // User Strategies
 export const strategies = sqliteTable("strategies", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   type: text("type").notNull(), // momentum, mean-reversion, breakout, day-scalp
   status: text("status").notNull().default("paused"), // running, paused, paper
@@ -132,32 +150,40 @@ export const strategies = sqliteTable("strategies", {
 
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // User Watchlists (Collections)
 export const watchlists = sqliteTable("watchlists", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // User Watchlist Items
 export const watchlist = sqliteTable("watchlist", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  watchlistId: text("watchlist_id").references(() => watchlists.id, { onDelete: "cascade" }), // Nullable (NULL = Default/Favorites)
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  watchlistId: text("watchlist_id").references(() => watchlists.id, {
+    onDelete: "cascade",
+  }), // Nullable (NULL = Default/Favorites)
   symbol: text("symbol").notNull(),
   name: text("name"), // Stock name (optional)
   addedAt: integer("added_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // User Watchlist/Signals
 export const signals = sqliteTable("signals", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   asset: text("asset").notNull(),
   type: text("type").notNull(), // stock, prediction_market
 
@@ -182,12 +208,14 @@ export const signals = sqliteTable("signals", {
 
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // User Positions
 export const positions = sqliteTable("positions", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   asset: text("asset").notNull(),
   type: text("type").notNull(), // stock, prediction_market
 
@@ -205,12 +233,14 @@ export const positions = sqliteTable("positions", {
 
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // User Trades
 export const trades = sqliteTable("trades", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   asset: text("asset").notNull(),
   type: text("type").notNull(), // stock, prediction_market
   action: text("action").notNull(), // buy, sell
@@ -224,12 +254,15 @@ export const trades = sqliteTable("trades", {
 
   timestamp: integer("timestamp", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Portfolio Summary
 export const portfolios = sqliteTable("portfolios", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }).unique(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" })
+    .unique(),
 
   totalEquity: real("total_equity").default(100000),
   cash: real("cash").default(100000),
@@ -243,7 +276,7 @@ export const portfolios = sqliteTable("portfolios", {
   openPositions: integer("open_positions").default(0),
 
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // ============================================================================
 // Polymarket Trader Tracking
@@ -272,7 +305,7 @@ export const polymarketLeaders = sqliteTable("polymarket_leaders", {
   lossAmount: real("loss_amount"),
 
   updatedAt: integer("updated_at", { mode: "timestamp" }),
-})
+});
 
 // Polymarket Positions
 export const polymarketPositions = sqliteTable("polymarket_positions", {
@@ -284,14 +317,14 @@ export const polymarketPositions = sqliteTable("polymarket_positions", {
   realizedPnl: real("realized_pnl"),
   tags: text("tags"), // JSON array
   createdAt: integer("created_at", { mode: "timestamp" }),
-})
+});
 
 // Polymarket Categories
 export const polymarketCategories = sqliteTable("polymarket_categories", {
   tag: text("tag").primaryKey(),
   pnl: real("pnl"),
   updatedAt: integer("updated_at", { mode: "timestamp" }),
-})
+});
 
 // Polymarket Markets - Store prediction markets data
 export const polymarketMarkets = sqliteTable("polymarket_markets", {
@@ -324,19 +357,22 @@ export const polymarketMarkets = sqliteTable("polymarket_markets", {
   // Tracking
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Polymarket Market Positions - Detailed order book positions
-export const polymarketMarketPositions = sqliteTable("polymarket_market_positions", {
-  id: text("id").primaryKey(),
-  marketId: text("market_id").notNull(),
-  outcome: text("outcome").notNull(), // "Yes" or "No"
-  price: real("price").notNull(),
-  size: real("size").notNull(),
-  side: text("side").notNull(), // "buy" or "sell"
-  totalValue: real("total_value").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+export const polymarketMarketPositions = sqliteTable(
+  "polymarket_market_positions",
+  {
+    id: text("id").primaryKey(),
+    marketId: text("market_id").notNull(),
+    outcome: text("outcome").notNull(), // "Yes" or "No"
+    price: real("price").notNull(),
+    size: real("size").notNull(),
+    side: text("side").notNull(), // "buy" or "sell"
+    totalValue: real("total_value").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  },
+);
 
 // Polymarket Debate Analysis - LLM-generated debate on both sides
 export const polymarketDebates = sqliteTable("polymarket_debates", {
@@ -362,7 +398,7 @@ export const polymarketDebates = sqliteTable("polymarket_debates", {
 
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Polymarket Price History - Historical price data for market tokens
 export const polymarketPriceHistory = sqliteTable("polymarket_price_history", {
@@ -372,7 +408,21 @@ export const polymarketPriceHistory = sqliteTable("polymarket_price_history", {
   price: real("price").notNull(), // Price in 0-1 range (or absolute if abs=true)
   interval: text("interval").notNull(), // "1h", "1d", "max", etc.
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
+
+// Polymarket Holders - Top holders for a market
+export const polymarketHolders = sqliteTable("polymarket_holders", {
+  id: text("id").primaryKey(),
+  marketId: text("market_id").notNull(),
+  address: text("address").notNull(),
+  userName: text("user_name"), // Polymarket username if available
+  profileImage: text("profile_image"), // Profile image URL
+  rank: integer("rank").notNull(),
+  outcome: text("outcome"), // "Yes" or "No" - which side they're on
+  balance: real("balance").notNull(), // Number of shares
+  value: real("value").notNull(), // Value in USD
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+});
 
 // ============================================================================
 // NVSTLY Leaders Tracking
@@ -390,7 +440,7 @@ export const nvstlyLeaders = sqliteTable("nvstly_leaders", {
   avgReturn: real("avg_return"),
   broker: text("broker"),
   updatedAt: integer("updated_at", { mode: "timestamp" }),
-})
+});
 
 // NVSTLY Trades
 export const nvstlyTrades = sqliteTable("nvstly_trades", {
@@ -403,7 +453,7 @@ export const nvstlyTrades = sqliteTable("nvstly_trades", {
   gain: real("gain"),
   time: integer("time", { mode: "timestamp" }),
   createdAt: integer("created_at", { mode: "timestamp" }),
-})
+});
 
 // ============================================================================
 // Zulu Traders Tracking
@@ -445,7 +495,7 @@ export const zuluTraders = sqliteTable("zulu_traders", {
   registrationDate: integer("registration_date", { mode: "timestamp" }),
   lastOpenTradeDate: integer("last_open_trade_date", { mode: "timestamp" }),
   updatedAt: integer("updated_at", { mode: "timestamp" }),
-})
+});
 
 // Zulu Currency Stats
 export const zuluCurrencyStats = sqliteTable("zulu_currency_stats", {
@@ -459,7 +509,7 @@ export const zuluCurrencyStats = sqliteTable("zulu_currency_stats", {
   totalSellCount: integer("total_sell_count"),
   pips: real("pips"),
   createdAt: integer("created_at", { mode: "timestamp" }),
-})
+});
 
 // ============================================================================
 // Agent API Logs
@@ -476,7 +526,7 @@ export const agentApiLogs = sqliteTable("agent_api_logs", {
   model: text("model_used"),
   timestamp: integer("timestamp", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // ============================================================================
 // Organizations & Teams
@@ -488,43 +538,57 @@ export const organizations = sqliteTable("organizations", {
   name: text("name").notNull(),
   description: text("description"),
   image: text("image"),
-  ownerId: text("owner_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  ownerId: text("owner_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Organization Members
 export const organizationMembers = sqliteTable("organization_members", {
   id: text("id").primaryKey(),
-  organizationId: text("organization_id").notNull().references(() => organizations.id, { onDelete: "cascade" }),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  organizationId: text("organization_id")
+    .notNull()
+    .references(() => organizations.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   role: text("role").notNull().default("member"), // owner, admin, member
   joinedAt: integer("joined_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Teams - Sub-groups within organizations
 export const teams = sqliteTable("teams", {
   id: text("id").primaryKey(),
-  organizationId: text("organization_id").notNull().references(() => organizations.id, { onDelete: "cascade" }),
+  organizationId: text("organization_id")
+    .notNull()
+    .references(() => organizations.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
 
   // Team Pro upgrades feature
-  upgradeMembers: integer("upgrade_members", { mode: "boolean" }).default(false), // Toggle for Pro upgrades
+  upgradeMembers: integer("upgrade_members", { mode: "boolean" }).default(
+    false,
+  ), // Toggle for Pro upgrades
   maxMembers: integer("max_members").default(8), // Max 8 members for Team subscription
 
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Team Members
 export const teamMembers = sqliteTable("team_members", {
   id: text("id").primaryKey(),
-  teamId: text("team_id").notNull().references(() => teams.id, { onDelete: "cascade" }),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  teamId: text("team_id")
+    .notNull()
+    .references(() => teams.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   role: text("role").notNull().default("member"), // lead, member
   joinedAt: integer("joined_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // ============================================================================
 // User Social Features
@@ -533,22 +597,30 @@ export const teamMembers = sqliteTable("team_members", {
 // User Follows - Users following other users
 export const userFollows = sqliteTable("user_follows", {
   id: text("id").primaryKey(),
-  followerId: text("follower_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  followingId: text("following_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  followerId: text("follower_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  followingId: text("following_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // User Invitations - Invite users via email
 export const userInvitations = sqliteTable("user_invitations", {
   id: text("id").primaryKey(),
-  inviterId: text("inviter_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  inviterId: text("inviter_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   email: text("email").notNull(),
   status: text("status").notNull().default("pending"), // pending, accepted, expired
-  organizationId: text("organization_id").references(() => organizations.id, { onDelete: "cascade" }),
+  organizationId: text("organization_id").references(() => organizations.id, {
+    onDelete: "cascade",
+  }),
   teamId: text("team_id").references(() => teams.id, { onDelete: "cascade" }),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // ============================================================================
 // Sharing & Notifications
@@ -557,9 +629,13 @@ export const userInvitations = sqliteTable("user_invitations", {
 // Shared Items - Stock alerts, debate reports, etc.
 export const sharedItems = sqliteTable("shared_items", {
   id: text("id").primaryKey(),
-  sharedById: text("shared_by_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  sharedById: text("shared_by_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   sharedWithEmail: text("shared_with_email").notNull(),
-  sharedWithUserId: text("shared_with_user_id").references(() => users.id, { onDelete: "set null" }),
+  sharedWithUserId: text("shared_with_user_id").references(() => users.id, {
+    onDelete: "set null",
+  }),
   itemType: text("item_type").notNull(), // stock_alert, debate_report, signal, strategy
   itemId: text("item_id").notNull(), // Reference to the shared item
   symbol: text("symbol"), // For stock-related shares
@@ -568,22 +644,26 @@ export const sharedItems = sqliteTable("shared_items", {
   metadata: text("metadata"), // JSON string with additional data
   viewedAt: integer("viewed_at", { mode: "timestamp" }),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Notifications
 export const notifications = sqliteTable("notifications", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   type: text("type").notNull(), // share, follow, invite, comment, like, mention
   title: text("title").notNull(),
   message: text("message").notNull(),
   actionUrl: text("action_url"), // Link to the relevant item
-  fromUserId: text("from_user_id").references(() => users.id, { onDelete: "cascade" }),
+  fromUserId: text("from_user_id").references(() => users.id, {
+    onDelete: "cascade",
+  }),
   relatedItemType: text("related_item_type"), // stock_alert, debate_report, comment, etc.
   relatedItemId: text("related_item_id"),
   read: integer("read", { mode: "boolean" }).default(false),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // ============================================================================
 // Comments & Likes
@@ -592,24 +672,31 @@ export const notifications = sqliteTable("notifications", {
 // Comments - On debate reports and news tips
 export const comments = sqliteTable("comments", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   itemType: text("item_type").notNull(), // debate_report, news_tip, signal, strategy
   itemId: text("item_id").notNull(), // ID of the item being commented on
-  parentCommentId: text("parent_comment_id").references((): AnySQLiteColumn => comments.id, { onDelete: "cascade" }), // For nested comments
+  parentCommentId: text("parent_comment_id").references(
+    (): AnySQLiteColumn => comments.id,
+    { onDelete: "cascade" },
+  ), // For nested comments
   content: text("content").notNull(),
   editedAt: integer("edited_at", { mode: "timestamp" }),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Likes - On debate reports, comments, and news tips
 export const likes = sqliteTable("likes", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   itemType: text("item_type").notNull(), // debate_report, news_tip, signal, strategy, comment
   itemId: text("item_id").notNull(), // ID of the item being liked
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // ============================================================================
 // Stock Data Cache
@@ -634,7 +721,7 @@ export const stockQuoteCache = sqliteTable("stock_quote_cache", {
   lastFetched: integer("last_fetched", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Stock Fundamentals - Store fundamental data like PE ratio, etc.
 export const stockFundamentals = sqliteTable("stock_fundamentals", {
@@ -655,7 +742,7 @@ export const stockFundamentals = sqliteTable("stock_fundamentals", {
   lastFetched: integer("last_fetched", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // Historical Quote Data - Store daily historical quotes
 export const stockHistoricalQuotes = sqliteTable("stock_historical_quotes", {
@@ -669,7 +756,7 @@ export const stockHistoricalQuotes = sqliteTable("stock_historical_quotes", {
   volume: real("volume"),
   adjustedClose: real("adjusted_close"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-})
+});
 
 // ============================================================================
 // Dukascopy Index Data Cache
@@ -699,4 +786,4 @@ export const dukascopyIndexCache = sqliteTable("dukascopy_index_cache", {
   lastFetched: integer("last_fetched", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-})
+});

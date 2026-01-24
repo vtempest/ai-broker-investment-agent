@@ -167,7 +167,7 @@ export function StockTicker({
 
   const tickerContent = (
     <div className={cn(
-      "w-full h-full mx-2 bg-card border-b border-border flex items-center overflow-hidden max-w-full transition-all",
+      "w-full py-[1px] h-full mx-2 bg-card border-b border-border flex items-center overflow-hidden max-w-full transition-all",
       tickerData.length === 0 && "h-0 border-0"
     )}>
       {/* Scrolling Ticker */}
@@ -206,7 +206,7 @@ export function StockTicker({
         </div>
       </div>
       {/* Fixed Controls - Right Side */}
-      <div className="flex items-center shrink-0 px-2 border-l border-border bg-card z-10">
+      <div className="flex items-center shrink-0 px-1 border-l border-border bg-card z-10">
         <Button
           variant="ghost"
           size="icon"

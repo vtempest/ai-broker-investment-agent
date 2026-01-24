@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { searchPublic } from '@/packages/investing/src/prediction/polymarket'
+import { searchPublic } from '@/packages/investing/src/prediction'
 
 export async function GET(request: NextRequest) {
   try {

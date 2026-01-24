@@ -403,27 +403,11 @@ See the `/examples` directory for complete working examples:
 - `examples/trading-bot.ts` - Automated trading bot
 - `examples/multi-agent-research.ts` - AI research agents
 
-## Contributing
-
-Contributions are welcome! Please read the contributing guidelines before submitting PRs.
-
-## License
-
-rights.institute/prosper
-
 ## Links
 
 - [GitHub Repository](https://github.com/vtempest/ai-broker-investment-agent)
 - [Documentation](https://invest.vtempest.com/docs)
 - [Examples](./examples)
 
-## Support
-
-For issues and questions:
-
 - [GitHub Issues](https://github.com/vtempest/ai-broker-investment-agent/issues)
 - [Documentation](https://invest.vtempest.com/docs)
-
----
-
-Built with ❤️ for the investment and trading community.

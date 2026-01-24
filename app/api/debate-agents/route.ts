@@ -1,17 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { spawn } from 'child_process'
-import path from 'path'
+import { TradingAgentsGraph } from '@/packages/investing/src/trading-agents/graph/trading-graph'
+import { AnalystType, TradingConfig } from '@/packages/investing/src/trading-agents/types'
 
 interface DebateAnalysisRequest {
   ticker: string
   quickMode?: boolean
   quiet?: boolean
+  analysts?: AnalystType[]
 }
 
 interface DebateAnalysisResponse {
   success: boolean
   ticker: string
-  result?: any
+  result?: {
+    company: string
+    price?: number
+    decision: 'BUY' | 'SELL' | 'HOLD'
+    confidence: number
+    marketReport: string
+    newsReport: string
+    sentimentReport: string
+    fundamentalsReport: string
+    bullArguments: string
+    bearArguments: string
+    judgeDecision: string
+    traderDecision: string
+    timestamp: string
+  }
   error?: string
   output?: string
 }
@@ -19,20 +34,26 @@ interface DebateAnalysisResponse {
 /**
  * POST /api/debate-agents
  *
- * Run multi-agent debate analysis on a stock ticker using the debate-agents-js library.
+ * Run multi-agent debate analysis on a stock ticker using TradingAgents with Groq API.
  *
  * @example
  * POST /api/debate-agents
  * {
  *   "ticker": "AAPL",
  *   "quickMode": false,
- *   "quiet": true
+ *   "quiet": true,
+ *   "analysts": ["market", "news"]
  * }
  */
 export async function POST(request: NextRequest) {
   try {
     const body: DebateAnalysisRequest = await request.json()
-    const { ticker, quickMode = false, quiet = true } = body
+    const {
+      ticker,
+      quickMode = false,
+      quiet = true,
+      analysts = ['market', 'news']
+    } = body
 
     if (!ticker) {
       return NextResponse.json(
@@ -49,116 +70,68 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Path to the debate-agents-js directory
-    const debateAgentsPath = path.join(process.cwd(), 'lib', 'debate-agents-js')
-    const runnerPath = path.join(debateAgentsPath, 'simple-runner.js')
+    console.log(`Running trading agents debate analysis for ${ticker} with Groq API...`)
 
-    console.log(`Running debate analysis for ${ticker}...`)
+    // Configure TradingAgents to use Groq
+    const config: TradingConfig = {
+      llmProvider: 'groq',
+      deepThinkLLM: quickMode ? 'llama-3.1-8b-instant' : 'llama-3.3-70b-versatile',
+      quickThinkLLM: 'llama-3.1-8b-instant',
+      temperature: 0.3,
+      apiKeys: {
+        groq: process.env.GROQ_API_KEY || ''
+      }
+    }
 
-    // Execute the analysis using spawn for better control
-    const result: any = await new Promise((resolve, reject) => {
-      const args = ['--ticker', ticker.toUpperCase()]
-      if (quickMode) args.push('--quick')
+    // Validate GROQ_API_KEY
+    if (!config.apiKeys?.groq) {
+      return NextResponse.json(
+        { success: false, error: 'GROQ_API_KEY not configured' },
+        { status: 500 }
+      )
+    }
 
-      const child = spawn('node', [runnerPath, ...args], {
-        cwd: debateAgentsPath,
-        env: {
-          ...process.env,
-          GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
-          FINNHUB_API_KEY: process.env.FINNHUB_API_KEY,
-          TAVILY_API_KEY: process.env.TAVILY_API_KEY,
-          EODHD_API_KEY: process.env.EODHD_API_KEY,
-          OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-        },
-        timeout: 300000, // 5 minutes
-      })
+    // Initialize TradingAgentsGraph
+    const graph = new TradingAgentsGraph(
+      analysts as AnalystType[],
+      !quiet, // debug mode
+      config
+    )
 
-      let stdout = ''
-      let stderr = ''
-      let jsonResult: any = null
+    // Run the analysis
+    const tradeDate = new Date().toISOString().split('T')[0]
+    const { state, signal } = await graph.propagate(ticker.toUpperCase(), tradeDate)
 
-      child.stdout.on('data', (data) => {
-        const output = data.toString()
-        stdout += output
-
-        // Try to extract JSON result
-        const jsonMatch = output.match(/\{[\s\S]*?"final_trade_decision"[\s\S]*?\}(?=\n|$)/m)
-        if (jsonMatch) {
-          try {
-            jsonResult = JSON.parse(jsonMatch[0])
-          } catch (e) {
-            // Continue collecting output
-          }
-        }
-      })
-
-      child.stderr.on('data', (data) => {
-        stderr += data.toString()
-      })
-
-      child.on('error', (error) => {
-        reject(error)
-      })
-
-      child.on('close', (code) => {
-        if (code === 0) {
-          // Success - try to find final JSON in full output
-          if (!jsonResult) {
-            const fullJsonMatch = stdout.match(/\{[\s\S]*?"final_trade_decision"[\s\S]*?\}/m)
-            if (fullJsonMatch) {
-              try {
-                jsonResult = JSON.parse(fullJsonMatch[0])
-              } catch (e) {
-                console.warn('Failed to parse JSON from output')
-              }
-            }
-          }
-
-          resolve({
-            ...jsonResult,
-            raw_output: quiet ? undefined : stdout,
-            stderr: stderr || undefined
-          })
-        } else {
-          reject(new Error(`Process exited with code ${code}\n${stderr || stdout}`))
-        }
-      })
-
-      // Set timeout
-      setTimeout(() => {
-        child.kill('SIGTERM')
-        reject(new Error('Analysis timed out after 5 minutes'))
-      }, 300000)
-    })
-
+    // Format the response
     const response: DebateAnalysisResponse = {
       success: true,
       ticker: ticker.toUpperCase(),
-      result,
-      output: quiet ? undefined : stdout
+      result: {
+        company: state.companyOfInterest,
+        decision: signal.action,
+        confidence: signal.confidence,
+        marketReport: state.marketReport || 'No market analysis performed',
+        newsReport: state.newsReport || 'No news analysis performed',
+        sentimentReport: state.sentimentReport || 'No sentiment analysis performed',
+        fundamentalsReport: state.fundamentalsReport || 'No fundamentals analysis performed',
+        bullArguments: state.investmentDebateState.bullHistory,
+        bearArguments: state.investmentDebateState.bearHistory,
+        judgeDecision: state.investmentDebateState.judgeDecision,
+        traderDecision: state.traderInvestmentPlan || state.finalTradeDecision,
+        timestamp: new Date().toISOString()
+      }
     }
 
     return NextResponse.json(response)
 
   } catch (error: any) {
-    console.error('Debate analysis error:', error)
-
-    // Handle timeout errors
-    if (error.killed && error.signal === 'SIGTERM') {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Analysis timed out after 5 minutes. Try using quickMode: true for faster results.'
-        },
-        { status: 504 }
-      )
-    }
+    console.error('Trading agents debate analysis error:', error)
 
     return NextResponse.json(
       {
         success: false,
         error: error.message || 'Analysis failed',
-        output: error.stderr || error.stdout
+        details: error.toString()
       },
       { status: 500 }
     )

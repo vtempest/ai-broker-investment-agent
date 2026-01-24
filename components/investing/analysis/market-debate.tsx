@@ -38,7 +38,7 @@ export function MarketDebate({ marketId, question, currentYesPrice, currentNoPri
   const [debate, setDebate] = useState<DebateData | null>(null)
   const [loading, setLoading] = useState(false)
   const [generating, setGenerating] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   const fetchDebate = async () => {
@@ -152,11 +152,7 @@ export function MarketDebate({ marketId, question, currentYesPrice, currentNoPri
 
           {!debate && !error && (
             <Card className="p-6 text-center">
-              <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-              <h4 className="font-semibold mb-2">No Analysis Yet</h4>
-              <p className="text-sm text-muted-foreground mb-4">
-                Generate an AI-powered debate analysis for both sides of this market
-              </p>
+
               <Button onClick={generateDebate} disabled={generating}>
                 {generating ? (
                   <>

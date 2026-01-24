@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getMarketPositions, fetchMarketOrderBook, saveMarketPositions } from '@/packages/investing/src/prediction/polymarket'
+import { getMarketPositions, fetchMarketOrderBook, saveMarketPositions } from '@/packages/investing/src/prediction'
 
 export const dynamic = 'force-dynamic'
 

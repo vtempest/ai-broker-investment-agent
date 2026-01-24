@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchMarketSummary } from '@/packages/investing/src/prediction/polymarket'
+import { fetchMarketSummary } from '@/packages/investing/src/prediction'
 
 export async function POST(request: NextRequest) {
   try {

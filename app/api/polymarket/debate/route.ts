@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getMarketDebate, saveDebateAnalysis, getMarkets } from '@/packages/investing/src/prediction/polymarket'
+import { getMarketDebate, saveDebate, getMarkets } from '@/packages/investing/src/prediction'
 import { generateDebateAnalysis } from '@/packages/investing/src/llm/debate-generator'
 
 export const dynamic = 'force-dynamic'
@@ -49,11 +49,11 @@ export async function GET(request: NextRequest) {
 }
 
 // POST /api/polymarket/debate
-// Body: { marketId: string, apiKey?: string, provider?: 'anthropic' | 'openai' }
+// Body: { marketId: string, apiKey?: string }
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { marketId, apiKey, provider = 'anthropic' } = body
+    const { marketId, apiKey } = body
 
     if (!marketId) {
       return NextResponse.json(
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
     )
 
     // Save to database
-    await saveDebateAnalysis(marketId, {
+    await saveDebate(marketId, {
       question: market.question,
       yesArguments: analysis.yesArguments,
       noArguments: analysis.noArguments,
@@ -109,8 +109,8 @@ export async function POST(request: NextRequest) {
       uncertainties: analysis.uncertainties,
       currentYesPrice,
       currentNoPrice,
-      llmProvider: provider,
-      model: provider === 'anthropic' ? 'claude-3-5-sonnet-20241022' : 'gpt-4-turbo-preview',
+      llmProvider: 'groq',
+      model: 'llama-3.3-70b-versatile',
     })
 
     return NextResponse.json({

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getZuluTraders } from '@/packages/investing/src/leaders/zulu'
-import { getLeaders, syncLeaderboard } from '@/packages/investing/src/prediction/polymarket'
+import { getLeaders, syncLeaderboard } from '@/packages/investing/src/prediction'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams

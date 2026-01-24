@@ -16,51 +16,28 @@ export default defineConfig({
     },
   },
   build: {
+    minify: "terser",
     lib: {
-      entry: {
-        index: resolve(__dirname, "src/index.ts"),
-        "alpaca/index": resolve(__dirname, "src/alpaca/client.ts"),
-        "prediction/index": resolve(__dirname, "src/prediction/polymarket.ts"),
-        "trading-agents/index": resolve(
-          __dirname,
-          "src/trading-agents/index.ts"
-        ),
-        "constants/index": resolve(__dirname, "src/constants/index.ts"),
-        utils: resolve(__dirname, "src/utils.ts"),
-      },
+      entry: resolve(__dirname, "src/index.ts"),
       formats: ["es", "cjs"],
-      fileName: (format, entryName) => {
-        if (format === "es") {
-          return `${entryName}.mjs`;
-        }
-        return `${entryName}.js`;
-      },
+      fileName: (format) => `index.${format === "es" ? "mjs" : "js"}`,
     },
     rollupOptions: {
       external: [
-        "react",
-        "react-dom",
-        "next",
-        "@alpacahq/alpaca-trade-api",
-        "@langchain/core",
-        "@langchain/google-genai",
-        "@langchain/groq",
-        "@langchain/langgraph",
-        "@langchain/openai",
-        "@polymarket/clob-client",
-        "axios",
-        "csv-parse",
-        "date-fns",
-        "dotenv",
-        "drizzle-orm",
-        "ethers",
-        "indicatorts",
-        "langchain",
-        "nanoid",
-        "sec-edgar-toolkit",
-        "yahoo-finance2",
-        "zod",
+        "react", "react-dom", "next",
+        "axios", "csv-parse", "date-fns", "dotenv", "drizzle-orm",
+        "ethers", "indicatorts", "langchain", "nanoid",
+        "sec-edgar-toolkit", "xgboost_node", "zod",
       ],
+    },
+    terserOptions: {
+      compress: {
+        drop_console: false,
+        drop_debugger: true,
+      },
+      format: {
+        comments: false,
+      },
     },
   },
 });

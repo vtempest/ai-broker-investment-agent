@@ -30,7 +30,8 @@
     "import:stategies": "bun lib/algo-stategies/tv-scraper.ts --pages=10",
     "import:stocks": "bun lib/stocks/import-stock-names.ts",
     "postinstall": "fumadocs-mdx && drizzle-kit push",
-    "start": "next start"
+    "start": "next start",
+    "sync:high-volume-markets": "tsx scripts/sync-high-volume-markets.ts"
   },
   "dependencies": {
     "@alpacahq/alpaca-trade-api": "^3.1.3",

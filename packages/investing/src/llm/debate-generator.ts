@@ -34,34 +34,45 @@ function getTavilyClient(): TavilyClient {
 }
 
 async function researchQuestionWithTavily(question: string): Promise<string> {
-  const tavily = getTavilyClient();
-  // Step 1: search for the question
-  const searchRes = await tavily.search({
-    query: question,
-    search_depth: "advanced",
-    max_results: 5,
-    include_raw_content: true, // so we can skip a separate extract call if desired [web:71][web:75][web:80]
-  });
+  try {
+    const tavily = getTavilyClient();
 
-  // Fallback if API doesn’t support includeRawContent in your plan/version:
-  // collect URLs and call tavily.extract(urls) instead. [web:70][web:76][web:80]
-
-  const summaryParts: string[] = [];
-
-  if (searchRes?.answer) {
-    summaryParts.push(`High-level answer: ${searchRes.answer}`);
-  }
-
-  if (searchRes?.results?.length) {
-    for (const r of searchRes.results.slice(0, 3)) {
-      const snippet = (r.content ?? "").slice(0, 800); // keep it short for prompt [web:70][web:83]
-      summaryParts.push(
-        `Source: ${r.url}\nRelevance: ${r.score}\nSnippet:\n${snippet}`
-      );
+    if (!process.env.TAVILY_API_KEY) {
+      console.warn('TAVILY_API_KEY not set, skipping web research');
+      return 'Web research unavailable: API key not configured';
     }
-  }
 
-  return summaryParts.join("\n\n");
+    // Step 1: search for the question
+    const searchRes = await tavily.search({
+      query: question,
+      search_depth: "advanced",
+      max_results: 5,
+      include_raw_content: true, // so we can skip a separate extract call if desired [web:71][web:75][web:80]
+    });
+
+    // Fallback if API doesn't support includeRawContent in your plan/version:
+    // collect URLs and call tavily.extract(urls) instead. [web:70][web:76][web:80]
+
+    const summaryParts: string[] = [];
+
+    if (searchRes?.answer) {
+      summaryParts.push(`High-level answer: ${searchRes.answer}`);
+    }
+
+    if (searchRes?.results?.length) {
+      for (const r of searchRes.results.slice(0, 3)) {
+        const snippet = (r.content ?? "").slice(0, 800); // keep it short for prompt [web:70][web:83]
+        summaryParts.push(
+          `Source: ${r.url}\nRelevance: ${r.score}\nSnippet:\n${snippet}`
+        );
+      }
+    }
+
+    return summaryParts.join("\n\n");
+  } catch (error: any) {
+    console.error('Error researching with Tavily:', error.message);
+    return `Web research failed: ${error.message}. Analysis will proceed with limited context.`;
+  }
 }
 
 // --- Prompt builder using Tavily context ---
@@ -146,52 +157,78 @@ async function callGroqAsJson(
     temperature = 0.7,
   }: { model?: string; temperature?: number } = {}
 ): Promise<DebateAnalysis> {
-  const llm = new ChatGroq({
-    apiKey: apiKey || process.env.GROQ_API_KEY,
-    model,
-    temperature,
-  });
+  try {
+    const finalApiKey = apiKey || process.env.GROQ_API_KEY;
 
-  const aiMsg = await llm.invoke(
-    [
+    if (!finalApiKey) {
+      throw new Error('GROQ_API_KEY not configured');
+    }
+
+    const llm = new ChatGroq({
+      apiKey: finalApiKey,
+      model,
+      temperature,
+    });
+
+    console.log(`Calling Groq API with model ${model}...`);
+
+    const aiMsg = await llm.invoke(
+      [
+        {
+          role: "system",
+          content:
+            "You are an expert analyst who provides balanced, fact-based debate analysis. Always respond with valid JSON matching the requested schema.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
       {
-        role: "system",
-        content:
-          "You are an expert analyst who provides balanced, fact-based debate analysis. Always respond with valid JSON matching the requested schema.",
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-    {
-      response_format: { type: "json_object" },
-    } as any
-  ); // [web:2][web:13][web:57]
+        response_format: { type: "json_object" },
+      } as any
+    ); // [web:2][web:13][web:57]
 
-  const rawContent =
-    typeof aiMsg.content === "string"
-      ? aiMsg.content
-      : Array.isArray(aiMsg.content)
-        ? aiMsg.content.map((c: any) => c?.text ?? "").join("")
-        : String(aiMsg.content);
+    const rawContent =
+      typeof aiMsg.content === "string"
+        ? aiMsg.content
+        : Array.isArray(aiMsg.content)
+          ? aiMsg.content.map((c: any) => c?.text ?? "").join("")
+          : String(aiMsg.content);
 
-  let jsonText = rawContent.trim();
+    let jsonText = rawContent.trim();
 
-  const parsed = JSON.parse(jsonText);
+    // Parse JSON response
+    let parsed;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch (parseError: any) {
+      console.error('Failed to parse Groq response as JSON:', jsonText.substring(0, 200));
+      throw new Error(`Invalid JSON response from Groq: ${parseError.message}`);
+    }
 
-  if (
-    !parsed.yesArguments ||
-    !parsed.noArguments ||
-    !parsed.yesSummary ||
-    !parsed.noSummary ||
-    !parsed.keyFactors ||
-    !parsed.uncertainties
-  ) {
-    throw new Error("Missing required fields in analysis");
+    // Validate required fields
+    const requiredFields = [
+      'yesArguments',
+      'noArguments',
+      'yesSummary',
+      'noSummary',
+      'keyFactors',
+      'uncertainties'
+    ];
+
+    const missingFields = requiredFields.filter(field => !parsed[field]);
+
+    if (missingFields.length > 0) {
+      console.error('Missing fields in Groq response:', missingFields);
+      throw new Error(`Missing required fields in analysis: ${missingFields.join(', ')}`);
+    }
+
+    return parsed as DebateAnalysis;
+  } catch (error: any) {
+    console.error('Error calling Groq API:', error.message);
+    throw error;
   }
-
-  return parsed as DebateAnalysis;
 }
 
 // --- Public functions ---
@@ -200,9 +237,24 @@ export async function generateDebateAnalysis(
   marketData: MarketData,
   apiKey?: string
 ): Promise<DebateAnalysis> {
-  const research = await researchQuestionWithTavily(marketData.question);
-  const prompt = buildPrompt(marketData, research, true);
-  return callGroqAsJson(prompt, apiKey);
+  try {
+    console.log(`Generating debate analysis for: ${marketData.question}`);
+
+    // Research with Tavily
+    const research = await researchQuestionWithTavily(marketData.question);
+
+    // Build prompt
+    const prompt = buildPrompt(marketData, research, true);
+
+    // Call Groq to generate analysis
+    const analysis = await callGroqAsJson(prompt, apiKey);
+
+    console.log(`Successfully generated debate analysis`);
+    return analysis;
+  } catch (error: any) {
+    console.error('Error generating debate analysis:', error.message);
+    throw new Error(`Failed to generate debate analysis: ${error.message}`);
+  }
 }
 
 export async function generateDebateAnalysisWithOpenAI(

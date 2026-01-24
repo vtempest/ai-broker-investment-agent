@@ -8,12 +8,14 @@ import { Progress } from "@/components/ui/progress"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import { TrendingUp, ExternalLink, Loader2, DollarSign, Activity, Clock, RefreshCw, Filter, Search } from "lucide-react"
+import { TrendingUp, ExternalLink, Loader2, DollarSign, Activity, Clock, RefreshCw, Filter, Search, Users } from "lucide-react"
 import { MarketDebate } from "@/components/investing/analysis/market-debate"
+import { TopHoldersList } from "@/components/investing/analysis/top-holders-list"
 import { Input } from "@/components/ui/input"
 import { PolymarketPriceChart } from "@/components/investing/charts/polymarket-price-chart"
 import { ChangeIcon } from "@/components/investing/stock-ticker/change-icon"
 import { cn } from "@/lib/utils"
+import { POLYMARKET_CATEGORIES } from "@/packages/investing/src/prediction/constants"
 
 interface PolymarketMarket {
   id: string
@@ -31,6 +33,11 @@ interface PolymarketMarket {
   description?: string
   endDate?: string
   tags?: string[]
+  priceChanges?: {
+    daily: number | null
+    weekly: number | null
+    monthly: number | null
+  }
 }
 
 interface PriceHistoryData {
@@ -135,8 +142,7 @@ export function PredictionMarketsTab() {
   const [limit, setLimit] = useState(50)
   const [timeWindow, setTimeWindow] = useState('24h')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
-  const [availableCategories, setAvailableCategories] = useState<string[]>([])
-  const [hideHighProb, setHideHighProb] = useState(false)
+  const [hideHighProb, setHideHighProb] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
@@ -177,16 +183,6 @@ export function PredictionMarketsTab() {
     }
   }, [loadingMore, markets.length, limit])
 
-  useEffect(() => {
-    // Extract unique categories from markets
-    const categories = new Set<string>()
-    markets.forEach(market => {
-      if (market.tags) {
-        market.tags.forEach(tag => categories.add(tag))
-      }
-    })
-    setAvailableCategories(Array.from(categories).sort())
-  }, [markets])
 
   const fetchMarkets = async (sync = false) => {
     try {
@@ -247,15 +243,52 @@ export function PredictionMarketsTab() {
     try {
       setSyncing(true)
       const response = await fetch('/api/polymarket/markets/sync-all', {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          maxMarkets: 1000,
+          syncPriceHistory: true
+        })
       })
       const data = await response.json()
 
       if (data.success) {
+        console.log(`Synced ${data.markets} markets with ${data.pricePoints} price data points in ${data.duration}`)
         await fetchMarkets()
+      } else {
+        console.error('Sync failed:', data.error)
       }
     } catch (error) {
       console.error('Error syncing all markets:', error)
+    } finally {
+      setSyncing(false)
+    }
+  }
+
+  const syncAllHolders = async () => {
+    try {
+      setSyncing(true)
+      const response = await fetch('/api/polymarket/holders/sync-all', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          maxMarkets: 100
+        })
+      })
+      const data = await response.json()
+
+      if (data.success) {
+        console.log(`Synced holders for ${data.successCount}/${data.marketsProcessed} markets (${data.totalHolders} total holders) in ${data.duration}`)
+        await fetchMarkets()
+      } else {
+        console.error('Sync holders failed:', data.error)
+      }
+    } catch (error) {
+      console.error('Error syncing all holders:', error)
     } finally {
       setSyncing(false)
     }
@@ -340,6 +373,24 @@ export function PredictionMarketsTab() {
                 </>
               )}
             </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={syncAllHolders}
+              disabled={syncing}
+            >
+              {syncing ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Syncing...
+                </>
+              ) : (
+                <>
+                  <Users className="h-4 w-4 mr-2" />
+                  Sync All Holders
+                </>
+              )}
+            </Button>
           </div>
         </div>
 
@@ -398,7 +449,7 @@ export function PredictionMarketsTab() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
-                {availableCategories.map((category) => (
+                {POLYMARKET_CATEGORIES.map((category) => (
                   <SelectItem key={category} value={category}>
                     {category}
                   </SelectItem>
@@ -411,7 +462,7 @@ export function PredictionMarketsTab() {
       </div>
 
       {/* Markets Grid */}
-      <div className="grid gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {filteredMarkets.map((market, index) => (
           <Card key={market.id} className="p-6 hover:shadow-lg transition-shadow">
             <div className="flex flex-col lg:flex-row gap-6">
@@ -461,83 +512,65 @@ export function PredictionMarketsTab() {
                     )
                   })()}
 
-                  {/* Price Changes */}
-                  {priceHistory[market.id] && market.outcomePrices && (() => {
-                    const currentPrice = parseFloat(market.outcomePrices[0])
-                    const changes = calculatePriceChanges(priceHistory[market.id], currentPrice)
-
-                    return (
-                      <div className="flex items-center gap-1 flex-shrink-0">
-                        {changes.daily !== null && (
-                          <div
-                            className={cn(
-                              "flex font-bold items-center text-xs rounded-md gap-0 px-1",
-                              getChangeTextColor(changes.daily, changes.daily >= 0),
-                              getChangeBackgroundClass(changes.daily, changes.daily >= 0),
-                              getChangeBorderClass(changes.daily, changes.daily >= 0)
-                            )}
-                          >
-                            <span className="font-mono tabular-nums">
-                              {changes.daily >= 0 ? '+' : ''}{Math.round(changes.daily)}
-                            </span>
-                            <ChangeIcon letter="d" direction={getChangeDirection(changes.daily)} isPositive={changes.daily >= 0} />
-                          </div>
-                        )}
-                        {changes.weekly !== null && (
-                          <div
-                            className={cn(
-                              "flex items-center font-semibold text-xs rounded-md gap-0 px-1",
-                              getChangeTextColor(changes.weekly, changes.weekly >= 0),
-                              getChangeBackgroundClass(changes.weekly, changes.weekly >= 0),
-                              getChangeBorderClass(changes.weekly, changes.weekly >= 0)
-                            )}
-                          >
-                            <span className="font-mono tabular-nums">
-                              {changes.weekly >= 0 ? '+' : ''}{Math.round(changes.weekly)}
-                            </span>
-                            <ChangeIcon letter="w" direction={getChangeDirection(changes.weekly)} isPositive={changes.weekly >= 0} />
-                          </div>
-                        )}
-                        {changes.monthly !== null && (
-                          <div
-                            className={cn(
-                              "flex items-center font-semibold text-xs rounded-md gap-0 px-1",
-                              getChangeTextColor(changes.monthly, changes.monthly >= 0),
-                              getChangeBackgroundClass(changes.monthly, changes.monthly >= 0),
-                              getChangeBorderClass(changes.monthly, changes.monthly >= 0)
-                            )}
-                          >
-                            <span className="font-mono tabular-nums">
-                              {changes.monthly >= 0 ? '+' : ''}{Math.round(changes.monthly)}
-                            </span>
-                            <ChangeIcon letter="m" direction={getChangeDirection(changes.monthly)} isPositive={changes.monthly >= 0} />
-                          </div>
-                        )}
-                        {changes.yearly !== null && (
-                          <div
-                            className={cn(
-                              "flex items-center font-semibold text-xs rounded-md gap-0 px-1",
-                              getChangeTextColor(changes.yearly, changes.yearly >= 0),
-                              getChangeBackgroundClass(changes.yearly, changes.yearly >= 0),
-                              getChangeBorderClass(changes.yearly, changes.yearly >= 0)
-                            )}
-                          >
-                            <span className="font-mono tabular-nums">
-                              {changes.yearly >= 0 ? '+' : ''}{Math.round(changes.yearly)}
-                            </span>
-                            <ChangeIcon letter="y" direction={getChangeDirection(changes.yearly)} isPositive={changes.yearly >= 0} />
-                          </div>
-                        )}
-                      </div>
-                    )
-                  })()}
-
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="text-lg font-bold leading-tight">{market.question}</h3>
-                      <Badge variant="outline" className="flex-shrink-0">
+                      <div className="flex items-center gap-2 flex-wrap flex-1">
+                        {/* Price Changes */}
+                        {market.priceChanges && (
+                          <div className="flex items-center gap-1 flex-shrink-0">
+                            {market.priceChanges.daily !== null && (
+                              <div
+                                className={cn(
+                                  "flex font-bold items-center text-xs rounded-md gap-0 px-1",
+                                  getChangeTextColor(market.priceChanges.daily, market.priceChanges.daily >= 0),
+                                  getChangeBackgroundClass(market.priceChanges.daily, market.priceChanges.daily >= 0),
+                                  getChangeBorderClass(market.priceChanges.daily, market.priceChanges.daily >= 0)
+                                )}
+                              >
+                                <span className="font-mono tabular-nums">
+                                  {market.priceChanges.daily >= 0 ? '+' : ''}{Math.round(market.priceChanges.daily)}
+                                </span>
+                                <ChangeIcon letter="d" direction={getChangeDirection(market.priceChanges.daily)} isPositive={market.priceChanges.daily >= 0} />
+                              </div>
+                            )}
+                            {market.priceChanges.weekly !== null && (
+                              <div
+                                className={cn(
+                                  "flex items-center font-semibold text-xs rounded-md gap-0 px-1",
+                                  getChangeTextColor(market.priceChanges.weekly, market.priceChanges.weekly >= 0),
+                                  getChangeBackgroundClass(market.priceChanges.weekly, market.priceChanges.weekly >= 0),
+                                  getChangeBorderClass(market.priceChanges.weekly, market.priceChanges.weekly >= 0)
+                                )}
+                              >
+                                <span className="font-mono tabular-nums">
+                                  {market.priceChanges.weekly >= 0 ? '+' : ''}{Math.round(market.priceChanges.weekly)}
+                                </span>
+                                <ChangeIcon letter="w" direction={getChangeDirection(market.priceChanges.weekly)} isPositive={market.priceChanges.weekly >= 0} />
+                              </div>
+                            )}
+                            {market.priceChanges.monthly !== null && (
+                              <div
+                                className={cn(
+                                  "flex items-center font-semibold text-xs rounded-md gap-0 px-1",
+                                  getChangeTextColor(market.priceChanges.monthly, market.priceChanges.monthly >= 0),
+                                  getChangeBackgroundClass(market.priceChanges.monthly, market.priceChanges.monthly >= 0),
+                                  getChangeBorderClass(market.priceChanges.monthly, market.priceChanges.monthly >= 0)
+                                )}
+                              >
+                                <span className="font-mono tabular-nums">
+                                  {market.priceChanges.monthly >= 0 ? '+' : ''}{Math.round(market.priceChanges.monthly)}
+                                </span>
+                                <ChangeIcon letter="m" direction={getChangeDirection(market.priceChanges.monthly)} isPositive={market.priceChanges.monthly >= 0} />
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        <h3 className="text-lg font-bold leading-tight">{market.question}</h3>
+                      </div>
+                      {/* <Badge variant="outline" className="flex-shrink-0">
                         #{index + 1}
-                      </Badge>
+                      </Badge> */}
                     </div>
 
                     {market.tags && market.tags.length > 0 && (
@@ -620,10 +653,16 @@ export function PredictionMarketsTab() {
                     currentNoPrice={market.outcomePrices && market.outcomePrices[1] ? parseFloat(market.outcomePrices[1]) : 0.5}
                   />
                 </div>
+
+                {/* Top Holders */}
+                <TopHoldersList
+                  marketId={market.id}
+                  eventId={undefined}
+                />
               </div>
 
               {/* Action Buttons */}
-              <div className="lg:w-48 flex lg:flex-col gap-2">
+              <div className="text-green-500 flex lg:flex-col gap-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -635,48 +674,50 @@ export function PredictionMarketsTab() {
                   )}
                 >
                   <ExternalLink className="h-4 w-4 mr-2" />
-                  View on Polymarket
+                  Bet
                 </Button>
               </div>
             </div>
           </Card>
         ))}
-      </div>
-
-      {/* Infinite scroll trigger */}
-      <div ref={observerTarget} className="h-10 flex items-center justify-center">
-        {loadingMore && (
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Loader2 className="h-5 w-5 animate-spin" />
-            <span>Loading more markets...</span>
-          </div>
-        )}
-      </div>
-
-      {markets.length === 0 && !loading && (
-        <Card className="p-12 text-center">
-          <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-xl font-bold mb-2">No Markets Found</h3>
-          <p className="text-muted-foreground">
-            {searchTerm
-              ? `No markets found matching "${searchTerm}". Try a different search term.`
-              : 'Unable to load prediction markets at this time.'}
-          </p>
-          {searchTerm && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setSearchQuery('')
-                setSearchTerm('')
-              }}
-              className="mt-4"
-            >
-              Clear Search
-            </Button>
-          )}
-        </Card>
-      )}
     </div>
+
+      {/* Infinite scroll trigger */ }
+  <div ref={observerTarget} className="h-10 flex items-center justify-center">
+    {loadingMore && (
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <Loader2 className="h-5 w-5 animate-spin" />
+        <span>Loading more markets...</span>
+      </div>
+    )}
+  </div>
+
+  {
+    markets.length === 0 && !loading && (
+      <Card className="p-12 text-center">
+        <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+        <h3 className="text-xl font-bold mb-2">No Markets Found</h3>
+        <p className="text-muted-foreground">
+          {searchTerm
+            ? `No markets found matching "${searchTerm}". Try a different search term.`
+            : 'Unable to load prediction markets at this time.'}
+        </p>
+        {searchTerm && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setSearchQuery('')
+              setSearchTerm('')
+            }}
+            className="mt-4"
+          >
+            Clear Search
+          </Button>
+        )}
+      </Card>
+    )
+  }
+    </div >
   )
 }

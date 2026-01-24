@@ -1,6 +1,7 @@
 // Historical Stock Data API Route
 import { NextRequest, NextResponse } from 'next/server';
 import { FinnhubWrapper } from '@/packages/investing/src/stocks/finnhub-wrapper';
+import { quoteCacheService } from '@/packages/investing/src/stocks/quote-cache-service';
 
 const finnhub = new FinnhubWrapper();
 
@@ -17,7 +18,8 @@ export async function GET(
         // Get parameters with defaults
         const interval = searchParams.get('interval') || '1d';
         const range = searchParams.get('range') || '1mo'; // default to 1 month
-        
+        const useCache = searchParams.get('cache') !== 'false'; // Use cache by default
+
         // Allow either period1/period2 OR range
         const period1Param = searchParams.get('period1');
         const period2Param = searchParams.get('period2');
@@ -82,6 +84,42 @@ export async function GET(
         // Calculate end date (period2) if not provided
         const endDate = queryOptions.period2 || new Date();
 
+        // Try to get cached data first (only for 1d interval)
+        let cachedQuotes: any[] = [];
+        if (useCache && interval === '1d') {
+            const startDateStr = typeof queryOptions.period1 === 'string'
+                ? queryOptions.period1
+                : queryOptions.period1.toISOString().split('T')[0];
+            const endDateStr = typeof endDate === 'string'
+                ? endDate
+                : endDate.toISOString().split('T')[0];
+
+            cachedQuotes = await quoteCacheService.getCachedHistoricalQuotes(
+                symbol,
+                startDateStr,
+                endDateStr
+            );
+
+            // If we have enough cached data (at least 80% of expected), use it
+            const expectedDays = Math.floor((new Date(endDateStr).getTime() - new Date(startDateStr).getTime()) / (1000 * 60 * 60 * 24));
+            if (cachedQuotes.length >= expectedDays * 0.8) {
+                console.log(`Using ${cachedQuotes.length} cached quotes for ${symbol}`);
+                return NextResponse.json({
+                    success: true,
+                    symbol,
+                    source: 'cache',
+                    period: {
+                        start: cachedQuotes[0]?.date || startDateStr,
+                        end: cachedQuotes[cachedQuotes.length - 1]?.date || endDateStr
+                    },
+                    interval,
+                    dataPoints: cachedQuotes.length,
+                    data: cachedQuotes,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+
         const result = await finnhub.getHistoricalData({
             symbol,
             period1: queryOptions.period1,
@@ -132,6 +170,13 @@ export async function GET(
 
         const quotes = result.data.quotes;
         const meta = result.data.meta;
+
+        // Save to cache if using daily interval
+        if (useCache && interval === '1d' && quotes.length > 0) {
+            await quoteCacheService.saveHistoricalQuotes(symbol, quotes).catch(err => {
+                console.error('Failed to cache historical quotes:', err);
+            });
+        }
 
         return NextResponse.json({
             success: true,

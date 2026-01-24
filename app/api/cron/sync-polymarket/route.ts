@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { syncLeadersAndCategories } from '@/packages/investing/src/prediction/polymarket'
+import { syncLeadersAndCategories } from '@/packages/investing/src/prediction'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 

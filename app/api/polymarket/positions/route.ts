@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getTraderPositions } from '@/packages/investing/src/prediction/polymarket'
+import { getTraderPositions } from '@/packages/investing/src/prediction'
 
 export async function POST(request: NextRequest) {
   try {
