@@ -9,7 +9,9 @@ export const dynamic = "force-dynamic";
 /**
  * Calculate weekly change from historical data (last 5 trading days)
  */
-async function getWeeklyChange(symbol: string): Promise<{ change: number; changePercent: number } | null> {
+async function getWeeklyChange(
+  symbol: string,
+): Promise<{ change: number; changePercent: number } | null> {
   try {
     const fiveDaysAgo = new Date();
     fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 7); // Go back 7 calendar days to ensure we get 5 trading days
@@ -40,7 +42,9 @@ async function getWeeklyChange(symbol: string): Promise<{ change: number; change
 /**
  * Calculate monthly change from historical data
  */
-async function getMonthlyChange(symbol: string): Promise<{ change: number; changePercent: number } | null> {
+async function getMonthlyChange(
+  symbol: string,
+): Promise<{ change: number; changePercent: number } | null> {
   try {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -59,7 +63,7 @@ async function getMonthlyChange(symbol: string): Promise<{ change: number; chang
 
       // Save historical data to cache
       const historicalQuotes = result.data.map((d: any) => ({
-        date: d.date.toISOString().split('T')[0], // YYYY-MM-DD
+        date: d.date.toISOString().split("T")[0], // YYYY-MM-DD
         open: d.open,
         high: d.high,
         low: d.low,
@@ -82,7 +86,9 @@ async function getMonthlyChange(symbol: string): Promise<{ change: number; chang
 /**
  * Calculate yearly change from historical data
  */
-async function getYearlyChange(symbol: string): Promise<{ change: number; changePercent: number } | null> {
+async function getYearlyChange(
+  symbol: string,
+): Promise<{ change: number; changePercent: number } | null> {
   try {
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
@@ -101,7 +107,7 @@ async function getYearlyChange(symbol: string): Promise<{ change: number; change
 
       // Save historical data to cache
       const historicalQuotes = result.data.map((d: any) => ({
-        date: d.date.toISOString().split('T')[0], // YYYY-MM-DD
+        date: d.date.toISOString().split("T")[0], // YYYY-MM-DD
         open: d.open,
         high: d.high,
         low: d.low,
@@ -122,11 +128,12 @@ async function getYearlyChange(symbol: string): Promise<{ change: number; change
 }
 
 /**
- * GET /api/stocks/quotes?symbols=AAPL,MSFT,GOOGL&live=true&cacheTTL=300000
+ * GET /api/stocks/quotes?symbols=AAPL,MSFT,GOOGL&live=true&cacheTTL=300000&skipHistorical=true
  * Get real-time quotes for multiple stock symbols with weekly, monthly and yearly change data
  * @param symbols - Comma-separated list of stock symbols
  * @param live - Optional: set to 'true' to bypass cache and get fresh data (default: false, uses cache)
  * @param cacheTTL - Optional: cache TTL in milliseconds (default: 60000 = 1 minute)
+ * @param skipHistorical - Optional: set to 'true' to skip weekly/monthly/yearly calculations (faster for tickers)
  */
 export async function GET(request: NextRequest) {
   try {
@@ -134,13 +141,15 @@ export async function GET(request: NextRequest) {
     const symbolsParam = searchParams.get("symbols");
     const liveParam = searchParams.get("live");
     const cacheTTLParam = searchParams.get("cacheTTL");
+    const skipHistoricalParam = searchParams.get("skipHistorical");
     const useCache = liveParam !== "true"; // Use cache by default, bypass if live=true
     const cacheTTL = cacheTTLParam ? parseInt(cacheTTLParam, 10) : undefined;
+    const skipHistorical = skipHistoricalParam === "true";
 
     if (!symbolsParam) {
       return NextResponse.json(
         { error: "symbols parameter is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -152,18 +161,25 @@ export async function GET(request: NextRequest) {
     if (!result.success || !result.data) {
       return NextResponse.json(
         { success: false, error: result.error || "Failed to fetch quotes" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    // Enrich quotes with weekly, monthly and yearly change data
+    // Enrich quotes with weekly, monthly and yearly change data (skip if requested for faster response)
     const enrichedQuotes = await Promise.all(
       result.data.quotes.map(async (quote) => {
-        const [weeklyData, monthlyData, yearlyData] = await Promise.all([
-          getWeeklyChange(quote.symbol),
-          getMonthlyChange(quote.symbol),
-          getYearlyChange(quote.symbol),
-        ]);
+        let weeklyData = null;
+        let monthlyData = null;
+        let yearlyData = null;
+
+        // Only fetch historical data if not skipped (for ticker performance)
+        if (!skipHistorical) {
+          [weeklyData, monthlyData, yearlyData] = await Promise.all([
+            getWeeklyChange(quote.symbol),
+            getMonthlyChange(quote.symbol),
+            getYearlyChange(quote.symbol),
+          ]);
+        }
 
         return {
           symbol: quote.symbol,
@@ -189,7 +205,7 @@ export async function GET(request: NextRequest) {
           source: quote.source,
           timestamp: quote.timestamp,
         };
-      })
+      }),
     );
 
     return NextResponse.json({
@@ -200,7 +216,7 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message || "Failed to fetch quotes" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
