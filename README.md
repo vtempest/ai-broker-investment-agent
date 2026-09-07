@@ -18,6 +18,7 @@
     </a>
     <img src="https://img.shields.io/github/last-commit/vtempest/stock-prediction-agent.svg" alt="GitHub last commit" />
     <img src="https://img.shields.io/badge/Next.js-16.0-black" alt="Next.js" />
+    <a href="https://grab.js.org"><img src="https://i.imgur.com/EWze7Ew.png" height="20" alt="grab.js.org" /></a>
 
 </p>
 <p align="center">
