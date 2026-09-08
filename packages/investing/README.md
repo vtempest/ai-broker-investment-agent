@@ -378,11 +378,16 @@ const summary = quotes.map((q, i) => ({
 
 ## Database Integration (Optional)
 
-If using the database features, install the peer dependency:
+Database features target **Cloudflare D1 only**. Install the peer dependency:
 
 ```bash
-npm install drizzle-orm @libsql/client
+npm install drizzle-orm
 ```
+
+On Cloudflare Workers the connection uses the `DB` binding. Outside Workers
+(scripts, CI) it reaches the same D1 database over Cloudflare's REST API, which
+needs `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_D1_TOKEN`, and optionally
+`CLOUDFLARE_DATABASE_ID`.
 
 Then import database schemas:
 

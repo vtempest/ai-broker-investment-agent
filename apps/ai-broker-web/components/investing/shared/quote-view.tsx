@@ -17,7 +17,7 @@ import {
 // @ts-ignore
 import { ArrowLeft, Loader2, TrendingUp, TrendingDown, DollarSign, Activity, BarChart3, Star, ExternalLink } from "lucide-react"
 import Link from "next/link"
-import { useSession } from "@/lib/auth-client"
+import { useSession } from "@/lib/auth/client"
 import { DynamicStockChart } from "@/components/investing/charts/dynamic-stock-chart"
 import { TradeModal } from "@/components/investing/trading/trade-modal"
 
