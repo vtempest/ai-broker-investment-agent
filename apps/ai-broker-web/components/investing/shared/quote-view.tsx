@@ -87,6 +87,63 @@ interface QuoteViewProps {
   tradeSignals?: TradeSignal[]
 }
 
+/**
+ * Off-site destinations for a ticker. Research also carries what used to be the
+ * separate Social and Filings groups — one entry each is not worth its own
+ * section header.
+ */
+type ExternalLink = { name: string; host: string; href: (symbol: string) => string }
+
+const EXTERNAL_LINKS: { brokers: ExternalLink[]; research: ExternalLink[] } = {
+  brokers: [
+    { name: "Robinhood", host: "robinhood.com", href: (s) => `https://robinhood.com/stocks/${s}` },
+    { name: "Webull", host: "webull.com", href: (s) => `https://app.webull.com/stocks/${s}` },
+    {
+      name: "Fidelity",
+      host: "fidelity.com",
+      href: (s) =>
+        `https://digital.fidelity.com/prgw/digital/research/quote/dashboard/summary?symbol=${s}`,
+    },
+  ],
+  research: [
+    { name: "Yahoo Finance", host: "finance.yahoo.com", href: (s) => `https://finance.yahoo.com/quote/${s}` },
+    { name: "TradingView", host: "tradingview.com", href: (s) => `https://www.tradingview.com/symbols/${s}` },
+    { name: "Google Finance", host: "google.com", href: (s) => `https://www.google.com/finance/quote/${s}` },
+    { name: "MarketWatch", host: "marketwatch.com", href: (s) => `https://www.marketwatch.com/investing/stock/${s}` },
+    { name: "Finviz", host: "finviz.com", href: (s) => `https://finviz.com/quote.ashx?t=${s}` },
+    { name: "Stocktwits", host: "stocktwits.com", href: (s) => `https://stocktwits.com/symbol/${s}` },
+    {
+      name: "SEC EDGAR",
+      host: "sec.gov",
+      href: (s) =>
+        `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=${s}&type=&dateb=&owner=exclude&count=40`,
+    },
+  ],
+}
+
+/** Google's public favicon service — no key, and it falls back to a generic globe. */
+const faviconUrl = (host: string) =>
+  `https://www.google.com/s2/favicons?domain=${host}&sz=64`
+
+function ExternalLinkItem({ link, symbol }: { link: ExternalLink; symbol: string }) {
+  return (
+    <DropdownMenuItem asChild>
+      <a href={link.href(symbol)} target="_blank" rel="noopener noreferrer">
+        <img
+          src={faviconUrl(link.host)}
+          alt=""
+          aria-hidden="true"
+          width={16}
+          height={16}
+          loading="lazy"
+          className="mr-2 h-4 w-4 rounded-sm"
+        />
+        {link.name}
+      </a>
+    </DropdownMenuItem>
+  )
+}
+
 export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: QuoteViewProps) {
   const router = useRouter()
   const { data: session } = useSession()
@@ -503,62 +560,14 @@ export function QuoteView({ symbol, showBackButton = true, tradeSignals = [] }: 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Brokers</DropdownMenuLabel>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://robinhood.com/stocks/${symbol}`} target="_blank" rel="noopener noreferrer">
-                      Robinhood
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://app.webull.com/stocks/${symbol}`} target="_blank" rel="noopener noreferrer">
-                      Webull
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://digital.fidelity.com/prgw/digital/research/quote/dashboard/summary?symbol=${symbol}`} target="_blank" rel="noopener noreferrer">
-                      Fidelity
-                    </a>
-                  </DropdownMenuItem>
+                  {EXTERNAL_LINKS.brokers.map((link) => (
+                    <ExternalLinkItem key={link.name} link={link} symbol={symbol} />
+                  ))}
                   <DropdownMenuSeparator />
                   <DropdownMenuLabel>Research</DropdownMenuLabel>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://finance.yahoo.com/quote/${symbol}`} target="_blank" rel="noopener noreferrer">
-                      Yahoo Finance
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://www.tradingview.com/symbols/${symbol}`} target="_blank" rel="noopener noreferrer">
-                      TradingView
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://www.google.com/finance/quote/${symbol}`} target="_blank" rel="noopener noreferrer">
-                      Google Finance
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://www.marketwatch.com/investing/stock/${symbol}`} target="_blank" rel="noopener noreferrer">
-                      MarketWatch
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://finviz.com/quote.ashx?t=${symbol}`} target="_blank" rel="noopener noreferrer">
-                      Finviz
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuLabel>Social</DropdownMenuLabel>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://stocktwits.com/symbol/${symbol}`} target="_blank" rel="noopener noreferrer">
-                      Stocktwits
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuLabel>Filings</DropdownMenuLabel>
-                  <DropdownMenuItem asChild>
-                    <a href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=${symbol}&type=&dateb=&owner=exclude&count=40`} target="_blank" rel="noopener noreferrer">
-                      SEC EDGAR
-                    </a>
-                  </DropdownMenuItem>
+                  {EXTERNAL_LINKS.research.map((link) => (
+                    <ExternalLinkItem key={link.name} link={link} symbol={symbol} />
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
               {session?.user && (
