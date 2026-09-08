@@ -1,43 +1,27 @@
 <p align="center">
-    <img width="400px" src="https://i.imgur.com/dE5Rfck.jpeg" />
-</p>
-<p align="center">
-    <a href="https://discord.gg/SJdBqBz3tV">
-        <img src="https://img.shields.io/discord/1110227955554209923.svg?label=Chat&logo=Discord&colorB=7289da&style=flat"
-            alt="Join Discord" />
-    </a>
-     <a href="https://github.com/vtempest/stock-prediction-agent/discussions">
-     <img alt="GitHub Stars" src="https://img.shields.io/github/stars/vtempest/stock-prediction-agent" /></a>
-    <a href="https://github.com/vtempest/stock-prediction-agent/discussions">
-    <img alt="GitHub Discussions"
-        src="https://img.shields.io/github/discussions/vtempest/stock-prediction-agent" />
-    </a>
-    <!-- <a href="https://npmjs.org/package/stock-prediction-agent"><img src="https://img.shields.io/npm/v/stock-prediction-agent"/></a>    -->
-    <a href="https://github.com/vtempest/stock-prediction-agent/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/m/vtempest/stock-prediction-agent" />
-    </a>
-    <img src="https://img.shields.io/github/last-commit/vtempest/stock-prediction-agent.svg" alt="GitHub last commit" />
-    <img src="https://img.shields.io/badge/Next.js-16.0-black" alt="Next.js" />
-    <a href="https://grab.js.org"><img src="https://i.imgur.com/EWze7Ew.png" height="20" alt="grab.js.org" /></a>
-
-</p>
-<p align="center">
-    <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request">
-        <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"
-            alt="PRs Welcome" />
-    </a>
-    <a href="https://codespaces.new/vtempest/stock-prediction-agent">
-    <img src="https://github.com/codespaces/badge.svg" width="150" height="20" />
-    </a>
-</p>
-<h3 align="center">
-    <a href="https://docs.autoinvestment.broker/"> 📑 Docs </a> <a href="https://autoinvestment.broker/api/docs"> 🎯 API </a>
- <a href="https://autoinvestment.broker"> 🚀 Website</a></h3>
-
-<p align="center">
-    <a href="https://play.google.com/store/apps/details?id=com.autoinvestment.broker.app">
-        <img src="apps/ai-broker-web/public/images/download-google-play.png" alt="Get it on Google Play" height="60" />
-    </a>
+    <img src="https://i.imgur.com/4UC1Ixq.png" />
+<br />
+    <a href="https://deepwiki.com/OpenSourceAGI/ai-broker-investing-agent"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+    <a href="https://docs.autoinvestment.broker/"><img src="https://img.shields.io/badge/Docs-blue?logo=ReadTheDocs&logoColor=white" alt="Documentation" /></a>
+    <a href="https://autoinvestment.broker/api/docs"><img src="https://img.shields.io/badge/API-blue?logo=fastapi&logoColor=white" alt="API badge"></a>
+    <a href="https://autoinvestment.broker"><img src="https://img.shields.io/badge/🚀_Website-blueviolet?style=for-the-badge" alt="Website"></a>
+    <a href="https://deploy.workers.cloudflare.com/?url=https://github.com/OpenSourceAGI/ai-broker-investing-agent" target="_blank" rel="noopener noreferrer"><img height="24px" src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare Workers" /></a>
+    <a href="https://github.com/OpenSourceAGI/ai-broker-investing-agent/discussions"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/OpenSourceAGI/ai-broker-investing-agent" /></a>
+<br />
+    <a href="https://github.com/OpenSourceAGI/ai-broker-investing-agent/pulse" alt="Activity"><img src="https://img.shields.io/github/commit-activity/m/OpenSourceAGI/ai-broker-investing-agent" /></a>
+    <a href="https://github.com/OpenSourceAGI/ai-broker-investing-agent/commits/main/"><img src="https://img.shields.io/github/last-commit/OpenSourceAGI/ai-broker-investing-agent.svg" alt="GitHub last commit" /></a>
+    <a href="https://github.com/OpenSourceAGI/ai-broker-investing-agent/discussions"><img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/OpenSourceAGI/ai-broker-investing-agent" /></a>
+    <br />
+    <a href="https://discord.gg/SJdBqBz3tV"><img src="https://img.shields.io/discord/1110227955554209923.svg?label=Chat&logo=Discord&colorB=7289da&style=flat" alt="Join Discord" /></a>
+    <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" /></a>
+    <a href="https://codespaces.new/OpenSourceAGI/ai-broker-investing-agent"><img src="https://github.com/codespaces/badge.svg" height="20" alt="Open in GitHub Codespaces" /></a>
+<img src="https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=fff" alt="Claude AI"> <img src="https://img.shields.io/badge/Cloudflare-F38020?logo=Cloudflare&logoColor=white" alt="Cloudflare"> <img src="https://img.shields.io/badge/Next.js-black" alt="Next.js" /> <a href="https://grab.js.org"><img src="https://i.imgur.com/EWze7Ew.png" height="20" alt="grab.js.org" /></a>
+    <br />
+    <a href="https://alpaca.markets/"><img src="https://img.shields.io/badge/📈_Alpaca_Trading-2ea44f?style=for-the-badge" alt="Alpaca Broker"></a>
+    <a href="https://polymarketanalytics.com/"><img src="https://img.shields.io/badge/🎯_Polymarket-informational?style=for-the-badge" alt="Polymarket"></a>
+    <a href="https://www.tradingview.com/ideas/"><img src="https://img.shields.io/badge/📊_TradingView-131722?style=for-the-badge&logo=tradingview&logoColor=white" alt="TradingView"></a>
+    <br />
+    <a href="https://play.google.com/store/apps/details?id=com.autoinvestment.broker.app"><img src="apps/ai-broker-web/public/images/download-google-play.png" alt="Get it on Google Play" height="60" /></a>
 </p>
 
 # Investment Prediction Agent
