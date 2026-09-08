@@ -13,12 +13,13 @@ import { plans, type Plan } from "../payments/plans";
 import { headers } from "next/headers";
 import { sendEmail, renderEmailLayout, renderEmailButton } from "../email/send-email";
 import { env } from "../../env";
+import { serverEnv } from "../env/runtime";
 
 // Lazy Stripe client initialization to avoid build-time errors
 let _stripeClient: Stripe | null = null
 function getStripeClient() {
   if (!_stripeClient) {
-    _stripeClient = new Stripe(env.STRIPE_SECRET_KEY || 'placeholder', {
+    _stripeClient = new Stripe(serverEnv("STRIPE_SECRET_KEY") || env.STRIPE_SECRET_KEY || 'placeholder', {
       typescript: true
     })
   }
@@ -29,10 +30,52 @@ function getStripeClient() {
 // https://buy.stripe.com/5kQfZgcMng3a6Xebelcs800
 //
 
+/**
+ * Auth configuration resolved from the Worker env (see lib/env/runtime.ts).
+ * Reading `process.env` directly at module scope leaves every one of these
+ * blank on Workers, which is not a visible failure at boot — it only surfaces
+ * later as a 500 from whichever endpoint needed the value.
+ */
+const appUrl = serverEnv("NEXT_PUBLIC_APP_URL") || env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const appDomain =
+  (serverEnv("NEXT_PUBLIC_APP_DOMAIN") || env.NEXT_PUBLIC_APP_DOMAIN || appUrl)
+    .split("//")
+    .pop()
+    ?.split("/")[0] || "localhost:3000";
+const authSecret = serverEnv("BETTER_AUTH_SECRET") || serverEnv("AUTH_SECRET") || env.BETTER_AUTH_SECRET;
+const googleClientId = serverEnv("GOOGLE_CLIENT_ID") || env.GOOGLE_CLIENT_ID;
+const googleClientSecret = serverEnv("GOOGLE_CLIENT_SECRET") || env.GOOGLE_CLIENT_SECRET;
+
+if (!authSecret) {
+  console.error(
+    "BETTER_AUTH_SECRET is not set. Sessions are being signed with a placeholder " +
+      "secret and will not survive a redeploy. Set it with `wrangler secret put BETTER_AUTH_SECRET`.",
+  );
+}
+
+/**
+ * Only register Google when both credentials are present. better-auth keeps a
+ * provider configured with blank credentials in its provider list and then
+ * throws a plain `BetterAuthError` from `createAuthorizationURL`, which
+ * better-call reports as an uninformative 500 on POST /api/auth/sign-in/social.
+ * Leaving the provider out instead produces better-auth's own
+ * "Provider not found" response and logs the reason.
+ */
+const socialProviders = googleClientId && googleClientSecret
+  ? { google: { clientId: googleClientId, clientSecret: googleClientSecret } }
+  : {};
+
+if (!googleClientId || !googleClientSecret) {
+  console.error(
+    "Google sign-in is disabled: GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are " +
+      "not both set. Set them with `wrangler secret put <NAME>`.",
+  );
+}
+
 export const auth = betterAuth({
-  baseURL: env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  baseURL: appUrl,
   // basePath: "/api/auth", // better-auth defaults to this, but keeping it explicit if user wants
-  secret: env.BETTER_AUTH_SECRET || process.env.AUTH_SECRET || "your-secret-key",
+  secret: authSecret || "your-secret-key",
   database: drizzleAdapter(db, {
     provider: "sqlite",
     schema: {
@@ -45,20 +88,15 @@ export const auth = betterAuth({
       subscription: schema.subscriptions,
     },
   }),
-  socialProviders: {
-    google: {
-      clientId: env.GOOGLE_CLIENT_ID || "",
-      clientSecret: env.GOOGLE_CLIENT_SECRET || "",
-    }
-  },
+  socialProviders,
   plugins: [
     siwe({
       // Enable anonymous mode so email is not required
       // Users can sign in with just their Ethereum wallet
       anonymous: true,
-      domain: env.NEXT_PUBLIC_APP_DOMAIN?.split("//")[1] || "localhost:3000",
+      domain: appDomain,
       // Extract domain without protocol for email generation
-      emailDomainName: env.NEXT_PUBLIC_APP_URL?.split("//")[1]?.split("/")[0] || "localhost:3000",
+      emailDomainName: appDomain,
       getNonce: async () => {
         // Generate a cryptographically secure random nonce
         return randomBytes(32).toString("hex");
@@ -93,7 +131,7 @@ export const auth = betterAuth({
       get stripeClient() {
         return getStripeClient()
       },
-      stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET!,
+      stripeWebhookSecret: serverEnv("STRIPE_WEBHOOK_SECRET") || env.STRIPE_WEBHOOK_SECRET!,
       createCustomerOnSignUp: true,
       subscription: {
         enabled: true,
@@ -173,9 +211,7 @@ export const auth = betterAuth({
       });
     },
   },
-  trustedOrigins: [
-    env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-  ],
+  trustedOrigins: [appUrl],
   session: {
     expiresIn: 60 * 60 * 24 * 60, // 60 days
     updateAge: 60 * 60 * 24 * 3, // 1 day
