@@ -9,8 +9,8 @@ import * as schema from "../db/schema";
 import type { NormalizedQuote } from "./unified-quote-service";
 
 // The shared connection resolves to the Cloudflare D1 binding on Workers and to
-// libsql everywhere else. Creating a libsql client here instead would hard-fail
-// on Workers, where the `file:` fallback URL is not a supported scheme.
+// the same D1 database over its REST API everywhere else. Creating a driver
+// here instead would hard-fail on Workers, where no other database is reachable.
 
 // Cache TTL in milliseconds
 const FUNDAMENTALS_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
