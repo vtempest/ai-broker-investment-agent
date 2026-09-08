@@ -6,6 +6,9 @@ export default defineConfig({
     globals: true,
     environment: "node",
     include: ["test/**/*.test.ts", "src/**/__tests__/**/*.test.ts"],
+    // This package has no tests yet; an empty run should not fail the
+    // monorepo-wide `turbo run test`.
+    passWithNoTests: true,
     testTimeout: 180000, // 3 minutes for LLM API calls
     hookTimeout: 30000,
     teardownTimeout: 10000,
