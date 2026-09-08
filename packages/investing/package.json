@@ -7,45 +7,45 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./data/*": "./data/*",
     "./alpaca": {
+      "types": "./dist/alpaca/index.d.ts",
       "import": "./dist/alpaca/index.mjs",
-      "require": "./dist/alpaca/index.js",
-      "types": "./dist/alpaca/index.d.ts"
+      "require": "./dist/alpaca/index.js"
     },
     "./stocks": {
+      "types": "./dist/stocks/index.d.ts",
       "import": "./dist/stocks/index.mjs",
-      "require": "./dist/stocks/index.js",
-      "types": "./dist/stocks/index.d.ts"
+      "require": "./dist/stocks/index.js"
     },
     "./prediction": {
+      "types": "./dist/prediction/index.d.ts",
       "import": "./dist/prediction/index.mjs",
-      "require": "./dist/prediction/index.js",
-      "types": "./dist/prediction/index.d.ts"
+      "require": "./dist/prediction/index.js"
     },
     "./predictos": {
+      "types": "./dist/predictos/index.d.ts",
       "import": "./dist/predictos/index.mjs",
-      "require": "./dist/predictos/index.js",
-      "types": "./dist/predictos/index.d.ts"
+      "require": "./dist/predictos/index.js"
     },
     "./trading-agents": {
+      "types": "./dist/trading-agents/index.d.ts",
       "import": "./dist/trading-agents/index.mjs",
-      "require": "./dist/trading-agents/index.js",
-      "types": "./dist/trading-agents/index.d.ts"
+      "require": "./dist/trading-agents/index.js"
     },
     "./constants": {
+      "types": "./dist/constants/index.d.ts",
       "import": "./dist/constants/index.mjs",
-      "require": "./dist/constants/index.js",
-      "types": "./dist/constants/index.d.ts"
+      "require": "./dist/constants/index.js"
     },
     "./utils": {
+      "types": "./dist/utils.d.ts",
       "import": "./dist/utils.mjs",
-      "require": "./dist/utils.js",
-      "types": "./dist/utils.d.ts"
+      "require": "./dist/utils.js"
     }
   },
   "main": "dist/index.js",

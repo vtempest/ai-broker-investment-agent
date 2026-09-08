@@ -7,34 +7,34 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./ai": {
+      "types": "./dist/ai/index.d.ts",
       "import": "./dist/ai/index.mjs",
-      "require": "./dist/ai/index.js",
-      "types": "./dist/ai/index.d.ts"
+      "require": "./dist/ai/index.js"
     },
     "./data/kalshi": {
+      "types": "./dist/data/kalshi.d.ts",
       "import": "./dist/data/kalshi.mjs",
-      "require": "./dist/data/kalshi.js",
-      "types": "./dist/data/kalshi.d.ts"
+      "require": "./dist/data/kalshi.js"
     },
     "./data/polymarket": {
+      "types": "./dist/data/polymarket.d.ts",
       "import": "./dist/data/polymarket.mjs",
-      "require": "./dist/data/polymarket.js",
-      "types": "./dist/data/polymarket.d.ts"
+      "require": "./dist/data/polymarket.js"
     },
     "./agents": {
+      "types": "./dist/agents/index.d.ts",
       "import": "./dist/agents/index.mjs",
-      "require": "./dist/agents/index.js",
-      "types": "./dist/agents/index.d.ts"
+      "require": "./dist/agents/index.js"
     },
     "./arbitrage": {
+      "types": "./dist/arbitrage.d.ts",
       "import": "./dist/arbitrage.mjs",
-      "require": "./dist/arbitrage.js",
-      "types": "./dist/arbitrage.d.ts"
+      "require": "./dist/arbitrage.js"
     }
   },
   "main": "dist/index.js",
