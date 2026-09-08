@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build",
+    "build": "turbo run build && node scripts/write-root-deploy-config.mjs",
     "start": "turbo run start",
     "preview": "turbo run preview",
     "deploy": "turbo run deploy",
