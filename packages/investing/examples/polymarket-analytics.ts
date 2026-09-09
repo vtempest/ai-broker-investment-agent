@@ -2,13 +2,14 @@
  * Polymarket Analytics API - Usage Examples
  *
  * This file demonstrates how to use the Polymarket Analytics API endpoints
- * for fetching market summary and dashboard data.
+ * for fetching market summary and dashboard data. It contains no assertions,
+ * so it lives in examples/ rather than test/.
  */
 
 import {
   fetchMarketSummary,
   fetchMarketsDashboard,
-} from "../src/prediction/polymarket";
+} from "../src/prediction";
 
 // ============================================================================
 // TypeScript Interfaces

@@ -1,8 +1,14 @@
 #!/usr/bin/env tsx
 /**
- * Test script for Unified Quote Service
- * Run with: tsx packages/investing/src/stocks/test-unified-quotes.ts
+ * Demo script for the Unified Quote Service.
+ *
+ * This is an executable example, not a unit test: it hits live quote
+ * providers and reports what it gets back.
+ *
+ * Run with: tsx examples/unified-quote-demo.ts
  */
+
+import { pathToFileURL } from "node:url";
 
 import {
   getQuote,
@@ -172,8 +178,8 @@ async function runAllTests() {
   log("================================================", "cyan");
 }
 
-// Run tests
-if (require.main === module) {
+// Run when executed directly (the package is ESM, so require.main is unavailable)
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   runAllTests().catch((error) => {
     log(`\nFatal error: ${error.message}`, "red");
     console.error(error);
